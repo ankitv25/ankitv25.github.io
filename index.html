@@ -5,225 +5,227 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ankit Verma — Investment Management &amp; Quantitative Risk</title>
 <meta name="description" content="Ankit Verma — IIT Kanpur, Georgetown McDonough MSF. Five years credit and investment risk modeling across Capital One, Discover and Citi. Multi-asset research, portfolio construction and equity valuation.">
+<meta property="og:title" content="Ankit Verma — Investment Management &amp; Quantitative Risk">
+<meta property="og:description" content="IIT Kanpur → Georgetown McDonough MSF → 5 years credit &amp; investment risk. Multi-asset research, portfolio construction, equity valuation.">
 <style>
 :root{
-  --navy:#0e2233; --navy-2:#16324a; --accent:#2f6f9f; --accent-soft:#eaf2f9;
-  --s1:#c0392b; --s2:#2f6f9f; --s3:#d68a13;
-  --bg:#f4f6f9; --panel:#ffffff; --line:#e2e8ef; --line-2:#eef2f6;
-  --text:#16232f; --text-2:#4a5b6b; --muted:#7c8b99;
+  --bg:#070c13; --bg-2:#0b131d; --panel:#0f1926; --panel-2:#131f2e;
+  --line:#1c2a3a; --line-2:#243447;
+  --text:#eef4fa; --text-2:#a3b6c9; --muted:#6b8199;
+  --accent:#1f9cf0; --accent-2:#5fc0ff; --accent-dim:#12354f;
+  --s1:#e0524d; --s2:#1f9cf0; --s3:#b8871a;
   --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
-  --r:12px; --shadow:0 1px 2px rgba(14,34,51,.04),0 6px 24px rgba(14,34,51,.06);
-  --maxw:1080px;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --navy:#0a1824; --navy-2:#12283a; --accent:#5ba3d6; --accent-soft:#16293a;
-    --s1:#c0392b; --s2:#2f6f9f; --s3:#c08519;
-    --bg:#0b1520; --panel:#111f2c; --line:#1e3040; --line-2:#182735;
-    --text:#e6edf3; --text-2:#a9bacb; --muted:#7d8fa0;
-    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.35);
-  }
-}
-:root[data-theme="dark"]{
-  --navy:#0a1824; --navy-2:#12283a; --accent:#5ba3d6; --accent-soft:#16293a;
-  --s1:#c0392b; --s2:#2f6f9f; --s3:#c08519;
-  --bg:#0b1520; --panel:#111f2c; --line:#1e3040; --line-2:#182735;
-  --text:#e6edf3; --text-2:#a9bacb; --muted:#7d8fa0;
-  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.35);
+  --maxw:1120px; --r:14px;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);
-  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
 img,svg{max-width:100%}
-a{color:var(--accent);text-decoration:none}
+a{color:var(--accent-2);text-decoration:none}
 a:hover{text-decoration:underline}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
 
-/* ---------- nav ---------- */
-.nav{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--navy) 92%,transparent);
-  backdrop-filter:saturate(160%) blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
-.nav-in{max-width:var(--maxw);margin:0 auto;padding:0 24px;height:56px;
-  display:flex;align-items:center;gap:28px}
-.nav-brand{font-weight:700;letter-spacing:.02em;color:#fff;font-size:.95rem;margin-right:auto}
-.nav a{color:#b9cbdb;font-size:.86rem;letter-spacing:.01em}
-.nav a:hover{color:#fff;text-decoration:none}
-.nav-links{display:flex;gap:22px}
-@media(max-width:720px){.nav-links{display:none}}
+/* nav */
+.nav{position:sticky;top:0;z-index:80;background:rgba(7,12,19,.82);
+  backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:var(--maxw);margin:0 auto;padding:0 26px;height:60px;display:flex;align-items:center;gap:30px}
+.nav-brand{font-weight:700;letter-spacing:-.01em;font-size:1rem;margin-right:auto;color:var(--text)}
+.nav-brand span{color:var(--accent);}
+.nav-links{display:flex;gap:26px}
+.nav-links a{color:var(--text-2);font-size:.88rem}
+.nav-links a:hover{color:var(--text);text-decoration:none}
+@media(max-width:760px){.nav-links{display:none}}
 
-/* ---------- hero ---------- */
-.hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;
-  padding:84px 0 0;position:relative;overflow:hidden}
-.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
-  background-size:52px 52px;mask-image:radial-gradient(ellipse 80% 60% at 70% 20%,#000,transparent)}
-.hero-in{position:relative;z-index:1}
-.eyebrow{font-family:var(--mono);font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;
-  color:#7fb2d8;margin-bottom:18px}
-.hero h1{font-size:clamp(2.6rem,6vw,4.1rem);line-height:1.04;margin:0 0 18px;
-  font-weight:700;letter-spacing:-.025em}
-.hero-role{font-size:clamp(1rem,2.2vw,1.22rem);color:#cfe0ee;font-weight:500;margin:0 0 28px;
-  letter-spacing:.005em}
-.chain{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:34px;
-  font-size:.94rem;color:#e8f1f8}
-.chain b{font-weight:650}
-.chain .sep{color:#5d87a8}
-.cta{display:flex;flex-wrap:wrap;gap:12px;padding-bottom:52px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:8px;
-  font-size:.9rem;font-weight:600;border:1px solid transparent;transition:.16s}
-.btn-a{background:#fff;color:var(--navy)}
-.btn-a:hover{background:#dcebf7;text-decoration:none}
-.btn-b{border-color:rgba(255,255,255,.28);color:#fff}
-.btn-b:hover{background:rgba(255,255,255,.1);text-decoration:none}
+/* hero */
+.hero{position:relative;overflow:hidden;padding:110px 0 0;
+  background:
+    radial-gradient(900px 460px at 78% -8%, rgba(31,156,240,.20), transparent 62%),
+    radial-gradient(700px 400px at 8% 8%, rgba(31,156,240,.10), transparent 60%),
+    linear-gradient(180deg,#08111c 0%, var(--bg) 78%)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:58px 58px;
+  mask-image:radial-gradient(ellipse 78% 62% at 62% 14%,#000 10%,transparent 78%)}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(31,156,240,.5),transparent)}
+.hero-in{position:relative;z-index:2}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:.74rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent-2);margin-bottom:24px;
+  padding:6px 13px;border:1px solid var(--accent-dim);border-radius:999px;
+  background:rgba(31,156,240,.07)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 3px rgba(31,156,240,.22)}
+.hero h1{font-size:clamp(3.1rem,9vw,5.6rem);line-height:.98;margin:0 0 20px;
+  font-weight:800;letter-spacing:-.04em;
+  background:linear-gradient(178deg,#ffffff 26%, #93b6d4 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-role{font-size:clamp(1.05rem,2.4vw,1.4rem);color:var(--text-2);font-weight:500;
+  margin:0 0 30px;letter-spacing:-.005em}
+.hero-role b{color:var(--text);font-weight:650}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:11px;margin-bottom:38px;font-size:.96rem}
+.chain b{color:var(--text);font-weight:650}
+.chain .sep{color:var(--accent);font-weight:700}
+.chain .cl{color:var(--text-2)}
+.cta{display:flex;flex-wrap:wrap;gap:13px;padding-bottom:64px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:9px;
+  font-size:.93rem;font-weight:650;border:1px solid transparent;transition:.18s}
+.btn-a{background:var(--accent);color:#04121d;box-shadow:0 6px 26px rgba(31,156,240,.34)}
+.btn-a:hover{background:var(--accent-2);text-decoration:none;transform:translateY(-1px)}
+.btn-b{border-color:var(--line-2);color:var(--text);background:rgba(255,255,255,.02)}
+.btn-b:hover{border-color:var(--accent);background:rgba(31,156,240,.09);text-decoration:none;transform:translateY(-1px)}
 
-/* ---------- stat ribbon ---------- */
+/* ribbon */
 .ribbon{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.ribbon-in{max-width:var(--maxw);margin:0 auto;padding:0 24px;
-  display:grid;grid-template-columns:repeat(5,1fr)}
-.stat{padding:22px 18px 22px 0}
-.stat+.stat{padding-left:26px;border-left:1px solid var(--line-2)}
-.stat-v{font-size:1.6rem;font-weight:700;letter-spacing:-.02em;line-height:1.1;color:var(--text)}
-.stat-l{font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:5px}
-@media(max-width:860px){.ribbon-in{grid-template-columns:repeat(2,1fr)}
-  .stat{padding:16px 12px!important;border-left:none!important;border-bottom:1px solid var(--line-2)}}
+.ribbon-in{max-width:var(--maxw);margin:0 auto;padding:0 26px;display:grid;grid-template-columns:repeat(5,1fr)}
+.stat{padding:26px 20px 26px 0;position:relative}
+.stat+.stat{padding-left:28px;border-left:1px solid var(--line)}
+.stat-v{font-size:1.95rem;font-weight:800;letter-spacing:-.035em;line-height:1;
+  background:linear-gradient(180deg,#fff,#8fb4d2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat-v small{font-size:.95rem;font-weight:600;color:var(--muted);-webkit-text-fill-color:var(--muted)}
+.stat-l{font-size:.73rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-top:9px}
+@media(max-width:900px){.ribbon-in{grid-template-columns:repeat(2,1fr)}
+  .stat{padding:18px 14px!important;border-left:none!important;border-bottom:1px solid var(--line)}}
 
-/* ---------- sections ---------- */
-section{padding:76px 0}
-.sec-head{margin-bottom:34px}
-.sec-k{font-family:var(--mono);font-size:.74rem;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--accent);margin-bottom:10px}
-.sec-head h2{font-size:clamp(1.6rem,3.4vw,2.1rem);margin:0;font-weight:700;letter-spacing:-.02em}
-.sec-head p{color:var(--text-2);margin:12px 0 0;max-width:62ch}
-.lede{font-size:1.12rem;line-height:1.72;color:var(--text-2);max-width:68ch;margin:0}
+/* sections */
+section{padding:92px 0}
+.sec-k{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.sec-head{margin-bottom:40px}
+.sec-head h2{font-size:clamp(1.8rem,4vw,2.5rem);margin:0;font-weight:750;letter-spacing:-.032em;line-height:1.14}
+.sec-head p{color:var(--text-2);margin:14px 0 0;max-width:64ch}
+.lede{font-size:1.14rem;line-height:1.78;color:var(--text-2);max-width:70ch;margin:0}
 .lede strong{color:var(--text);font-weight:650}
+.lede .hl{color:var(--accent-2);font-weight:600}
 
-/* ---------- cards ---------- */
+/* cards */
 .grid{display:grid;gap:18px}
-.g2{grid-template-columns:repeat(2,1fr)}
 .g4{grid-template-columns:repeat(4,1fr)}
-@media(max-width:880px){.g4{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:660px){.g2,.g4{grid-template-columns:1fr}}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
-  padding:24px;box-shadow:var(--shadow)}
-.card h3{margin:0 0 12px;font-size:1rem;font-weight:700;letter-spacing:-.01em}
-.card p{margin:0;color:var(--text-2);font-size:.92rem}
-.cap-k{font-family:var(--mono);font-size:.72rem;color:var(--accent);letter-spacing:.1em;
-  text-transform:uppercase;margin-bottom:12px}
-.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
-.tag{font-size:.79rem;padding:4px 10px;border-radius:999px;background:var(--accent-soft);
-  color:var(--text-2);border:1px solid var(--line)}
+.g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:920px){.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.g4,.g2{grid-template-columns:1fr}}
+.card{background:linear-gradient(168deg,var(--panel-2),var(--panel));
+  border:1px solid var(--line);border-radius:var(--r);padding:26px;transition:.2s;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),transparent);opacity:0;transition:.2s}
+.card:hover{border-color:var(--line-2);transform:translateY(-3px)}
+.card:hover::before{opacity:1}
+.card h3{margin:0 0 11px;font-size:1.04rem;font-weight:700;letter-spacing:-.015em}
+.card p{margin:0;color:var(--text-2);font-size:.93rem}
+.cap-k{font-family:var(--mono);font-size:.71rem;color:var(--accent);letter-spacing:.12em;
+  text-transform:uppercase;margin-bottom:13px}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.tag{font-size:.78rem;padding:4px 11px;border-radius:999px;background:rgba(31,156,240,.08);
+  color:var(--text-2);border:1px solid var(--line-2)}
 
-/* ---------- work ---------- */
-.work{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
-  overflow:hidden;box-shadow:var(--shadow);margin-bottom:22px}
-.work-head{padding:26px 28px 20px;border-bottom:1px solid var(--line-2);
-  display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
-.work-head h3{margin:0 0 7px;font-size:1.24rem;font-weight:700;letter-spacing:-.02em}
-.work-head p{margin:0;color:var(--text-2);font-size:.94rem;max-width:64ch}
-.work-links{margin-left:auto;display:flex;gap:8px;flex-shrink:0}
-.pill{font-size:.8rem;font-weight:600;padding:7px 14px;border-radius:7px;
-  border:1px solid var(--line);color:var(--text-2);white-space:nowrap}
-.pill:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
-.pill-live{background:var(--accent);color:#fff;border-color:var(--accent)}
-.pill-live:hover{background:var(--navy-2);color:#fff;border-color:var(--navy-2)}
-.work-body{padding:24px 28px 28px}
-.fig-t{font-size:.94rem;font-weight:650;margin:0 0 3px}
-.fig-s{font-size:.83rem;color:var(--muted);margin:0 0 18px}
-.note{margin:16px 0 0;font-size:.88rem;color:var(--text-2);
-  border-left:2px solid var(--accent);padding-left:14px}
+/* work */
+.work{background:linear-gradient(168deg,var(--panel-2),var(--panel));border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;margin-bottom:24px}
+.work-head{padding:30px 32px 24px;border-bottom:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.work-head h3{margin:0 0 9px;font-size:1.36rem;font-weight:750;letter-spacing:-.028em}
+.work-head p{margin:0;color:var(--text-2);font-size:.95rem;max-width:66ch}
+.work-links{margin-left:auto;display:flex;gap:9px;flex-shrink:0}
+.pill{font-size:.82rem;font-weight:650;padding:8px 15px;border-radius:8px;
+  border:1px solid var(--line-2);color:var(--text-2);white-space:nowrap;transition:.16s}
+.pill:hover{border-color:var(--accent);color:var(--accent-2);text-decoration:none}
+.pill-live{background:var(--accent);color:#04121d;border-color:var(--accent);
+  box-shadow:0 4px 18px rgba(31,156,240,.3)}
+.pill-live:hover{background:var(--accent-2);color:#04121d;text-decoration:none}
+.work-body{padding:26px 32px 30px}
+.fig-t{font-size:.96rem;font-weight:700;margin:0 0 4px;letter-spacing:-.01em}
+.fig-s{font-size:.85rem;color:var(--muted);margin:0 0 20px}
+.note{margin:20px 0 0;font-size:.91rem;color:var(--text-2);
+  border-left:2px solid var(--accent);padding:2px 0 2px 16px}
+.note strong{color:var(--text)}
 
-/* ---------- chart ---------- */
+/* chart */
 .chart{width:100%;overflow-x:auto}
-.chart svg{display:block;min-width:440px}
+.chart svg{display:block;min-width:460px}
 .ax{font-size:11px;fill:var(--muted);font-family:var(--font)}
-.lbl{font-size:12px;fill:var(--text-2);font-family:var(--font)}
-.val{font-size:12px;font-weight:650;fill:var(--text);font-family:var(--mono)}
-.gl{stroke:var(--line-2);stroke-width:1}
-.zl{stroke:var(--muted);stroke-width:1.5}
-.bar{transition:opacity .14s}
-.bar:hover{opacity:.78}
-.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-size:.83rem;color:var(--text-2)}
-.legend i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:6px;
-  vertical-align:-1px}
-details.tbl{margin-top:16px}
-details.tbl summary{font-size:.85rem;color:var(--accent);cursor:pointer}
-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.86rem}
-th,td{text-align:right;padding:7px 10px;border-bottom:1px solid var(--line-2)}
+.lbl{font-size:12.5px;fill:var(--text-2);font-family:var(--font)}
+.lbl-b{font-size:12.5px;fill:var(--text);font-family:var(--font);font-weight:650}
+.val{font-size:12.5px;font-weight:700;fill:var(--text);font-family:var(--mono)}
+.gl{stroke:var(--line);stroke-width:1}
+.zl{stroke:var(--line-2);stroke-width:1.5}
+.bar{transition:opacity .15s}
+.bar:hover{opacity:.75}
+.legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:16px;font-size:.84rem;color:var(--text-2)}
+.legend i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:7px;vertical-align:-1px}
+details.tbl{margin-top:18px}
+details.tbl summary{font-size:.86rem;color:var(--accent-2);cursor:pointer;user-select:none}
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:.87rem}
+th,td{text-align:right;padding:8px 11px;border-bottom:1px solid var(--line)}
 th:first-child,td:first-child{text-align:left}
-th{color:var(--muted);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
-td.num{font-family:var(--mono)}
+th{color:var(--muted);font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.06em}
+td.num{font-family:var(--mono);color:var(--text)}
+tr.hi td{background:rgba(31,156,240,.06)}
+tr.hi td:first-child{box-shadow:inset 2px 0 0 var(--accent)}
 
-/* ---------- timeline ---------- */
-.tl{border-left:2px solid var(--line);padding-left:26px;margin-left:6px}
-.tl-i{position:relative;padding-bottom:32px}
+/* timeline */
+.tl{border-left:1px solid var(--line);padding-left:30px;margin-left:7px}
+.tl-i{position:relative;padding-bottom:38px}
 .tl-i:last-child{padding-bottom:0}
-.tl-i::before{content:"";position:absolute;left:-33px;top:6px;width:11px;height:11px;
-  border-radius:50%;background:var(--accent);border:2.5px solid var(--panel);
-  box-shadow:0 0 0 1.5px var(--accent)}
-.tl-d{font-family:var(--mono);font-size:.78rem;color:var(--muted);letter-spacing:.03em}
-.tl-i h3{margin:5px 0 3px;font-size:1.05rem;font-weight:700}
-.tl-org{color:var(--accent);font-weight:600;font-size:.93rem}
-.tl-i ul{margin:11px 0 0;padding-left:18px;color:var(--text-2);font-size:.92rem}
-.tl-i li{margin-bottom:5px}
-.metrics{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
-.metric{font-family:var(--mono);font-size:.82rem;font-weight:650;padding:5px 11px;border-radius:6px;
-  background:var(--accent-soft);color:var(--text);border:1px solid var(--line)}
+.tl-i::before{content:"";position:absolute;left:-36px;top:7px;width:11px;height:11px;border-radius:50%;
+  background:var(--accent);box-shadow:0 0 0 4px var(--bg),0 0 0 5px var(--accent),0 0 16px rgba(31,156,240,.6)}
+.tl-d{font-family:var(--mono);font-size:.77rem;color:var(--muted);letter-spacing:.04em}
+.tl-i h3{margin:7px 0 4px;font-size:1.1rem;font-weight:700;letter-spacing:-.018em}
+.tl-org{color:var(--accent-2);font-weight:600;font-size:.94rem}
+.tl-i ul{margin:13px 0 0;padding-left:19px;color:var(--text-2);font-size:.93rem}
+.tl-i li{margin-bottom:6px}
+.metrics{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
+.metric{font-family:var(--mono);font-size:.82rem;font-weight:650;padding:6px 12px;border-radius:7px;
+  background:rgba(31,156,240,.09);color:var(--accent-2);border:1px solid var(--accent-dim)}
 
-/* ---------- contact ---------- */
-.foot{background:var(--navy);color:#fff;padding:64px 0 40px;margin-top:0}
-.foot h2{font-size:clamp(1.6rem,3.4vw,2.1rem);margin:0 0 14px;letter-spacing:-.02em}
-.foot p{color:#b9cbdb;margin:0 0 28px;max-width:56ch}
-.foot-links{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:44px}
-.foot-b{padding:11px 20px;border-radius:8px;font-size:.9rem;font-weight:600;
-  border:1px solid rgba(255,255,255,.28);color:#fff}
-.foot-b:hover{background:rgba(255,255,255,.1);text-decoration:none}
-.foot-b.p{background:#fff;color:var(--navy);border-color:#fff}
-.foot-b.p:hover{background:#dcebf7}
-.foot-note{border-top:1px solid rgba(255,255,255,.12);padding-top:22px;
-  font-size:.82rem;color:#8ba6bd;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+/* footer */
+.foot{position:relative;padding:88px 0 44px;
+  background:radial-gradient(700px 320px at 50% 0%, rgba(31,156,240,.14), transparent 66%),var(--bg-2);
+  border-top:1px solid var(--line)}
+.foot h2{font-size:clamp(1.9rem,4.4vw,2.7rem);margin:0 0 16px;letter-spacing:-.035em;font-weight:750}
+.foot p{color:var(--text-2);margin:0 0 32px;max-width:56ch;font-size:1.04rem}
+.foot-links{display:flex;flex-wrap:wrap;gap:13px;margin-bottom:52px}
+.foot-note{border-top:1px solid var(--line);padding-top:24px;font-size:.83rem;color:var(--muted);
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
 </style>
 </head>
 <body>
 
 <nav class="nav">
   <div class="nav-in">
-    <span class="nav-brand">Ankit Verma</span>
+    <span class="nav-brand">Ankit Verma<span>.</span></span>
     <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#capabilities">Capabilities</a>
-      <a href="#work">Work</a>
-      <a href="#experience">Experience</a>
-      <a href="#contact">Contact</a>
+      <a href="#about">About</a><a href="#capabilities">Capabilities</a>
+      <a href="#work">Work</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
     </div>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap hero-in">
-    <div class="eyebrow">New York, NY</div>
+    <div class="eyebrow"><span class="dot"></span>New York, NY · Open to investment management roles</div>
     <h1>Ankit Verma</h1>
-    <p class="hero-role">Investment Management · Portfolio Strategy · Quantitative Risk</p>
+    <p class="hero-role">Multi-Asset Research · Portfolio Construction · <b>Equity Valuation</b></p>
     <div class="chain">
       <b>IIT Kanpur</b><span class="sep">→</span>
       <b>Georgetown McDonough MSF</b><span class="sep">→</span>
-      <b>5 years credit &amp; investment risk</b>
-      <span class="sep">·</span><span>Capital One · Discover · Citi</span>
+      <b>5 years institutional modeling</b>
+      <span class="cl">· Capital One · Discover · Citi</span>
     </div>
     <div class="cta">
       <a class="btn btn-a" href="#work">View the work</a>
       <a class="btn btn-b" href="mailto:ankitv0125@gmail.com">Get in touch</a>
-      <a class="btn btn-b" href="https://github.com/ankitv25">GitHub</a>
       <a class="btn btn-b" href="https://linkedin.com/in/ankitv0125">LinkedIn</a>
+      <a class="btn btn-b" href="https://github.com/ankitv25">GitHub</a>
     </div>
   </div>
 </header>
 
 <div class="ribbon">
   <div class="ribbon-in">
-    <div class="stat"><div class="stat-v">3.93<span style="font-size:1rem;color:var(--muted)">/4</span></div><div class="stat-l">Georgetown MSF</div></div>
-    <div class="stat"><div class="stat-v">5 yrs</div><div class="stat-l">Risk modeling</div></div>
+    <div class="stat"><div class="stat-v">3.93<small>/4</small></div><div class="stat-l">Georgetown MSF</div></div>
+    <div class="stat"><div class="stat-v">5 yrs</div><div class="stat-l">Institutional modeling</div></div>
     <div class="stat"><div class="stat-v">3</div><div class="stat-l">Institutional clients</div></div>
     <div class="stat"><div class="stat-v">$150M</div><div class="stat-l">AUM reviewed</div></div>
     <div class="stat"><div class="stat-v">4</div><div class="stat-l">Performance awards</div></div>
@@ -232,87 +234,69 @@ td.num{font-family:var(--mono)}
 
 <section id="about">
   <div class="wrap">
-    <div class="sec-head"><div class="sec-k">About</div><h2>I came to markets from the loss side.</h2></div>
+    <div class="sec-head"><div class="sec-k">About</div>
+      <h2>I build the research, and I make the call.</h2></div>
     <p class="lede">
-      Five years at EXL building and validating loss-forecasting models across <strong>Capital One, Discover
-      and Citi</strong> — CCAR, CECL and IFRS-9 submissions that go to regulators and get taken apart line
-      by line — plus investment risk work for a mutual fund client. The question on my desk was never how
-      much we could make. It was <strong>what happens to this book under an adverse scenario</strong>.
+      I build multi-asset research systems end to end — a macro regime model, a goal-first allocation
+      framework, and a driver-based equity valuation process — each with its own methodology, validation
+      battery and <span class="hl">dated calls carrying the observable that would prove them wrong</span>.
+      An <strong>IIT Kanpur</strong> engineering foundation means I don't hand off the modeling: I pull the
+      data, write the pipeline, run the validation and ship the thing people actually read.
       <br><br>
-      That's an uncommon route into investment management, and it's the reason I build portfolios the way I
-      do: size around what can go wrong, distrust any result I haven't tried to break, and write down what
-      would falsify a call before taking it. An <strong>IIT Kanpur</strong> engineering foundation means I
-      don't hand off the modeling — I pull the data, write the pipeline, run the validation and ship the
-      thing people read. Now finishing an <strong>MS in Finance at Georgetown McDonough</strong> and
-      building the research stack I'd want to run capital with.
+      Underneath that is five years at EXL modeling for <strong>Capital One, Discover and Citi</strong> —
+      work that goes to regulators and gets taken apart line by line, including investment risk for a
+      mutual fund client. That's where the standard comes from: nothing ships unvalidated, every assumption
+      traces to a source, and positions get sized around what can go wrong rather than what should go right.
+      Now finishing an <strong>MS in Finance at Georgetown McDonough</strong> and applying that same
+      discipline to allocation and single-name work.
     </p>
   </div>
 </section>
 
-<section id="capabilities" style="background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+<section id="capabilities" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="wrap">
     <div class="sec-head"><div class="sec-k">Capabilities</div><h2>What I bring</h2></div>
     <div class="grid g4">
-      <div class="card">
-        <div class="cap-k">Risk</div>
-        <h3>Regulatory stress testing</h3>
-        <p>Modeling how books break under adverse macro scenarios — the discipline most allocators outsource.</p>
-        <div class="tags"><span class="tag">CCAR</span><span class="tag">CECL</span><span class="tag">IFRS-9</span><span class="tag">PD models</span><span class="tag">Model validation</span></div>
-      </div>
-      <div class="card">
-        <div class="cap-k">Investments</div>
-        <h3>Portfolio construction</h3>
+      <div class="card"><div class="cap-k">Allocation</div><h3>Portfolio construction</h3>
         <p>Goal-first multi-asset allocation, evidenced against 60/40 on forward and realized bases.</p>
-        <div class="tags"><span class="tag">Black-Litterman</span><span class="tag">HRP</span><span class="tag">SAA / DAA</span><span class="tag">DCF</span></div>
-      </div>
-      <div class="card">
-        <div class="cap-k">Quant</div>
-        <h3>Research &amp; validation</h3>
+        <div class="tags"><span class="tag">Black-Litterman</span><span class="tag">HRP</span><span class="tag">SAA / DAA</span><span class="tag">Regime overlay</span></div></div>
+      <div class="card"><div class="cap-k">Valuation</div><h3>Single-name equity</h3>
+        <p>Driver-based DCF across three valuation lanes, every assumption traced to a sourced fact.</p>
+        <div class="tags"><span class="tag">DCF</span><span class="tag">Sector drivers</span><span class="tag">Peer benchmarking</span><span class="tag">Scenario analysis</span></div></div>
+      <div class="card"><div class="cap-k">Research</div><h3>Validation &amp; testing</h3>
         <p>Regime modeling and out-of-sample testing built to fail loudly rather than flatter the result.</p>
-        <div class="tags"><span class="tag">Walk-forward</span><span class="tag">Monte Carlo</span><span class="tag">Factor decomposition</span></div>
-      </div>
-      <div class="card">
-        <div class="cap-k">Technical</div>
-        <h3>Full-stack build</h3>
+        <div class="tags"><span class="tag">Walk-forward</span><span class="tag">Monte Carlo</span><span class="tag">Stress testing</span><span class="tag">Factor decomposition</span></div></div>
+      <div class="card"><div class="cap-k">Technical</div><h3>Full-stack build</h3>
         <p>Raw data pull through validated model to a dashboard a PM can read — no quant-team dependency.</p>
-        <div class="tags"><span class="tag">Python</span><span class="tag">R</span><span class="tag">SQL</span><span class="tag">SAS</span><span class="tag">Bloomberg</span><span class="tag">Tableau</span></div>
-      </div>
+        <div class="tags"><span class="tag">Python</span><span class="tag">R</span><span class="tag">SQL</span><span class="tag">SAS</span><span class="tag">Bloomberg</span><span class="tag">Tableau</span></div></div>
     </div>
   </div>
 </section>
 
 <section id="work">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-k">Selected work</div>
+    <div class="sec-head"><div class="sec-k">Selected work</div>
       <h2>Research built end to end, validated in the open</h2>
-      <p>Four public repositories. Each ships a governing methodology, the validation battery that tests it,
-         and an honest record of what failed. Charts below use the actual published results.</p>
-    </div>
+      <p>Three research platforms, each shipping a governing methodology, the validation battery that
+         tests it, and an honest record of what failed. Charts use the actual published results.</p></div>
 
-    <!-- MRS -->
     <article class="work">
       <div class="work-head">
-        <div>
-          <h3>Macro Regime Score</h3>
+        <div><h3>Macro Regime Score</h3>
           <p>A monthly composite classifying the US macro-financial environment into four regimes —
-             13 indicators across five pillars, expanding-window z-scores, 275-month backtest.</p>
-        </div>
+             13 indicators across five pillars, expanding-window z-scores, 275-month backtest.</p></div>
         <div class="work-links">
           <a class="pill pill-live" href="https://ankitv25.github.io/Macro-Regime-Score/">Live dashboard</a>
-          <a class="pill" href="https://github.com/ankitv25/Macro-Regime-Score">Code</a>
-        </div>
+          <a class="pill" href="https://github.com/ankitv25/Macro-Regime-Score">Code</a></div>
       </div>
       <div class="work-body">
         <p class="fig-t">Composite reading at each stress episode</p>
         <p class="fig-s">Minimum composite z-score, 2003–2026. Only the two genuine US contractions reach the Contraction band.</p>
         <div class="chart">
-          <svg viewBox="0 0 720 268" role="img" aria-label="Bar chart of minimum composite z-score by episode. GFC −2.15 Contraction; COVID −1.65 Contraction; 2022 inflation bear −0.59 Slowdown; Euro sovereign 2011 −0.37 Neutral; EM China 2015-16 −0.26 Neutral; 2003-04 expansion +0.80 Expansion.">
-            <!-- zero at x=430; scale 88px per 1.0 z -->
-            <line class="gl" x1="430" y1="26" x2="430" y2="238"></line>
-            <line class="gl" x1="342" y1="26" x2="342" y2="238"></line>
-            <line class="gl" x1="254" y1="26" x2="254" y2="238"></line>
+          <svg viewBox="0 0 720 268" role="img" aria-label="Bar chart of minimum composite z-score by episode. Global Financial Crisis −2.15 Contraction; COVID crash −1.65 Contraction; 2022 inflation bear −0.59 Slowdown; Euro sovereign 2011 −0.37 Neutral; EM China 2015-16 −0.26 Neutral; 2003-04 expansion +0.80 Expansion.">
             <line class="gl" x1="166" y1="26" x2="166" y2="238"></line>
+            <line class="gl" x1="254" y1="26" x2="254" y2="238"></line>
+            <line class="gl" x1="342" y1="26" x2="342" y2="238"></line>
             <line class="gl" x1="518" y1="26" x2="518" y2="238"></line>
             <text class="ax" x="166" y="256" text-anchor="middle">−3.0</text>
             <text class="ax" x="254" y="256" text-anchor="middle">−2.0</text>
@@ -320,214 +304,156 @@ td.num{font-family:var(--mono)}
             <text class="ax" x="430" y="256" text-anchor="middle">0</text>
             <text class="ax" x="518" y="256" text-anchor="middle">+1.0</text>
             <line class="zl" x1="430" y1="26" x2="430" y2="238"></line>
-
-            <g class="bar"><title>Global Financial Crisis — composite min −2.15 (Dec 2008), Contraction 10/10 months</title>
+            <g class="bar"><title>Global Financial Crisis — composite min −2.15 (Dec 2008), Contraction 10 of 10 months</title>
               <rect x="241" y="30" width="189" height="20" rx="4" fill="var(--s1)"></rect>
-              <text class="lbl" x="8" y="45">Global Financial Crisis</text>
-              <text class="val" x="233" y="45" text-anchor="end">−2.15</text></g>
-
+              <text class="lbl" x="8" y="45">Global Financial Crisis</text><text class="val" x="233" y="45" text-anchor="end">−2.15</text></g>
             <g class="bar"><title>COVID crash — composite min −1.65, Contraction</title>
               <rect x="285" y="66" width="145" height="20" rx="4" fill="var(--s1)"></rect>
-              <text class="lbl" x="8" y="81">COVID crash</text>
-              <text class="val" x="277" y="81" text-anchor="end">−1.65</text></g>
-
-            <g class="bar"><title>2022 inflation bear — composite min −0.59, Slowdown (credit stayed calm)</title>
+              <text class="lbl" x="8" y="81">COVID crash</text><text class="val" x="277" y="81" text-anchor="end">−1.65</text></g>
+            <g class="bar"><title>2022 inflation bear — composite min −0.59, Slowdown; credit stayed calm</title>
               <rect x="378" y="102" width="52" height="20" rx="4" fill="var(--s3)"></rect>
-              <text class="lbl" x="8" y="117">2022 inflation bear</text>
-              <text class="val" x="370" y="117" text-anchor="end">−0.59</text></g>
-
-            <g class="bar"><title>Euro sovereign crisis 2011 — composite min −0.37, Neutral (no US recession)</title>
+              <text class="lbl" x="8" y="117">2022 inflation bear</text><text class="val" x="370" y="117" text-anchor="end">−0.59</text></g>
+            <g class="bar"><title>Euro sovereign crisis 2011 — composite min −0.37, Neutral; no US recession</title>
               <rect x="397" y="138" width="33" height="20" rx="4" fill="var(--s3)"></rect>
-              <text class="lbl" x="8" y="153">Euro sovereign 2011</text>
-              <text class="val" x="389" y="153" text-anchor="end">−0.37</text></g>
-
-            <g class="bar"><title>EM / China shock 2015–16 — composite min −0.26, Neutral (no US recession)</title>
+              <text class="lbl" x="8" y="153">Euro sovereign 2011</text><text class="val" x="389" y="153" text-anchor="end">−0.37</text></g>
+            <g class="bar"><title>EM / China shock 2015–16 — composite min −0.26, Neutral; no US recession</title>
               <rect x="407" y="174" width="23" height="20" rx="4" fill="var(--s3)"></rect>
-              <text class="lbl" x="8" y="189">EM / China 2015–16</text>
-              <text class="val" x="399" y="189" text-anchor="end">−0.26</text></g>
-
-            <g class="bar"><title>2003–04 expansion — composite average +0.80, Expansion 12/12 months</title>
+              <text class="lbl" x="8" y="189">EM / China 2015–16</text><text class="val" x="399" y="189" text-anchor="end">−0.26</text></g>
+            <g class="bar"><title>2003–04 expansion — composite average +0.80, Expansion 12 of 12 months</title>
               <rect x="430" y="210" width="70" height="20" rx="4" fill="var(--s2)"></rect>
-              <text class="lbl" x="8" y="225">2003–04 expansion</text>
-              <text class="val" x="508" y="225">+0.80</text></g>
-
-            <text class="ax" x="560" y="45">Contraction</text>
-            <text class="ax" x="560" y="81">Contraction</text>
-            <text class="ax" x="560" y="117">Slowdown</text>
-            <text class="ax" x="560" y="153">Neutral</text>
-            <text class="ax" x="560" y="189">Neutral</text>
-            <text class="ax" x="560" y="225">Expansion</text>
+              <text class="lbl" x="8" y="225">2003–04 expansion</text><text class="val" x="508" y="225">+0.80</text></g>
+            <text class="ax" x="562" y="45">Contraction</text><text class="ax" x="562" y="81">Contraction</text>
+            <text class="ax" x="562" y="117">Slowdown</text><text class="ax" x="562" y="153">Neutral</text>
+            <text class="ax" x="562" y="189">Neutral</text><text class="ax" x="562" y="225">Expansion</text>
           </svg>
         </div>
-        <div class="legend">
-          <span><i style="background:var(--s1)"></i>Contraction</span>
+        <div class="legend"><span><i style="background:var(--s1)"></i>Contraction</span>
           <span><i style="background:var(--s3)"></i>Slowdown / Neutral</span>
-          <span><i style="background:var(--s2)"></i>Expansion</span>
-        </div>
-        <p class="note">The raw signal fired in March 2008 — nine months before NBER dated the recession.
-           Regime stability: 20 confirmed transitions in 23 years, 13.1-month average duration.
-           Equal-weight robustness check: 0.989 correlation, 91.6% regime agreement.</p>
+          <span><i style="background:var(--s2)"></i>Expansion</span></div>
+        <p class="note">The raw signal fired in <strong>March 2008 — nine months before NBER</strong> dated
+          the recession. 20 confirmed transitions in 23 years, 13.1-month average duration. Equal-weight
+          robustness: 0.989 correlation, 91.6% regime agreement.</p>
         <details class="tbl"><summary>View data table</summary>
-          <table><thead><tr><th>Episode</th><th>Composite min (z)</th><th>Regime</th></tr></thead>
-          <tbody>
+          <table><thead><tr><th>Episode</th><th>Composite min (z)</th><th>Regime</th></tr></thead><tbody>
             <tr><td>Global Financial Crisis</td><td class="num">−2.15</td><td>Contraction</td></tr>
             <tr><td>COVID crash</td><td class="num">−1.65</td><td>Contraction</td></tr>
             <tr><td>2022 inflation bear</td><td class="num">−0.59</td><td>Slowdown</td></tr>
             <tr><td>Euro sovereign 2011</td><td class="num">−0.37</td><td>Neutral</td></tr>
             <tr><td>EM / China 2015–16</td><td class="num">−0.26</td><td>Neutral</td></tr>
             <tr><td>2003–04 expansion</td><td class="num">+0.80</td><td>Expansion</td></tr>
-          </tbody></table>
-        </details>
+          </tbody></table></details>
       </div>
     </article>
 
-    <!-- Asset allocation -->
     <article class="work">
       <div class="work-head">
-        <div>
-          <h3>Multi-Asset Allocation Platform</h3>
-          <p>Goal-first portfolio family — Endowment and SAA books built for perpetual capital at 4.5%
-             annual spending, evidenced against a US 60/40 benchmark on forward and realized bases.</p>
-        </div>
+        <div><h3>Multi-Asset Allocation Platform</h3>
+          <p>Goal-first portfolio construction for perpetual capital at 4.5% annual spending. The
+             recommended book is <strong>SAA</strong> — the goal plus one hedging tool per named risk,
+             bracketed against institutional practice.</p></div>
         <div class="work-links">
           <a class="pill pill-live" href="https://ankitv25.github.io/Asset-Allocation/">Live dashboard</a>
-          <a class="pill" href="https://github.com/ankitv25/Asset-Allocation">Code</a>
-        </div>
+          <a class="pill" href="https://github.com/ankitv25/Asset-Allocation">Code</a></div>
       </div>
       <div class="work-body">
-        <p class="fig-t">Return earned against drawdown taken</p>
-        <p class="fig-s">Realized CAGR and maximum drawdown, window May 2007 – May 2026. Note the two panels use different scales — read the axis, not the bar length.</p>
+        <p class="fig-t">SAA against the 60/40 benchmark</p>
+        <p class="fig-s">Realized results, May 2007 – May 2026. Each panel has its own scale — read the axis, not the bar length.</p>
         <div class="chart">
-          <svg viewBox="0 0 720 300" role="img" aria-label="Paired bar chart on separate scales. CAGR: Endowment 8.9 percent, SAA 8.3 percent, 60/40 benchmark 8.0 percent. Maximum drawdown: Endowment minus 45.1 percent, SAA minus 35.2 percent, 60/40 benchmark minus 32.3 percent.">
-            <!-- CAGR panel: 0–10%, 30px per point -->
-            <text class="lbl" x="8" y="18" style="font-weight:650">CAGR</text>
-            <line class="gl" x1="270" y1="26" x2="270" y2="116"></line>
-            <line class="gl" x1="420" y1="26" x2="420" y2="116"></line>
-            <line class="zl" x1="120" y1="26" x2="120" y2="116"></line>
-            <g class="bar"><title>Endowment — CAGR 8.9%</title>
-              <rect x="120" y="30" width="267" height="20" rx="4" fill="var(--s2)"></rect>
-              <text class="lbl" x="8" y="45">Endowment</text><text class="val" x="395" y="45">8.9%</text></g>
-            <g class="bar"><title>SAA — CAGR 8.3%</title>
-              <rect x="120" y="58" width="249" height="20" rx="4" fill="var(--s3)"></rect>
-              <text class="lbl" x="8" y="73">SAA</text><text class="val" x="377" y="73">8.3%</text></g>
-            <g class="bar"><title>60/40 benchmark — CAGR 8.0%</title>
-              <rect x="120" y="86" width="240" height="20" rx="4" fill="var(--muted)"></rect>
-              <text class="lbl" x="8" y="101">60/40 benchmark</text><text class="val" x="368" y="101">8.0%</text></g>
-            <text class="ax" x="120" y="130" text-anchor="middle">0%</text>
-            <text class="ax" x="270" y="130" text-anchor="middle">5%</text>
-            <text class="ax" x="420" y="130" text-anchor="middle">10%</text>
+          <svg viewBox="0 0 720 300" role="img" aria-label="Comparison of SAA versus 60/40 benchmark. CAGR: SAA 8.3 percent, benchmark 8.0 percent. Terminal corpus: SAA 1.93 times, benchmark 1.84 times. Maximum drawdown: SAA minus 35.2 percent, benchmark minus 32.3 percent.">
+            <text class="lbl-b" x="8" y="18">CAGR</text>
+            <line class="gl" x1="290" y1="26" x2="290" y2="88"></line>
+            <line class="gl" x1="460" y1="26" x2="460" y2="88"></line>
+            <line class="zl" x1="120" y1="26" x2="120" y2="88"></line>
+            <g class="bar"><title>SAA — CAGR 8.3%</title><rect x="120" y="30" width="282" height="22" rx="4" fill="var(--s2)"></rect>
+              <text class="lbl" x="8" y="46">SAA</text><text class="val" x="410" y="46">8.3%</text></g>
+            <g class="bar"><title>60/40 benchmark — CAGR 8.0%</title><rect x="120" y="58" width="272" height="22" rx="4" fill="var(--muted)"></rect>
+              <text class="lbl" x="8" y="74">60/40</text><text class="val" x="400" y="74">8.0%</text></g>
+            <text class="ax" x="120" y="102" text-anchor="middle">0%</text><text class="ax" x="290" y="102" text-anchor="middle">5%</text><text class="ax" x="460" y="102" text-anchor="middle">10%</text>
 
-            <!-- Drawdown panel: 0 to −50%, 6px per point — note the different scale -->
-            <text class="lbl" x="8" y="180" style="font-weight:650">Max drawdown</text>
-            <line class="gl" x1="270" y1="188" x2="270" y2="278"></line>
-            <line class="gl" x1="420" y1="188" x2="420" y2="278"></line>
-            <line class="zl" x1="120" y1="188" x2="120" y2="278"></line>
-            <g class="bar"><title>Endowment — max drawdown −45.1%</title>
-              <rect x="120" y="192" width="271" height="20" rx="4" fill="var(--s2)"></rect>
-              <text class="lbl" x="8" y="207">Endowment</text><text class="val" x="399" y="207">−45.1%</text></g>
-            <g class="bar"><title>SAA — max drawdown −35.2%</title>
-              <rect x="120" y="220" width="211" height="20" rx="4" fill="var(--s3)"></rect>
-              <text class="lbl" x="8" y="235">SAA</text><text class="val" x="339" y="235">−35.2%</text></g>
-            <g class="bar"><title>60/40 benchmark — max drawdown −32.3%</title>
-              <rect x="120" y="248" width="194" height="20" rx="4" fill="var(--muted)"></rect>
-              <text class="lbl" x="8" y="263">60/40 benchmark</text><text class="val" x="322" y="263">−32.3%</text></g>
-            <text class="ax" x="120" y="292" text-anchor="middle">0%</text>
-            <text class="ax" x="270" y="292" text-anchor="middle">−25%</text>
-            <text class="ax" x="420" y="292" text-anchor="middle">−50%</text>
+            <text class="lbl-b" x="8" y="140">Terminal corpus</text>
+            <line class="gl" x1="290" y1="148" x2="290" y2="210"></line>
+            <line class="gl" x1="460" y1="148" x2="460" y2="210"></line>
+            <line class="zl" x1="120" y1="148" x2="120" y2="210"></line>
+            <g class="bar"><title>SAA — terminal corpus 1.93 times starting capital</title><rect x="120" y="152" width="328" height="22" rx="4" fill="var(--s2)"></rect>
+              <text class="lbl" x="8" y="168">SAA</text><text class="val" x="456" y="168">1.93×</text></g>
+            <g class="bar"><title>60/40 benchmark — terminal corpus 1.84 times</title><rect x="120" y="180" width="313" height="22" rx="4" fill="var(--muted)"></rect>
+              <text class="lbl" x="8" y="196">60/40</text><text class="val" x="441" y="196">1.84×</text></g>
+            <text class="ax" x="120" y="224" text-anchor="middle">0×</text><text class="ax" x="290" y="224" text-anchor="middle">1.0×</text><text class="ax" x="460" y="224" text-anchor="middle">2.0×</text>
+
+            <text class="lbl-b" x="8" y="262">Max drawdown</text>
+            <line class="gl" x1="290" y1="248" x2="290" y2="292"></line>
+            <line class="gl" x1="460" y1="248" x2="460" y2="292"></line>
+            <line class="zl" x1="120" y1="248" x2="120" y2="292"></line>
+            <g class="bar"><title>SAA — maximum drawdown −35.2%</title><rect x="120" y="250" width="239" height="18" rx="4" fill="var(--s2)"></rect>
+              <text class="val" x="367" y="264">−35.2%</text></g>
+            <g class="bar"><title>60/40 benchmark — maximum drawdown −32.3%</title><rect x="120" y="272" width="220" height="18" rx="4" fill="var(--muted)"></rect>
+              <text class="val" x="348" y="286">−32.3%</text></g>
+            <text class="ax" x="520" y="264">SAA</text><text class="ax" x="520" y="286">60/40</text>
           </svg>
         </div>
-        <div class="legend">
-          <span><i style="background:var(--s2)"></i>Endowment</span>
-          <span><i style="background:var(--s3)"></i>SAA</span>
-          <span><i style="background:var(--muted)"></i>60/40 benchmark</span>
-        </div>
-        <p class="note">Endowment ends at <strong>2.17×</strong> terminal corpus against 60/40's 1.84×, but
-           takes 12.8 points more drawdown to get there — which is exactly why both books exist rather than
-           one. Mechanical regime rotation failed its walk-forward gate and stayed research-only, labeled,
-           never softened into the production book.</p>
-        <details class="tbl"><summary>View data table</summary>
-          <table><thead><tr><th>Book</th><th>Forward μ</th><th>CAGR</th><th>Max DD</th><th>End corpus</th></tr></thead>
-          <tbody>
-            <tr><td>Endowment</td><td class="num">6.48%</td><td class="num">8.9%</td><td class="num">−45.1%</td><td class="num">2.17×</td></tr>
-            <tr><td>SAA</td><td class="num">6.06%</td><td class="num">8.3%</td><td class="num">−35.2%</td><td class="num">1.93×</td></tr>
+        <div class="legend"><span><i style="background:var(--s2)"></i>SAA (recommended book)</span>
+          <span><i style="background:var(--muted)"></i>60/40 benchmark</span></div>
+        <p class="note">SAA ends with <strong>more terminal wealth than 60/40</strong> — 1.93× against
+          1.84× — for 2.9 points more drawdown, on forward-honest, street-aligned assumptions rather than a
+          repeat of US equity exceptionalism. Mechanical regime rotation failed its walk-forward gate and
+          stayed research-only, labeled, never softened into the production book.</p>
+        <details class="tbl"><summary>View full portfolio family</summary>
+          <table><thead><tr><th>Book</th><th>Forward μ</th><th>CAGR</th><th>Max DD</th><th>End corpus</th></tr></thead><tbody>
+            <tr class="hi"><td>SAA — recommended</td><td class="num">6.06%</td><td class="num">8.3%</td><td class="num">−35.2%</td><td class="num">1.93×</td></tr>
             <tr><td>60/40 benchmark</td><td class="num">5.62%</td><td class="num">8.0%</td><td class="num">−32.3%</td><td class="num">1.84×</td></tr>
-          </tbody></table>
-        </details>
+            <tr><td>Endowment — max-growth variant</td><td class="num">6.48%</td><td class="num">8.9%</td><td class="num">−45.1%</td><td class="num">2.17×</td></tr>
+          </tbody></table></details>
       </div>
     </article>
 
-    <!-- Equity -->
     <article class="work">
       <div class="work-head">
-        <div>
-          <h3>Equity Valuation Workflow</h3>
+        <div><h3>Equity Valuation Workflow</h3>
           <p>Driver-based single-name valuation — sourced evidence to scored sector drivers to a 10-year
-             unlevered DCF across three valuation lanes, then a logged call with its falsifier.</p>
-        </div>
+             unlevered DCF across three valuation lanes, then a logged call with its falsifier.</p></div>
         <div class="work-links">
-          <a class="pill" href="https://github.com/ankitv25/Equity-valuation-workflow">Code &amp; methodology</a>
-        </div>
+          <a class="pill" href="https://github.com/ankitv25/Equity-valuation-workflow">Code &amp; methodology</a></div>
       </div>
       <div class="work-body">
         <p class="fig-t">Implied upside to 12-month target, against market</p>
         <p class="fig-s">Lane C midpoint versus market price, priced 8 July 2026. Three sectors, one framework.</p>
         <div class="chart">
           <svg viewBox="0 0 720 190" role="img" aria-label="Bar chart of implied upside to lane C target midpoint. NVDA plus 34.2 percent, EOG plus 24.0 percent, RTX plus 2.1 percent.">
-            <line class="gl" x1="150" y1="24" x2="150" y2="150"></line>
             <line class="gl" x1="270" y1="24" x2="270" y2="150"></line>
             <line class="gl" x1="390" y1="24" x2="390" y2="150"></line>
             <line class="gl" x1="510" y1="24" x2="510" y2="150"></line>
-            <text class="ax" x="150" y="168" text-anchor="middle">0%</text>
-            <text class="ax" x="270" y="168" text-anchor="middle">+10%</text>
-            <text class="ax" x="390" y="168" text-anchor="middle">+20%</text>
-            <text class="ax" x="510" y="168" text-anchor="middle">+30%</text>
+            <text class="ax" x="150" y="168" text-anchor="middle">0%</text><text class="ax" x="270" y="168" text-anchor="middle">+10%</text>
+            <text class="ax" x="390" y="168" text-anchor="middle">+20%</text><text class="ax" x="510" y="168" text-anchor="middle">+30%</text>
             <line class="zl" x1="150" y1="24" x2="150" y2="150"></line>
-
             <g class="bar"><title>NVDA — market $196, lane C $243–283 (mid $263), street $285. Implied +34.2%. Call: hold-quality at street conventions, not a short.</title>
               <rect x="150" y="30" width="410" height="22" rx="4" fill="var(--s2)"></rect>
-              <text class="lbl" x="8" y="46">NVDA</text><text class="val" x="568" y="46">+34.2%</text>
-              <text class="ax" x="160" y="70">$196 mkt → $263 target mid · duration position, not fundamentals</text></g>
-
+              <text class="lbl-b" x="8" y="46">NVDA</text><text class="val" x="568" y="46">+34.2%</text>
+              <text class="ax" x="152" y="70">$196 mkt → $263 target mid · a duration position, not a fundamentals one</text></g>
             <g class="bar"><title>EOG — market $131, lane C $148–177 (mid $162), street $160. Implied +24.0%. Call: cheap versus the strip.</title>
               <rect x="150" y="84" width="288" height="22" rx="4" fill="var(--s3)"></rect>
-              <text class="lbl" x="8" y="100">EOG</text><text class="val" x="446" y="100">+24.0%</text>
-              <text class="ax" x="160" y="124">$131 mkt → $162 target mid · cheap on the strip, agree with street</text></g>
-
+              <text class="lbl-b" x="8" y="100">EOG</text><text class="val" x="446" y="100">+24.0%</text>
+              <text class="ax" x="152" y="124">$131 mkt → $162 target mid · cheap on the strip, agree with street</text></g>
             <g class="bar"><title>RTX — market $190, lane C $179–209 (mid $194), street $215. Implied +2.1%. Call: fairly valued; multiple durability is the debate.</title>
               <rect x="150" y="138" width="25" height="22" rx="4" fill="var(--muted)"></rect>
-              <text class="lbl" x="8" y="154">RTX</text><text class="val" x="183" y="154">+2.1%</text></g>
+              <text class="lbl-b" x="8" y="154">RTX</text><text class="val" x="183" y="154">+2.1%</text></g>
           </svg>
         </div>
         <p class="note">Every call ships with the observable that would kill it. On NVDA, each operating
-           driver scores +2 but is worth roughly <strong>$1 per share</strong> — beta dispersion of 1.7–2.3
-           moves the valuation more than all of them combined. That finding is the model working: it says
-           the position is a duration call, not a fundamentals call.</p>
-        <details class="tbl"><summary>View data table</summary>
-          <table><thead><tr><th>Name</th><th>Lane A</th><th>Lane B</th><th>Lane C</th><th>Market</th><th>Street</th></tr></thead>
-          <tbody>
+          driver scores +2 but is worth roughly <strong>$1 per share</strong> — beta dispersion of 1.7–2.3
+          moves the valuation more than all of them combined. That finding is the model working: it says
+          the position is a duration call, not a fundamentals call.</p>
+        <details class="tbl"><summary>View valuation lanes</summary>
+          <table><thead><tr><th>Name</th><th>Lane A</th><th>Lane B</th><th>Lane C</th><th>Market</th><th>Street</th></tr></thead><tbody>
             <tr><td>RTX (Defense)</td><td class="num">$189</td><td class="num">$152</td><td class="num">$179–209</td><td class="num">$190</td><td class="num">$215</td></tr>
             <tr><td>NVDA (Semis)</td><td class="num">$118</td><td class="num">$185</td><td class="num">$243–283</td><td class="num">$196</td><td class="num">$285</td></tr>
             <tr><td>EOG (E&amp;P)</td><td class="num">$171</td><td class="num">$181</td><td class="num">$148–177</td><td class="num">$131</td><td class="num">$160</td></tr>
-          </tbody></table>
-        </details>
-      </div>
-    </article>
-
-    <article class="work">
-      <div class="work-head">
-        <div>
-          <h3>Event-Driven Risk Research</h3>
-          <p>Risk decomposition and asset characteristics across event regimes.</p>
-        </div>
-        <div class="work-links">
-          <a class="pill" href="https://github.com/ankitv25/Event-Driven-Risk-Research">Code</a>
-        </div>
+          </tbody></table></details>
       </div>
     </article>
   </div>
 </section>
 
-<section id="experience" style="background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+<section id="experience" style="background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="wrap">
     <div class="sec-head"><div class="sec-k">Experience</div><h2>Track record</h2></div>
     <div class="tl">
@@ -548,9 +474,7 @@ td.num{font-family:var(--mono)}
         <div class="tl-d">Jan — Feb 2026 · Knoxville, TN</div>
         <h3>Student Consultant — Equity Portfolio Review</h3>
         <div class="tl-org">Leading Edge Financial (RIA) · Georgetown MSF Winter Clinic</div>
-        <ul>
-          <li>Six-week engagement reviewing a $150M AUM equity portfolio, closing with an executive presentation to the sponsor team</li>
-        </ul>
+        <ul><li>Six-week engagement reviewing a $150M AUM equity portfolio, closing with an executive presentation to the sponsor team</li></ul>
         <div class="metrics"><span class="metric">+286bps return</span><span class="metric">−241bps volatility</span><span class="metric">Sharpe 0.51 → 0.81</span><span class="metric">Beta 1.07 → 0.84</span></div>
       </div>
       <div class="tl-i">
@@ -565,7 +489,7 @@ td.num{font-family:var(--mono)}
         <div class="tl-org">Indian Institute of Technology (IIT) Kanpur</div>
       </div>
     </div>
-    <div class="grid g2" style="margin-top:38px">
+    <div class="grid g2" style="margin-top:42px">
       <div class="card"><h3>Certifications</h3>
         <p>Bloomberg Market Concepts · Financial Engineering Specialization (Columbia) ·
            Machine Learning Specialization (Stanford) · Building RAG Agents with LLMs (NVIDIA)</p></div>
@@ -582,9 +506,9 @@ td.num{font-family:var(--mono)}
     <p>Looking for an investment management seat where I own research and allocation decisions.
        Happy to walk through any of the work above.</p>
     <div class="foot-links">
-      <a class="foot-b p" href="mailto:ankitv0125@gmail.com">ankitv0125@gmail.com</a>
-      <a class="foot-b" href="https://linkedin.com/in/ankitv0125">LinkedIn</a>
-      <a class="foot-b" href="https://github.com/ankitv25">GitHub</a>
+      <a class="btn btn-a" href="mailto:ankitv0125@gmail.com">ankitv0125@gmail.com</a>
+      <a class="btn btn-b" href="https://linkedin.com/in/ankitv0125">LinkedIn</a>
+      <a class="btn btn-b" href="https://github.com/ankitv25">GitHub</a>
     </div>
     <div class="foot-note">
       <span>© 2026 Ankit Verma · New York, NY</span>
