@@ -9,309 +9,303 @@
 <meta property="og:description" content="A multi-asset allocation platform: Endowment, SAA and DAA portfolio books, a macro regime model, and the regime overlay connecting them.">
 <style>
 :root{
-  --bg:#080e17; --bg-2:#0b1420; --panel:#101c2b; --panel-2:#152437;
-  --line:#1d2d40; --line-2:#283b52;
-  --text:#eef4fa; --text-2:#a6b9cc; --muted:#6d8399;
-  --accent:#1f9cf0; --accent-2:#5fc0ff; --accent-dim:#123753;
-  --eq:#2b8fd6; --ra:#b8871a; --bal:#0f9d80;
-  --s1:#e0524d; --s2:#1f9cf0; --s3:#b8871a;
-  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --paper:#f7f4ed; --paper-2:#f1ece1; --panel:#fdfcf9; --ink:#15181d; --ink-2:#3f474f;
+  --ink-3:#6b7480; --rule:#ddd6c8; --rule-2:#c9c0ae; --hair:#e8e2d6;
+  --brand:#1b3a52; --sig:#a8332a;
+  --c1:#2f6f9f; --c2:#d68a13; --c3:#a8332a;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
-  --maxw:1140px; --r:14px;
+  --maxw:1200px; --gut:34px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);
-  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
-
-/* ── layered ambient background ── */
-.bgfx{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden}
-.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5}
-.orb.a{width:620px;height:620px;top:-180px;right:-140px;
-  background:radial-gradient(circle,rgba(31,156,240,.42),transparent 68%);animation:drift1 26s ease-in-out infinite alternate}
-.orb.b{width:560px;height:560px;top:44%;left:-220px;
-  background:radial-gradient(circle,rgba(15,157,128,.30),transparent 68%);animation:drift2 32s ease-in-out infinite alternate}
-.orb.c{width:520px;height:520px;bottom:-160px;right:8%;
-  background:radial-gradient(circle,rgba(184,135,26,.20),transparent 68%);animation:drift3 29s ease-in-out infinite alternate}
-@keyframes drift1{to{transform:translate3d(-70px,60px,0) scale(1.12)}}
-@keyframes drift2{to{transform:translate3d(80px,-50px,0) scale(1.08)}}
-@keyframes drift3{to{transform:translate3d(-50px,-40px,0) scale(1.1)}}
-.grid-fx{position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-  background-size:64px 64px;
-  mask-image:radial-gradient(ellipse 100% 70% at 50% 0%,#000,transparent 82%)}
-.grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
-@media (prefers-reduced-motion:reduce){.orb{animation:none}}
-
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,svg{max-width:100%}
-a{color:var(--accent-2);text-decoration:none}
+a{color:var(--brand);text-decoration:none}
 a:hover{text-decoration:underline}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px;position:relative;z-index:1}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
 
-.rv{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E")}
+main,header,footer,nav,.band{position:relative;z-index:1}
+
+.rv{opacity:0;transform:translateY(20px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
 .rv.in{opacity:1;transform:none}
-.rv[data-d="1"]{transition-delay:.08s}.rv[data-d="2"]{transition-delay:.16s}
-.rv[data-d="3"]{transition-delay:.24s}.rv[data-d="4"]{transition-delay:.32s}
+.rv[data-d="1"]{transition-delay:.07s}.rv[data-d="2"]{transition-delay:.14s}
+.rv[data-d="3"]{transition-delay:.21s}.rv[data-d="4"]{transition-delay:.28s}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 
-.nav{position:sticky;top:0;z-index:90;background:rgba(8,14,23,.8);
-  backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--line)}
-.nav-in{max-width:var(--maxw);margin:0 auto;padding:0 26px;height:60px;display:flex;align-items:center;gap:26px;position:relative}
-.nav-brand{font-weight:700;font-size:1rem;margin-right:auto;color:var(--text);letter-spacing:-.01em}
-.nav-brand em{color:var(--accent);font-style:normal}
-.nav-links{display:flex;gap:22px}
-.nav-links a{color:var(--text-2);font-size:.86rem}
-.nav-links a:hover{color:var(--text);text-decoration:none}
-.navbar-prog{position:absolute;left:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--accent),var(--bal));width:0}
-@media(max-width:900px){.nav-links{display:none}}
+.mast{border-bottom:1px solid var(--ink);background:var(--paper);position:sticky;top:0;z-index:80}
+.mast-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);height:62px;
+  display:flex;align-items:center;gap:30px;position:relative}
+.mast-name{font-family:var(--serif);font-size:1.32rem;font-weight:600;letter-spacing:-.015em;margin-right:auto}
+.mast-nav{display:flex;gap:26px}
+.mast-nav a{color:var(--ink-2);font-size:.73rem;letter-spacing:.13em;text-transform:uppercase;font-weight:600}
+.mast-nav a:hover{color:var(--sig);text-decoration:none}
+.prog{position:absolute;left:0;bottom:-1px;height:2px;background:var(--sig);width:0}
+@media(max-width:940px){.mast-nav{display:none}}
 
-.hero{position:relative;padding:104px 0 0}
-.hero-in{position:relative;z-index:2}
-.badge{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.73rem;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2);margin-bottom:26px;
-  padding:7px 15px;border:1px solid var(--accent-dim);border-radius:999px;background:rgba(31,156,240,.07)}
-.pulse{width:7px;height:7px;border-radius:50%;background:var(--bal);animation:pl 2.4s infinite}
-@keyframes pl{0%{box-shadow:0 0 0 0 rgba(15,157,128,.55)}70%{box-shadow:0 0 0 9px rgba(15,157,128,0)}100%{box-shadow:0 0 0 0 rgba(15,157,128,0)}}
-.hero h1{font-size:clamp(3rem,8.6vw,5.4rem);line-height:.98;margin:0 0 20px;font-weight:800;
-  letter-spacing:-.042em;background:linear-gradient(176deg,#fff 24%,#8fb2d2 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent}
-.hero-role{font-size:clamp(1.05rem,2.3vw,1.42rem);color:var(--text-2);font-weight:500;margin:0 0 30px}
-.hero-role b{color:var(--text);font-weight:650}
-.chain{display:flex;flex-wrap:wrap;align-items:center;gap:11px;margin-bottom:36px;font-size:.95rem}
-.chain b{color:var(--text);font-weight:650}
-.chain .sep{color:var(--accent);font-weight:700}
-.chain .cl{color:var(--text-2)}
-.cta{display:flex;flex-wrap:wrap;gap:13px;padding-bottom:58px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:9px;
-  font-size:.93rem;font-weight:650;border:1px solid transparent;transition:.18s}
-.btn-a{background:var(--accent);color:#04121d;box-shadow:0 6px 26px rgba(31,156,240,.34)}
-.btn-a:hover{background:var(--accent-2);text-decoration:none;transform:translateY(-2px)}
-.btn-b{border-color:var(--line-2);color:var(--text);background:rgba(255,255,255,.03)}
-.btn-b:hover{border-color:var(--accent);background:rgba(31,156,240,.09);text-decoration:none;transform:translateY(-2px)}
+.hero{padding:56px 0 0;border-bottom:1px solid var(--ink)}
+.kicker{font-family:var(--mono);font-size:.71rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sig);margin-bottom:22px;display:flex;align-items:center;gap:14px}
+.kicker::after{content:"";flex:1;height:1px;background:var(--rule)}
+.hero h1{font-family:var(--serif);font-size:clamp(2.9rem,6.2vw,4.5rem);line-height:1.02;margin:0 0 8px;
+  font-weight:600;letter-spacing:-.028em}
+.hero .sub{font-family:var(--serif);font-size:clamp(1.18rem,2.3vw,1.66rem);line-height:1.3;
+  color:var(--ink-2);font-style:italic;margin:0 0 28px;max-width:30ch}
+.hero-grid{display:grid;grid-template-columns:1.06fr .94fr;gap:56px;align-items:end;padding-bottom:30px}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:24px;align-items:start}}
+.heroband{border-top:1px solid var(--ink);background:var(--panel)}
+.heroband .cap{max-width:var(--maxw);margin:0 auto;padding:13px var(--gut) 11px;font-family:var(--mono);
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);display:flex;
+  justify-content:space-between;gap:16px;border-bottom:1px solid var(--hair)}
+.heroband svg{display:block;width:100%;height:auto}
+.heroband .bfoot{max-width:var(--maxw);margin:0 auto;padding:13px var(--gut) 17px;font-size:.86rem;
+  color:var(--ink-3);border-top:1px solid var(--hair)}
+.heroband .bfoot strong{color:var(--ink);font-family:var(--mono);font-weight:700}
+.stand{font-size:1.02rem;line-height:1.72;color:var(--ink-2);margin:0 0 24px}
+.stand strong{color:var(--ink);font-weight:650}
+.creds{border-top:1px solid var(--rule);padding-top:18px;font-size:.89rem;color:var(--ink-2)}
+.creds b{color:var(--ink);font-weight:650}
+.creds .sep{color:var(--sig);font-weight:700;margin:0 7px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.btn{display:inline-flex;align-items:center;padding:11px 21px;font-size:.85rem;font-weight:650;
+  letter-spacing:.02em;border:1px solid var(--ink);transition:.16s}
+.btn-a{background:var(--ink);color:var(--paper)}
+.btn-a:hover{background:var(--sig);border-color:var(--sig);text-decoration:none}
+.btn-b{color:var(--ink);background:transparent}
+.btn-b:hover{background:var(--ink);color:var(--paper);text-decoration:none}
 
-.ribbon{background:rgba(16,28,43,.72);backdrop-filter:blur(8px);
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:relative;z-index:1}
-.ribbon-in{max-width:var(--maxw);margin:0 auto;padding:0 26px;display:grid;grid-template-columns:repeat(5,1fr)}
-.stat{padding:26px 20px 26px 0}
-.stat+.stat{padding-left:28px;border-left:1px solid var(--line)}
-.stat-v{font-size:1.9rem;font-weight:800;letter-spacing:-.035em;line-height:1;
-  background:linear-gradient(180deg,#fff,#8fb4d2);-webkit-background-clip:text;background-clip:text;color:transparent}
-.stat-v small{font-size:.92rem;font-weight:600;-webkit-text-fill-color:var(--muted)}
-.stat-l{font-size:.72rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-top:9px}
-@media(max-width:900px){.ribbon-in{grid-template-columns:repeat(2,1fr)}
-  .stat{padding:18px 14px!important;border-left:none!important;border-bottom:1px solid var(--line)}}
 
-section{padding:88px 0;position:relative}
-.tint{background:linear-gradient(180deg,rgba(11,20,32,0),rgba(11,20,32,.72) 12%,rgba(11,20,32,.72) 88%,rgba(11,20,32,0));
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.sec-k{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--accent);margin-bottom:14px}
-.sec-head{margin-bottom:38px}
-.sec-head h2{font-size:clamp(1.75rem,3.9vw,2.4rem);margin:0;font-weight:750;letter-spacing:-.032em;line-height:1.15}
-.sec-head p{color:var(--text-2);margin:14px 0 0;max-width:66ch}
-.lede{font-size:1.12rem;line-height:1.78;color:var(--text-2);max-width:70ch;margin:0}
-.lede strong{color:var(--text);font-weight:650}
-.lede .hl{color:var(--accent-2);font-weight:600}
+.band{border-bottom:1px solid var(--ink);background:var(--paper-2)}
+.band-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);display:grid;grid-template-columns:repeat(5,1fr)}
+.fig{padding:24px 22px 22px 0}
+.fig+.fig{padding-left:24px;border-left:1px solid var(--rule)}
+.fig-v{font-family:var(--serif);font-size:2.1rem;font-weight:600;line-height:1;letter-spacing:-.03em}
+.fig-v small{font-size:.88rem;color:var(--ink-3)}
+.fig-k{font-size:.69rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:9px}
+@media(max-width:900px){.band-in{grid-template-columns:repeat(2,1fr)}
+  .fig{padding:16px 14px!important;border-left:none!important;border-bottom:1px solid var(--rule)}}
 
-.chainmap{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:34px}
-@media(max-width:860px){.chainmap{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.chainmap{grid-template-columns:1fr}}
-.cm{background:linear-gradient(166deg,rgba(21,36,55,.9),rgba(16,28,43,.9));
-  border:1px solid var(--line);border-radius:12px;padding:20px 18px;transition:.2s}
-.cm:hover{border-color:var(--accent);transform:translateY(-3px)}
-.cm-n{font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:.14em;margin-bottom:9px}
-.cm h4{margin:0 0 7px;font-size:1rem;font-weight:700;letter-spacing:-.015em}
-.cm p{margin:0;font-size:.86rem;color:var(--text-2);line-height:1.55}
+section{padding:72px 0;border-bottom:1px solid var(--ink)}
+section.alt{background:var(--paper-2)}
+.sec-head{display:grid;grid-template-columns:86px 1fr;gap:26px;margin-bottom:38px;align-items:start}
+@media(max-width:700px){.sec-head{grid-template-columns:1fr;gap:12px}}
+.sec-n{font-family:var(--serif);font-size:2.8rem;line-height:.85;color:var(--rule-2);font-weight:600;
+  border-top:2px solid var(--ink);padding-top:12px}
+.sec-t h2{font-family:var(--serif);font-size:clamp(1.7rem,3.4vw,2.3rem);margin:0 0 12px;
+  font-weight:600;letter-spacing:-.024em;line-height:1.14}
+.sec-t p{color:var(--ink-2);margin:0;max-width:70ch;font-size:1rem}
+.eyebrow{font-family:var(--mono);font-size:.69rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--sig);margin-bottom:9px}
 
-.layer{background:linear-gradient(166deg,rgba(21,36,55,.92),rgba(16,28,43,.92));border:1px solid var(--line);
-  border-radius:var(--r);overflow:hidden;margin-bottom:26px;backdrop-filter:blur(6px)}
-.layer-head{padding:28px 32px 22px;border-bottom:1px solid var(--line);
-  display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
-.lnum{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.12em;color:var(--accent);
-  border:1px solid var(--accent-dim);background:rgba(31,156,240,.08);padding:5px 11px;border-radius:6px;
-  margin-bottom:11px;display:inline-block}
-.layer-head h3{margin:0 0 9px;font-size:1.38rem;font-weight:750;letter-spacing:-.028em}
-.layer-head p{margin:0;color:var(--text-2);font-size:.95rem;max-width:68ch}
-.llinks{margin-left:auto;display:flex;gap:9px;flex-shrink:0;flex-wrap:wrap}
-.pill{font-size:.81rem;font-weight:650;padding:8px 15px;border-radius:8px;border:1px solid var(--line-2);
-  color:var(--text-2);white-space:nowrap;transition:.16s;display:inline-block}
-.pill:hover{border-color:var(--accent);color:var(--accent-2);text-decoration:none}
-.pill-live{background:var(--accent);color:#04121d;border-color:var(--accent);box-shadow:0 4px 18px rgba(31,156,240,.28)}
-.pill-live:hover{background:var(--accent-2);color:#04121d;text-decoration:none}
-.layer-body{padding:26px 32px 30px}
-.fig-t{font-size:.95rem;font-weight:700;margin:0 0 4px;letter-spacing:-.01em}
-.fig-s{font-size:.84rem;color:var(--muted);margin:0 0 18px}
-.note{margin:20px 0 0;font-size:.91rem;color:var(--text-2);border-left:2px solid var(--accent);padding:3px 0 3px 16px}
-.note strong{color:var(--text)}
-.note.warn{border-left-color:var(--s3)}
+.art{border-top:1px solid var(--ink);padding-top:26px;margin-top:34px}
+.art:first-of-type{margin-top:0}
+.art-head{display:flex;flex-wrap:wrap;gap:18px;align-items:baseline;margin-bottom:10px}
+.art-head h3{font-family:var(--serif);font-size:1.48rem;margin:0;font-weight:600;letter-spacing:-.022em}
+.art-links{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.lk{font-size:.75rem;font-weight:650;letter-spacing:.03em;padding:6px 13px;border:1px solid var(--rule-2);
+  color:var(--ink-2);white-space:nowrap;transition:.16s;display:inline-block}
+.lk:hover{border-color:var(--ink);color:var(--ink);text-decoration:none}
+.lk-live{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.lk-live:hover{background:var(--sig);border-color:var(--sig);color:var(--paper)}
+.dek{color:var(--ink-2);margin:0 0 24px;max-width:74ch;font-size:.98rem}
 
-.mstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 0}
-@media(max-width:760px){.mstrip{grid-template-columns:repeat(2,1fr)}}
-.mbox{background:rgba(31,156,240,.05);border:1px solid var(--line);border-radius:10px;padding:15px}
-.mbox .v{font-family:var(--mono);font-size:1.12rem;font-weight:700;color:var(--text);letter-spacing:-.02em}
-.mbox .v .ar{color:var(--bal)}
-.mbox .k{font-size:.73rem;color:var(--muted);margin-top:6px;text-transform:uppercase;letter-spacing:.06em}
-
-.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
-@media(max-width:700px){.roles{grid-template-columns:1fr}}
-.role{border:1px solid var(--line);border-radius:10px;padding:16px;background:rgba(255,255,255,.02)}
-.role .t{font-family:var(--mono);font-size:1.02rem;font-weight:700;color:var(--accent-2)}
-.role .r{font-size:.86rem;color:var(--text-2);margin-top:5px}
-.role .s{font-family:var(--mono);font-size:.8rem;color:var(--muted);margin-top:7px}
-
+.figw{margin:26px 0 0}
+.figw .t{font-size:.93rem;font-weight:700;margin:0 0 3px}
+.figw .s{font-size:.82rem;color:var(--ink-3);margin:0 0 16px}
 .chart{width:100%;overflow-x:auto}
 .chart svg{display:block;min-width:470px}
-.ax{font-size:11px;fill:var(--muted);font-family:var(--font)}
-.lbl{font-size:12.5px;fill:var(--text-2);font-family:var(--font)}
-.lbl-b{font-size:13px;fill:var(--text);font-family:var(--font);font-weight:700}
-.val{font-size:12.5px;font-weight:700;fill:var(--text);font-family:var(--mono)}
-.seg{font-size:11.5px;font-weight:700;fill:#04121d;font-family:var(--mono)}
-.gl{stroke:var(--line);stroke-width:1}
-.zl{stroke:var(--line-2);stroke-width:1.5}
+.ax{font-size:11px;fill:var(--ink-3);font-family:var(--sans)}
+.bandlbl{font-size:12.5px;fill:var(--ink-3);font-family:var(--mono);letter-spacing:.1em;font-weight:600}
+.yr{font-size:12.5px;fill:var(--ink-3);font-family:var(--mono);text-anchor:middle}
+.lbl{font-size:12.5px;fill:var(--ink-2);font-family:var(--sans)}
+.lbl-b{font-size:13px;fill:var(--ink);font-family:var(--sans);font-weight:700}
+.val{font-size:12.5px;font-weight:700;fill:var(--ink);font-family:var(--mono)}
+.seg{font-size:11.5px;font-weight:700;fill:#fff;font-family:var(--mono)}
+.gl{stroke:var(--hair);stroke-width:1}
+.zl{stroke:var(--rule-2);stroke-width:1.2}
 .bar{transition:opacity .15s}.bar:hover{opacity:.78}
-.spark{fill:none;stroke:var(--accent-2);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;
-  filter:drop-shadow(0 0 5px rgba(95,192,255,.4));
-  stroke-dasharray:4200;stroke-dashoffset:4200;transition:stroke-dashoffset 2.6s ease-out}
-.in .spark{stroke-dashoffset:0}
-.legend{display:flex;flex-wrap:wrap;gap:17px;margin-top:15px;font-size:.83rem;color:var(--text-2)}
-.legend i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:7px;vertical-align:-1px}
-details.tbl{margin-top:18px}
-details.tbl summary{font-size:.86rem;color:var(--accent-2);cursor:pointer;user-select:none}
-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:.86rem}
-th,td{text-align:right;padding:8px 11px;border-bottom:1px solid var(--line)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:13px;font-size:.82rem;color:var(--ink-2)}
+.legend i{width:10px;height:10px;display:inline-block;margin-right:7px;vertical-align:-1px}
+
+.pull{border-left:3px solid var(--sig);padding:2px 0 2px 20px;margin:26px 0 0;
+  font-family:var(--serif);font-size:1.05rem;line-height:1.6;color:var(--ink-2)}
+.pull strong{color:var(--ink);font-weight:600}
+.pull.warn{border-left-color:var(--c2)}
+
+.roles{display:grid;grid-template-columns:repeat(3,1fr);margin-top:22px;border-top:1px solid var(--rule)}
+@media(max-width:700px){.roles{grid-template-columns:1fr}}
+.role{padding:18px 20px 18px 0}
+.role+.role{padding-left:22px;border-left:1px solid var(--rule)}
+.role .rt{font-family:var(--mono);font-size:1rem;font-weight:700;color:var(--brand)}
+.role .rr{font-size:.86rem;color:var(--ink);margin-top:6px;font-weight:600}
+.role .rs{font-size:.8rem;color:var(--ink-3);margin-top:4px}
+
+.mrow{display:grid;grid-template-columns:repeat(4,1fr);margin-top:24px;
+  border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+@media(max-width:760px){.mrow{grid-template-columns:repeat(2,1fr)}}
+.m{padding:17px 18px 17px 0}
+.m+.m{padding-left:20px;border-left:1px solid var(--rule)}
+.m .v{font-family:var(--mono);font-size:1rem;font-weight:700;letter-spacing:-.01em}
+.m .v .ar{color:var(--sig)}
+.m .k{font-size:.7rem;color:var(--ink-3);margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+
+details.tbl{margin-top:20px;border-top:1px solid var(--rule)}
+details.tbl summary{font-size:.79rem;color:var(--ink-2);cursor:pointer;user-select:none;padding:11px 0;
+  letter-spacing:.05em;text-transform:uppercase;font-weight:650}
+details.tbl summary:hover,details[open] summary{color:var(--sig)}
+table{width:100%;border-collapse:collapse;margin:6px 0 16px;font-size:.86rem}
+th,td{text-align:right;padding:8px 11px;border-bottom:1px solid var(--hair)}
 th:first-child,td:first-child{text-align:left}
-th{color:var(--muted);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em}
-td.num{font-family:var(--mono);color:var(--text)}
+th{color:var(--ink-3);font-weight:650;font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;
+  border-bottom:1px solid var(--rule-2)}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+tbody tr:hover td{background:rgba(47,111,159,.055)}
 
-.grid{display:grid;gap:18px}
-.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
-@media(max-width:920px){.g3{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:660px){.g3,.g2{grid-template-columns:1fr}}
-.card{background:linear-gradient(166deg,rgba(21,36,55,.9),rgba(16,28,43,.9));border:1px solid var(--line);
-  border-radius:12px;padding:24px;transition:.2s;position:relative;overflow:hidden}
-.card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--accent),transparent);opacity:0;transition:.2s}
-.card:hover{border-color:var(--line-2);transform:translateY(-3px)}.card:hover::before{opacity:1}
-.card h3{margin:0 0 10px;font-size:1.02rem;font-weight:700;letter-spacing:-.015em}
-.card p{margin:0;color:var(--text-2);font-size:.91rem}
-.cap-k{font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
-.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}
-.tag{font-size:.77rem;padding:4px 11px;border-radius:999px;background:rgba(31,156,240,.08);
-  color:var(--text-2);border:1px solid var(--line-2)}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink);margin-top:32px}
+.cols.c2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:900px){.cols{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.cols,.cols.c2{grid-template-columns:1fr}}
+.col{padding:22px 22px 24px 0}
+.col+.col{padding-left:24px;border-left:1px solid var(--rule)}
+.col-n{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;color:var(--sig);margin-bottom:10px}
+.col h4{font-family:var(--serif);margin:0 0 8px;font-size:1.1rem;font-weight:600;letter-spacing:-.015em}
+.col p{margin:0;font-size:.89rem;color:var(--ink-2);line-height:1.6}
+.taglist{margin-top:13px;font-size:.77rem;color:var(--ink-3);font-family:var(--mono)}
 
-.tl{border-left:1px solid var(--line);padding-left:30px;margin-left:7px}
-.tl-i{position:relative;padding-bottom:36px}.tl-i:last-child{padding-bottom:0}
-.tl-i::before{content:"";position:absolute;left:-36px;top:7px;width:11px;height:11px;border-radius:50%;
-  background:var(--accent);box-shadow:0 0 0 4px var(--bg),0 0 0 5px var(--accent),0 0 16px rgba(31,156,240,.55)}
-.tl-d{font-family:var(--mono);font-size:.76rem;color:var(--muted);letter-spacing:.04em}
-.tl-i h3{margin:7px 0 4px;font-size:1.08rem;font-weight:700;letter-spacing:-.018em}
-.tl-org{color:var(--accent-2);font-weight:600;font-size:.93rem}
-.tl-i ul{margin:12px 0 0;padding-left:19px;color:var(--text-2);font-size:.92rem}
-.tl-i li{margin-bottom:6px}
-.metrics{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
-.metric{font-family:var(--mono);font-size:.81rem;font-weight:650;padding:6px 12px;border-radius:7px;
-  background:rgba(31,156,240,.09);color:var(--accent-2);border:1px solid var(--accent-dim)}
+.tl-i{display:grid;grid-template-columns:180px 1fr;gap:28px;padding:26px 0;border-top:1px solid var(--rule)}
+@media(max-width:780px){.tl-i{grid-template-columns:1fr;gap:8px}}
+.tl-d{font-family:var(--mono);font-size:.77rem;color:var(--ink-3);letter-spacing:.03em;padding-top:4px;line-height:1.5}
+.tl-i h3{font-family:var(--serif);margin:0 0 3px;font-size:1.18rem;font-weight:600;letter-spacing:-.018em}
+.tl-org{color:var(--sig);font-weight:650;font-size:.89rem}
+.tl-i ul{margin:12px 0 0;padding-left:18px;color:var(--ink-2);font-size:.91rem}
+.tl-i li{margin-bottom:5px}
+.metrics{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.metric{font-family:var(--mono);font-size:.78rem;font-weight:650;padding:5px 11px;
+  background:var(--panel);color:var(--brand);border:1px solid var(--rule-2)}
 
-.foot{padding:84px 0 42px;border-top:1px solid var(--line);position:relative;
-  background:linear-gradient(180deg,rgba(11,20,32,0),rgba(11,20,32,.8))}
-.foot h2{font-size:clamp(1.9rem,4.3vw,2.6rem);margin:0 0 16px;letter-spacing:-.035em;font-weight:750}
-.foot p{color:var(--text-2);margin:0 0 30px;max-width:58ch;font-size:1.03rem}
-.foot-links{display:flex;flex-wrap:wrap;gap:13px;margin-bottom:50px}
-.foot-note{border-top:1px solid var(--line);padding-top:24px;font-size:.82rem;color:var(--muted);
+.foot{padding:64px 0 34px;background:var(--ink);color:var(--paper)}
+.foot h2{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.5rem);margin:0 0 14px;
+  letter-spacing:-.028em;font-weight:600}
+.foot p{color:#b9b3a5;margin:0 0 26px;max-width:56ch;font-size:1.01rem}
+.foot .btn-a{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.foot .btn-a:hover{background:var(--sig);color:var(--paper);border-color:var(--sig)}
+.foot .btn-b{color:var(--paper);border-color:#4a5058}
+.foot .btn-b:hover{background:var(--paper);color:var(--ink)}
+.foot-note{border-top:1px solid #333a42;padding-top:22px;margin-top:42px;font-size:.8rem;color:#8d877a;
   display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
 </style>
 </head>
 <body>
 
-<div class="bgfx"><span class="orb a"></span><span class="orb b"></span><span class="orb c"></span></div>
-<div class="grid-fx"></div><div class="grain"></div>
-
-<nav class="nav">
-  <div class="nav-in">
-    <span class="nav-brand">Ankit Verma<em>.</em></span>
-    <div class="nav-links">
-      <a href="#platform">Platform</a><a href="#books">Books</a><a href="#regime">Regime</a>
-      <a href="#dynamic">Dynamic</a><a href="#infra">Foundation</a><a href="#contact">Contact</a>
+<nav class="mast">
+  <div class="mast-in">
+    <span class="mast-name">Ankit Verma</span>
+    <div class="mast-nav">
+      <a href="#books">Books</a><a href="#regime">Regime</a><a href="#dynamic">Dynamic</a>
+      <a href="#infra">Foundation</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
     </div>
-    <div class="navbar-prog" id="prog"></div>
+    <div class="prog" id="prog"></div>
   </div>
 </nav>
 
 <header class="hero">
-  <div class="wrap hero-in">
-    <div class="badge"><span class="pulse"></span>Perpetual capital · 4.5% spending · CPI+5 objective</div>
-    <h1>Ankit Verma</h1>
-    <p class="hero-role">Asset Allocation · <b>Multi-Asset Portfolio Construction</b> · Macro Regime Research</p>
-    <div class="chain">
-      <b>IIT Kanpur</b><span class="sep">→</span><b>Georgetown McDonough MSF</b><span class="sep">→</span>
-      <b>5 years institutional modeling</b><span class="cl">· Capital One · Discover · Citi</span>
+  <div class="wrap">
+    <div class="kicker">Multi-asset research platform · New York</div>
+    <div class="hero-grid">
+      <div>
+        <h1>Ankit Verma</h1>
+        <p class="sub">Asset allocation, portfolio construction and macro regime research.</p>
+      </div>
+      <div>
+        <p class="stand">A governed portfolio family for <strong>perpetual capital at 4.5% annual
+          spending</strong> — built from a defined universe, decomposed by risk, and connected to a macro
+          regime framework that argues the dynamic layer. Every component ships a methodology, a validation
+          battery, and the failures that were published rather than buried.</p>
+        <div class="creds">
+          <b>IIT Kanpur</b><span class="sep">→</span><b>Georgetown McDonough MSF</b><span class="sep">→</span>
+          <b>5 years institutional modeling</b> · Capital One · Discover · Citi
+        </div>
+      </div>
     </div>
-    <div class="cta">
-      <a class="btn btn-a" href="#platform">See the platform</a>
+    <div class="cta" style="padding-bottom:34px">
+      <a class="btn btn-a" href="#books">Read the work</a>
       <a class="btn btn-b" href="mailto:ankitv0125@gmail.com">Get in touch</a>
       <a class="btn btn-b" href="https://linkedin.com/in/ankitv0125">LinkedIn</a>
       <a class="btn btn-b" href="https://github.com/ankitv25">GitHub</a>
     </div>
   </div>
+  <div class="heroband">
+    <div class="cap"><span>Macro Regime Score · composite z-score</span><span>276 months · 2003 — 2026</span></div>
+<svg viewBox="0 0 1440 300" role="img" aria-label="The Macro Regime Score composite z-score from 2003 to 2026 plotted against four regime bands. It falls to minus 2.15 in December 2008 and minus 1.65 during the COVID crash — the only two excursions into the Contraction band.">
+            <rect x="0" y="18" width="1440" height="72.9" fill="rgba(47,111,159,.10)"></rect>
+            <rect x="0" y="90.9" width="1440" height="45.2" fill="rgba(138,132,116,.10)"></rect>
+            <rect x="0" y="136.1" width="1440" height="48.6" fill="rgba(214,138,19,.13)"></rect>
+            <rect x="0" y="184.7" width="1440" height="97.3" fill="rgba(168,51,42,.12)"></rect>
+            <line class="gl" x1="0" y1="90.9" x2="1440" y2="90.9"></line>
+            <line class="gl" x1="0" y1="136.1" x2="1440" y2="136.1"></line>
+            <line class="zl" x1="0" y1="184.7" x2="1440" y2="184.7"></line>
+            <polyline fill="rgba(27,58,82,.08)" stroke="none" points="0,282.0 0.0,79.7 5.2,55.9 10.5,67.5 15.7,65.2 20.9,55.1 26.2,61.6 31.4,59.0 36.7,54.5 41.9,55.8 47.1,61.5 52.4,46.4 57.6,52.8 62.8,60.4 68.1,53.3 73.3,66.6 78.5,58.7 83.8,48.2 89.0,54.2 94.3,49.4 99.5,53.1 104.7,51.9 110.0,56.7 115.2,55.6 120.4,74.1 125.7,66.7 130.9,62.2 136.1,70.8 141.4,85.0 146.6,92.0 151.9,89.2 157.1,92.7 162.3,71.4 167.6,73.5 172.8,68.0 178.0,75.9 183.3,94.5 188.5,115.3 193.7,111.4 199.0,117.7 204.2,109.1 209.5,93.4 214.7,84.7 219.9,82.8 225.2,81.7 230.4,90.1 235.6,94.0 240.9,82.7 246.1,87.3 251.3,84.6 256.6,89.6 261.8,127.0 267.1,137.3 272.3,124.9 277.5,159.2 282.8,175.4 288.0,172.6 293.2,176.8 298.5,194.7 303.7,181.5 308.9,158.1 314.2,165.8 319.4,183.1 324.7,191.1 329.9,204.6 335.1,248.2 340.4,257.8 345.6,264.7 350.8,261.2 356.1,255.1 361.3,252.0 366.5,229.6 371.8,192.7 377.0,171.7 382.3,159.8 387.5,145.4 392.7,139.2 398.0,127.1 403.2,129.0 408.4,125.0 413.7,114.7 418.9,123.7 424.1,109.6 429.4,91.4 434.6,101.1 439.9,111.2 445.1,103.0 450.3,113.9 455.6,111.0 460.8,107.4 466.0,105.9 471.3,93.7 476.5,94.3 481.7,95.9 487.0,98.6 492.2,90.2 497.5,93.9 502.7,101.9 507.9,105.7 513.2,131.3 518.4,140.7 523.6,122.6 528.9,121.8 534.1,118.8 539.3,104.3 544.6,97.3 549.8,92.1 555.1,94.3 560.3,111.4 565.5,111.5 570.8,106.3 576.0,106.7 581.2,102.1 586.5,96.8 591.7,97.6 596.9,96.4 602.2,88.6 607.4,94.8 612.7,94.2 617.9,94.6 623.1,98.4 628.4,103.3 633.6,96.1 638.8,93.5 644.1,93.5 649.3,88.4 654.5,89.6 659.8,84.8 665.0,90.4 670.3,97.8 675.5,93.3 680.7,81.9 686.0,77.5 691.2,76.9 696.4,71.0 701.7,82.9 706.9,84.0 712.1,85.7 717.4,91.9 722.6,98.1 727.9,96.8 733.1,94.9 738.3,98.7 743.6,91.4 748.8,99.6 754.0,102.5 759.3,104.2 764.5,120.4 769.7,129.0 775.0,123.1 780.2,124.4 785.5,126.4 790.7,130.9 795.9,133.4 801.2,119.2 806.4,109.8 811.6,114.7 816.9,116.8 822.1,101.5 827.3,99.4 832.6,101.9 837.8,101.3 843.1,100.8 848.3,93.9 853.5,88.2 858.8,92.8 864.0,89.7 869.2,89.5 874.5,92.1 879.7,91.7 884.9,84.0 890.2,92.4 895.4,95.7 900.7,82.6 905.9,88.8 911.1,86.6 916.4,82.1 921.6,96.3 926.8,99.4 932.1,92.9 937.3,97.3 942.5,97.0 947.8,92.1 953.0,94.0 958.3,90.8 963.5,98.1 968.7,108.7 974.0,125.0 979.2,113.7 984.4,110.2 989.7,108.6 994.9,101.5 1000.1,107.3 1005.4,106.7 1010.6,96.3 1015.9,108.1 1021.1,105.4 1026.3,102.7 1031.6,104.2 1036.8,97.2 1042.0,102.0 1047.3,115.9 1052.5,220.3 1057.7,229.9 1063.0,211.3 1068.2,195.1 1073.5,138.6 1078.7,107.9 1083.9,108.4 1089.2,115.3 1094.4,124.6 1099.6,123.8 1104.9,115.1 1110.1,116.7 1115.3,82.0 1120.6,74.1 1125.8,85.7 1131.1,93.1 1136.3,94.6 1141.5,104.6 1146.8,109.1 1152.0,99.3 1157.2,103.1 1162.5,110.1 1167.7,119.6 1172.9,134.3 1178.2,149.6 1183.4,138.2 1188.7,144.4 1193.9,151.4 1199.1,142.5 1204.4,138.9 1209.6,147.8 1214.8,156.6 1220.1,147.4 1225.3,137.8 1230.5,128.9 1235.8,126.9 1241.0,135.0 1246.3,125.6 1251.5,134.2 1256.7,123.8 1262.0,113.7 1267.2,112.2 1272.4,104.3 1277.7,104.8 1282.9,98.7 1288.1,91.4 1293.4,94.1 1298.6,100.4 1303.9,97.0 1309.1,100.7 1314.3,92.2 1319.6,99.8 1324.8,98.4 1330.0,110.0 1335.3,101.6 1340.5,104.2 1345.7,110.1 1351.0,105.3 1356.2,100.2 1361.5,106.5 1366.7,111.5 1371.9,120.1 1377.2,111.8 1382.4,106.0 1387.6,98.9 1392.9,101.2 1398.1,98.0 1403.3,95.6 1408.6,102.4 1413.8,102.1 1419.1,98.6 1424.3,103.6 1429.5,121.1 1434.8,114.2 1440.0,111.1 1440,282.0"></polyline>
+            <polyline id="heroLine" fill="none" stroke="#1b3a52" stroke-width="2.1"
+              stroke-linejoin="round" stroke-linecap="round" points="0.0,79.7 5.2,55.9 10.5,67.5 15.7,65.2 20.9,55.1 26.2,61.6 31.4,59.0 36.7,54.5 41.9,55.8 47.1,61.5 52.4,46.4 57.6,52.8 62.8,60.4 68.1,53.3 73.3,66.6 78.5,58.7 83.8,48.2 89.0,54.2 94.3,49.4 99.5,53.1 104.7,51.9 110.0,56.7 115.2,55.6 120.4,74.1 125.7,66.7 130.9,62.2 136.1,70.8 141.4,85.0 146.6,92.0 151.9,89.2 157.1,92.7 162.3,71.4 167.6,73.5 172.8,68.0 178.0,75.9 183.3,94.5 188.5,115.3 193.7,111.4 199.0,117.7 204.2,109.1 209.5,93.4 214.7,84.7 219.9,82.8 225.2,81.7 230.4,90.1 235.6,94.0 240.9,82.7 246.1,87.3 251.3,84.6 256.6,89.6 261.8,127.0 267.1,137.3 272.3,124.9 277.5,159.2 282.8,175.4 288.0,172.6 293.2,176.8 298.5,194.7 303.7,181.5 308.9,158.1 314.2,165.8 319.4,183.1 324.7,191.1 329.9,204.6 335.1,248.2 340.4,257.8 345.6,264.7 350.8,261.2 356.1,255.1 361.3,252.0 366.5,229.6 371.8,192.7 377.0,171.7 382.3,159.8 387.5,145.4 392.7,139.2 398.0,127.1 403.2,129.0 408.4,125.0 413.7,114.7 418.9,123.7 424.1,109.6 429.4,91.4 434.6,101.1 439.9,111.2 445.1,103.0 450.3,113.9 455.6,111.0 460.8,107.4 466.0,105.9 471.3,93.7 476.5,94.3 481.7,95.9 487.0,98.6 492.2,90.2 497.5,93.9 502.7,101.9 507.9,105.7 513.2,131.3 518.4,140.7 523.6,122.6 528.9,121.8 534.1,118.8 539.3,104.3 544.6,97.3 549.8,92.1 555.1,94.3 560.3,111.4 565.5,111.5 570.8,106.3 576.0,106.7 581.2,102.1 586.5,96.8 591.7,97.6 596.9,96.4 602.2,88.6 607.4,94.8 612.7,94.2 617.9,94.6 623.1,98.4 628.4,103.3 633.6,96.1 638.8,93.5 644.1,93.5 649.3,88.4 654.5,89.6 659.8,84.8 665.0,90.4 670.3,97.8 675.5,93.3 680.7,81.9 686.0,77.5 691.2,76.9 696.4,71.0 701.7,82.9 706.9,84.0 712.1,85.7 717.4,91.9 722.6,98.1 727.9,96.8 733.1,94.9 738.3,98.7 743.6,91.4 748.8,99.6 754.0,102.5 759.3,104.2 764.5,120.4 769.7,129.0 775.0,123.1 780.2,124.4 785.5,126.4 790.7,130.9 795.9,133.4 801.2,119.2 806.4,109.8 811.6,114.7 816.9,116.8 822.1,101.5 827.3,99.4 832.6,101.9 837.8,101.3 843.1,100.8 848.3,93.9 853.5,88.2 858.8,92.8 864.0,89.7 869.2,89.5 874.5,92.1 879.7,91.7 884.9,84.0 890.2,92.4 895.4,95.7 900.7,82.6 905.9,88.8 911.1,86.6 916.4,82.1 921.6,96.3 926.8,99.4 932.1,92.9 937.3,97.3 942.5,97.0 947.8,92.1 953.0,94.0 958.3,90.8 963.5,98.1 968.7,108.7 974.0,125.0 979.2,113.7 984.4,110.2 989.7,108.6 994.9,101.5 1000.1,107.3 1005.4,106.7 1010.6,96.3 1015.9,108.1 1021.1,105.4 1026.3,102.7 1031.6,104.2 1036.8,97.2 1042.0,102.0 1047.3,115.9 1052.5,220.3 1057.7,229.9 1063.0,211.3 1068.2,195.1 1073.5,138.6 1078.7,107.9 1083.9,108.4 1089.2,115.3 1094.4,124.6 1099.6,123.8 1104.9,115.1 1110.1,116.7 1115.3,82.0 1120.6,74.1 1125.8,85.7 1131.1,93.1 1136.3,94.6 1141.5,104.6 1146.8,109.1 1152.0,99.3 1157.2,103.1 1162.5,110.1 1167.7,119.6 1172.9,134.3 1178.2,149.6 1183.4,138.2 1188.7,144.4 1193.9,151.4 1199.1,142.5 1204.4,138.9 1209.6,147.8 1214.8,156.6 1220.1,147.4 1225.3,137.8 1230.5,128.9 1235.8,126.9 1241.0,135.0 1246.3,125.6 1251.5,134.2 1256.7,123.8 1262.0,113.7 1267.2,112.2 1272.4,104.3 1277.7,104.8 1282.9,98.7 1288.1,91.4 1293.4,94.1 1298.6,100.4 1303.9,97.0 1309.1,100.7 1314.3,92.2 1319.6,99.8 1324.8,98.4 1330.0,110.0 1335.3,101.6 1340.5,104.2 1345.7,110.1 1351.0,105.3 1356.2,100.2 1361.5,106.5 1366.7,111.5 1371.9,120.1 1377.2,111.8 1382.4,106.0 1387.6,98.9 1392.9,101.2 1398.1,98.0 1403.3,95.6 1408.6,102.4 1413.8,102.1 1419.1,98.6 1424.3,103.6 1429.5,121.1 1434.8,114.2 1440.0,111.1"></polyline>
+            <text class="bandlbl" x="16" y="37">EXPANSION</text><text class="bandlbl" x="16" y="109">NEUTRAL</text>
+            <text class="bandlbl" x="16" y="154">SLOWDOWN</text><text class="bandlbl" x="16" y="203">CONTRACTION</text>
+            <text class="yr" x="288" y="296" text-anchor="middle">2008</text>
+            <text class="yr" x="539" y="296" text-anchor="middle">2012</text>
+            <text class="yr" x="791" y="296" text-anchor="middle">2016</text>
+            <text class="yr" x="1042" y="296" text-anchor="middle">2020</text>
+            <text class="yr" x="1293" y="296" text-anchor="middle">2024</text>
+          </svg>
+    <div class="bfoot">Two contractions in twenty-three years — the GFC at <strong>−2.15</strong> and COVID at
+      <strong>−1.65</strong>. Nothing else crosses the line.</div>
+  </div>
+
 </header>
 
-<div class="ribbon">
-  <div class="ribbon-in">
-    <div class="stat rv"><div class="stat-v">3</div><div class="stat-l">Portfolio books</div></div>
-    <div class="stat rv" data-d="1"><div class="stat-v">23</div><div class="stat-l">Validation components</div></div>
-    <div class="stat rv" data-d="2"><div class="stat-v">25</div><div class="stat-l">Methodology docs</div></div>
-    <div class="stat rv" data-d="3"><div class="stat-v">$150M</div><div class="stat-l">AUM reviewed</div></div>
-    <div class="stat rv" data-d="4"><div class="stat-v">3.93<small>/4</small></div><div class="stat-l">Georgetown MSF</div></div>
+<div class="band">
+  <div class="band-in">
+    <div class="fig rv"><div class="fig-v">3</div><div class="fig-k">Portfolio books</div></div>
+    <div class="fig rv" data-d="1"><div class="fig-v">276</div><div class="fig-k">Months backtested</div></div>
+    <div class="fig rv" data-d="2"><div class="fig-v">23</div><div class="fig-k">Validation components</div></div>
+    <div class="fig rv" data-d="3"><div class="fig-v">$150M</div><div class="fig-k">AUM reviewed</div></div>
+    <div class="fig rv" data-d="4"><div class="fig-v">3.93<small>/4</small></div><div class="fig-k">Georgetown MSF</div></div>
   </div>
 </div>
 
-<section id="platform">
-  <div class="wrap">
-    <div class="sec-head rv"><div class="sec-k">The platform</div>
-      <h2>A multi-asset allocation platform, built end to end.</h2>
-      <p>The core of the work is asset allocation — a governed portfolio family for perpetual capital,
-         constructed from a defined universe, decomposed by risk, and connected to a macro regime framework
-         that argues the dynamic layer. Every component ships a methodology, a validation battery, and the
-         failures that were published rather than buried.</p></div>
-    <div class="chainmap">
-      <div class="cm rv"><div class="cm-n">01</div><h4>The books</h4>
-        <p>Endowment, SAA and DAA — the portfolio family as it stands today.</p></div>
-      <div class="cm rv" data-d="1"><div class="cm-n">02</div><h4>MRS &amp; regimes</h4>
-        <p>The macro framework that classifies the environment the books operate in.</p></div>
-      <div class="cm rv" data-d="2"><div class="cm-n">03</div><h4>Dynamic changes</h4>
-        <p>How a regime call becomes an allocation change inside the tilt corridor.</p></div>
-      <div class="cm rv" data-d="3"><div class="cm-n">04</div><h4>Foundation</h4>
-        <p>Universe, sleeve hierarchy, optimizer and risk decomposition — the construction engine.</p></div>
-    </div>
-  </div>
-</section>
+<main>
 
-<section id="books" class="tint">
+<section id="books">
   <div class="wrap">
-    <div class="sec-head rv"><div class="sec-k">01 · Asset allocation</div>
-      <h2>The portfolio books</h2>
-      <p>Objective: perpetual capital at 4.5% annual spending with the corpus growing in real terms.
-         Three books built on one architecture — the goal, the goal plus hedging tools, and the dynamic
-         layer on top. Window May 2007 – May 2026, GFC included by design; forward returns on JPMorgan
-         2026 long-term capital market assumptions.</p></div>
-
-    <article class="layer rv">
-      <div class="layer-head">
-        <div><span class="lnum">Portfolio Books v2</span>
-          <h3>Endowment · SAA · DAA</h3>
-          <p>An owner-layer architecture: the Endowment is the long-term goal book with no hedging tools;
-             the SAA is that goal plus one tool per named risk, bracketed against institutional practice;
-             the DAA is that SAA plus a dynamic toolkit, covered in section 03. The two static books are
-             shown below; single-writer engines regenerate every committed number exactly.</p></div>
-        <div class="llinks">
-          <a class="pill pill-live" href="https://ankitv25.github.io/Asset-Allocation/">Live dashboard</a>
-          <a class="pill" href="https://github.com/ankitv25/Asset-Allocation">Code</a></div>
+    <div class="sec-head rv">
+      <div class="sec-n">01</div>
+      <div class="sec-t">
+        <div class="eyebrow">Asset allocation</div>
+        <h2>The portfolio books</h2>
+        <p>Objective: perpetual capital at 4.5% annual spending with the corpus growing in real terms.
+           Three books on one architecture — the goal, the goal plus hedging tools, and the dynamic layer.
+           Window May 2007 – May 2026, GFC included by design; forward returns on JPMorgan 2026 long-term
+           capital market assumptions.</p>
       </div>
-      <div class="layer-body">
-        <p class="fig-t">Composition by role</p>
-        <p class="fig-s">Current book weights. The Endowment carries growth; the SAA converts part of that into named hedges.</p>
+    </div>
+
+    <article class="art rv">
+      <div class="art-head">
+        <h3>Endowment · SAA · DAA</h3>
+        <div class="art-links">
+          <a class="lk lk-live" href="https://ankitv25.github.io/Asset-Allocation/">Live dashboard</a>
+          <a class="lk" href="https://github.com/ankitv25/Asset-Allocation">Code</a></div>
+      </div>
+      <p class="dek">An owner-layer architecture: the Endowment is the long-term goal book with no hedging
+         tools; the SAA is that goal plus one tool per named risk, bracketed against institutional practice;
+         the DAA is that SAA plus a dynamic toolkit, covered in section 03. The two static books are shown
+         below — single-writer engines regenerate every committed number exactly.</p>
+
+      <div class="figw">
+        <p class="t">Composition by role</p>
+        <p class="s">Current book weights. The Endowment carries growth; the SAA converts part of it into named hedges.</p>
         <div class="chart">
           <svg viewBox="0 0 800 178" role="img" aria-label="Stacked bar chart of book composition. Endowment: equities 78.7 percent, real assets 7.8 percent, balance 13.5 percent. SAA: equities 59.8 percent, real assets 17.7 percent, balance 22.5 percent.">
             <line class="gl" x1="300" y1="24" x2="300" y2="132"></line>
@@ -319,196 +313,239 @@ td.num{font-family:var(--mono);color:var(--text)}
             <line class="gl" x1="600" y1="24" x2="600" y2="132"></line>
             <line class="zl" x1="150" y1="24" x2="150" y2="132"></line>
             <text class="lbl-b" x="8" y="52">Endowment</text>
-            <g class="bar"><title>Endowment — Equities 78.69%</title><rect x="150" y="36" width="470.1" height="30" rx="4" fill="var(--eq)"></rect><text class="seg" x="164" y="55">78.7%</text></g>
-            <g class="bar"><title>Endowment — Real assets 7.81%</title><rect x="622.1" y="36" width="44.9" height="30" rx="4" fill="var(--ra)"></rect></g>
-            <g class="bar"><title>Endowment — Balance / reserve 13.50%</title><rect x="669" y="36" width="79" height="30" rx="4" fill="var(--bal)"></rect></g>
+            <g class="bar"><title>Endowment — Equities 78.69%</title><rect x="150" y="36" width="470.1" height="30" fill="var(--c1)"></rect><text class="seg" x="163" y="55">78.7%</text></g>
+            <g class="bar"><title>Endowment — Real assets 7.81%</title><rect x="622.1" y="36" width="44.9" height="30" fill="var(--c2)"></rect></g>
+            <g class="bar"><title>Endowment — Balance / spending reserve 13.50%</title><rect x="669" y="36" width="79" height="30" fill="var(--c3)"></rect></g>
             <text class="lbl-b" x="8" y="106">SAA</text>
-            <g class="bar"><title>SAA — Equities 59.76%</title><rect x="150" y="90" width="356.6" height="30" rx="4" fill="var(--eq)"></rect><text class="seg" x="164" y="109">59.8%</text></g>
-            <g class="bar"><title>SAA — Real assets 17.74%</title><rect x="508.6" y="90" width="104.4" height="30" rx="4" fill="var(--ra)"></rect><text class="seg" x="522" y="109">17.7%</text></g>
-            <g class="bar"><title>SAA — Balance / reserve 22.50%</title><rect x="615" y="90" width="133" height="30" rx="4" fill="var(--bal)"></rect><text class="seg" x="629" y="109">22.5%</text></g>
+            <g class="bar"><title>SAA — Equities 59.76%</title><rect x="150" y="90" width="356.6" height="30" fill="var(--c1)"></rect><text class="seg" x="163" y="109">59.8%</text></g>
+            <g class="bar"><title>SAA — Real assets 17.74%</title><rect x="508.6" y="90" width="104.4" height="30" fill="var(--c2)"></rect><text class="seg" x="521" y="109">17.7%</text></g>
+            <g class="bar"><title>SAA — Balance / spending reserve 22.50%</title><rect x="615" y="90" width="133" height="30" fill="var(--c3)"></rect><text class="seg" x="628" y="109">22.5%</text></g>
             <text class="ax" x="150" y="152" text-anchor="middle">0%</text><text class="ax" x="300" y="152" text-anchor="middle">25%</text>
             <text class="ax" x="450" y="152" text-anchor="middle">50%</text><text class="ax" x="600" y="152" text-anchor="middle">75%</text>
             <text class="ax" x="750" y="152" text-anchor="middle">100%</text>
           </svg>
         </div>
-        <div class="legend"><span><i style="background:var(--eq)"></i>Equities</span>
-          <span><i style="background:var(--ra)"></i>Real assets</span>
-          <span><i style="background:var(--bal)"></i>Balance / spending reserve</span></div>
-
-        <p class="fig-t" style="margin-top:28px">One tool per named risk</p>
-        <p class="fig-s">The SAA's hedging seats are earned against a specific risk, not allocated by convention.</p>
-        <div class="roles">
-          <div class="role"><div class="t">TLT · 9.0%</div><div class="r">Recession / deflation counterweight</div><div class="s">Long-duration Treasuries</div></div>
-          <div class="role"><div class="t">GLD · 6.0%</div><div class="r">Systemic-crisis store</div><div class="s">Earned tool seat above a 3.3% base</div></div>
-          <div class="role"><div class="t">DBC · 5.0%</div><div class="r">Inflation-shock defense</div><div class="s">The only asset with positive Slowdown μ</div></div>
-        </div>
-
-        <details class="tbl"><summary>Book characteristics</summary>
-          <table><thead><tr><th>Book</th><th>Fwd μ</th><th>CAGR</th><th>Vol</th><th>Sharpe</th><th>Max DD</th><th>End corpus</th></tr></thead><tbody>
-            <tr><td>Endowment</td><td class="num">6.48%</td><td class="num">8.94%</td><td class="num">13.44%</td><td class="num">0.59</td><td class="num">−45.1%</td><td class="num">2.17×</td></tr>
-            <tr><td>SAA</td><td class="num">6.06%</td><td class="num">8.28%</td><td class="num">11.09%</td><td class="num">0.64</td><td class="num">−35.2%</td><td class="num">1.93×</td></tr>
-            <tr><td>60/40 benchmark</td><td class="num">5.62%</td><td class="num">7.98%</td><td class="num">10.08%</td><td class="num">0.66</td><td class="num">−32.3%</td><td class="num">1.84×</td></tr>
-          </tbody></table></details>
-
-        <details class="tbl"><summary>Full target weights</summary>
-          <table><thead><tr><th>Position</th><th>Endowment</th><th>SAA</th><th>Role</th></tr></thead><tbody>
-            <tr><td>SPY</td><td class="num">64.2%</td><td class="num">48.8%</td><td>US equity core</td></tr>
-            <tr><td>EFA</td><td class="num">10.6%</td><td class="num">8.0%</td><td>Developed international, half market weight</td></tr>
-            <tr><td>EEM</td><td class="num">3.9%</td><td class="num">3.0%</td><td>Emerging markets</td></tr>
-            <tr><td>VNQ</td><td class="num">4.5%</td><td class="num">3.4%</td><td>Income-producing real asset</td></tr>
-            <tr><td>GLD</td><td class="num">3.3%</td><td class="num">9.3%</td><td>Systemic-crisis store</td></tr>
-            <tr><td>TLT</td><td class="num">—</td><td class="num">9.0%</td><td>Recession counterweight</td></tr>
-            <tr><td>DBC</td><td class="num">—</td><td class="num">5.0%</td><td>Inflation-shock defense</td></tr>
-            <tr><td>SHY / IEF / TIP</td><td class="num">3.8% ea</td><td class="num">3.8% ea</td><td>Spending reserve — 3 years × 4.5%, evidence-sized</td></tr>
-            <tr><td>Cash</td><td class="num">2.0%</td><td class="num">2.0%</td><td>Reserve completion</td></tr>
-          </tbody></table>
-          <p class="fig-s" style="margin-top:12px">High yield = 0 and trend = 0 are <em>demonstrated</em> by
-             marginal contribution tables, not decreed.</p></details>
-
-        <p class="note">Against the objective — CPI+5, roughly 7.3% nominal — <strong>no holdable ETF book
-          fully funds the goal on street assumptions.</strong> The family minimizes a stated gap rather than
-          pretending to close it. An earlier greedy optimizer converged to 39% gold, an in-sample trap that
-          was rejected and documented rather than shipped.</p>
+        <div class="legend"><span><i style="background:var(--c1)"></i>Equities</span>
+          <span><i style="background:var(--c2)"></i>Real assets</span>
+          <span><i style="background:var(--c3)"></i>Balance / spending reserve</span></div>
       </div>
+
+      <div class="figw">
+        <p class="t">One tool per named risk</p>
+        <p class="s">The SAA's hedging seats are earned against a specific risk, not allocated by convention.</p>
+        <div class="roles">
+          <div class="role"><div class="rt">TLT · 9.0%</div><div class="rr">Recession / deflation counterweight</div><div class="rs">Long-duration Treasuries</div></div>
+          <div class="role"><div class="rt">GLD · 6.0%</div><div class="rr">Systemic-crisis store</div><div class="rs">Earned tool seat above a 3.3% base</div></div>
+          <div class="role"><div class="rt">DBC · 5.0%</div><div class="rr">Inflation-shock defense</div><div class="rs">The only asset with positive Slowdown μ</div></div>
+        </div>
+      </div>
+
+      <details class="tbl"><summary>Book characteristics</summary>
+        <table><thead><tr><th>Book</th><th>Fwd μ</th><th>CAGR</th><th>Vol</th><th>Sharpe</th><th>Max DD</th><th>End corpus</th></tr></thead><tbody>
+          <tr><td>Endowment</td><td class="num">6.48%</td><td class="num">8.94%</td><td class="num">13.44%</td><td class="num">0.59</td><td class="num">−45.1%</td><td class="num">2.17×</td></tr>
+          <tr><td>SAA</td><td class="num">6.06%</td><td class="num">8.28%</td><td class="num">11.09%</td><td class="num">0.64</td><td class="num">−35.2%</td><td class="num">1.93×</td></tr>
+          <tr><td>60/40 benchmark</td><td class="num">5.62%</td><td class="num">7.98%</td><td class="num">10.08%</td><td class="num">0.66</td><td class="num">−32.3%</td><td class="num">1.84×</td></tr>
+        </tbody></table></details>
+
+      <details class="tbl"><summary>Full target weights</summary>
+        <table><thead><tr><th>Position</th><th>Endowment</th><th>SAA</th><th>Role</th></tr></thead><tbody>
+          <tr><td>SPY</td><td class="num">64.2%</td><td class="num">48.8%</td><td>US equity core</td></tr>
+          <tr><td>EFA</td><td class="num">10.6%</td><td class="num">8.0%</td><td>Developed international, half market weight</td></tr>
+          <tr><td>EEM</td><td class="num">3.9%</td><td class="num">3.0%</td><td>Emerging markets</td></tr>
+          <tr><td>VNQ</td><td class="num">4.5%</td><td class="num">3.4%</td><td>Income-producing real asset</td></tr>
+          <tr><td>GLD</td><td class="num">3.3%</td><td class="num">9.3%</td><td>Systemic-crisis store</td></tr>
+          <tr><td>TLT</td><td class="num">—</td><td class="num">9.0%</td><td>Recession counterweight</td></tr>
+          <tr><td>DBC</td><td class="num">—</td><td class="num">5.0%</td><td>Inflation-shock defense</td></tr>
+          <tr><td>SHY / IEF / TIP</td><td class="num">3.8% ea</td><td class="num">3.8% ea</td><td>Spending reserve — 3 years × 4.5%, evidence-sized</td></tr>
+          <tr><td>Cash</td><td class="num">2.0%</td><td class="num">2.0%</td><td>Reserve completion</td></tr>
+        </tbody></table>
+        <p class="s">High yield = 0 and trend = 0 are <em>demonstrated</em> by marginal contribution tables, not decreed.</p></details>
+
+      <p class="pull">Against the objective — CPI+5, roughly 7.3% nominal — <strong>no holdable ETF book
+        fully funds the goal on street assumptions.</strong> The family minimizes a stated gap rather than
+        pretending to close it. An earlier greedy optimizer converged to 39% gold, an in-sample trap that was
+        rejected and documented rather than shipped.</p>
     </article>
   </div>
 </section>
 
-<section id="regime">
+<section id="regime" class="alt">
   <div class="wrap">
-    <div class="sec-head rv"><div class="sec-k">02 · Macro framework</div>
-      <h2>MRS &amp; regime analysis</h2>
-      <p>The allocation books need to know what environment they are operating in. The Macro Regime Score
-         is the framework that answers it — and the input the dynamic layer argues from.</p></div>
-
-    <article class="layer rv">
-      <div class="layer-head">
-        <div><span class="lnum">MRS v2.1</span>
-          <h3>A monthly composite classifying the US macro-financial environment</h3>
-          <p>Thirteen indicators across five economically-motivated pillars, each normalized to an
-             expanding-window z-score, aggregated with fixed weights and classified against calibrated
-             thresholds with a two-month persistence rule.</p></div>
-        <div class="llinks">
-          <a class="pill pill-live" href="https://ankitv25.github.io/Macro-Regime-Score/">Live dashboard</a>
-          <a class="pill" href="https://github.com/ankitv25/Macro-Regime-Score">Code</a></div>
+    <div class="sec-head rv">
+      <div class="sec-n">02</div>
+      <div class="sec-t">
+        <div class="eyebrow">Macro framework</div>
+        <h2>MRS &amp; regime analysis</h2>
+        <p>The allocation books need to know what environment they are operating in. The Macro Regime Score
+           is the framework that answers it — and the input the dynamic layer argues from.</p>
       </div>
-      <div class="layer-body">
-        <p class="fig-t">The composite, 2003–2026</p>
-        <p class="fig-s">276 monthly readings against the calibrated regime bands. Two contractions in 23 years.</p>
+    </div>
+
+    <article class="art rv">
+      <div class="art-head">
+        <h3>A monthly composite of the US macro-financial environment</h3>
+        <div class="art-links">
+          <a class="lk lk-live" href="https://ankitv25.github.io/Macro-Regime-Score/">Live dashboard</a>
+          <a class="lk" href="https://github.com/ankitv25/Macro-Regime-Score">Code</a></div>
+      </div>
+      <p class="dek">Thirteen indicators across five economically-motivated pillars, each normalized to an
+         expanding-window z-score, aggregated with fixed weights and classified against calibrated thresholds
+         with a two-month persistence rule.</p>
+
+      <div class="mrow">
+        <div class="m"><div class="v">−2.15</div><div class="k">GFC trough, Dec 2008</div></div>
+        <div class="m"><div class="v">9 months</div><div class="k">Raw signal before NBER</div></div>
+        <div class="m"><div class="v">20</div><div class="k">Transitions in 23 years</div></div>
+        <div class="m"><div class="v">0.989</div><div class="k">Equal-weight robustness corr.</div></div>
+      </div>
+
+      <div class="figw">
+        <p class="t">Regime frequency, 2003–2026</p>
+        <p class="s">How the 276 months distribute across the calibrated bands.</p>
         <div class="chart">
-          <svg viewBox="0 0 900 200" role="img" aria-label="Line chart of the MRS composite z-score from 2003 to 2026 against four regime bands. The composite reaches minus 2.15 in December 2008 and minus 1.65 during the COVID crash — the only two excursions into the Contraction band.">
-            <rect x="60" y="22" width="820" height="40.4" fill="rgba(15,157,128,.12)"></rect>
-            <rect x="60" y="62.4" width="820" height="24.9" fill="rgba(74,96,118,.15)"></rect>
-            <rect x="60" y="87.3" width="820" height="26.9" fill="rgba(184,135,26,.12)"></rect>
-            <rect x="60" y="114.2" width="820" height="53.8" fill="rgba(224,82,77,.12)"></rect>
-            <text class="ax" x="884" y="45">Expansion</text><text class="ax" x="884" y="78">Neutral</text>
-            <text class="ax" x="884" y="104">Slowdown</text><text class="ax" x="884" y="146">Contraction</text>
-            <line class="gl" x1="60" y1="62.4" x2="880" y2="62.4"></line>
-            <line class="gl" x1="60" y1="87.3" x2="880" y2="87.3"></line>
-            <line class="gl" x1="60" y1="114.2" x2="880" y2="114.2"></line>
-            <text class="ax" x="52" y="41" text-anchor="end">+1.0</text><text class="ax" x="52" y="79" text-anchor="end">0</text>
-            <text class="ax" x="52" y="117" text-anchor="end">−1.0</text><text class="ax" x="52" y="156" text-anchor="end">−2.0</text>
-            <polyline class="spark" points="60.0,56.1 63.0,43.0 66.0,49.4 68.9,48.1 71.9,42.5 74.9,46.1 77.9,44.7 80.9,42.2 83.9,42.9 86.8,46.1 89.8,37.7 92.8,41.2 95.8,45.4 98.8,41.5 101.7,48.9 104.7,44.5 107.7,38.7 110.7,42.0 113.7,39.4 116.7,41.4 119.6,40.7 122.6,43.4 125.6,42.8 128.6,53.0 131.6,49.0 134.5,46.4 137.5,51.2 140.5,59.0 143.5,62.9 146.5,61.4 149.5,63.3 152.4,51.5 155.4,52.7 158.4,49.7 161.4,54.0 164.4,64.3 167.3,75.8 170.3,73.7 173.3,77.1 176.3,72.4 179.3,63.7 182.3,58.9 185.2,57.9 188.2,57.3 191.2,61.9 194.2,64.0 197.2,57.8 200.1,60.3 203.1,58.8 206.1,61.6 209.1,82.3 212.1,87.9 215.1,81.1 218.0,100.1 221.0,109.1 224.0,107.5 227.0,109.8 230.0,119.7 232.9,112.4 235.9,99.5 238.9,103.7 241.9,113.3 244.9,117.7 247.9,125.2 250.8,149.3 253.8,154.6 256.8,158.4 259.8,156.5 262.8,153.1 265.7,151.4 268.7,139.0 271.7,118.6 274.7,107.0 277.7,100.4 280.7,92.4 283.6,89.0 286.6,82.3 289.6,83.4 292.6,81.2 295.6,75.5 298.5,80.5 301.5,72.7 304.5,62.6 307.5,67.9 310.5,73.6 313.5,69.0 316.4,75.0 319.4,73.5 322.4,71.5 325.4,70.6 328.4,63.8 331.3,64.2 334.3,65.1 337.3,66.6 340.3,61.9 343.3,64.0 346.3,68.4 349.2,70.5 352.2,84.7 355.2,89.9 358.2,79.8 361.2,79.4 364.1,77.7 367.1,69.7 370.1,65.8 373.1,63.0 376.1,64.2 379.1,73.7 382.0,73.7 385.0,70.8 388.0,71.1 391.0,68.5 394.0,65.6 396.9,66.0 399.9,65.4 402.9,61.1 405.9,64.5 408.9,64.1 411.9,64.3 414.8,66.5 417.8,69.2 420.8,65.2 423.8,63.8 426.8,63.8 429.7,60.9 432.7,61.6 435.7,58.9 438.7,62.1 441.7,66.1 444.7,63.7 447.6,57.4 450.6,54.9 453.6,54.6 456.6,51.3 459.6,57.9 462.5,58.5 465.5,59.4 468.5,62.9 471.5,66.3 474.5,65.6 477.5,64.5 480.4,66.6 483.4,62.6 486.4,67.1 489.4,68.7 492.4,69.7 495.3,78.7 498.3,83.4 501.3,80.2 504.3,80.8 507.3,82.0 510.3,84.4 513.2,85.8 516.2,78.0 519.2,72.8 522.2,75.5 525.2,76.7 528.1,68.2 531.1,67.0 534.1,68.4 537.1,68.1 540.1,67.8 543.1,64.0 546.0,60.8 549.0,63.4 552.0,61.7 555.0,61.5 558.0,63.0 560.9,62.8 563.9,58.5 566.9,63.2 569.9,65.0 572.9,57.7 575.9,61.2 578.8,60.0 581.8,57.4 584.8,65.3 587.8,67.0 590.8,63.4 593.7,65.8 596.7,65.7 599.7,63.0 602.7,64.0 605.7,62.3 608.7,66.3 611.6,72.1 614.6,81.2 617.6,74.9 620.6,73.0 623.6,72.1 626.5,68.2 629.5,71.4 632.5,71.0 635.5,65.3 638.5,71.9 641.5,70.3 644.4,68.9 647.4,69.7 650.4,65.8 653.4,68.5 656.4,76.1 659.3,133.9 662.3,139.2 665.3,128.9 668.3,119.9 671.3,88.7 674.3,71.7 677.2,72.0 680.2,75.8 683.2,80.9 686.2,80.5 689.2,75.7 692.1,76.6 695.1,57.4 698.1,53.0 701.1,59.4 704.1,63.6 707.1,64.4 710.0,69.9 713.0,72.4 716.0,66.9 719.0,69.0 722.0,72.9 724.9,78.2 727.9,86.3 730.9,94.8 733.9,88.5 736.9,91.9 739.9,95.8 742.8,90.8 745.8,88.9 748.8,93.8 751.8,98.6 754.8,93.6 757.7,88.3 760.7,83.3 763.7,82.2 766.7,86.7 769.7,81.5 772.7,86.3 775.6,80.5 778.6,74.9 781.6,74.1 784.6,69.7 787.6,70.0 790.5,66.6 793.5,62.6 796.5,64.1 799.5,67.6 802.5,65.7 805.5,67.7 808.4,63.0 811.4,67.2 814.4,66.5 817.4,72.9 820.4,68.2 823.3,69.7 826.3,72.9 829.3,70.3 832.3,67.5 835.3,70.9 838.3,73.7 841.2,78.5 844.2,73.9 847.2,70.7 850.2,66.7 853.2,68.0 856.1,66.3 859.1,64.9 862.1,68.7 865.1,68.5 868.1,66.6 871.1,69.4 874.0,79.0 877.0,75.2 880.0,73.5"></polyline>
-            <text class="ax" x="81" y="188" text-anchor="middle">2004</text><text class="ax" x="224" y="188" text-anchor="middle">2008</text>
-            <text class="ax" x="367" y="188" text-anchor="middle">2012</text><text class="ax" x="510" y="188" text-anchor="middle">2016</text>
-            <text class="ax" x="653" y="188" text-anchor="middle">2020</text><text class="ax" x="797" y="188" text-anchor="middle">2024</text>
+          <svg viewBox="0 0 720 176" role="img" aria-label="Bar chart of regime frequency. Neutral 61.8 percent, Expansion 24.4 percent, Slowdown 8.4 percent, Contraction 5.5 percent.">
+            <line class="gl" x1="330" y1="16" x2="330" y2="140"></line>
+            <line class="gl" x1="480" y1="16" x2="480" y2="140"></line>
+            <line class="gl" x1="630" y1="16" x2="630" y2="140"></line>
+            <line class="zl" x1="180" y1="16" x2="180" y2="140"></line>
+            <g class="bar"><title>Neutral — 61.8% of months, composite between −0.30 and +0.35</title>
+              <rect x="180" y="22" width="371" height="22" fill="#8a8474"></rect>
+              <text class="lbl" x="8" y="38">Neutral</text><text class="val" x="559" y="38">61.8%</text></g>
+            <g class="bar"><title>Expansion — 24.4% of months, composite at or above +0.35</title>
+              <rect x="180" y="52" width="146" height="22" fill="var(--c1)"></rect>
+              <text class="lbl" x="8" y="68">Expansion</text><text class="val" x="334" y="68">24.4%</text></g>
+            <g class="bar"><title>Slowdown — 8.4% of months, composite between −1.00 and −0.30</title>
+              <rect x="180" y="82" width="50" height="22" fill="var(--c2)"></rect>
+              <text class="lbl" x="8" y="98">Slowdown</text><text class="val" x="238" y="98">8.4%</text></g>
+            <g class="bar"><title>Contraction — 5.5% of months, composite below −1.00</title>
+              <rect x="180" y="112" width="33" height="22" fill="var(--c3)"></rect>
+              <text class="lbl" x="8" y="128">Contraction</text><text class="val" x="221" y="128">5.5%</text></g>
+            <text class="ax" x="180" y="160" text-anchor="middle">0%</text><text class="ax" x="330" y="160" text-anchor="middle">25%</text>
+            <text class="ax" x="480" y="160" text-anchor="middle">50%</text><text class="ax" x="630" y="160" text-anchor="middle">75%</text>
           </svg>
         </div>
-        <div class="legend">
-          <span><i style="background:rgba(15,157,128,.6)"></i>Expansion ≥ +0.35 · 24.4%</span>
-          <span><i style="background:rgba(74,96,118,.7)"></i>Neutral · 61.8%</span>
-          <span><i style="background:rgba(184,135,26,.6)"></i>Slowdown · 8.4%</span>
-          <span><i style="background:rgba(224,82,77,.6)"></i>Contraction &lt; −1.00 · 5.5%</span>
-        </div>
-        <div class="mstrip">
-          <div class="mbox"><div class="v">−2.15</div><div class="k">GFC trough, Dec 2008</div></div>
-          <div class="mbox"><div class="v">9 months</div><div class="k">Raw signal before NBER</div></div>
-          <div class="mbox"><div class="v">20</div><div class="k">Transitions in 23 years</div></div>
-          <div class="mbox"><div class="v">0.989</div><div class="k">Equal-weight robustness corr.</div></div>
-        </div>
-        <p class="note">The predecessor framework had a Contraction regime that was <strong>mathematically
-          unreachable</strong> — 280 months spanning the GFC and COVID without a single trigger. Percentile
-          scoring maps every input to a uniform distribution, and the central limit theorem then collapses
-          the composite toward its centre. That mechanism was published as an appendix rather than patched
-          away; the redesign to expanding z-scores followed from it.</p>
-        <details class="tbl"><summary>Pillar structure and weights</summary>
-          <table><thead><tr><th>Pillar</th><th>Weight</th><th>Indicators</th><th>Role</th></tr></thead><tbody>
-            <tr><td>Growth</td><td class="num">30%</td><td class="num">4</td><td>NFP, IP, GDP, services PCE — sized for upside participation, not only crisis detection</td></tr>
-            <tr><td>Credit</td><td class="num">20%</td><td class="num">2</td><td>IG spread level and momentum — the best crisis-type discriminator</td></tr>
-            <tr><td>Market Stress</td><td class="num">20%</td><td class="num">3</td><td>VIX, bond stress, SPY drawdown — the fastest signal</td></tr>
-            <tr><td>Inflation</td><td class="num">15%</td><td class="num">2</td><td>PCE deviation and momentum — decisive in the 2021–22 tightening regime</td></tr>
-            <tr><td>Liquidity / Rates</td><td class="num">15%</td><td class="num">2</td><td>NFCI and 10Y–2Y curve — the principal leading indicator</td></tr>
-          </tbody></table></details>
       </div>
+
+      <p class="pull">The predecessor framework had a Contraction regime that was <strong>mathematically
+        unreachable</strong> — 280 months spanning the GFC and COVID without a single trigger. Percentile
+        scoring maps every input to a uniform distribution, and the central limit theorem then collapses the
+        composite toward its centre. That mechanism was published as an appendix rather than patched away;
+        the redesign to expanding z-scores followed from it.</p>
+
+      <details class="tbl"><summary>Pillar structure and weights</summary>
+        <table><thead><tr><th>Pillar</th><th>Weight</th><th>Indicators</th><th>Role</th></tr></thead><tbody>
+          <tr><td>Growth</td><td class="num">30%</td><td class="num">4</td><td>NFP, IP, GDP, services PCE — sized for upside participation, not only crisis detection</td></tr>
+          <tr><td>Credit</td><td class="num">20%</td><td class="num">2</td><td>IG spread level and momentum — the best crisis-type discriminator</td></tr>
+          <tr><td>Market Stress</td><td class="num">20%</td><td class="num">3</td><td>VIX, bond stress, SPY drawdown — the fastest signal</td></tr>
+          <tr><td>Inflation</td><td class="num">15%</td><td class="num">2</td><td>PCE deviation and momentum — decisive in the 2021–22 tightening regime</td></tr>
+          <tr><td>Liquidity / Rates</td><td class="num">15%</td><td class="num">2</td><td>NFCI and 10Y–2Y curve — the principal leading indicator</td></tr>
+        </tbody></table></details>
     </article>
   </div>
 </section>
 
-<section id="dynamic" class="tint">
+<section id="dynamic">
   <div class="wrap">
-    <div class="sec-head rv"><div class="sec-k">03 · Allocation implications</div>
-      <h2>From regime to allocation</h2>
-      <p>The dynamic layer. A regime model that never changes a position is a research curiosity — this is
-         where the macro call becomes an exposure change, bounded by rule rather than by judgment.</p></div>
+    <div class="sec-head rv">
+      <div class="sec-n">03</div>
+      <div class="sec-t">
+        <div class="eyebrow">Allocation implications</div>
+        <h2>From regime to allocation</h2>
+        <p>The dynamic layer. A regime model that never changes a position is a research curiosity — this is
+           where the macro call becomes an exposure change, bounded by rule rather than by judgment.</p>
+      </div>
+    </div>
 
-    <article class="layer rv">
-      <div class="layer-head">
-        <div><span class="lnum">DAA</span>
-          <h3>The SAA base plus a dynamic toolkit</h3>
-          <p>Regime tilts argued from the MRS pillars and held inside a <strong>tilt corridor</strong> — a
-             per-class band derived from how the regime books actually moved against the static base, so a
-             tilt can never quietly become a different portfolio. The purpose is to enhance an
-             already-strong base, not to rescue a weak one.</p></div>
+    <article class="art rv">
+      <div class="art-head"><h3>The SAA base plus a dynamic toolkit</h3></div>
+      <p class="dek">Regime tilts argued from the MRS pillars and held inside a <strong>tilt corridor</strong>
+         — a per-class band derived from how the regime books actually moved against the static base, so a
+         tilt can never quietly become a different portfolio. The purpose is to enhance an already-strong
+         base, not to rescue a weak one.</p>
+
+      <div class="mrow">
+        <div class="m"><div class="v">0.45 <span class="ar">→</span> 0.54</div><div class="k">Sharpe</div></div>
+        <div class="m"><div class="v">0.18 <span class="ar">→</span> 0.33</div><div class="k">Calmar</div></div>
+        <div class="m"><div class="v">−38% <span class="ar">→</span> −22%</div><div class="k">Max drawdown</div></div>
+        <div class="m"><div class="v">15–19%</div><div class="k">Annual turnover</div></div>
       </div>
-      <div class="layer-body">
-        <p class="fig-t">What the overlay did on the validated base</p>
-        <p class="fig-s">Walk-forward gate results. Value concentrated in genuine stress rather than spread evenly.</p>
-        <div class="mstrip">
-          <div class="mbox"><div class="v">0.45 <span class="ar">→</span> 0.54</div><div class="k">Sharpe</div></div>
-          <div class="mbox"><div class="v">0.18 <span class="ar">→</span> 0.33</div><div class="k">Calmar</div></div>
-          <div class="mbox"><div class="v">−38% <span class="ar">→</span> −22%</div><div class="k">Max drawdown</div></div>
-          <div class="mbox"><div class="v">15–19%</div><div class="k">Annual turnover</div></div>
+
+      <div class="figw">
+        <p class="t">Drawdown, before and after the overlay</p>
+        <p class="s">Each pair is a distinct mechanism tested separately — the walk-forward gate on the whole
+           overlay, dynamic duration on two crisis types, and the v3.7 damping fix for whipsaw.</p>
+        <div class="chart">
+          <svg viewBox="0 0 760 250" role="img" aria-label="Grouped bar chart of maximum drawdown before and after the MRS overlay. Walk-forward gate: minus 38 percent to minus 22 percent. GFC with dynamic duration: minus 34.5 to minus 33.6 percent. 2022 with dynamic duration: minus 19.7 to minus 17.5 percent. Whipsaw fix version 3.7: minus 31.1 to minus 27.5 percent.">
+            <line class="gl" x1="325" y1="14" x2="325" y2="212"></line>
+            <line class="gl" x1="450" y1="14" x2="450" y2="212"></line>
+            <line class="gl" x1="575" y1="14" x2="575" y2="212"></line>
+            <line class="gl" x1="700" y1="14" x2="700" y2="212"></line>
+            <line class="zl" x1="200" y1="14" x2="200" y2="212"></line>
+            <text class="lbl-b" x="8" y="38">Walk-forward gate</text>
+            <g class="bar"><title>Static base — maximum drawdown −38.0%</title><rect x="200" y="20" width="475" height="18" fill="#8a8474"></rect><text class="val" x="683" y="34">−38.0%</text></g>
+            <g class="bar"><title>With MRS overlay — maximum drawdown −22.0%</title><rect x="200" y="41" width="275" height="18" fill="var(--c1)"></rect><text class="val" x="483" y="55">−22.0%</text></g>
+            <text class="lbl-b" x="8" y="88">GFC · duration</text>
+            <g class="bar"><title>GFC, static duration — −34.5%</title><rect x="200" y="70" width="431" height="18" fill="#8a8474"></rect><text class="val" x="639" y="84">−34.5%</text></g>
+            <g class="bar"><title>GFC, dynamic duration — −33.6%</title><rect x="200" y="91" width="420" height="18" fill="var(--c1)"></rect><text class="val" x="628" y="105">−33.6%</text></g>
+            <text class="lbl-b" x="8" y="138">2022 · duration</text>
+            <g class="bar"><title>2022 inflation, static duration — −19.7%</title><rect x="200" y="120" width="246" height="18" fill="#8a8474"></rect><text class="val" x="454" y="134">−19.7%</text></g>
+            <g class="bar"><title>2022 inflation, dynamic duration — −17.5%</title><rect x="200" y="141" width="219" height="18" fill="var(--c1)"></rect><text class="val" x="427" y="155">−17.5%</text></g>
+            <text class="lbl-b" x="8" y="188">Whipsaw · v3.7</text>
+            <g class="bar"><title>Before λ=0.6 damping — −31.1%</title><rect x="200" y="170" width="389" height="18" fill="#8a8474"></rect><text class="val" x="597" y="184">−31.1%</text></g>
+            <g class="bar"><title>After λ=0.6 damping and growth-Contraction gate — −27.5%</title><rect x="200" y="191" width="344" height="18" fill="var(--c1)"></rect><text class="val" x="552" y="205">−27.5%</text></g>
+            <text class="ax" x="200" y="232" text-anchor="middle">0%</text><text class="ax" x="325" y="232" text-anchor="middle">−10%</text>
+            <text class="ax" x="450" y="232" text-anchor="middle">−20%</text><text class="ax" x="575" y="232" text-anchor="middle">−30%</text>
+            <text class="ax" x="700" y="232" text-anchor="middle">−40%</text>
+          </svg>
         </div>
-        <p class="note">Dynamic government duration — long in contraction, short in reflation — improved
-          <strong>both</strong> crisis types at once: GFC −34.5% → −33.6% and 2022 −19.7% → −17.5%. The v3.7
-          overlay added λ=0.6 damping and a growth-Contraction gate to kill whipsaw (−31.1% → −27.5%), and
-          survives a +2-month signal lag, 15% label noise and 30bp/side costs. Acting on the confirmed regime
-          at one-month lag is the honest optimum — each additional lag month costs roughly 0.02 Sharpe.</p>
-        <p class="note warn">Mechanical regime rotation is <strong>research-only</strong>: its frozen-rule
-          walk-forward gate failed, so it is deliberately not published as live. The overlay mechanics above
-          are validated on the prior book; re-validating them on the current taxonomy is open work, not a
-          finished claim.</p>
+        <div class="legend"><span><i style="background:#8a8474"></i>Static base</span>
+          <span><i style="background:var(--c1)"></i>With MRS overlay</span></div>
       </div>
+
+      <p class="pull">Dynamic duration improves <strong>both</strong> crisis types at once — the rare case
+        where a hedge is not a trade-off. The overlay survives a +2-month signal lag, 15% label noise and
+        30bp/side costs; acting on the confirmed regime at one-month lag is the honest optimum, since each
+        additional lag month costs roughly 0.02 Sharpe.</p>
+
+      <p class="pull warn">Mechanical regime rotation is <strong>research-only</strong>: its frozen-rule
+        walk-forward gate failed, so it is deliberately not published as live. The overlay mechanics above
+        are validated on the prior book; re-validating them on the current taxonomy is open work, not a
+        finished claim.</p>
     </article>
   </div>
 </section>
 
-<section id="infra">
+<section id="infra" class="alt">
   <div class="wrap">
-    <div class="sec-head rv"><div class="sec-k">04 · Foundation</div>
-      <h2>The construction engine</h2>
-      <p>The universe, infrastructure and governance every book above is built from — and the single-name
-         valuation work that sits inside it.</p></div>
-    <div class="grid g3">
-      <div class="card rv"><div class="cap-k">Universe</div><h3>Governed asset universe</h3>
+    <div class="sec-head rv">
+      <div class="sec-n">04</div>
+      <div class="sec-t">
+        <div class="eyebrow">Foundation</div>
+        <h2>The construction engine</h2>
+        <p>The universe, infrastructure and governance every book above is built from — and the single-name
+           valuation work that sits inside it.</p>
+      </div>
+    </div>
+    <div class="cols">
+      <div class="col rv"><div class="col-n">UNIVERSE</div><h4>Governed asset universe</h4>
         <p>The instrument registry, sleeve hierarchy and event-tagged sub-period analytics every book is
            built from — plus the beta and correlation/covariance infrastructure feeding the optimizer.</p>
-        <div class="tags"><span class="tag">Instrument registry</span><span class="tag">Sleeve hierarchy</span><span class="tag">Σ estimation</span><span class="tag">Risk decomposition</span></div></div>
-      <div class="card rv" data-d="1"><div class="cap-k">Themes</div><h3>Growth Engine</h3>
+        <div class="taglist">Instrument registry · Sleeve hierarchy · Σ estimation · Risk decomposition</div></div>
+      <div class="col rv" data-d="1"><div class="col-n">THEMES</div><h4>Growth Engine</h4>
         <p>A structural-growth framework across three methodology versions — theme rankings, scorecards,
            shadow sleeves and an integration utility grid, with GICS-baseline incrementality testing.</p>
-        <div class="tags"><span class="tag">Theme scoring</span><span class="tag">GICS baseline</span><span class="tag">Incrementality</span></div></div>
-      <div class="card rv" data-d="2"><div class="cap-k">Governance</div><h3>Investment Policy Statement</h3>
+        <div class="taglist">Theme scoring · GICS baseline · Incrementality</div></div>
+      <div class="col rv" data-d="2"><div class="col-n">GOVERNANCE</div><h4>Investment Policy Statement</h4>
         <p>A signable IPS formalizing the objective, the spending rule, the corridor and the review calendar
            — with capital market assumptions validated against 13 institutional houses.</p>
-        <div class="tags"><span class="tag">IPS v1</span><span class="tag">CMA validation</span><span class="tag">13 houses</span></div></div>
+        <div class="taglist">IPS v1 · CMA validation · 13 houses</div></div>
     </div>
-    <div class="grid g2" style="margin-top:18px">
-      <div class="card rv"><div class="cap-k">Valuation</div><h3>Single-name equity</h3>
+    <div class="cols c2">
+      <div class="col rv"><div class="col-n">VALUATION</div><h4>Single-name equity</h4>
         <p>A driver-based DCF framework — sourced evidence to scored sector drivers to a 10-year unlevered
            DCF across three valuation lanes. Built out on three names so far; depth before breadth.</p>
-        <p style="margin-top:14px"><a class="pill" href="https://github.com/ankitv25/Equity-valuation-workflow">Methodology →</a></p></div>
-      <div class="card rv" data-d="1"><div class="cap-k">Discipline</div><h3>The failures, published</h3>
+        <div class="taglist" style="margin-top:15px"><a class="lk" href="https://github.com/ankitv25/Equity-valuation-workflow">Methodology →</a></div></div>
+      <div class="col rv" data-d="1"><div class="col-n">DISCIPLINE</div><h4>The failures, published</h4>
         <p>v3.5 non-convergence · the 39%-gold greedy trap · the hindsight-machine proof · a Contraction
            regime that was mathematically unreachable. Nothing was deleted — the negative results are the
            reason to trust the positive ones.</p></div>
@@ -516,53 +553,57 @@ td.num{font-family:var(--mono);color:var(--text)}
   </div>
 </section>
 
-<section id="experience" class="tint">
+<section id="experience">
   <div class="wrap">
-    <div class="sec-head rv"><div class="sec-k">Background</div><h2>Experience</h2></div>
-    <p class="lede rv" style="margin-bottom:38px">
-      Five years at EXL developing models for <strong>Capital One, Discover and Citi</strong> set the
-      standard the platform is built to: <span class="hl">every assumption traced to a source</span>, and
-      portfolios sized around what happens in the bad state rather than the base case.
-    </p>
-    <div class="tl">
-      <div class="tl-i rv"><div class="tl-d">Nov 2020 — Present · New York</div>
-        <h3>Senior Consultant, Risk Strategy &amp; Modelling</h3>
+    <div class="sec-head rv">
+      <div class="sec-n">05</div>
+      <div class="sec-t">
+        <div class="eyebrow">Background</div>
+        <h2>Experience</h2>
+        <p>Five years at EXL developing models for Capital One, Discover and Citi set the standard the
+           platform is built to: every assumption traced to a source, and portfolios sized around what
+           happens in the bad state rather than the base case.</p>
+      </div>
+    </div>
+    <div class="tl-i rv"><div class="tl-d">Nov 2020 — Present<br>New York</div>
+      <div><h3>Senior Consultant, Risk Strategy &amp; Modelling</h3>
         <div class="tl-org">EXL · Capital One, Discover, Citi</div>
         <ul>
           <li>Led time-series default-probability model development — hazard-function, behavioral and macroeconomic variables — across three of the largest US lenders</li>
           <li>Portfolio stress testing simulating segment-level loss under adverse macro scenarios</li>
           <li>Built a Strategy Monitoring Framework integrating real-time data into loss, revenue and ROE projection</li>
         </ul>
-        <div class="metrics"><span class="metric">−25% risk exposure</span><span class="metric">−10% loss</span><span class="metric">4 performance awards</span></div></div>
-      <div class="tl-i rv"><div class="tl-d">Jan — Feb 2026 · Knoxville, TN</div>
-        <h3>Student Consultant — Equity Portfolio Review</h3>
+        <div class="metrics"><span class="metric">−25% risk exposure</span><span class="metric">−10% loss</span><span class="metric">4 performance awards</span></div></div></div>
+    <div class="tl-i rv"><div class="tl-d">Jan — Feb 2026<br>Knoxville, TN</div>
+      <div><h3>Student Consultant — Equity Portfolio Review</h3>
         <div class="tl-org">Leading Edge Financial · Wealth Management RIA · Georgetown MSF Winter Clinic</div>
         <ul><li>Six-week engagement on a $150M AUM equity portfolio, closing with an executive presentation to the sponsor team</li></ul>
-        <div class="metrics"><span class="metric">+286bps return</span><span class="metric">−241bps volatility</span><span class="metric">Sharpe 0.51 → 0.81</span><span class="metric">Beta 1.07 → 0.84</span></div></div>
-      <div class="tl-i rv"><div class="tl-d">Aug 2025 — 2027 · Washington, DC</div>
-        <h3>Master of Science in Finance</h3>
+        <div class="metrics"><span class="metric">+286bps return</span><span class="metric">−241bps volatility</span><span class="metric">Sharpe 0.51 → 0.81</span><span class="metric">Beta 1.07 → 0.84</span></div></div></div>
+    <div class="tl-i rv"><div class="tl-d">Aug 2025 — 2027<br>Washington, DC</div>
+      <div><h3>Master of Science in Finance</h3>
         <div class="tl-org">Georgetown University, McDonough School of Business</div>
-        <ul><li>GPA 3.93 / 4.00</li></ul></div>
-      <div class="tl-i rv"><div class="tl-d">Aug 2016 — Jul 2020 · Kanpur, India</div>
-        <h3>Bachelor of Technology, Materials Science &amp; Engineering</h3>
-        <div class="tl-org">Indian Institute of Technology (IIT) Kanpur</div></div>
-    </div>
-    <div class="grid g2" style="margin-top:40px">
-      <div class="card rv"><h3>Certifications</h3>
+        <ul><li>GPA 3.93 / 4.00</li></ul></div></div>
+    <div class="tl-i rv"><div class="tl-d">Aug 2016 — Jul 2020<br>Kanpur, India</div>
+      <div><h3>Bachelor of Technology, Materials Science &amp; Engineering</h3>
+        <div class="tl-org">Indian Institute of Technology (IIT) Kanpur</div></div></div>
+    <div class="cols c2">
+      <div class="col rv"><div class="col-n">CERTIFICATIONS</div>
         <p>Bloomberg Market Concepts · Financial Engineering Specialization (Columbia) ·
            Machine Learning Specialization (Stanford)</p></div>
-      <div class="card rv" data-d="1"><h3>Tools</h3>
+      <div class="col rv" data-d="1"><div class="col-n">TOOLS</div>
         <p>Python · R · SQL · Bloomberg Terminal · Morningstar · Compustat · FRED · Tableau · Advanced Excel</p></div>
     </div>
   </div>
 </section>
+
+</main>
 
 <footer class="foot" id="contact">
   <div class="wrap">
     <h2>Let's talk</h2>
     <p>I'm building toward a multi-asset research and allocation seat. Happy to walk through any layer of
        the platform — including the parts that failed.</p>
-    <div class="foot-links">
+    <div class="cta">
       <a class="btn btn-a" href="mailto:ankitv0125@gmail.com">ankitv0125@gmail.com</a>
       <a class="btn btn-b" href="https://linkedin.com/in/ankitv0125">LinkedIn</a>
       <a class="btn btn-b" href="https://github.com/ankitv25">GitHub</a>
@@ -578,13 +619,22 @@ td.num{font-family:var(--mono);color:var(--text)}
 (function(){
   var io=new IntersectionObserver(function(es){
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-  },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  },{threshold:.1,rootMargin:'0px 0px -6% 0px'});
   document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
   var p=document.getElementById('prog');
   addEventListener('scroll',function(){
     var h=document.documentElement,m=h.scrollHeight-h.clientHeight;
     p.style.width=(m>0?(h.scrollTop/m*100):0)+'%';
   },{passive:true});
+  var ln=document.getElementById('heroLine');
+  if(ln&&ln.getTotalLength&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
+    var L=ln.getTotalLength();
+    ln.style.strokeDasharray=L; ln.style.strokeDashoffset=L;
+    requestAnimationFrame(function(){
+      ln.style.transition='stroke-dashoffset 2.8s cubic-bezier(.3,.8,.4,1)';
+      ln.style.strokeDashoffset=0;
+    });
+  }
 })();
 </script>
 </body>
