@@ -10,7 +10,7 @@
 <style>
 :root{
   --paper:#f7f4ed; --paper-2:#f1ece1; --panel:#fdfcf9; --ink:#15181d; --ink-2:#3f474f;
-  --ink-3:#6b7480; --rule:#ddd6c8; --rule-2:#c9c0ae; --hair:#e8e2d6;
+  --ink-3:#5a626d; --rule:#ddd6c8; --rule-2:#c9c0ae; --hair:#e8e2d6;
   --brand:#1b3a52; --sig:#a8332a;
   --c1:#2f6f9f; --c2:#d68a13; --c3:#a8332a;
   --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
@@ -19,6 +19,9 @@
   --maxw:1200px; --gut:34px;
 }
 *{box-sizing:border-box}
+a:focus-visible,button:focus-visible,summary:focus-visible,.btn:focus-visible,.lk:focus-visible{
+  outline:2px solid var(--sig);outline-offset:3px;border-radius:1px}
+section{scroll-margin-top:78px}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
   font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -35,22 +38,42 @@ main,header,footer,nav,.band{position:relative;z-index:1}
 .rv.in{opacity:1;transform:none}
 .rv[data-d="1"]{transition-delay:.07s}.rv[data-d="2"]{transition-delay:.14s}
 .rv[data-d="3"]{transition-delay:.21s}.rv[data-d="4"]{transition-delay:.28s}
-@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}}
 
 .mast{border-bottom:1px solid var(--ink);background:var(--paper);position:sticky;top:0;z-index:80}
 .mast-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);height:62px;
-  display:flex;align-items:center;gap:30px;position:relative}
+  display:flex;align-items:center;gap:30px}
 .mast-name{font-family:var(--serif);font-size:1.32rem;font-weight:600;letter-spacing:-.015em;margin-right:auto}
 .mast-nav{display:flex;gap:26px}
-.mast-nav a{color:var(--ink-2);font-size:.73rem;letter-spacing:.13em;text-transform:uppercase;font-weight:600}
+.mast-nav a{color:var(--ink-2);font-size:.73rem;letter-spacing:.13em;text-transform:uppercase;
+  font-weight:600;padding:12px 2px;display:inline-block}
 .mast-nav a:hover{color:var(--sig);text-decoration:none}
-.prog{position:absolute;left:0;bottom:-1px;height:2px;background:var(--sig);width:0}
-@media(max-width:940px){.mast-nav{display:none}}
+.mast-nav a[aria-current]{color:var(--sig);box-shadow:inset 0 -2px 0 var(--sig)}
+.prog{position:absolute;left:0;bottom:-1px;height:2px;background:var(--sig);width:0;z-index:2}
+.menu{display:none;margin-left:auto;position:relative}
+.menu>summary{list-style:none;cursor:pointer;width:44px;height:44px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:5px;border:1px solid var(--rule-2)}
+.menu>summary::-webkit-details-marker{display:none}
+.menu>summary span{display:block;width:19px;height:1.5px;background:var(--ink)}
+.menu[open]>summary span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.menu[open]>summary span:nth-child(2){opacity:0}
+.menu[open]>summary span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.menu>summary span{transition:.18s}
+.menu-panel{position:absolute;right:0;top:52px;background:var(--panel);border:1px solid var(--ink);
+  min-width:236px;display:flex;flex-direction:column;box-shadow:0 12px 34px rgba(21,24,29,.16)}
+.menu-panel a{padding:14px 18px;font-size:.86rem;color:var(--ink);border-bottom:1px solid var(--hair)}
+.menu-panel a:last-child{border-bottom:0}
+.menu-panel a:hover{background:var(--paper-2);text-decoration:none;color:var(--sig)}
+@media(max-width:940px){.mast-nav{display:none}.menu{display:block}}
 
 .hero{padding:56px 0 0;border-bottom:1px solid var(--ink)}
 .kicker{font-family:var(--mono);font-size:.71rem;letter-spacing:.2em;text-transform:uppercase;
   color:var(--sig);margin-bottom:22px;display:flex;align-items:center;gap:14px}
-.kicker::after{content:"";flex:1;height:1px;background:var(--rule)}
+.kicker::after{content:"";flex:1;height:1px;background:var(--rule);order:2}
+.kicker .asof{order:3;color:var(--ink-3);letter-spacing:.1em;white-space:nowrap}
+.clist{margin:0;padding-left:17px;color:var(--ink-2);font-size:.89rem;line-height:1.7}
+.clist li{margin-bottom:5px}
 .hero h1{font-family:var(--serif);font-size:clamp(2.9rem,6.2vw,4.5rem);line-height:1.02;margin:0 0 8px;
   font-weight:600;letter-spacing:-.028em}
 .hero .sub{font-family:var(--serif);font-size:clamp(1.18rem,2.3vw,1.66rem);line-height:1.3;
@@ -94,16 +117,19 @@ main,header,footer,nav,.band{position:relative;z-index:1}
 .fig-k{font-size:.69rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:9px}
 @media(max-width:900px){.band-in{grid-template-columns:repeat(2,1fr)}
   .fig{padding:16px 14px!important;border-left:none!important;border-bottom:1px solid var(--rule)}}
+@media(max-width:920px){.col+.col{padding-left:0;border-left:0;border-top:1px solid var(--rule);padding-top:20px}}
+@media(max-width:760px){.m+.m{padding-left:0;border-left:0;border-top:1px solid var(--rule)}}
+@media(max-width:700px){.role+.role{padding-left:0;border-left:0;border-top:1px solid var(--rule);padding-top:16px}}
 
 section{padding:72px 0;border-bottom:1px solid var(--ink)}
 section.alt{background:var(--paper-2)}
 .sec-head{display:grid;grid-template-columns:86px 1fr;gap:26px;margin-bottom:38px;align-items:start}
 @media(max-width:700px){.sec-head{grid-template-columns:1fr;gap:12px}}
-.sec-n{font-family:var(--serif);font-size:2.8rem;line-height:.85;color:var(--rule-2);font-weight:600;
+.sec-n{font-family:var(--serif);font-size:2.8rem;line-height:.85;color:#9d937f;font-weight:600;
   border-top:2px solid var(--ink);padding-top:12px}
 .sec-t h2{font-family:var(--serif);font-size:clamp(1.7rem,3.4vw,2.3rem);margin:0 0 12px;
   font-weight:600;letter-spacing:-.024em;line-height:1.14}
-.sec-t p{color:var(--ink-2);margin:0;max-width:70ch;font-size:1rem}
+.sec-t p{color:var(--ink-2);margin:0;max-width:660px;font-size:1.02rem}
 .eyebrow{font-family:var(--mono);font-size:.69rem;letter-spacing:.18em;text-transform:uppercase;
   color:var(--sig);margin-bottom:9px}
 
@@ -112,12 +138,12 @@ section.alt{background:var(--paper-2)}
 .art-head{display:flex;flex-wrap:wrap;gap:18px;align-items:baseline;margin-bottom:10px}
 .art-head h3{font-family:var(--serif);font-size:1.48rem;margin:0;font-weight:600;letter-spacing:-.022em}
 .art-links{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
-.lk{font-size:.75rem;font-weight:650;letter-spacing:.03em;padding:6px 13px;border:1px solid var(--rule-2);
+.lk{font-size:.78rem;font-weight:650;letter-spacing:.03em;padding:10px 15px;border:1px solid var(--rule-2);
   color:var(--ink-2);white-space:nowrap;transition:.16s;display:inline-block}
 .lk:hover{border-color:var(--ink);color:var(--ink);text-decoration:none}
 .lk-live{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .lk-live:hover{background:var(--sig);border-color:var(--sig);color:var(--paper)}
-.dek{color:var(--ink-2);margin:0 0 24px;max-width:74ch;font-size:.98rem}
+.dek{color:var(--ink-2);margin:0 0 24px;max-width:660px;font-size:1.02rem}
 
 .figw{margin:26px 0 0}
 .figw .t{font-size:.93rem;font-weight:700;margin:0 0 3px}
@@ -132,15 +158,15 @@ section.alt{background:var(--paper-2)}
 .lbl{font-size:12.5px;fill:var(--ink-2);font-family:var(--sans)}
 .lbl-b{font-size:13px;fill:var(--ink);font-family:var(--sans);font-weight:700}
 .val{font-size:12.5px;font-weight:700;fill:var(--ink);font-family:var(--mono)}
-.seg{font-size:11.5px;font-weight:700;fill:#fff;font-family:var(--mono)}
+.seg{font-size:11.5px;font-weight:700;fill:#15181d;font-family:var(--mono)}
 .gl{stroke:var(--hair);stroke-width:1}
 .zl{stroke:var(--rule-2);stroke-width:1.2}
 .bar{transition:opacity .15s}.bar:hover{opacity:.78}
 .legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:13px;font-size:.82rem;color:var(--ink-2)}
 .legend i{width:10px;height:10px;display:inline-block;margin-right:7px;vertical-align:-1px}
 
-.pull{border-left:3px solid var(--sig);padding:2px 0 2px 20px;margin:26px 0 0;
-  font-family:var(--serif);font-size:1.05rem;line-height:1.6;color:var(--ink-2)}
+.pull{border-left:3px solid var(--sig);padding:4px 0 4px 22px;margin:30px 0 0;
+  font-family:var(--serif);font-size:1.28rem;line-height:1.52;color:var(--ink-2);max-width:52ch}
 .pull strong{color:var(--ink);font-weight:600}
 .pull.warn{border-left-color:var(--c2)}
 
@@ -165,7 +191,8 @@ details.tbl{margin-top:20px;border-top:1px solid var(--rule)}
 details.tbl summary{font-size:.79rem;color:var(--ink-2);cursor:pointer;user-select:none;padding:11px 0;
   letter-spacing:.05em;text-transform:uppercase;font-weight:650}
 details.tbl summary:hover,details[open] summary{color:var(--sig)}
-table{width:100%;border-collapse:collapse;margin:6px 0 16px;font-size:.86rem}
+details.tbl>table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;margin:6px 0 16px;font-size:.86rem;min-width:520px}
 th,td{text-align:right;padding:8px 11px;border-bottom:1px solid var(--hair)}
 th:first-child,td:first-child{text-align:left}
 th{color:var(--ink-3);font-weight:650;font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;
@@ -180,7 +207,7 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 .col{padding:22px 22px 24px 0}
 .col+.col{padding-left:24px;border-left:1px solid var(--rule)}
 .col-n{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;color:var(--sig);margin-bottom:10px}
-.col h4{font-family:var(--serif);margin:0 0 8px;font-size:1.1rem;font-weight:600;letter-spacing:-.015em}
+.col h4,.col .colh{font-family:var(--serif);margin:0 0 8px;font-size:1.1rem;font-weight:600;letter-spacing:-.015em}
 .col p{margin:0;font-size:.89rem;color:var(--ink-2);line-height:1.6}
 .taglist{margin-top:13px;font-size:.77rem;color:var(--ink-3);font-family:var(--mono)}
 
@@ -189,7 +216,7 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 .tl-d{font-family:var(--mono);font-size:.77rem;color:var(--ink-3);letter-spacing:.03em;padding-top:4px;line-height:1.5}
 .tl-i h3{font-family:var(--serif);margin:0 0 3px;font-size:1.18rem;font-weight:600;letter-spacing:-.018em}
 .tl-org{color:var(--sig);font-weight:650;font-size:.89rem}
-.tl-i ul{margin:12px 0 0;padding-left:18px;color:var(--ink-2);font-size:.91rem}
+.tl-i ul{margin:12px 0 0;padding-left:18px;color:var(--ink-2);font-size:.95rem;max-width:660px}
 .tl-i li{margin-bottom:5px}
 .metrics{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
 .metric{font-family:var(--mono);font-size:.78rem;font-weight:650;padding:5px 11px;
@@ -201,7 +228,7 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 .foot p{color:#b9b3a5;margin:0 0 26px;max-width:56ch;font-size:1.01rem}
 .foot .btn-a{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 .foot .btn-a:hover{background:var(--sig);color:var(--paper);border-color:var(--sig)}
-.foot .btn-b{color:var(--paper);border-color:#4a5058}
+.foot .btn-b{color:var(--paper);border-color:#767d86}
 .foot .btn-b:hover{background:var(--paper);color:var(--ink)}
 .foot-note{border-top:1px solid #333a42;padding-top:22px;margin-top:42px;font-size:.8rem;color:#8d877a;
   display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
@@ -212,17 +239,23 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 <nav class="mast">
   <div class="mast-in">
     <span class="mast-name">Ankit Verma</span>
-    <div class="mast-nav">
-      <a href="#books">Books</a><a href="#regime">Regime</a><a href="#dynamic">Dynamic</a>
-      <a href="#infra">Foundation</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
-    </div>
-    <div class="prog" id="prog"></div>
+    <nav class="mast-nav" aria-label="Sections">
+      <a href="#books">Books</a><a href="#regime">MRS</a><a href="#dynamic">DAA</a>
+      <a href="#infra">Infrastructure</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
+    </nav>
+    <details class="menu"><summary aria-label="Open section menu"><span></span><span></span><span></span></summary>
+      <nav class="menu-panel" aria-label="Sections">
+        <a href="#books">Portfolio Books</a><a href="#regime">Macro Regime Score</a>
+        <a href="#dynamic">Dynamic Allocation</a><a href="#infra">Infrastructure</a>
+        <a href="#experience">Experience</a><a href="#contact">Contact</a>
+      </nav></details>
   </div>
+  <div class="prog" id="prog"></div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <div class="kicker">Multi-asset research platform · New York</div>
+    <div class="kicker">Multi-asset research platform · New York <span class="asof">Data as of May 2026 · Books v2</span></div>
     <div class="hero-grid">
       <div>
         <h1>Ankit Verma</h1>
@@ -282,8 +315,8 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 
 <div class="band">
   <div class="band-in">
-    <div class="fig rv"><div class="fig-v">3</div><div class="fig-k">Portfolio books</div></div>
-    <div class="fig rv" data-d="1"><div class="fig-v">276</div><div class="fig-k">Months backtested</div></div>
+    <div class="fig rv"><div class="fig-v">2</div><div class="fig-k">Books built · 3-layer architecture</div></div>
+    <div class="fig rv" data-d="1"><div class="fig-v">229</div><div class="fig-k">Months, portfolio backtest</div></div>
     <div class="fig rv" data-d="2"><div class="fig-v">23</div><div class="fig-k">Validation components</div></div>
     <div class="fig rv" data-d="3"><div class="fig-v">$150M</div><div class="fig-k">AUM reviewed</div></div>
     <div class="fig rv" data-d="4"><div class="fig-v">3.93<small>/4</small></div><div class="fig-k">Georgetown MSF</div></div>
@@ -302,7 +335,7 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
         <p>Objective: perpetual capital at 4.5% annual spending with the corpus growing in real terms.
            Three books on one architecture — the goal, the goal plus hedging tools, and the dynamic layer.
            Window May 2007 – May 2026, GFC included by design; forward returns on JPMorgan 2026 long-term
-           capital market assumptions.</p>
+           capital market assumptions, benchmark on the AGG leg.</p>
       </div>
     </div>
 
@@ -347,11 +380,11 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 
       <div class="figw">
         <p class="t">One tool per named risk</p>
-        <p class="s">The SAA's hedging seats are earned against a specific risk, not allocated by convention.</p>
+        <p class="s">Each hedging seat is sized against a specific named risk. TLT's 9% is under review — the audit finds it dominated at that size, and it is an open owner decision.</p>
         <div class="roles">
-          <div class="role"><div class="rt">TLT · 9.0%</div><div class="rr">Recession / deflation counterweight</div><div class="rs">Long-duration Treasuries</div></div>
+          <div class="role"><div class="rt">TLT · 9.0%</div><div class="rr">Recession / deflation counterweight</div><div class="rs">Long-duration Treasuries · sizing under review</div></div>
           <div class="role"><div class="rt">GLD · 6.0%</div><div class="rr">Systemic-crisis store</div><div class="rs">Earned tool seat above a 3.3% base</div></div>
-          <div class="role"><div class="rt">DBC · 5.0%</div><div class="rr">Inflation-shock defense</div><div class="rs">The only asset with positive Slowdown μ</div></div>
+          <div class="role"><div class="rt">DBC · 5.0%</div><div class="rr">Inflation-shock defense</div><div class="rs">The strongest Slowdown-regime asset</div></div>
         </div>
       </div>
 
@@ -359,7 +392,7 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
         <table><thead><tr><th>Book</th><th>Fwd μ</th><th>CAGR</th><th>Vol</th><th>Sharpe</th><th>Max DD</th><th>End corpus</th></tr></thead><tbody>
           <tr><td>Endowment</td><td class="num">6.48%</td><td class="num">8.94%</td><td class="num">13.44%</td><td class="num">0.59</td><td class="num">−45.1%</td><td class="num">2.17×</td></tr>
           <tr><td>SAA</td><td class="num">6.06%</td><td class="num">8.28%</td><td class="num">11.09%</td><td class="num">0.64</td><td class="num">−35.2%</td><td class="num">1.93×</td></tr>
-          <tr><td>60/40 benchmark</td><td class="num">5.62%</td><td class="num">7.98%</td><td class="num">10.08%</td><td class="num">0.66</td><td class="num">−32.3%</td><td class="num">1.84×</td></tr>
+          <tr><td>60/40 benchmark</td><td class="num">5.94%</td><td class="num">7.98%</td><td class="num">10.08%</td><td class="num">0.66</td><td class="num">−32.3%</td><td class="num">1.84×</td></tr>
         </tbody></table></details>
 
       <details class="tbl"><summary>Full target weights</summary>
@@ -479,9 +512,9 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
          base, not to rescue a weak one.</p>
 
       <div class="mrow">
-        <div class="m"><div class="v">0.45 <span class="ar">→</span> 0.54</div><div class="k">Sharpe</div></div>
-        <div class="m"><div class="v">0.18 <span class="ar">→</span> 0.33</div><div class="k">Calmar</div></div>
-        <div class="m"><div class="v">−38% <span class="ar">→</span> −22%</div><div class="k">Max drawdown</div></div>
+        <div class="m"><div class="v">0.45 <span class="ar">→</span> 0.54</div><div class="k">Sharpe · legacy book</div></div>
+        <div class="m"><div class="v">0.18 <span class="ar">→</span> 0.33</div><div class="k">Calmar · legacy book</div></div>
+        <div class="m"><div class="v">−38% <span class="ar">→</span> −22%</div><div class="k">Max drawdown · legacy book</div></div>
         <div class="m"><div class="v">15–19%</div><div class="k">Annual turnover</div></div>
       </div>
 
@@ -496,7 +529,7 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
             <line class="gl" x1="575" y1="14" x2="575" y2="212"></line>
             <line class="gl" x1="700" y1="14" x2="700" y2="212"></line>
             <line class="zl" x1="200" y1="14" x2="200" y2="212"></line>
-            <text class="lbl-b" x="8" y="38">Walk-forward gate</text>
+            <text class="lbl-b" x="8" y="38">Gate · legacy book</text>
             <g class="bar"><title>Static base — maximum drawdown −38.0%</title><rect x="200" y="20" width="475" height="18" fill="#8a8474"></rect><text class="val" x="683" y="34">−38.0%</text></g>
             <g class="bar"><title>With MRS overlay — maximum drawdown −22.0%</title><rect x="200" y="41" width="275" height="18" fill="var(--c1)"></rect><text class="val" x="483" y="55">−22.0%</text></g>
             <text class="lbl-b" x="8" y="88">GFC · duration</text>
@@ -536,31 +569,32 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
       <div class="sec-n">04</div>
       <div class="sec-t">
         <div class="eyebrow">Foundation</div>
-        <h2>The construction engine</h2>
-        <p>The universe, infrastructure and governance every book above is built from — and the single-name
-           valuation work that sits inside it.</p>
+        <h2>Supporting research &amp; infrastructure</h2>
+        <p>The universe, estimation and governance the books are built from — and, kept separate, the two
+           research programmes that run alongside them and deliberately do not feed them.</p>
       </div>
     </div>
     <div class="cols">
-      <div class="col rv"><div class="col-n">UNIVERSE</div><h4>Governed asset universe</h4>
+      <div class="col rv"><div class="col-n">UNIVERSE</div><h3 class="colh">Asset Universe</h3>
         <p>The instrument registry, sleeve hierarchy and event-tagged sub-period analytics every book is
            built from — plus the beta and correlation/covariance infrastructure feeding the optimizer.</p>
         <div class="taglist">Instrument registry · Sleeve hierarchy · Σ estimation · Risk decomposition</div></div>
-      <div class="col rv" data-d="1"><div class="col-n">THEMES</div><h4>Growth Engine</h4>
+      <div class="col rv" data-d="1"><div class="col-n">PARALLEL PROGRAMME</div><h3 class="colh">Growth Engine</h3>
         <p>A structural-growth framework across three methodology versions — theme rankings, scorecards,
            shadow sleeves and an integration utility grid, with GICS-baseline incrementality testing.</p>
         <div class="taglist">Theme scoring · GICS baseline · Incrementality</div></div>
-      <div class="col rv" data-d="2"><div class="col-n">GOVERNANCE</div><h4>Investment Policy Statement</h4>
+      <div class="col rv" data-d="2"><div class="col-n">GOVERNANCE</div><h3 class="colh">Investment Policy Statement v1</h3>
         <p>A signable IPS formalizing the objective, the spending rule, the corridor and the review calendar
            — with capital market assumptions validated against 13 institutional houses.</p>
         <div class="taglist">IPS v1 · CMA validation · 13 houses</div></div>
     </div>
     <div class="cols c2">
-      <div class="col rv"><div class="col-n">VALUATION</div><h4>Single-name equity</h4>
-        <p>A driver-based DCF framework — sourced evidence to scored sector drivers to a 10-year unlevered
-           DCF across three valuation lanes. Built out on three names so far; depth before breadth.</p>
+      <div class="col rv"><div class="col-n">PARALLEL PROGRAMME</div><h3 class="colh">Equity Research</h3>
+        <p>A driver-based DCF framework across defence &amp; aerospace, technology and energy — sourced evidence to
+           scored sector drivers to a 10-year unlevered DCF, three valuation lanes. A peer workstream, not a
+           layer beneath the books.</p>
         <div class="taglist" style="margin-top:15px"><a class="lk" href="https://github.com/ankitv25/Equity-valuation-workflow">Methodology →</a></div></div>
-      <div class="col rv" data-d="1"><div class="col-n">DISCIPLINE</div><h4>The failures, published</h4>
+      <div class="col rv" data-d="1"><div class="col-n">DISCIPLINE</div><h3 class="colh">The failure record</h3>
         <p>v3.5 non-convergence · the 39%-gold greedy trap · the hindsight-machine proof · a Contraction
            regime that was mathematically unreachable. Nothing was deleted — the negative results are the
            reason to trust the positive ones.</p></div>
@@ -582,7 +616,7 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
     </div>
     <div class="tl-i rv"><div class="tl-d">Nov 2020 — Present<br>New York</div>
       <div><h3>Senior Consultant, Risk Strategy &amp; Modelling</h3>
-        <div class="tl-org">EXL · Capital One, Discover, Citi</div>
+        <div class="tl-org">Risk Strategy &amp; Modelling for three major US banks and card issuers — Capital One, Discover &amp; Citi (at EXL)</div>
         <ul>
           <li>Led time-series default-probability model development — hazard-function, behavioral and macroeconomic variables — across three of the largest US lenders</li>
           <li>Portfolio stress testing simulating segment-level loss under adverse macro scenarios</li>
@@ -603,8 +637,11 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
         <div class="tl-org">Indian Institute of Technology (IIT) Kanpur</div></div></div>
     <div class="cols c2">
       <div class="col rv"><div class="col-n">CERTIFICATIONS</div>
-        <p>Bloomberg Market Concepts · Financial Engineering Specialization (Columbia) ·
-           Machine Learning Specialization (Stanford)</p></div>
+        <ul class="clist">
+          <li>Bloomberg Market Concepts — Bloomberg</li>
+          <li>Financial Engineering &amp; Risk Management — Columbia University</li>
+          <li>Machine Learning Specialization — Stanford University</li>
+        </ul></div>
       <div class="col rv" data-d="1"><div class="col-n">TOOLS</div>
         <p>Python · R · SQL · Bloomberg Terminal · Morningstar · Compustat · FRED · Tableau · Advanced Excel</p></div>
     </div>
@@ -641,6 +678,19 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
     var h=document.documentElement,m=h.scrollHeight-h.clientHeight;
     p.style.width=(m>0?(h.scrollTop/m*100):0)+'%';
   },{passive:true});
+  var links=[].slice.call(document.querySelectorAll('.mast-nav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  var spy=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var i=secs.indexOf(e.target); if(i<0)return;
+      if(e.isIntersecting){links.forEach(function(l){l.removeAttribute('aria-current')});
+        links[i].setAttribute('aria-current','true');}
+    });
+  },{rootMargin:'-30% 0px -60% 0px'});
+  secs.forEach(function(s){if(s)spy.observe(s)});
+  document.querySelectorAll('.menu-panel a').forEach(function(a){
+    a.addEventListener('click',function(){document.querySelector('.menu').removeAttribute('open')});
+  });
   var ln=document.getElementById('heroLine');
   if(ln&&ln.getTotalLength&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
     var L=ln.getTotalLength();
