@@ -233,7 +233,7 @@ td.num{font-family:var(--mono);color:var(--text)}
     <span class="nav-brand">Ankit Verma<em>.</em></span>
     <div class="nav-links">
       <a href="#platform">Platform</a><a href="#books">Books</a><a href="#regime">Regime</a>
-      <a href="#dynamic">Dynamic</a><a href="#infra">Infrastructure</a><a href="#contact">Contact</a>
+      <a href="#dynamic">Dynamic</a><a href="#infra">Foundation</a><a href="#contact">Contact</a>
     </div>
     <div class="navbar-prog" id="prog"></div>
   </div>
@@ -241,7 +241,7 @@ td.num{font-family:var(--mono);color:var(--text)}
 
 <header class="hero">
   <div class="wrap hero-in">
-    <div class="badge"><span class="pulse"></span>Multi-asset allocation platform</div>
+    <div class="badge"><span class="pulse"></span>Perpetual capital · 4.5% spending · CPI+5 objective</div>
     <h1>Ankit Verma</h1>
     <p class="hero-role">Asset Allocation · <b>Multi-Asset Portfolio Construction</b> · Macro Regime Research</p>
     <div class="chain">
@@ -276,21 +276,21 @@ td.num{font-family:var(--mono);color:var(--text)}
          that argues the dynamic layer. Every component ships a methodology, a validation battery, and the
          failures that were published rather than buried.</p></div>
     <div class="chainmap">
-      <div class="cm rv"><div class="cm-n">01</div><h4>Asset allocation</h4>
-        <p>Universe, sleeve hierarchy, optimizer, risk decomposition — the construction engine.</p></div>
-      <div class="cm rv" data-d="1"><div class="cm-n">02</div><h4>The books</h4>
+      <div class="cm rv"><div class="cm-n">01</div><h4>The books</h4>
         <p>Endowment, SAA and DAA — the portfolio family as it stands today.</p></div>
-      <div class="cm rv" data-d="2"><div class="cm-n">03</div><h4>MRS &amp; regimes</h4>
+      <div class="cm rv" data-d="1"><div class="cm-n">02</div><h4>MRS &amp; regimes</h4>
         <p>The macro framework that classifies the environment the books operate in.</p></div>
-      <div class="cm rv" data-d="3"><div class="cm-n">04</div><h4>Dynamic changes</h4>
-        <p>How a regime call becomes an allocation change inside the governed corridor.</p></div>
+      <div class="cm rv" data-d="2"><div class="cm-n">03</div><h4>Dynamic changes</h4>
+        <p>How a regime call becomes an allocation change inside the tilt corridor.</p></div>
+      <div class="cm rv" data-d="3"><div class="cm-n">04</div><h4>Foundation</h4>
+        <p>Universe, sleeve hierarchy, optimizer and risk decomposition — the construction engine.</p></div>
     </div>
   </div>
 </section>
 
 <section id="books" class="tint">
   <div class="wrap">
-    <div class="sec-head rv"><div class="sec-k">01–02 · Asset allocation</div>
+    <div class="sec-head rv"><div class="sec-k">01 · Asset allocation</div>
       <h2>The portfolio books</h2>
       <p>Objective: perpetual capital at 4.5% annual spending with the corpus growing in real terms.
          Three books built on one architecture — the goal, the goal plus hedging tools, and the dynamic
@@ -303,8 +303,8 @@ td.num{font-family:var(--mono);color:var(--text)}
           <h3>Endowment · SAA · DAA</h3>
           <p>An owner-layer architecture: the Endowment is the long-term goal book with no hedging tools;
              the SAA is that goal plus one tool per named risk, bracketed against institutional practice;
-             the DAA is the SAA plus a dynamic toolkit. Single-writer engines regenerate every committed
-             number exactly.</p></div>
+             the DAA is that SAA plus a dynamic toolkit, covered in section 03. The two static books are
+             shown below; single-writer engines regenerate every committed number exactly.</p></div>
         <div class="llinks">
           <a class="pill pill-live" href="https://ankitv25.github.io/Asset-Allocation/">Live dashboard</a>
           <a class="pill" href="https://github.com/ankitv25/Asset-Allocation">Code</a></div>
@@ -376,7 +376,7 @@ td.num{font-family:var(--mono);color:var(--text)}
 
 <section id="regime">
   <div class="wrap">
-    <div class="sec-head rv"><div class="sec-k">03 · Macro framework</div>
+    <div class="sec-head rv"><div class="sec-k">02 · Macro framework</div>
       <h2>MRS &amp; regime analysis</h2>
       <p>The allocation books need to know what environment they are operating in. The Macro Regime Score
          is the framework that answers it — and the input the dynamic layer argues from.</p></div>
@@ -446,18 +446,19 @@ td.num{font-family:var(--mono);color:var(--text)}
 
 <section id="dynamic" class="tint">
   <div class="wrap">
-    <div class="sec-head rv"><div class="sec-k">04 · Allocation implications</div>
+    <div class="sec-head rv"><div class="sec-k">03 · Allocation implications</div>
       <h2>From regime to allocation</h2>
       <p>The dynamic layer. A regime model that never changes a position is a research curiosity — this is
-         where the macro call becomes an exposure change, inside a governed corridor.</p></div>
+         where the macro call becomes an exposure change, bounded by rule rather than by judgment.</p></div>
 
     <article class="layer rv">
       <div class="layer-head">
         <div><span class="lnum">DAA</span>
           <h3>The SAA base plus a dynamic toolkit</h3>
-          <p>Regime tilts argued from the MRS pillars and held inside a governed corridor, with trend and
-             cash scaling as regime tools. The purpose is to enhance an already-strong base, not to rescue
-             a weak one.</p></div>
+          <p>Regime tilts argued from the MRS pillars and held inside a <strong>tilt corridor</strong> — a
+             per-class band derived from how the regime books actually moved against the static base, so a
+             tilt can never quietly become a different portfolio. The purpose is to enhance an
+             already-strong base, not to rescue a weak one.</p></div>
       </div>
       <div class="layer-body">
         <p class="fig-t">What the overlay did on the validated base</p>
@@ -484,9 +485,10 @@ td.num{font-family:var(--mono);color:var(--text)}
 
 <section id="infra">
   <div class="wrap">
-    <div class="sec-head rv"><div class="sec-k">Supporting work</div>
-      <h2>Universe, infrastructure and valuation</h2>
-      <p>The construction layer the books are built from, and the single-name work that sits inside it.</p></div>
+    <div class="sec-head rv"><div class="sec-k">04 · Foundation</div>
+      <h2>The construction engine</h2>
+      <p>The universe, infrastructure and governance every book above is built from — and the single-name
+         valuation work that sits inside it.</p></div>
     <div class="grid g3">
       <div class="card rv"><div class="cap-k">Universe</div><h3>Governed asset universe</h3>
         <p>The instrument registry, sleeve hierarchy and event-tagged sub-period analytics every book is
@@ -507,9 +509,9 @@ td.num{font-family:var(--mono);color:var(--text)}
            DCF across three valuation lanes. Built out on three names so far; depth before breadth.</p>
         <p style="margin-top:14px"><a class="pill" href="https://github.com/ankitv25/Equity-valuation-workflow">Methodology →</a></p></div>
       <div class="card rv" data-d="1"><div class="cap-k">Discipline</div><h3>The failures, published</h3>
-        <p>A failed rotation walk-forward · v3.5 non-convergence · the 39%-gold greedy trap · the
-           hindsight-machine proof · a Contraction regime that was mathematically unreachable. Nothing was
-           deleted — the negative results are the reason to trust the positive ones.</p></div>
+        <p>v3.5 non-convergence · the 39%-gold greedy trap · the hindsight-machine proof · a Contraction
+           regime that was mathematically unreachable. Nothing was deleted — the negative results are the
+           reason to trust the positive ones.</p></div>
     </div>
   </div>
 </section>
@@ -518,11 +520,9 @@ td.num{font-family:var(--mono);color:var(--text)}
   <div class="wrap">
     <div class="sec-head rv"><div class="sec-k">Background</div><h2>Experience</h2></div>
     <p class="lede rv" style="margin-bottom:38px">
-      Alongside the platform above, a <strong>$150M equity portfolio review</strong> for a
-      <span class="hl">wealth-management RIA</span> that lifted Sharpe from 0.51 to 0.81. Five years at EXL
-      developing models for <strong>Capital One, Discover and Citi</strong> set the standard I build to:
-      every assumption traced to a source, and portfolios sized around what happens in the bad state rather
-      than the base case.
+      Five years at EXL developing models for <strong>Capital One, Discover and Citi</strong> set the
+      standard the platform is built to: <span class="hl">every assumption traced to a source</span>, and
+      portfolios sized around what happens in the bad state rather than the base case.
     </p>
     <div class="tl">
       <div class="tl-i rv"><div class="tl-d">Nov 2020 — Present · New York</div>
