@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ankit Verma — Multi-Asset Portfolio Construction &amp; Asset Allocation</title>
-<meta name="description" content="Ankit Verma — IIT Kanpur, Georgetown McDonough MSF. A multi-asset allocation platform: the Endowment, SAA and DAA portfolio books, a macro regime model, and the regime overlay connecting them.">
+<meta name="description" content="Ankit Verma — IIT Kanpur, Georgetown McDonough MSF. A multi-asset platform: five funds live since July 2026, a macro regime model that sizes the dynamic layer, and the Convexity Lab for rates and cross-asset research.">
 <meta property="og:title" content="Ankit Verma — Multi-Asset Portfolio Construction &amp; Asset Allocation">
-<meta property="og:description" content="A multi-asset allocation platform: Endowment, SAA and DAA portfolio books, a macro regime model, and the regime overlay connecting them.">
+<meta property="og:description" content="Five live multi-asset funds, a macro regime model, and the Convexity Lab for rates and cross-asset research.">
 <style>
 :root{
   --paper:#f7f4ed; --paper-2:#f1ece1; --panel:#fdfcf9; --ink:#15181d; --ink-2:#3f474f;
@@ -197,6 +197,7 @@ th,td{text-align:right;padding:8px 11px;border-bottom:1px solid var(--hair)}
 th:first-child,td:first-child{text-align:left}
 th{color:var(--ink-3);font-weight:650;font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;
   border-bottom:1px solid var(--rule-2)}
+th.tl,td.tl{text-align:left}
 td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 tbody tr:hover td{background:rgba(47,111,159,.055)}
 
@@ -214,6 +215,15 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 .tl-i{display:grid;grid-template-columns:180px 1fr;gap:28px;padding:26px 0;border-top:1px solid var(--rule)}
 @media(max-width:780px){.tl-i{grid-template-columns:1fr;gap:8px}}
 .tl-d{font-family:var(--mono);font-size:.77rem;color:var(--ink-3);letter-spacing:.03em;padding-top:4px;line-height:1.5}
+.logo{width:132px;height:58px;margin-bottom:14px;background:var(--panel);border:1px solid var(--rule);
+  display:flex;align-items:center;justify-content:center;padding:9px 12px}
+.logo img{max-width:100%;max-height:100%;display:block}
+.logo.seal{width:76px;height:76px;padding:4px}
+.logo.mono{font-family:var(--serif);font-weight:600;font-size:1.05rem;letter-spacing:.04em;color:var(--brand)}
+.clients{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;margin-top:12px}
+.clients span{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.clients img{height:22px;width:auto;display:block}
+@media(max-width:780px){.logo{margin-bottom:8px}}
 .tl-i h3{font-family:var(--serif);margin:0 0 3px;font-size:1.18rem;font-weight:600;letter-spacing:-.018em}
 .tl-org{color:var(--sig);font-weight:650;font-size:.89rem}
 .tl-i ul{margin:12px 0 0;padding-left:18px;color:var(--ink-2);font-size:.95rem;max-width:660px}
@@ -240,13 +250,13 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
   <div class="mast-in">
     <span class="mast-name">Ankit Verma</span>
     <nav class="mast-nav" aria-label="Sections">
-      <a href="#books">Books</a><a href="#regime">MRS</a><a href="#dynamic">DAA</a>
+      <a href="#funds">Funds</a><a href="#regime">MRS</a><a href="#dynamic">DAA</a><a href="#lab">Convexity Lab</a>
       <a href="#infra">Infrastructure</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
     </nav>
     <details class="menu"><summary aria-label="Open section menu"><span></span><span></span><span></span></summary>
       <nav class="menu-panel" aria-label="Sections">
-        <a href="#books">Portfolio Books</a><a href="#regime">Macro Regime Score</a>
-        <a href="#dynamic">Dynamic Allocation</a><a href="#infra">Infrastructure</a>
+        <a href="#funds">Five Funds</a><a href="#regime">Macro Regime Score</a>
+        <a href="#dynamic">Dynamic Allocation</a><a href="#lab">Convexity Lab</a><a href="#infra">Infrastructure</a>
         <a href="#experience">Experience</a><a href="#contact">Contact</a>
       </nav></details>
   </div>
@@ -255,17 +265,17 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 
 <header class="hero">
   <div class="wrap">
-    <div class="kicker">Multi-asset research platform · New York <span class="asof">Data as of May 2026 · Books v2</span></div>
+    <div class="kicker">Multi-asset research platform · New York <span class="asof">Data as of 1 Oct 2026 · Funds v6</span></div>
     <div class="hero-grid">
       <div>
         <h1>Ankit Verma</h1>
         <p class="sub">Asset allocation, portfolio construction and macro regime research.</p>
       </div>
       <div>
-        <p class="stand">A governed portfolio family for <strong>perpetual capital at 4.5% annual
-          spending</strong> — built from a defined universe, decomposed by risk, and connected to a macro
-          regime framework that argues the dynamic layer. Every component ships a methodology, a validation
-          battery, and the failures that were published rather than buried.</p>
+        <p class="stand"><strong>Five multi-asset funds, live and priced daily since 15 July 2026</strong> —
+          each built from its own sleeve set, decomposed by risk, and connected to a macro regime framework
+          that sizes the dynamic layer. Rates and cross-asset work runs in the Convexity Lab. Every component
+          ships a methodology, and the failures were published rather than buried.</p>
         <dl class="ladder">
           <dt>2016–20</dt><dd><b>IIT Kanpur</b> — B.Tech, Materials Science &amp; Engineering</dd>
           <dt>2020–</dt><dd><b>Capital One · Discover · Citi</b> — five years modelling for three of the
@@ -275,15 +285,15 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
       </div>
     </div>
     <div class="cta" style="padding-bottom:34px">
-      <a class="btn btn-a" href="#books">Read the work</a>
+      <a class="btn btn-a" href="#funds">Read the work</a>
       <a class="btn btn-b" href="mailto:ankitv0125@gmail.com">Get in touch</a>
       <a class="btn btn-b" href="https://linkedin.com/in/ankitv0125">LinkedIn</a>
       <a class="btn btn-b" href="https://github.com/ankitv25">GitHub</a>
     </div>
   </div>
   <div class="heroband">
-    <div class="cap"><span>Macro Regime Score · composite z-score</span><span>276 months · 2003 — 2026</span></div>
-<svg viewBox="0 0 1440 300" role="img" aria-label="The Macro Regime Score composite z-score from 2003 to 2026 plotted against four regime bands. It falls to minus 2.15 in December 2008 and minus 1.65 during the COVID crash — the only two excursions into the Contraction band.">
+    <div class="cap"><span>Macro Regime Score · composite z-score</span><span>279 months · Jun 2003 — Aug 2026</span></div>
+<svg viewBox="0 0 1440 300" role="img" aria-label="The Macro Regime Score composite z-score from June 2003 to August 2026 plotted against four regime bands. It falls to minus 2.15 in December 2008 and minus 1.65 during the COVID crash — the only two excursions into the Contraction band.">
             <rect x="0" y="18" width="1440" height="72.9" fill="rgba(47,111,159,.10)"></rect>
             <rect x="0" y="90.9" width="1440" height="45.2" fill="rgba(138,132,116,.10)"></rect>
             <rect x="0" y="136.1" width="1440" height="48.6" fill="rgba(214,138,19,.13)"></rect>
@@ -291,20 +301,20 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
             <line class="gl" x1="0" y1="90.9" x2="1440" y2="90.9"></line>
             <line class="gl" x1="0" y1="136.1" x2="1440" y2="136.1"></line>
             <line class="zl" x1="0" y1="184.7" x2="1440" y2="184.7"></line>
-            <polyline fill="rgba(27,58,82,.08)" stroke="none" points="0.0,282.0 0.0,79.7 4.7,55.9 9.5,67.5 14.2,65.2 18.9,55.1 23.7,61.6 28.3,59.0 33.1,54.5 37.8,55.8 42.5,61.5 47.3,46.4 52.0,52.8 56.7,60.4 61.5,53.3 66.2,66.6 70.9,58.7 75.7,48.2 80.3,54.2 85.1,49.4 89.8,53.1 94.5,51.9 99.3,56.7 104.0,55.6 108.7,74.1 113.5,66.7 118.2,62.2 122.9,70.8 127.7,85.0 132.3,92.0 137.1,89.2 141.8,92.7 146.5,71.4 151.3,73.5 156.0,68.0 160.7,75.9 165.5,94.5 170.2,115.3 174.9,111.4 179.7,117.7 184.3,109.1 189.1,93.4 193.8,84.7 198.5,82.8 203.3,81.7 208.0,90.1 212.7,94.0 217.5,82.7 222.2,87.3 226.9,84.6 231.7,89.6 236.3,127.0 241.1,137.3 245.8,124.9 250.5,159.2 255.3,175.4 260.0,172.6 264.7,176.8 269.5,194.7 274.2,181.5 278.9,158.1 283.7,165.8 288.3,183.1 293.1,191.1 297.8,204.6 302.5,248.2 307.3,257.8 312.0,264.7 316.7,261.2 321.5,255.1 326.2,252.0 330.9,229.6 335.7,192.7 340.3,171.7 345.1,159.8 349.8,145.4 354.5,139.2 359.3,127.1 364.0,129.0 368.7,125.0 373.5,114.7 378.2,123.7 382.9,109.6 387.7,91.4 392.3,101.1 397.1,111.2 401.8,103.0 406.5,113.9 411.3,111.0 416.0,107.4 420.7,105.9 425.5,93.7 430.2,94.3 434.9,95.9 439.7,98.6 444.3,90.2 449.1,93.9 453.8,101.9 458.5,105.7 463.3,131.3 468.0,140.7 472.7,122.6 477.5,121.8 482.2,118.8 486.9,104.3 491.7,97.3 496.3,92.1 501.1,94.3 505.8,111.4 510.5,111.5 515.3,106.3 520.0,106.7 524.7,102.1 529.5,96.8 534.2,97.6 538.9,96.4 543.7,88.6 548.3,94.8 553.1,94.2 557.8,94.6 562.5,98.4 567.3,103.3 572.0,96.1 576.7,93.5 581.5,93.5 586.2,88.4 590.9,89.6 595.7,84.8 600.3,90.4 605.1,97.8 609.8,93.3 614.5,81.9 619.3,77.5 624.0,76.9 628.7,71.0 633.5,82.9 638.2,84.0 642.9,85.7 647.7,91.9 652.3,98.1 657.1,96.8 661.8,94.9 666.5,98.7 671.3,91.4 676.0,99.6 680.7,102.5 685.5,104.2 690.2,120.4 694.9,129.0 699.7,123.1 704.3,124.4 709.1,126.4 713.8,130.9 718.5,133.4 723.3,119.2 728.0,109.8 732.7,114.7 737.5,116.8 742.2,101.5 746.9,99.4 751.7,101.9 756.3,101.3 761.1,100.8 765.8,93.9 770.5,88.2 775.3,92.8 780.0,89.7 784.7,89.5 789.5,92.1 794.2,91.7 798.9,84.0 803.7,92.4 808.3,95.7 813.1,82.6 817.8,88.8 822.5,86.6 827.3,82.1 832.0,96.3 836.7,99.4 841.5,92.9 846.2,97.3 850.9,97.0 855.7,92.1 860.3,94.0 865.1,90.8 869.8,98.1 874.5,108.7 879.3,125.0 884.0,113.7 888.7,110.2 893.5,108.6 898.2,101.5 902.9,107.3 907.7,106.7 912.3,96.3 917.1,108.1 921.8,105.4 926.5,102.7 931.3,104.2 936.0,97.2 940.7,102.0 945.5,115.9 950.2,220.3 954.9,229.9 959.7,211.3 964.3,195.1 969.1,138.6 973.8,107.9 978.5,108.4 983.3,115.3 988.0,124.6 992.7,123.8 997.5,115.1 1002.2,116.7 1006.9,82.0 1011.7,74.1 1016.3,85.7 1021.1,93.1 1025.8,94.6 1030.5,104.6 1035.3,109.1 1040.0,99.3 1044.7,103.1 1049.5,110.1 1054.2,119.6 1058.9,134.3 1063.7,149.6 1068.3,138.2 1073.1,144.4 1077.8,151.4 1082.5,142.5 1087.3,138.9 1092.0,147.8 1096.7,156.6 1101.5,147.4 1106.2,137.8 1110.9,128.9 1115.7,126.9 1120.3,135.0 1125.1,125.6 1129.8,134.2 1134.5,123.8 1139.3,113.7 1144.0,112.2 1148.7,104.3 1153.5,104.8 1158.2,98.7 1162.9,91.4 1167.7,94.1 1172.3,100.4 1177.1,97.0 1181.8,100.7 1186.5,92.2 1191.3,99.8 1196.0,98.4 1200.7,110.0 1205.5,101.6 1210.2,104.2 1214.9,110.1 1219.7,105.3 1224.3,100.2 1229.1,106.5 1233.8,111.5 1238.5,120.1 1243.3,111.8 1248.0,106.0 1252.7,98.9 1257.5,101.2 1262.2,98.0 1266.9,95.6 1271.7,102.4 1276.3,102.1 1281.1,98.6 1285.8,103.6 1290.5,121.1 1295.3,114.2 1300.0,111.1 1300.0,282.0"></polyline>
+            <polyline fill="rgba(27,58,82,.08)" stroke="none" points="0.0,282.0 0.0,79.9 4.7,56.1 9.4,67.7 14.0,65.4 18.7,55.3 23.4,61.8 28.1,59.2 32.7,54.6 37.4,55.7 42.1,61.5 46.8,46.4 51.4,52.9 56.1,60.5 60.8,53.4 65.5,66.7 70.1,58.8 74.8,48.3 79.5,54.3 84.2,49.5 88.8,53.2 93.5,52.0 98.2,56.8 102.9,55.8 107.6,74.3 112.2,67.0 116.9,62.4 121.6,71.0 126.3,85.3 130.9,92.3 135.6,89.5 140.3,93.0 145.0,71.7 149.6,73.7 154.3,68.3 159.0,76.3 163.7,94.9 168.3,115.8 173.0,111.9 177.7,118.1 182.4,109.5 187.1,93.8 191.7,85.1 196.4,83.2 201.1,82.0 205.8,90.3 210.4,94.2 215.1,82.9 219.8,87.7 224.5,85.0 229.1,90.1 233.8,127.9 238.5,137.2 243.2,125.4 247.8,159.2 252.5,175.4 257.2,172.6 261.9,176.7 266.5,194.7 271.2,181.5 275.9,158.2 280.6,165.8 285.3,183.2 289.9,191.1 294.6,204.6 299.3,248.2 304.0,257.8 308.6,264.7 313.3,261.3 318.0,255.1 322.7,251.9 327.3,229.4 332.0,192.5 336.7,171.5 341.4,159.7 346.0,145.2 350.7,139.0 355.4,126.9 360.1,128.8 364.7,124.8 369.4,114.4 374.1,123.5 378.8,109.4 383.5,91.1 388.1,100.7 392.8,110.9 397.5,102.6 402.2,113.6 406.8,110.7 411.5,107.1 416.2,105.5 420.9,93.3 425.5,93.9 430.2,95.5 434.9,98.3 439.6,89.8 444.2,93.5 448.9,101.5 453.6,105.3 458.3,130.9 462.9,140.2 467.6,122.0 472.3,121.3 477.0,118.2 481.7,103.8 486.3,96.8 491.0,91.6 495.7,93.8 500.4,110.9 505.0,111.0 509.7,105.8 514.4,106.3 519.1,101.7 523.7,96.5 528.4,97.3 533.1,96.1 537.8,88.3 542.4,94.5 547.1,93.9 551.8,94.2 556.5,98.1 561.2,103.0 565.8,95.8 570.5,93.3 575.2,93.3 579.9,88.1 584.5,89.4 589.2,84.6 593.9,90.2 598.6,97.6 603.2,93.1 607.9,81.7 612.6,77.3 617.3,76.7 621.9,70.8 626.6,82.7 631.3,83.8 636.0,85.5 640.6,91.7 645.3,98.0 650.0,96.7 654.7,94.8 659.4,98.5 664.0,91.3 668.7,99.5 673.4,102.4 678.1,104.1 682.7,120.3 687.4,128.8 692.1,123.0 696.8,124.3 701.4,126.4 706.1,130.8 710.8,133.3 715.5,119.0 720.1,109.7 724.8,114.5 729.5,116.7 734.2,101.4 738.8,99.3 743.5,101.8 748.2,101.2 752.9,100.6 757.6,93.8 762.2,88.1 766.9,92.7 771.6,89.6 776.3,89.3 780.9,91.9 785.6,91.6 790.3,84.0 795.0,92.4 799.6,95.6 804.3,82.5 809.0,88.8 813.7,86.6 818.3,82.0 823.0,96.2 827.7,99.4 832.4,92.8 837.1,97.2 841.7,96.9 846.4,92.0 851.1,93.9 855.8,90.8 860.4,98.0 865.1,108.6 869.8,124.9 874.5,113.6 879.1,110.1 883.8,108.5 888.5,101.4 893.2,107.2 897.8,106.6 902.5,96.2 907.2,108.1 911.9,105.3 916.5,102.6 921.2,104.1 925.9,97.1 930.6,101.9 935.3,115.9 939.9,220.3 944.6,229.9 949.3,211.3 954.0,195.0 958.6,138.6 963.3,107.8 968.0,108.3 972.7,115.2 977.3,124.5 982.0,123.7 986.7,114.8 991.4,116.3 996.0,79.3 1000.7,72.4 1005.4,85.5 1010.1,92.9 1014.7,94.4 1019.4,104.6 1024.1,109.0 1028.8,99.7 1033.5,103.5 1038.1,109.9 1042.8,120.3 1047.5,134.2 1052.2,150.3 1056.8,138.4 1061.5,145.2 1066.2,152.8 1070.9,144.6 1075.5,140.3 1080.2,149.1 1084.9,158.3 1089.6,148.9 1094.2,139.4 1098.9,128.7 1103.6,126.8 1108.3,136.2 1112.9,127.2 1117.6,136.5 1122.3,124.9 1127.0,113.3 1131.7,112.8 1136.3,104.9 1141.0,105.8 1145.7,100.1 1150.4,92.9 1155.0,95.2 1159.7,102.0 1164.4,96.6 1169.1,99.5 1173.7,91.4 1178.4,99.0 1183.1,97.7 1187.8,109.4 1192.4,101.6 1197.1,102.4 1201.8,107.3 1206.5,102.6 1211.2,99.0 1215.8,102.5 1220.5,108.5 1225.2,120.8 1229.9,112.6 1234.5,106.5 1239.2,97.9 1243.9,101.6 1248.6,98.9 1253.2,94.8 1257.9,100.7 1262.6,100.9 1267.3,96.2 1271.9,102.6 1276.6,118.3 1281.3,107.5 1286.0,104.7 1290.6,101.6 1295.3,100.5 1300.0,103.6 1300.0,282.0"></polyline>
             <polyline id="heroLine" fill="none" stroke="#1b3a52" stroke-width="2.1"
-              stroke-linejoin="round" stroke-linecap="round" points="0.0,79.7 4.7,55.9 9.5,67.5 14.2,65.2 18.9,55.1 23.7,61.6 28.3,59.0 33.1,54.5 37.8,55.8 42.5,61.5 47.3,46.4 52.0,52.8 56.7,60.4 61.5,53.3 66.2,66.6 70.9,58.7 75.7,48.2 80.3,54.2 85.1,49.4 89.8,53.1 94.5,51.9 99.3,56.7 104.0,55.6 108.7,74.1 113.5,66.7 118.2,62.2 122.9,70.8 127.7,85.0 132.3,92.0 137.1,89.2 141.8,92.7 146.5,71.4 151.3,73.5 156.0,68.0 160.7,75.9 165.5,94.5 170.2,115.3 174.9,111.4 179.7,117.7 184.3,109.1 189.1,93.4 193.8,84.7 198.5,82.8 203.3,81.7 208.0,90.1 212.7,94.0 217.5,82.7 222.2,87.3 226.9,84.6 231.7,89.6 236.3,127.0 241.1,137.3 245.8,124.9 250.5,159.2 255.3,175.4 260.0,172.6 264.7,176.8 269.5,194.7 274.2,181.5 278.9,158.1 283.7,165.8 288.3,183.1 293.1,191.1 297.8,204.6 302.5,248.2 307.3,257.8 312.0,264.7 316.7,261.2 321.5,255.1 326.2,252.0 330.9,229.6 335.7,192.7 340.3,171.7 345.1,159.8 349.8,145.4 354.5,139.2 359.3,127.1 364.0,129.0 368.7,125.0 373.5,114.7 378.2,123.7 382.9,109.6 387.7,91.4 392.3,101.1 397.1,111.2 401.8,103.0 406.5,113.9 411.3,111.0 416.0,107.4 420.7,105.9 425.5,93.7 430.2,94.3 434.9,95.9 439.7,98.6 444.3,90.2 449.1,93.9 453.8,101.9 458.5,105.7 463.3,131.3 468.0,140.7 472.7,122.6 477.5,121.8 482.2,118.8 486.9,104.3 491.7,97.3 496.3,92.1 501.1,94.3 505.8,111.4 510.5,111.5 515.3,106.3 520.0,106.7 524.7,102.1 529.5,96.8 534.2,97.6 538.9,96.4 543.7,88.6 548.3,94.8 553.1,94.2 557.8,94.6 562.5,98.4 567.3,103.3 572.0,96.1 576.7,93.5 581.5,93.5 586.2,88.4 590.9,89.6 595.7,84.8 600.3,90.4 605.1,97.8 609.8,93.3 614.5,81.9 619.3,77.5 624.0,76.9 628.7,71.0 633.5,82.9 638.2,84.0 642.9,85.7 647.7,91.9 652.3,98.1 657.1,96.8 661.8,94.9 666.5,98.7 671.3,91.4 676.0,99.6 680.7,102.5 685.5,104.2 690.2,120.4 694.9,129.0 699.7,123.1 704.3,124.4 709.1,126.4 713.8,130.9 718.5,133.4 723.3,119.2 728.0,109.8 732.7,114.7 737.5,116.8 742.2,101.5 746.9,99.4 751.7,101.9 756.3,101.3 761.1,100.8 765.8,93.9 770.5,88.2 775.3,92.8 780.0,89.7 784.7,89.5 789.5,92.1 794.2,91.7 798.9,84.0 803.7,92.4 808.3,95.7 813.1,82.6 817.8,88.8 822.5,86.6 827.3,82.1 832.0,96.3 836.7,99.4 841.5,92.9 846.2,97.3 850.9,97.0 855.7,92.1 860.3,94.0 865.1,90.8 869.8,98.1 874.5,108.7 879.3,125.0 884.0,113.7 888.7,110.2 893.5,108.6 898.2,101.5 902.9,107.3 907.7,106.7 912.3,96.3 917.1,108.1 921.8,105.4 926.5,102.7 931.3,104.2 936.0,97.2 940.7,102.0 945.5,115.9 950.2,220.3 954.9,229.9 959.7,211.3 964.3,195.1 969.1,138.6 973.8,107.9 978.5,108.4 983.3,115.3 988.0,124.6 992.7,123.8 997.5,115.1 1002.2,116.7 1006.9,82.0 1011.7,74.1 1016.3,85.7 1021.1,93.1 1025.8,94.6 1030.5,104.6 1035.3,109.1 1040.0,99.3 1044.7,103.1 1049.5,110.1 1054.2,119.6 1058.9,134.3 1063.7,149.6 1068.3,138.2 1073.1,144.4 1077.8,151.4 1082.5,142.5 1087.3,138.9 1092.0,147.8 1096.7,156.6 1101.5,147.4 1106.2,137.8 1110.9,128.9 1115.7,126.9 1120.3,135.0 1125.1,125.6 1129.8,134.2 1134.5,123.8 1139.3,113.7 1144.0,112.2 1148.7,104.3 1153.5,104.8 1158.2,98.7 1162.9,91.4 1167.7,94.1 1172.3,100.4 1177.1,97.0 1181.8,100.7 1186.5,92.2 1191.3,99.8 1196.0,98.4 1200.7,110.0 1205.5,101.6 1210.2,104.2 1214.9,110.1 1219.7,105.3 1224.3,100.2 1229.1,106.5 1233.8,111.5 1238.5,120.1 1243.3,111.8 1248.0,106.0 1252.7,98.9 1257.5,101.2 1262.2,98.0 1266.9,95.6 1271.7,102.4 1276.3,102.1 1281.1,98.6 1285.8,103.6 1290.5,121.1 1295.3,114.2 1300.0,111.1"></polyline>
-            <line x1="1300" y1="111.1" x2="1318" y2="111.1" stroke="#a8332a" stroke-width="1.2" stroke-dasharray="3 3"></line>
-            <circle cx="1300" cy="111.1" r="4.5" fill="#a8332a" stroke="#fdfcf9" stroke-width="1.8"></circle>
-            <text class="endlbl" x="1428" y="100.1" text-anchor="end">MAY 2026 · NEUTRAL</text>
-            <text class="endval" x="1428" y="118.1" text-anchor="end">+0.06 z</text>
+              stroke-linejoin="round" stroke-linecap="round" points="0.0,79.9 4.7,56.1 9.4,67.7 14.0,65.4 18.7,55.3 23.4,61.8 28.1,59.2 32.7,54.6 37.4,55.7 42.1,61.5 46.8,46.4 51.4,52.9 56.1,60.5 60.8,53.4 65.5,66.7 70.1,58.8 74.8,48.3 79.5,54.3 84.2,49.5 88.8,53.2 93.5,52.0 98.2,56.8 102.9,55.8 107.6,74.3 112.2,67.0 116.9,62.4 121.6,71.0 126.3,85.3 130.9,92.3 135.6,89.5 140.3,93.0 145.0,71.7 149.6,73.7 154.3,68.3 159.0,76.3 163.7,94.9 168.3,115.8 173.0,111.9 177.7,118.1 182.4,109.5 187.1,93.8 191.7,85.1 196.4,83.2 201.1,82.0 205.8,90.3 210.4,94.2 215.1,82.9 219.8,87.7 224.5,85.0 229.1,90.1 233.8,127.9 238.5,137.2 243.2,125.4 247.8,159.2 252.5,175.4 257.2,172.6 261.9,176.7 266.5,194.7 271.2,181.5 275.9,158.2 280.6,165.8 285.3,183.2 289.9,191.1 294.6,204.6 299.3,248.2 304.0,257.8 308.6,264.7 313.3,261.3 318.0,255.1 322.7,251.9 327.3,229.4 332.0,192.5 336.7,171.5 341.4,159.7 346.0,145.2 350.7,139.0 355.4,126.9 360.1,128.8 364.7,124.8 369.4,114.4 374.1,123.5 378.8,109.4 383.5,91.1 388.1,100.7 392.8,110.9 397.5,102.6 402.2,113.6 406.8,110.7 411.5,107.1 416.2,105.5 420.9,93.3 425.5,93.9 430.2,95.5 434.9,98.3 439.6,89.8 444.2,93.5 448.9,101.5 453.6,105.3 458.3,130.9 462.9,140.2 467.6,122.0 472.3,121.3 477.0,118.2 481.7,103.8 486.3,96.8 491.0,91.6 495.7,93.8 500.4,110.9 505.0,111.0 509.7,105.8 514.4,106.3 519.1,101.7 523.7,96.5 528.4,97.3 533.1,96.1 537.8,88.3 542.4,94.5 547.1,93.9 551.8,94.2 556.5,98.1 561.2,103.0 565.8,95.8 570.5,93.3 575.2,93.3 579.9,88.1 584.5,89.4 589.2,84.6 593.9,90.2 598.6,97.6 603.2,93.1 607.9,81.7 612.6,77.3 617.3,76.7 621.9,70.8 626.6,82.7 631.3,83.8 636.0,85.5 640.6,91.7 645.3,98.0 650.0,96.7 654.7,94.8 659.4,98.5 664.0,91.3 668.7,99.5 673.4,102.4 678.1,104.1 682.7,120.3 687.4,128.8 692.1,123.0 696.8,124.3 701.4,126.4 706.1,130.8 710.8,133.3 715.5,119.0 720.1,109.7 724.8,114.5 729.5,116.7 734.2,101.4 738.8,99.3 743.5,101.8 748.2,101.2 752.9,100.6 757.6,93.8 762.2,88.1 766.9,92.7 771.6,89.6 776.3,89.3 780.9,91.9 785.6,91.6 790.3,84.0 795.0,92.4 799.6,95.6 804.3,82.5 809.0,88.8 813.7,86.6 818.3,82.0 823.0,96.2 827.7,99.4 832.4,92.8 837.1,97.2 841.7,96.9 846.4,92.0 851.1,93.9 855.8,90.8 860.4,98.0 865.1,108.6 869.8,124.9 874.5,113.6 879.1,110.1 883.8,108.5 888.5,101.4 893.2,107.2 897.8,106.6 902.5,96.2 907.2,108.1 911.9,105.3 916.5,102.6 921.2,104.1 925.9,97.1 930.6,101.9 935.3,115.9 939.9,220.3 944.6,229.9 949.3,211.3 954.0,195.0 958.6,138.6 963.3,107.8 968.0,108.3 972.7,115.2 977.3,124.5 982.0,123.7 986.7,114.8 991.4,116.3 996.0,79.3 1000.7,72.4 1005.4,85.5 1010.1,92.9 1014.7,94.4 1019.4,104.6 1024.1,109.0 1028.8,99.7 1033.5,103.5 1038.1,109.9 1042.8,120.3 1047.5,134.2 1052.2,150.3 1056.8,138.4 1061.5,145.2 1066.2,152.8 1070.9,144.6 1075.5,140.3 1080.2,149.1 1084.9,158.3 1089.6,148.9 1094.2,139.4 1098.9,128.7 1103.6,126.8 1108.3,136.2 1112.9,127.2 1117.6,136.5 1122.3,124.9 1127.0,113.3 1131.7,112.8 1136.3,104.9 1141.0,105.8 1145.7,100.1 1150.4,92.9 1155.0,95.2 1159.7,102.0 1164.4,96.6 1169.1,99.5 1173.7,91.4 1178.4,99.0 1183.1,97.7 1187.8,109.4 1192.4,101.6 1197.1,102.4 1201.8,107.3 1206.5,102.6 1211.2,99.0 1215.8,102.5 1220.5,108.5 1225.2,120.8 1229.9,112.6 1234.5,106.5 1239.2,97.9 1243.9,101.6 1248.6,98.9 1253.2,94.8 1257.9,100.7 1262.6,100.9 1267.3,96.2 1271.9,102.6 1276.6,118.3 1281.3,107.5 1286.0,104.7 1290.6,101.6 1295.3,100.5 1300.0,103.6"></polyline>
+            <line x1="1300" y1="103.6" x2="1318" y2="103.6" stroke="#a8332a" stroke-width="1.2" stroke-dasharray="3 3"></line>
+            <circle cx="1300" cy="103.6" r="4.5" fill="#a8332a" stroke="#fdfcf9" stroke-width="1.8"></circle>
+            <text class="endlbl" x="1428" y="92.6" text-anchor="end">AUG 2026 · NEUTRAL</text>
+            <text class="endval" x="1428" y="110.6" text-anchor="end">+0.17 z</text>
             <text class="bandlbl" x="16" y="37">EXPANSION</text><text class="bandlbl" x="16" y="109">NEUTRAL</text>
             <text class="bandlbl" x="16" y="154">SLOWDOWN</text><text class="bandlbl" x="16" y="203">CONTRACTION</text>
-            <text class="yr" x="260" y="296" text-anchor="middle">2008</text>
-            <text class="yr" x="486" y="296" text-anchor="middle">2012</text>
-            <text class="yr" x="714" y="296" text-anchor="middle">2016</text>
-            <text class="yr" x="940" y="296" text-anchor="middle">2020</text>
-            <text class="yr" x="1167" y="296" text-anchor="middle">2024</text>
+            <text class="yr" x="257" y="296" text-anchor="middle">2008</text>
+            <text class="yr" x="482" y="296" text-anchor="middle">2012</text>
+            <text class="yr" x="706" y="296" text-anchor="middle">2016</text>
+            <text class="yr" x="931" y="296" text-anchor="middle">2020</text>
+            <text class="yr" x="1155" y="296" text-anchor="middle">2024</text>
             <text class="yr" x="1300" y="296" text-anchor="middle">2026</text>
           </svg>
     <div class="bfoot">Two contractions in twenty-three years — the GFC at <strong>−2.15</strong> and COVID at
@@ -315,9 +325,9 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 
 <div class="band">
   <div class="band-in">
-    <div class="fig rv"><div class="fig-v">2</div><div class="fig-k">Books built · 3-layer architecture</div></div>
-    <div class="fig rv" data-d="1"><div class="fig-v">229</div><div class="fig-k">Months, portfolio backtest</div></div>
-    <div class="fig rv" data-d="2"><div class="fig-v">23</div><div class="fig-k">Validation components</div></div>
+    <div class="fig rv"><div class="fig-v">5</div><div class="fig-k">Funds live · since 15 Jul 2026</div></div>
+    <div class="fig rv" data-d="1"><div class="fig-v">351</div><div class="fig-k">Months, fund backtest 1997–2026</div></div>
+    <div class="fig rv" data-d="2"><div class="fig-v">279</div><div class="fig-k">Months of MRS history</div></div>
     <div class="fig rv" data-d="3"><div class="fig-v">$150M</div><div class="fig-k">AUM reviewed</div></div>
     <div class="fig rv" data-d="4"><div class="fig-v">3.93<small>/4</small></div><div class="fig-k">Georgetown MSF</div></div>
   </div>
@@ -325,94 +335,113 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 
 <main>
 
-<section id="books">
+<section id="funds">
   <div class="wrap">
     <div class="sec-head rv">
       <div class="sec-n">01</div>
       <div class="sec-t">
         <div class="eyebrow">Asset allocation</div>
-        <h2>The portfolio books</h2>
-        <p>Objective: perpetual capital at 4.5% annual spending with the corpus growing in real terms.
-           Three books on one architecture — the goal, the goal plus hedging tools, and the dynamic layer.
-           Window May 2007 – May 2026, GFC included by design; forward returns on JPMorgan 2026 long-term
-           capital market assumptions, benchmark on the AGG leg.</p>
+        <h2>Five funds, live since 15 July 2026</h2>
+        <p>Certain · Endowment · SAA · DAA · Alpha. Each fund declares its own sleeve set, its own construction
+           constraints and a real index benchmark. All five launched at NAV 100.00 and are priced daily from
+           dividend-adjusted closes, net of a 15bp annual fee and 10bp per side.</p>
       </div>
     </div>
 
     <article class="art rv">
       <div class="art-head">
-        <h3>Endowment · SAA · DAA</h3>
+        <h3>Certain · Endowment · SAA · DAA · Alpha</h3>
         <div class="art-links">
           <a class="lk lk-live" href="https://ankitv25.github.io/Asset-Allocation/">Live dashboard</a>
+          <a class="lk" href="https://ankitv25.github.io/Asset-Allocation/live.html">Live NAV</a>
           <a class="lk" href="https://github.com/ankitv25/Asset-Allocation">Code</a></div>
       </div>
-      <p class="dek">An owner-layer architecture: the Endowment is the long-term goal book with no hedging
-         tools; the SAA is that goal plus one tool per named risk, bracketed against institutional practice;
-         the DAA is that SAA plus a dynamic toolkit, covered in section 03. The two static books are shown
-         below — single-writer engines regenerate every committed number exactly.</p>
+      <p class="dek">Five funds that differ only by an equity/bond dial are not five funds. Here, a holding a fund
+         does not believe in is bounded to zero rather than left for the optimiser to discover — Certain holds
+         T-bills, TIPS and Swiss francs; Endowment is built around real assets; SAA is the lean policy
+         portfolio; DAA runs that policy actively; Alpha takes equity-level risk on its own ~14% volatility budget.
+         Eleven dashboard pages render any of the five, from construction to stress and Monte Carlo.</p>
 
       <div class="figw">
-        <p class="t">Composition by role</p>
-        <p class="s">Current book weights. The Endowment carries growth; the SAA converts part of it into named hedges.</p>
+        <p class="t">The live record, NAV per unit</p>
+        <p class="s">Daily, 15 Jul – 1 Oct 2026. Fifty-six trading days is a short sample — read it as a record,
+           not a verdict on skill.</p>
         <div class="chart">
-          <svg viewBox="0 0 800 178" role="img" aria-label="Stacked bar chart of book composition. Endowment: equities 78.7 percent, real assets 7.8 percent, balance 13.5 percent. SAA: equities 59.8 percent, real assets 17.7 percent, balance 22.5 percent.">
-            <line class="gl" x1="300" y1="24" x2="300" y2="132"></line>
-            <line class="gl" x1="450" y1="24" x2="450" y2="132"></line>
-            <line class="gl" x1="600" y1="24" x2="600" y2="132"></line>
-            <line class="zl" x1="150" y1="24" x2="150" y2="132"></line>
-            <text class="lbl-b" x="8" y="52">Endowment</text>
-            <g class="bar"><title>Endowment — Equities 78.69%</title><rect x="150" y="36" width="470.1" height="30" fill="var(--c1)"></rect><text class="seg" x="163" y="55">78.7%</text></g>
-            <g class="bar"><title>Endowment — Real assets 7.81%</title><rect x="622.1" y="36" width="44.9" height="30" fill="var(--c2)"></rect></g>
-            <g class="bar"><title>Endowment — Balance / spending reserve 13.50%</title><rect x="669" y="36" width="79" height="30" fill="var(--c3)"></rect></g>
-            <text class="lbl-b" x="8" y="106">SAA</text>
-            <g class="bar"><title>SAA — Equities 59.76%</title><rect x="150" y="90" width="356.6" height="30" fill="var(--c1)"></rect><text class="seg" x="163" y="109">59.8%</text></g>
-            <g class="bar"><title>SAA — Real assets 17.74%</title><rect x="508.6" y="90" width="104.4" height="30" fill="var(--c2)"></rect><text class="seg" x="521" y="109">17.7%</text></g>
-            <g class="bar"><title>SAA — Balance / spending reserve 22.50%</title><rect x="615" y="90" width="133" height="30" fill="var(--c3)"></rect><text class="seg" x="628" y="109">22.5%</text></g>
-            <text class="ax" x="150" y="152" text-anchor="middle">0%</text><text class="ax" x="300" y="152" text-anchor="middle">25%</text>
-            <text class="ax" x="450" y="152" text-anchor="middle">50%</text><text class="ax" x="600" y="152" text-anchor="middle">75%</text>
-            <text class="ax" x="750" y="152" text-anchor="middle">100%</text>
-          </svg>
-        </div>
-        <div class="legend"><span><i style="background:var(--c1)"></i>Equities</span>
-          <span><i style="background:var(--c2)"></i>Real assets</span>
-          <span><i style="background:var(--c3)"></i>Balance / spending reserve</span></div>
-      </div>
-
-      <div class="figw">
-        <p class="t">One tool per named risk</p>
-        <p class="s">Each hedging seat is sized against a specific named risk. TLT's 9% is under review — the audit finds it dominated at that size, and it is an open owner decision.</p>
-        <div class="roles">
-          <div class="role"><div class="rt">TLT · 9.0%</div><div class="rr">Recession / deflation counterweight</div><div class="rs">Long-duration Treasuries · sizing under review</div></div>
-          <div class="role"><div class="rt">GLD · 6.0%</div><div class="rr">Systemic-crisis store</div><div class="rs">Earned tool seat above a 3.3% base</div></div>
-          <div class="role"><div class="rt">DBC · 5.0%</div><div class="rr">Inflation-shock defense</div><div class="rs">The strongest Slowdown-regime asset</div></div>
+<svg viewBox="0 0 800 270" role="img" aria-label="Daily NAV of the five funds from launch at 100 on 15 July 2026 to 1 October 2026. Alpha -1.37 percent, DAA +0.49, SAA +0.06, Certain −0.62, Endowment −1.37 percent since launch.">
+<line class="gl" x1="46" y1="236.0" x2="640" y2="236.0"></line><text class="ax" x="38" y="240.0" text-anchor="end">96</text>
+<line class="gl" x1="46" y1="180.5" x2="640" y2="180.5"></line><text class="ax" x="38" y="184.5" text-anchor="end">98</text>
+<line class="zl" x1="46" y1="125.0" x2="640" y2="125.0"></line><text class="ax" x="38" y="129.0" text-anchor="end">100</text>
+<line class="gl" x1="46" y1="69.5" x2="640" y2="69.5"></line><text class="ax" x="38" y="73.5" text-anchor="end">102</text>
+<line class="gl" x1="46" y1="14.0" x2="640" y2="14.0"></line><text class="ax" x="38" y="18.0" text-anchor="end">104</text>
+<text class="ax" x="46.0" y="256" text-anchor="middle">15 Jul</text>
+<text class="ax" x="186.4" y="256" text-anchor="middle">3 Aug</text>
+<text class="ax" x="413.2" y="256" text-anchor="middle">1 Sep</text>
+<text class="ax" x="640.0" y="256" text-anchor="middle">1 Oct</text>
+<polyline fill="none" stroke="#0891b2" stroke-width="2" stroke-linejoin="round" points="46.0,127.8 56.8,136.3 67.6,133.4 78.4,136.8 89.2,130.1 100.0,129.0 110.8,138.9 121.6,136.9 132.4,138.1 143.2,139.2 154.0,140.5 164.8,130.4 175.6,134.2 186.4,130.7 197.2,121.7 208.0,112.9 218.8,114.3 229.6,104.1 240.4,101.9 251.2,102.5 262.0,98.0 272.8,97.3 283.6,97.5 294.4,97.1 305.2,102.4 316.0,87.5 326.8,90.3 337.6,86.2 348.4,84.9 359.2,79.4 370.0,85.2 380.8,82.4 391.6,95.5 402.4,96.1 413.2,104.8 424.0,99.5 434.8,90.0 445.6,93.7 456.4,98.3 467.2,100.1 478.0,110.3 488.8,110.8 499.6,116.3 510.4,116.0 521.2,122.8 532.0,111.1 542.8,115.1 553.6,108.5 564.4,107.5 575.2,123.2 586.0,128.4 596.8,123.8 607.6,140.2 618.4,140.7 629.2,142.7 640.0,142.3"><title>Certain — NAV 99.38 on 1 Oct 2026 (-0.62% since launch)</title></polyline>
+<circle cx="640" cy="142.3" r="3.5" fill="#0891b2"></circle>
+<polyline fill="none" stroke="#92400e" stroke-width="2" stroke-linejoin="round" points="46.0,127.8 56.8,137.8 67.6,140.9 78.4,146.8 89.2,133.1 100.0,130.2 110.8,147.3 121.6,143.6 132.4,144.5 143.2,146.2 154.0,161.9 164.8,142.5 175.6,144.8 186.4,134.9 197.2,115.8 208.0,107.8 218.8,111.0 229.6,97.0 240.4,97.2 251.2,99.8 262.0,92.3 272.8,87.9 283.6,90.7 294.4,94.4 305.2,104.4 316.0,82.3 326.8,89.8 337.6,83.8 348.4,82.5 359.2,71.7 370.0,76.3 380.8,73.3 391.6,88.5 402.4,92.4 413.2,104.7 424.0,97.6 434.8,82.0 445.6,85.8 456.4,92.8 467.2,100.0 478.0,118.8 488.8,112.2 499.6,123.5 510.4,127.5 521.2,135.2 532.0,113.0 542.8,118.9 553.6,101.0 564.4,100.6 575.2,127.1 586.0,135.8 596.8,130.0 607.6,153.2 618.4,157.1 629.2,163.5 640.0,163.1"><title>Endowment — NAV 98.63 on 1 Oct 2026 (-1.37% since launch)</title></polyline>
+<circle cx="640" cy="163.1" r="3.5" fill="#92400e"></circle>
+<polyline fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linejoin="round" points="46.0,127.8 56.8,143.1 67.6,152.7 78.4,157.9 89.2,137.1 100.0,136.1 110.8,157.4 121.6,156.5 132.4,152.6 143.2,155.5 154.0,179.7 164.8,154.2 175.6,152.5 186.4,137.9 197.2,109.4 208.0,100.6 218.8,102.6 229.6,86.2 240.4,83.5 251.2,87.0 262.0,79.0 272.8,73.8 283.6,78.5 294.4,81.2 305.2,97.5 316.0,78.4 326.8,87.9 337.6,76.4 348.4,77.6 359.2,67.0 370.0,71.4 380.8,62.6 391.6,73.9 402.4,80.3 413.2,92.7 424.0,84.0 434.8,67.1 445.6,70.2 456.4,83.4 467.2,90.4 478.0,106.2 488.8,93.7 499.6,105.2 510.4,109.2 521.2,115.8 532.0,91.0 542.8,92.7 553.6,69.7 564.4,69.8 575.2,91.7 586.0,98.0 596.8,92.4 607.6,115.3 618.4,120.0 629.2,126.2 640.0,123.2"><title>SAA — NAV 100.06 on 1 Oct 2026 (+0.06% since launch)</title></polyline>
+<circle cx="640" cy="123.2" r="3.5" fill="#8b5cf6"></circle>
+<polyline fill="none" stroke="#86198f" stroke-width="2" stroke-linejoin="round" points="46.0,127.8 56.8,144.8 67.6,155.0 78.4,159.4 89.2,136.1 100.0,134.1 110.8,156.0 121.6,155.6 132.4,152.5 143.2,157.3 154.0,180.1 164.8,152.7 175.6,150.4 186.4,136.2 197.2,107.5 208.0,97.8 218.8,98.7 229.6,81.3 240.4,76.7 251.2,80.5 262.0,71.7 272.8,67.8 283.6,71.8 294.4,73.1 305.2,91.1 316.0,72.1 326.8,80.5 337.6,67.3 348.4,69.7 359.2,59.9 370.0,64.4 380.8,54.7 391.6,66.4 402.4,72.4 413.2,84.7 424.0,75.5 434.8,57.8 445.6,61.0 456.4,74.6 467.2,81.2 478.0,96.4 488.8,83.2 499.6,95.8 510.4,99.4 521.2,106.7 532.0,81.7 542.8,82.7 553.6,59.3 564.4,59.3 575.2,80.7 586.0,85.7 596.8,80.3 607.6,103.9 618.4,108.6 629.2,114.6 640.0,111.3"><title>DAA — NAV 100.49 on 1 Oct 2026 (+0.49% since launch)</title></polyline>
+<circle cx="640" cy="111.3" r="3.5" fill="#86198f"></circle>
+<polyline fill="none" stroke="#d97706" stroke-width="2" stroke-linejoin="round" points="46.0,127.8 56.8,147.5 67.6,169.2 78.4,172.2 89.2,142.8 100.0,141.6 110.8,172.6 121.6,172.6 132.4,169.3 143.2,173.3 154.0,203.3 164.8,161.1 175.6,149.8 186.4,123.1 197.2,82.1 208.0,76.9 218.8,78.3 229.6,56.3 240.4,51.8 251.2,59.1 262.0,48.5 272.8,40.8 283.6,44.4 294.4,47.9 305.2,72.2 316.0,57.2 326.8,71.0 337.6,53.9 348.4,61.5 359.2,51.7 370.0,55.3 380.8,39.5 391.6,53.0 402.4,60.5 413.2,77.5 424.0,65.1 434.8,38.7 445.6,44.8 456.4,61.4 467.2,71.2 478.0,90.2 488.8,70.3 499.6,87.4 510.4,96.1 521.2,106.5 532.0,76.4 542.8,73.9 553.6,38.9 564.4,38.0 575.2,62.1 586.0,64.5 596.8,53.1 607.6,80.2 618.4,83.2 629.2,90.3 640.0,86.2"><title>Alpha — NAV 101.40 on 1 Oct 2026 (+1.40% since launch)</title></polyline>
+<circle cx="640" cy="86.2" r="3.5" fill="#d97706"></circle>
+<rect x="652" y="81.2" width="10" height="10" fill="#d97706"></rect><text class="lbl-b" x="668" y="90.7">Alpha</text><text class="val" x="794" y="90.7" text-anchor="end">+1.40%</text>
+<rect x="652" y="106.3" width="10" height="10" fill="#86198f"></rect><text class="lbl-b" x="668" y="115.8">DAA</text><text class="val" x="794" y="115.8" text-anchor="end">+0.49%</text>
+<rect x="652" y="125.3" width="10" height="10" fill="#8b5cf6"></rect><text class="lbl-b" x="668" y="134.8">SAA</text><text class="val" x="794" y="134.8" text-anchor="end">+0.06%</text>
+<rect x="652" y="144.3" width="10" height="10" fill="#0891b2"></rect><text class="lbl-b" x="668" y="153.8">Certain</text><text class="val" x="794" y="153.8" text-anchor="end">-0.62%</text>
+<rect x="652" y="163.3" width="10" height="10" fill="#92400e"></rect><text class="lbl-b" x="668" y="172.8">Endowment</text><text class="val" x="794" y="172.8" text-anchor="end">-1.37%</text>
+</svg>
         </div>
       </div>
 
-      <details class="tbl"><summary>Book characteristics</summary>
-        <table><thead><tr><th>Book</th><th>Fwd μ</th><th>CAGR</th><th>Vol</th><th>Sharpe</th><th>Max DD</th><th>End corpus</th></tr></thead><tbody>
-          <tr><td>Endowment</td><td class="num">6.48%</td><td class="num">8.94%</td><td class="num">13.44%</td><td class="num">0.59</td><td class="num">−45.1%</td><td class="num">2.17×</td></tr>
-          <tr><td>SAA</td><td class="num">6.06%</td><td class="num">8.28%</td><td class="num">11.09%</td><td class="num">0.64</td><td class="num">−35.2%</td><td class="num">1.93×</td></tr>
-          <tr><td>60/40 benchmark</td><td class="num">5.94%</td><td class="num">7.98%</td><td class="num">10.08%</td><td class="num">0.66</td><td class="num">−32.3%</td><td class="num">1.84×</td></tr>
-        </tbody></table></details>
+      <div style="overflow-x:auto;margin-top:22px"><table><thead><tr><th>Fund</th><th class="tl">Horizon</th><th class="tl">Role</th><th class="tl">Reference</th><th>Fund return</th><th>Reference return</th></tr></thead><tbody>
+        <tr><td>Certain</td><td class="tl">3+ yrs</td><td class="tl">Capital preservation — purchasing power first</td><td class="tl">ACWI 40 / Agg 60</td><td class="num">−0.62%</td><td class="num">−1.56%</td></tr>
+        <tr><td>Endowment</td><td class="tl">10+ yrs</td><td class="tl">Long-horizon real-asset tier</td><td class="tl">ACWI 60 / Agg 40</td><td class="num">−1.37%</td><td class="num">−0.78%</td></tr>
+        <tr><td>SAA</td><td class="tl">20+ yrs</td><td class="tl">House policy portfolio — the strategic anchor</td><td class="tl">ACWI 80 / Agg 20</td><td class="num">+0.06%</td><td class="num">0.00%</td></tr>
+        <tr><td>DAA</td><td class="tl">20+ yrs</td><td class="tl">The policy portfolio, run actively</td><td class="tl">ACWI 80 / Agg 20</td><td class="num">+0.49%</td><td class="num">0.00%</td></tr>
+        <tr><td>Alpha</td><td class="tl">10+ yrs</td><td class="tl">Equity-level risk, run actively</td><td class="tl">S&amp;P 500</td><td class="num">+1.40%</td><td class="num">+1.47%</td></tr>
+      </tbody></table></div>
 
-      <details class="tbl"><summary>Full target weights</summary>
-        <table><thead><tr><th>Position</th><th>Endowment</th><th>SAA</th><th>Role</th></tr></thead><tbody>
-          <tr><td>SPY</td><td class="num">64.2%</td><td class="num">48.8%</td><td>US equity core</td></tr>
-          <tr><td>EFA</td><td class="num">10.6%</td><td class="num">8.0%</td><td>Developed international, half market weight</td></tr>
-          <tr><td>EEM</td><td class="num">3.9%</td><td class="num">3.0%</td><td>Emerging markets</td></tr>
-          <tr><td>VNQ</td><td class="num">4.5%</td><td class="num">3.4%</td><td>Income-producing real asset</td></tr>
-          <tr><td>GLD</td><td class="num">3.3%</td><td class="num">9.3%</td><td>Systemic-crisis store</td></tr>
-          <tr><td>TLT</td><td class="num">—</td><td class="num">9.0%</td><td>Recession counterweight</td></tr>
-          <tr><td>DBC</td><td class="num">—</td><td class="num">5.0%</td><td>Inflation-shock defense</td></tr>
-          <tr><td>SHY / IEF / TIP</td><td class="num">3.8% ea</td><td class="num">3.8% ea</td><td>Spending reserve — 3 years × 4.5%, evidence-sized</td></tr>
-          <tr><td>Cash</td><td class="num">2.0%</td><td class="num">2.0%</td><td>Reserve completion</td></tr>
+      <details class="tbl"><summary>Backtest of today's weights, 1997 – 2026</summary>
+        <table><thead><tr><th>Fund</th><th>CAGR</th><th>Vol</th><th>Sharpe</th><th>Worst loss</th></tr></thead><tbody>
+          <tr><td>Certain</td><td class="num">4.94%</td><td class="num">4.1%</td><td class="num">0.67</td><td class="num">−10.0%</td></tr>
+          <tr><td>Endowment</td><td class="num">7.28%</td><td class="num">8.1%</td><td class="num">0.64</td><td class="num">−24.3%</td></tr>
+          <tr><td>SAA</td><td class="num">7.81%</td><td class="num">8.8%</td><td class="num">0.65</td><td class="num">−25.5%</td></tr>
+          <tr><td>DAA</td><td class="num">8.09%</td><td class="num">8.3%</td><td class="num">0.72</td><td class="num">−20.8%</td></tr>
+          <tr><td>Alpha</td><td class="num">9.34%</td><td class="num">13.5%</td><td class="num">0.57</td><td class="num">−44.0%</td></tr>
+          <tr><td>ACWI 40 / Agg 60</td><td class="num">6.04%</td><td class="num">7.3%</td><td class="num">0.54</td><td class="num">−23.6%</td></tr>
+          <tr><td>ACWI 60 / Agg 40</td><td class="num">6.94%</td><td class="num">10.0%</td><td class="num">0.50</td><td class="num">−35.6%</td></tr>
+          <tr><td>ACWI 80 / Agg 20</td><td class="num">7.73%</td><td class="num">13.0%</td><td class="num">0.47</td><td class="num">−46.1%</td></tr>
+          <tr><td>S&amp;P 500</td><td class="num">9.69%</td><td class="num">15.4%</td><td class="num">0.54</td><td class="num">−50.8%</td></tr>
         </tbody></table>
-        <p class="s">High yield = 0 and trend = 0 are <em>demonstrated</em> by marginal contribution tables, not decreed.</p></details>
+        <p class="s">Today's weights carried back over history, net of dealing costs and the 15bp fee — not the live
+           track record. Benchmarks are real indices, never home-made paper blends.</p></details>
 
-      <p class="pull">Against the objective — CPI+5, roughly 7.3% nominal — <strong>no holdable ETF book
-        fully funds the goal on street assumptions.</strong> The family minimizes a stated gap rather than
-        pretending to close it. An earlier greedy optimizer converged to 39% gold, an in-sample trap that was
-        rejected and documented rather than shipped.</p>
+      <details class="tbl"><summary>Holdings by fund</summary>
+        <table><thead><tr><th>Holding</th><th>Certain</th><th>Endowment</th><th>SAA</th><th>DAA</th></tr></thead><tbody>
+          <tr><td>US equity</td><td class="num">9.0%</td><td class="num">23.5%</td><td class="num">35.0%</td><td class="num">35.9%</td></tr>
+          <tr><td>Developed ex-US equity</td><td class="num">5.0%</td><td class="num">4.5%</td><td class="num">7.0%</td><td class="num">8.4%</td></tr>
+          <tr><td>Emerging-market equity</td><td class="num">—</td><td class="num">6.0%</td><td class="num">9.0%</td><td class="num">10.4%</td></tr>
+          <tr><td>US Treasuries, intermediate</td><td class="num">22.0%</td><td class="num">8.0%</td><td class="num">6.0%</td><td class="num">3.7%</td></tr>
+          <tr><td>US Treasuries, long</td><td class="num">—</td><td class="num">15.0%</td><td class="num">20.0%</td><td class="num">17.1%</td></tr>
+          <tr><td>IG corporate credit</td><td class="num">8.0%</td><td class="num">5.0%</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td>TIPS</td><td class="num">16.0%</td><td class="num">8.0%</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td>Listed real estate</td><td class="num">—</td><td class="num">4.0%</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td>Listed infrastructure</td><td class="num">—</td><td class="num">7.0%</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td>Broad commodities</td><td class="num">4.0%</td><td class="num">5.0%</td><td class="num">3.0%</td><td class="num">4.0%</td></tr>
+          <tr><td>Gold</td><td class="num">7.0%</td><td class="num">8.0%</td><td class="num">8.0%</td><td class="num">8.8%</td></tr>
+          <tr><td>Managed futures (trend)</td><td class="num">—</td><td class="num">—</td><td class="num">8.0%</td><td class="num">7.4%</td></tr>
+          <tr><td>Swiss franc</td><td class="num">3.0%</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+          <tr><td>Cash (T-bills)</td><td class="num">26.0%</td><td class="num">6.0%</td><td class="num">4.0%</td><td class="num">4.3%</td></tr>
+        </tbody></table>
+        <p class="s">Alpha is equity-led against the S&amp;P 500, defended by gold, long Treasuries and a macro-sized
+           trend sleeve; its book moves with its engines and is published on the dashboard.</p></details>
+
+      <p class="pull">Excluding the trend sleeve costs <strong>Certain 0.04 of Sharpe and Endowment nothing</strong>
+        — so neither carries one. The price is 2022: every asset except cash and commodities fell, and
+        Certain's −10% worst loss is entirely that year.</p>
     </article>
   </div>
 </section>
@@ -424,7 +453,7 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
       <div class="sec-t">
         <div class="eyebrow">Macro framework</div>
         <h2>MRS &amp; regime analysis</h2>
-        <p>The allocation books need to know what environment they are operating in. The Macro Regime Score
+        <p>The funds need to know what environment they are operating in. The Macro Regime Score
            is the framework that answers it — and the input the dynamic layer argues from.</p>
       </div>
     </div>
@@ -438,7 +467,8 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
       </div>
       <p class="dek">Thirteen indicators across five economically-motivated pillars, each normalized to an
          expanding-window z-score, aggregated with fixed weights and classified against calibrated thresholds
-         with a two-month persistence rule.</p>
+         with a two-month persistence rule. It rebuilds daily on GitHub Actions; the latest scored month,
+         August 2026, reads <strong>Neutral at +0.17z</strong> — the 43rd month in that regime.</p>
 
       <div class="mrow">
         <div class="m"><div class="v">−2.15</div><div class="k">GFC trough, Dec 2008</div></div>
@@ -449,25 +479,25 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 
       <div class="figw">
         <p class="t">Regime frequency, 2003–2026</p>
-        <p class="s">How the 276 months distribute across the calibrated bands.</p>
+        <p class="s">How the 278 confirmed months, Jul 2003 – Aug 2026, distribute across the calibrated bands.</p>
         <div class="chart">
-          <svg viewBox="0 0 720 176" role="img" aria-label="Bar chart of regime frequency. Neutral 61.8 percent, Expansion 24.4 percent, Slowdown 8.4 percent, Contraction 5.5 percent.">
+          <svg viewBox="0 0 720 176" role="img" aria-label="Bar chart of regime frequency. Neutral 62.2 percent, Expansion 24.1 percent, Slowdown 8.3 percent, Contraction 5.4 percent.">
             <line class="gl" x1="330" y1="16" x2="330" y2="140"></line>
             <line class="gl" x1="480" y1="16" x2="480" y2="140"></line>
             <line class="gl" x1="630" y1="16" x2="630" y2="140"></line>
             <line class="zl" x1="180" y1="16" x2="180" y2="140"></line>
-            <g class="bar"><title>Neutral — 61.8% of months, composite between −0.30 and +0.35</title>
-              <rect x="180" y="22" width="371" height="22" fill="#8a8474"></rect>
-              <text class="lbl" x="8" y="38">Neutral</text><text class="val" x="559" y="38">61.8%</text></g>
-            <g class="bar"><title>Expansion — 24.4% of months, composite at or above +0.35</title>
-              <rect x="180" y="52" width="146" height="22" fill="var(--c1)"></rect>
-              <text class="lbl" x="8" y="68">Expansion</text><text class="val" x="334" y="68">24.4%</text></g>
-            <g class="bar"><title>Slowdown — 8.4% of months, composite between −1.00 and −0.30</title>
+            <g class="bar"><title>Neutral — 62.2% of months, composite between −0.30 and +0.35</title>
+              <rect x="180" y="22" width="373" height="22" fill="#8a8474"></rect>
+              <text class="lbl" x="8" y="38">Neutral</text><text class="val" x="561" y="38">62.2%</text></g>
+            <g class="bar"><title>Expansion — 24.1% of months, composite at or above +0.35</title>
+              <rect x="180" y="52" width="145" height="22" fill="var(--c1)"></rect>
+              <text class="lbl" x="8" y="68">Expansion</text><text class="val" x="333" y="68">24.1%</text></g>
+            <g class="bar"><title>Slowdown — 8.3% of months, composite between −1.00 and −0.30</title>
               <rect x="180" y="82" width="50" height="22" fill="var(--c2)"></rect>
-              <text class="lbl" x="8" y="98">Slowdown</text><text class="val" x="238" y="98">8.4%</text></g>
-            <g class="bar"><title>Contraction — 5.5% of months, composite below −1.00</title>
-              <rect x="180" y="112" width="33" height="22" fill="var(--c3)"></rect>
-              <text class="lbl" x="8" y="128">Contraction</text><text class="val" x="221" y="128">5.5%</text></g>
+              <text class="lbl" x="8" y="98">Slowdown</text><text class="val" x="238" y="98">8.3%</text></g>
+            <g class="bar"><title>Contraction — 5.4% of months, composite below −1.00</title>
+              <rect x="180" y="112" width="32" height="22" fill="var(--c3)"></rect>
+              <text class="lbl" x="8" y="128">Contraction</text><text class="val" x="220" y="128">5.4%</text></g>
             <text class="ax" x="180" y="160" text-anchor="middle">0%</text><text class="ax" x="330" y="160" text-anchor="middle">25%</text>
             <text class="ax" x="480" y="160" text-anchor="middle">50%</text><text class="ax" x="630" y="160" text-anchor="middle">75%</text>
           </svg>
@@ -505,22 +535,36 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
     </div>
 
     <article class="art rv">
-      <div class="art-head"><h3>The SAA base plus a dynamic toolkit</h3></div>
-      <p class="dek">Regime tilts argued from the MRS pillars and held inside a <strong>tilt corridor</strong>
-         — a per-class band derived from how the regime books actually moved against the static base, so a
-         tilt can never quietly become a different portfolio. The purpose is to enhance an already-strong
-         base, not to rescue a weak one.</p>
+      <div class="art-head"><h3>DAA — the policy portfolio, run actively</h3>
+        <div class="art-links"><a class="lk lk-live" href="https://ankitv25.github.io/Asset-Allocation/index.html?p=daa">DAA on the dashboard</a></div></div>
+      <p class="dek">Five engines re-read at each month end — valuation from a live capital-market assumption,
+         trend, relative strength, the MRS regime, and the size of the diversifier sleeve — held inside a
+         <strong>tilt corridor</strong> around the SAA, so a tilt can never quietly become a different
+         portfolio. The trend sleeve is sized by the macro state: about 6½% in Expansion and Neutral, about
+         11% in Slowdown and Contraction, against an 8% policy weight. Alpha runs the same engines on its own
+         volatility budget.</p>
 
       <div class="mrow">
-        <div class="m"><div class="v">0.45 <span class="ar">→</span> 0.54</div><div class="k">Sharpe · legacy book</div></div>
-        <div class="m"><div class="v">0.18 <span class="ar">→</span> 0.33</div><div class="k">Calmar · legacy book</div></div>
-        <div class="m"><div class="v">−38% <span class="ar">→</span> −22%</div><div class="k">Max drawdown · legacy book</div></div>
-        <div class="m"><div class="v">15–19%</div><div class="k">Annual turnover</div></div>
+        <div class="m"><div class="v">0.65 <span class="ar">→</span> 0.72</div><div class="k">Sharpe · SAA → DAA</div></div>
+        <div class="m"><div class="v">−25.5% <span class="ar">→</span> −20.8%</div><div class="k">Worst loss · SAA → DAA</div></div>
+        <div class="m"><div class="v">7.81% <span class="ar">→</span> 8.09%</div><div class="k">CAGR · 1997–2026</div></div>
+        <div class="m"><div class="v">6½% <span class="ar">→</span> 11%</div><div class="k">Trend sleeve · calm → stress</div></div>
       </div>
 
+      <details class="tbl"><summary>What each engine adds</summary>
+        <table><thead><tr><th>Engine</th><th>CAGR</th><th>Sharpe</th><th>Worst loss</th></tr></thead><tbody>
+          <tr><td>Valuation</td><td class="num">+0.27 pp</td><td class="num">+0.030</td><td class="num">1.0 pp shallower</td></tr>
+          <tr><td>Trend</td><td class="num">+0.22 pp</td><td class="num">+0.033</td><td class="num">1.7 pp shallower</td></tr>
+          <tr><td>Regime</td><td class="num">+0.16 pp</td><td class="num">+0.008</td><td class="num">0.8 pp shallower</td></tr>
+          <tr><td>Relative strength</td><td class="num">+0.09 pp</td><td class="num">+0.006</td><td class="num">0.1 pp deeper</td></tr>
+          <tr><td>Diversifier sizing</td><td class="num">+0.03 pp</td><td class="num">+0.018</td><td class="num">1.8 pp shallower</td></tr>
+        </tbody></table>
+        <p class="s">Leave-one-out on the DAA, 1997–2026: the full engine set against the same book with that one
+           engine removed. Diversifier sizing adds little return but does the most for the worst loss.</p></details>
+
       <div class="figw">
-        <p class="t">Drawdown, before and after the overlay</p>
-        <p class="s">Each pair is a distinct mechanism tested separately — the walk-forward gate on the whole
+        <p class="t">Lineage: the MRS overlay on the prior book</p>
+        <p class="s">Where the dynamic layer came from. Each pair is a distinct mechanism tested separately — the walk-forward gate on the whole
            overlay, dynamic duration on two crisis types, and the v3.7 damping fix for whipsaw.</p>
         <div class="chart">
           <svg viewBox="0 0 760 250" role="img" aria-label="Grouped bar chart of maximum drawdown before and after the MRS overlay. Walk-forward gate: minus 38 percent to minus 22 percent. GFC with dynamic duration: minus 34.5 to minus 33.6 percent. 2022 with dynamic duration: minus 19.7 to minus 17.5 percent. Whipsaw fix version 3.7: minus 31.1 to minus 27.5 percent.">
@@ -563,20 +607,120 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
   </div>
 </section>
 
-<section id="infra" class="alt">
+<section id="lab" class="alt">
   <div class="wrap">
     <div class="sec-head rv">
       <div class="sec-n">04</div>
       <div class="sec-t">
+        <div class="eyebrow">Cross-asset research</div>
+        <h2>Convexity Lab</h2>
+        <p>The newest layer: a research lab where every figure carries its observation date. The public preview
+           covers rates and bonds, the five funds and institutional capital-market assumptions; the private
+           workspace — option strategy studio, portfolio risk and the research log — is being migrated behind
+           owner authentication.</p>
+      </div>
+    </div>
+
+    <article class="art rv">
+      <div class="art-head">
+        <h3>Rates &amp; bond research</h3>
+        <div class="art-links">
+          <a class="lk lk-live" href="https://ankitv25.github.io/Convexity-Lab-RM/rates/">Live lab</a>
+          <a class="lk" href="https://github.com/ankitv25/Convexity-Lab-RM">Code</a></div>
+      </div>
+      <p class="dek">An observed Treasury curve (Federal Reserve H.15) bootstrapped to zero rates; synthetic 2-, 5- and
+         10-year bonds repriced exactly under par-yield shocks, with DV01, key-rate DV01 and the
+         duration-plus-convexity approximation set against the exact answer; a Black–Derman–Toy short-rate
+         lattice fitted to the curve; and three conditional expressions — long duration, short duration, and a
+         DV01-neutral 2s10s steepener with its unhedged risks spelled out.</p>
+
+      <div class="mrow">
+        <div class="m"><div class="v">+37 bp</div><div class="k">2s10s slope · 29 Sep 2026</div></div>
+        <div class="m"><div class="v">2.35%</div><div class="k">10Y breakeven inflation</div></div>
+        <div class="m"><div class="v">0.073</div><div class="k">10Y DV01 · per bp, face 100</div></div>
+        <div class="m"><div class="v">2.2e−16</div><div class="k">BDT curve-fit residual</div></div>
+      </div>
+
+      <div class="figw">
+        <p class="t">Why convexity is worth paying for</p>
+        <p class="s">10-year 4% synthetic bond: exact repricing after each parallel par-yield shock, minus what
+           duration alone predicts. Price units per 100 face. The gain is positive whichever way rates move.</p>
+        <div class="chart">
+<svg viewBox="0 0 720 240" role="img" aria-label="Convexity gain of a synthetic 10-year 4 percent bond: exact repricing minus the duration-only estimate, per 100 face. Plus 0.36 at minus 100 basis points, plus 0.09 at minus 50, zero at no change, plus 0.09 at plus 50 and plus 0.34 at plus 100 — positive whichever way rates move.">
+<line class="zl" x1="70" y1="196.0" x2="690" y2="196.0"></line><text class="ax" x="62" y="200.0" text-anchor="end">0.0</text>
+<line class="gl" x1="70" y1="151.5" x2="690" y2="151.5"></line><text class="ax" x="62" y="155.5" text-anchor="end">0.1</text>
+<line class="gl" x1="70" y1="107.0" x2="690" y2="107.0"></line><text class="ax" x="62" y="111.0" text-anchor="end">0.2</text>
+<line class="gl" x1="70" y1="62.5" x2="690" y2="62.5"></line><text class="ax" x="62" y="66.5" text-anchor="end">0.3</text>
+<line class="gl" x1="70" y1="18.0" x2="690" y2="18.0"></line><text class="ax" x="62" y="22.0" text-anchor="end">0.4</text>
+<text class="ax" x="70.0" y="216" text-anchor="middle">-100 bp</text>
+<text class="ax" x="225.0" y="216" text-anchor="middle">-50 bp</text>
+<text class="ax" x="380.0" y="216" text-anchor="middle">0 bp</text>
+<text class="ax" x="535.0" y="216" text-anchor="middle">+50 bp</text>
+<text class="ax" x="690.0" y="216" text-anchor="middle">+100 bp</text>
+<polygon fill="rgba(27,58,82,.10)" points="70.0,196.0 70.0,36.3 85.5,52.2 101.0,67.2 116.5,81.4 132.0,94.7 147.5,107.2 163.0,118.8 178.5,129.7 194.0,139.6 209.5,148.8 225.0,157.1 240.5,164.6 256.0,171.3 271.5,177.2 287.0,182.3 302.5,186.5 318.0,190.0 333.5,192.7 349.0,194.6 364.5,195.7 380.0,196.0 395.5,195.5 411.0,194.3 426.5,192.3 442.0,189.5 457.5,186.0 473.0,181.7 488.5,176.7 504.0,170.9 519.5,164.4 535.0,157.1 550.5,149.1 566.0,140.3 581.5,130.9 597.0,120.7 612.5,109.7 628.0,98.1 643.5,85.7 659.0,72.7 674.5,58.9 690.0,44.4 690.0,196.0"></polygon>
+<polyline fill="none" stroke="var(--brand)" stroke-width="2.2" points="70.0,36.3 85.5,52.2 101.0,67.2 116.5,81.4 132.0,94.7 147.5,107.2 163.0,118.8 178.5,129.7 194.0,139.6 209.5,148.8 225.0,157.1 240.5,164.6 256.0,171.3 271.5,177.2 287.0,182.3 302.5,186.5 318.0,190.0 333.5,192.7 349.0,194.6 364.5,195.7 380.0,196.0 395.5,195.5 411.0,194.3 426.5,192.3 442.0,189.5 457.5,186.0 473.0,181.7 488.5,176.7 504.0,170.9 519.5,164.4 535.0,157.1 550.5,149.1 566.0,140.3 581.5,130.9 597.0,120.7 612.5,109.7 628.0,98.1 643.5,85.7 659.0,72.7 674.5,58.9 690.0,44.4"></polyline>
+<circle cx="70.0" cy="36.3" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>-100 bp: exact price 97.89, duration-only 97.53, convexity gain +0.359</title></circle>
+<text class="val" x="82.0" y="26.3" text-anchor="start">+0.36</text>
+<circle cx="225.0" cy="157.1" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>-50 bp: exact price 93.97, duration-only 93.89, convexity gain +0.087</title></circle>
+<text class="val" x="237.0" y="147.1" text-anchor="start">+0.09</text>
+<circle cx="380.0" cy="196.0" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>+0 bp: exact price 90.24, duration-only 90.24, convexity gain +0.000</title></circle>
+<circle cx="535.0" cy="157.1" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>+50 bp: exact price 86.69, duration-only 86.60, convexity gain +0.087</title></circle>
+<text class="val" x="523.0" y="147.1" text-anchor="end">+0.09</text>
+<circle cx="690.0" cy="44.4" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>+100 bp: exact price 83.30, duration-only 82.96, convexity gain +0.341</title></circle>
+<text class="val" x="678.0" y="34.4" text-anchor="end">+0.34</text>
+</svg>
+        </div>
+      </div>
+
+      <details class="tbl"><summary>Exact P&amp;L against duration + convexity, 10Y bond</summary>
+        <table><thead><tr><th>Par shock</th><th>Exact price</th><th>Exact P&amp;L</th><th>Duration + convexity</th></tr></thead><tbody>
+          <tr><td>−100 bp</td><td class="num">97.89</td><td class="num">+7.646</td><td class="num">+7.633</td></tr>
+          <tr><td>−50 bp</td><td class="num">93.97</td><td class="num">+3.731</td><td class="num">+3.729</td></tr>
+          <tr><td>0</td><td class="num">90.24</td><td class="num">0.000</td><td class="num">0.000</td></tr>
+          <tr><td>+50 bp</td><td class="num">86.69</td><td class="num">−3.556</td><td class="num">−3.555</td></tr>
+          <tr><td>+100 bp</td><td class="num">83.30</td><td class="num">−6.946</td><td class="num">−6.934</td></tr>
+        </tbody></table>
+        <p class="s">Yield snapshot 29 Sep 2026. Synthetic face-100 coupon-date bonds; no observed security prices,
+           financing, carry or bid–ask are represented.</p></details>
+    </article>
+
+    <div class="cols">
+      <div class="col rv"><div class="col-n">EVIDENCE</div><h3 class="colh">Five-fund performance</h3>
+        <p>Each fund against its own reference, from launch or from August, with drawdown, beta and tracking
+           error. Excess return is labelled a difference, not alpha; Sharpe and Sortino are withheld on a record
+           this short.</p>
+        <div class="taglist" style="margin-top:15px"><a class="lk" href="https://ankitv25.github.io/Convexity-Lab-RM/fund/">Open →</a></div></div>
+      <div class="col rv" data-d="1"><div class="col-n">ASSUMPTIONS</div><h3 class="colh">Capital-market assumptions</h3>
+        <p>Vanguard, J.P. Morgan and State Street long-horizon forecasts side by side — with vintage, horizon,
+           geometric versus arithmetic basis and currency stated, and no false average across conventions that
+           do not match.</p>
+        <div class="taglist" style="margin-top:15px"><a class="lk" href="https://ankitv25.github.io/Convexity-Lab-RM/assumptions/">Open →</a></div></div>
+      <div class="col rv" data-d="2"><div class="col-n">MACRO</div><h3 class="colh">Regime, with its date</h3>
+        <p>The five MRS pillars as of their last complete month, shown beside the fund NAV's own clock. Two
+           vintages are never blended into one implied cause.</p>
+        <div class="taglist" style="margin-top:15px"><a class="lk" href="https://ankitv25.github.io/Convexity-Lab-RM/macro/">Open →</a></div></div>
+    </div>
+
+    <p class="pull rv">A recent fetch does not make an older observation fresh. <strong>Every number in the lab
+      carries its own date</strong>, and what the data cannot support — alpha, Greeks from a NAV line,
+      calibrated probabilities — is withheld rather than estimated.</p>
+  </div>
+</section>
+
+<section id="infra">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-n">05</div>
+      <div class="sec-t">
         <div class="eyebrow">Foundation</div>
         <h2>Supporting research &amp; infrastructure</h2>
-        <p>The universe, estimation and governance the books are built from — and, kept separate, the two
+        <p>The universe, estimation and governance the funds are built from — and, kept separate, the two
            research programmes that run alongside them and deliberately do not feed them.</p>
       </div>
     </div>
     <div class="cols">
       <div class="col rv"><div class="col-n">UNIVERSE</div><h3 class="colh">Asset Universe</h3>
-        <p>The instrument registry, sleeve hierarchy and event-tagged sub-period analytics every book is
+        <p>The instrument registry, sleeve hierarchy and event-tagged sub-period analytics every fund is
            built from — plus the beta and correlation/covariance infrastructure feeding the optimizer.</p>
         <div class="taglist">Instrument registry · Sleeve hierarchy · Σ estimation · Risk decomposition</div></div>
       <div class="col rv" data-d="1"><div class="col-n">PARALLEL PROGRAMME</div><h3 class="colh">Growth Engine</h3>
@@ -592,20 +736,21 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
       <div class="col rv"><div class="col-n">PARALLEL PROGRAMME</div><h3 class="colh">Equity Research</h3>
         <p>A driver-based DCF framework across defence &amp; aerospace, technology and energy — sourced evidence to
            scored sector drivers to a 10-year unlevered DCF, three valuation lanes. A peer workstream, not a
-           layer beneath the books.</p>
+           layer beneath the funds.</p>
         <div class="taglist" style="margin-top:15px"><a class="lk" href="https://github.com/ankitv25/Equity-valuation-workflow">Methodology →</a></div></div>
       <div class="col rv" data-d="1"><div class="col-n">DISCIPLINE</div><h3 class="colh">The failure record</h3>
         <p>v3.5 non-convergence · the 39%-gold greedy trap · the hindsight-machine proof · a Contraction
-           regime that was mathematically unreachable. Nothing was deleted — the negative results are the
+           regime that was mathematically unreachable · a missing price history that left Alpha 17% in cash
+           until the NAV pipeline learned to refuse a gap. Nothing was deleted — the negative results are the
            reason to trust the positive ones.</p></div>
     </div>
   </div>
 </section>
 
-<section id="experience">
+<section id="experience" class="alt">
   <div class="wrap">
     <div class="sec-head rv">
-      <div class="sec-n">05</div>
+      <div class="sec-n">06</div>
       <div class="sec-t">
         <div class="eyebrow">Background</div>
         <h2>Experience</h2>
@@ -614,7 +759,7 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
            happens in the bad state rather than the base case.</p>
       </div>
     </div>
-    <div class="tl-i rv"><div class="tl-d">Nov 2020 — Present<br>New York</div>
+    <div class="tl-i rv"><div class="tl-d"><div class="logo"><img src="assets/logos/exl.svg" alt="EXL" loading="lazy"></div>Nov 2020 — Present<br>New York</div>
       <div><h3>Senior Consultant, Risk Strategy &amp; Modelling</h3>
         <div class="tl-org">Risk Strategy &amp; Modelling for three major US banks and card issuers — Capital One, Discover &amp; Citi (at EXL)</div>
         <ul>
@@ -622,17 +767,18 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
           <li>Portfolio stress testing simulating segment-level loss under adverse macro scenarios</li>
           <li>Built a Strategy Monitoring Framework integrating real-time data into loss, revenue and ROE projection</li>
         </ul>
+        <div class="clients"><span>Clients</span><img style="height:30px" src="assets/logos/capitalone.svg" alt="Capital One" loading="lazy"><img style="height:17px" src="assets/logos/discover.svg" alt="Discover" loading="lazy"><img src="assets/logos/citi.svg" alt="Citi" loading="lazy"></div>
         <div class="metrics"><span class="metric">−25% risk exposure</span><span class="metric">−10% loss</span><span class="metric">4 performance awards</span></div></div></div>
-    <div class="tl-i rv"><div class="tl-d">Jan — Feb 2026<br>Knoxville, TN</div>
+    <div class="tl-i rv"><div class="tl-d"><div class="logo mono" aria-hidden="true">LEF</div>Jan — Feb 2026<br>Knoxville, TN</div>
       <div><h3>Student Consultant — Equity Portfolio Review</h3>
         <div class="tl-org">Leading Edge Financial · Wealth Management RIA · Georgetown MSF Winter Clinic</div>
         <ul><li>Six-week engagement on a $150M AUM equity portfolio, closing with an executive presentation to the sponsor team</li></ul>
         <div class="metrics"><span class="metric">+286bps return</span><span class="metric">−241bps volatility</span><span class="metric">Sharpe 0.51 → 0.81</span><span class="metric">Beta 1.07 → 0.84</span></div></div></div>
-    <div class="tl-i rv"><div class="tl-d">Aug 2025 — 2027<br>Washington, DC</div>
+    <div class="tl-i rv"><div class="tl-d"><div class="logo seal"><img src="assets/logos/georgetown.png" alt="Georgetown University" loading="lazy"></div>Aug 2025 — 2027<br>Washington, DC</div>
       <div><h3>Master of Science in Finance</h3>
         <div class="tl-org">Georgetown University, McDonough School of Business</div>
         <ul><li>GPA 3.93 / 4.00</li></ul></div></div>
-    <div class="tl-i rv"><div class="tl-d">Aug 2016 — Jul 2020<br>Kanpur, India</div>
+    <div class="tl-i rv"><div class="tl-d"><div class="logo seal"><img src="assets/logos/iitk.png" alt="IIT Kanpur" loading="lazy"></div>Aug 2016 — Jul 2020<br>Kanpur, India</div>
       <div><h3>Bachelor of Technology, Materials Science &amp; Engineering</h3>
         <div class="tl-org">Indian Institute of Technology (IIT) Kanpur</div></div></div>
     <div class="cols c2">
