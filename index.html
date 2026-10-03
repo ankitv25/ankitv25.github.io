@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ankit Verma — Multi-Asset Portfolio Construction &amp; Asset Allocation</title>
-<meta name="description" content="Ankit Verma — IIT Kanpur, Georgetown McDonough MSF. A multi-asset platform: five funds live since July 2026, a macro regime model that sizes the dynamic layer, and the Convexity Lab for rates and cross-asset research.">
+<meta name="description" content="Ankit Verma — Georgetown McDonough MS Finance, IIT Kanpur. Five multi-asset funds live since July 2026, Convexity Lab for fixed income, derivatives and portfolio risk, and a macro regime model.">
 <meta property="og:title" content="Ankit Verma — Multi-Asset Portfolio Construction &amp; Asset Allocation">
-<meta property="og:description" content="Five live multi-asset funds, a macro regime model, and the Convexity Lab for rates and cross-asset research.">
+<meta property="og:description" content="Five live multi-asset funds, a fixed-income, derivatives and portfolio-risk workstation, and a macro regime model.">
 <style>
 :root{
   --paper:#f7f4ed; --paper-2:#f1ece1; --panel:#fdfcf9; --ink:#15181d; --ink-2:#3f474f;
@@ -232,6 +232,65 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 .metric{font-family:var(--mono);font-size:.78rem;font-weight:650;padding:5px 11px;
   background:var(--panel);color:var(--brand);border:1px solid var(--rule-2)}
 
+.cv{border-top:2px solid var(--ink);padding-top:4px}
+.cv-k{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sig);margin:16px 0 2px}
+.cv-row{padding:14px 0 16px;border-bottom:1px solid var(--rule)}
+.cv-row:last-child{border-bottom:0}
+.cv-t b{display:block;font-weight:650;color:var(--ink);font-size:.98rem;line-height:1.35}
+.cv-t span{display:block;color:var(--ink-3);font-size:.86rem;line-height:1.5;margin-top:2px}
+.cv-gu img{display:block;height:46px;width:auto;margin:2px 0 12px}
+.cv-iitk,.cv-exl{display:grid;grid-template-columns:84px 1fr;gap:18px;align-items:center}
+.cv-iitk img{width:76px;height:76px}
+.cv-name{font-family:var(--serif);font-size:1.42rem!important;font-weight:600!important;letter-spacing:-.015em}
+.cv-exl img{width:56px;height:auto}
+.work{border-bottom:1px solid var(--ink);background:var(--paper-2)}
+.work-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);display:grid;grid-template-columns:repeat(3,1fr)}
+.fl{display:flex;flex-direction:column;padding:30px 26px 26px 0;color:var(--ink);transition:background .18s}
+.fl+.fl{padding-left:26px;border-left:1px solid var(--rule)}
+.fl:hover{text-decoration:none;background:rgba(253,252,249,.6)}
+.fl:hover h3{color:var(--sig)}
+.fl-k{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sig)}
+.fl h3{font-family:var(--serif);font-size:1.7rem;font-weight:600;letter-spacing:-.022em;margin:8px 0 8px;line-height:1.1;transition:color .18s}
+.fl p{margin:0;color:var(--ink-2);font-size:.92rem;line-height:1.58;flex:1}
+.fl-c{margin:18px 0 12px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:8px 0}
+.fl-cl{font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+.fl-c svg{display:block;width:100%;height:auto}
+.fl-f{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);letter-spacing:.02em}
+@media(max-width:900px){.work-in{grid-template-columns:1fr}.fl{padding:24px 0!important;border-left:0!important}.fl+.fl{border-top:1px solid var(--rule)}}
+.mrsband{margin:28px 0 0;border:1px solid var(--rule);background:var(--panel)}
+.mrsband .cap{padding:12px 18px 10px;font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid var(--hair)}
+.mrsband svg{display:block;width:100%;height:auto}
+.mrsband .bfoot{padding:12px 18px 14px;font-size:.86rem;color:var(--ink-3);border-top:1px solid var(--hair)}
+.mrsband .bfoot strong{color:var(--ink);font-family:var(--mono)}
+.flow{list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink)}
+.st{padding:22px 22px 24px 0;border-bottom:1px solid var(--rule);position:relative}
+.st:not(:nth-child(3n+1)){padding-left:24px;border-left:1px solid var(--rule)}
+.st-n{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sig);margin-bottom:9px}
+.st h4{font-family:var(--serif);font-size:1.16rem;font-weight:600;letter-spacing:-.015em;margin:0 0 9px;line-height:1.25}
+.st p{margin:0;font-size:.89rem;color:var(--ink-2);line-height:1.6}
+.st-m{margin-top:12px;font-family:var(--mono);font-size:.72rem;color:var(--brand);line-height:1.5}
+@media(max-width:900px){.flow{grid-template-columns:1fr 1fr}.st:not(:nth-child(3n+1)){padding-left:0;border-left:0}.st:nth-child(2n){padding-left:22px!important;border-left:1px solid var(--rule)!important}}
+@media(max-width:620px){.flow{grid-template-columns:1fr}.st,.st:nth-child(2n){padding:20px 0!important;border-left:0!important}}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:34px}
+.duo .art{margin-top:0}
+.duo .chart svg{min-width:0}
+@media(max-width:900px){.duo{grid-template-columns:1fr;gap:10px}}
+table.hedge{min-width:0}
+table.hedge td:first-child{font-weight:650;width:40%;padding-right:18px;vertical-align:top}
+table.hedge td.tl{color:var(--ink-2)}
+@media(max-width:620px){table.hedge td:first-child{white-space:normal}}
+.figcap{font-size:.82rem;color:var(--ink-3);margin:10px 0 0}
+.note{font-size:.88rem;color:var(--ink-3);max-width:660px;margin:22px 0 0}
+.tl-h{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sig);margin:34px 0 0;padding-bottom:10px;border-bottom:1px solid var(--ink)}
+.tl-h+.tl-i{border-top:0}
+.tl-mark{display:block;margin-bottom:14px;height:auto}
+.tl-mark.exl{width:64px}
+.tl-mark.gu{width:236px;margin:2px 0 14px}
+.edu-iitk{display:grid;grid-template-columns:84px 1fr;gap:20px;align-items:center}
+.edu-iitk .tl-mark{margin:0;width:84px}
+h3.inst{font-size:1.32rem!important}
+.tl-org{color:var(--ink-2)!important;font-weight:600!important}
+
 .foot{padding:64px 0 34px;background:var(--ink);color:var(--paper)}
 .foot h2{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.5rem);margin:0 0 14px;
   letter-spacing:-.028em;font-weight:600}
@@ -250,13 +309,13 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
   <div class="mast-in">
     <span class="mast-name">Ankit Verma</span>
     <nav class="mast-nav" aria-label="Sections">
-      <a href="#funds">Funds</a><a href="#regime">MRS</a><a href="#dynamic">DAA</a><a href="#lab">Convexity Lab</a>
+      <a href="#funds">Funds</a><a href="#lab">Convexity Lab</a><a href="#regime">MRS</a><a href="#dynamic">DAA</a>
       <a href="#infra">Infrastructure</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
     </nav>
     <details class="menu"><summary aria-label="Open section menu"><span></span><span></span><span></span></summary>
       <nav class="menu-panel" aria-label="Sections">
-        <a href="#funds">Five Funds</a><a href="#regime">Macro Regime Score</a>
-        <a href="#dynamic">Dynamic Allocation</a><a href="#lab">Convexity Lab</a><a href="#infra">Infrastructure</a>
+        <a href="#funds">Five Funds</a><a href="#lab">Convexity Lab</a><a href="#regime">Macro Regime Score</a>
+        <a href="#dynamic">Dynamic Allocation</a><a href="#infra">Infrastructure</a>
         <a href="#experience">Experience</a><a href="#contact">Contact</a>
       </nav></details>
   </div>
@@ -265,73 +324,69 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 
 <header class="hero">
   <div class="wrap">
-    <div class="kicker">Multi-asset research platform · New York <span class="asof">Data as of 1 Oct 2026 · Funds v6</span></div>
+    <div class="kicker">Portfolio construction · New York <span class="asof">Data as of 1 Oct 2026</span></div>
     <div class="hero-grid">
       <div>
         <h1>Ankit Verma</h1>
-        <p class="sub">Asset allocation, portfolio construction and macro regime research.</p>
+        <p class="sub">Asset allocation, fixed income &amp; derivatives, and portfolio risk.</p>
+        <p class="stand">I build investment platforms end to end: <strong>five multi-asset funds, live and priced
+          daily since 15 July 2026</strong>; a fixed-income, derivatives and portfolio-risk workstation; and the
+          macro regime model that drives the dynamic layer. Before Georgetown, five years building credit-risk
+          and loss models for three of the largest US banks and card issuers.</p>
+        <div class="cta">
+          <a class="btn btn-a" href="#work">See the work</a>
+          <a class="btn btn-b" href="mailto:ankitv0125@gmail.com">Get in touch</a>
+          <a class="btn btn-b" href="https://linkedin.com/in/ankitv0125">LinkedIn</a>
+          <a class="btn btn-b" href="https://github.com/ankitv25">GitHub</a>
+        </div>
       </div>
-      <div>
-        <p class="stand"><strong>Five multi-asset funds, live and priced daily since 15 July 2026</strong> —
-          each built from its own sleeve set, decomposed by risk, and connected to a macro regime framework
-          that sizes the dynamic layer. Rates and cross-asset work runs in the Convexity Lab. Every component
-          ships a methodology, and the failures were published rather than buried.</p>
-        <dl class="ladder">
-          <dt>2016–20</dt><dd><b>IIT Kanpur</b> — B.Tech, Materials Science &amp; Engineering</dd>
-          <dt>2020–</dt><dd><b>Capital One · Discover · Citi</b> — five years modelling for three of the
-            largest US banks, at EXL</dd>
-          <dt>2025–27</dt><dd><b>Georgetown McDonough</b> — MS Finance, 3.93/4</dd>
-        </dl>
-      </div>
-    </div>
-    <div class="cta" style="padding-bottom:34px">
-      <a class="btn btn-a" href="#funds">Read the work</a>
-      <a class="btn btn-b" href="mailto:ankitv0125@gmail.com">Get in touch</a>
-      <a class="btn btn-b" href="https://linkedin.com/in/ankitv0125">LinkedIn</a>
-      <a class="btn btn-b" href="https://github.com/ankitv25">GitHub</a>
+      <aside class="cv" aria-label="Education and experience">
+        <div class="cv-k">Education</div>
+        <div class="cv-row cv-gu">
+          <img src="assets/logos/georgetown.svg" alt="Georgetown University" width="236" height="50">
+          <div class="cv-t"><b>McDonough School of Business</b><span>MS in Finance · 2025–27 · GPA 3.93 / 4.00</span></div>
+        </div>
+        <div class="cv-row cv-iitk">
+          <img src="assets/logos/iitk.svg" alt="" width="76" height="76">
+          <div class="cv-t"><b class="cv-name">IIT Kanpur</b><span>Indian Institute of Technology · B.Tech, Materials Science &amp; Engineering · 2016–20</span></div>
+        </div>
+        <div class="cv-k">Experience</div>
+        <div class="cv-row cv-exl">
+          <img src="assets/logos/exl.svg" alt="EXL" width="59" height="22">
+          <div class="cv-t"><b>Senior Consultant, Risk Strategy &amp; Modelling</b><span>2020 – present · Credit-risk and loss models for three of the largest US banks and card issuers</span></div>
+        </div>
+      </aside>
     </div>
   </div>
-  <div class="heroband">
-    <div class="cap"><span>Macro Regime Score · composite z-score</span><span>279 months · Jun 2003 — Aug 2026</span></div>
-<svg viewBox="0 0 1440 300" role="img" aria-label="The Macro Regime Score composite z-score from June 2003 to August 2026 plotted against four regime bands. It falls to minus 2.15 in December 2008 and minus 1.65 during the COVID crash — the only two excursions into the Contraction band.">
-            <rect x="0" y="18" width="1440" height="72.9" fill="rgba(47,111,159,.10)"></rect>
-            <rect x="0" y="90.9" width="1440" height="45.2" fill="rgba(138,132,116,.10)"></rect>
-            <rect x="0" y="136.1" width="1440" height="48.6" fill="rgba(214,138,19,.13)"></rect>
-            <rect x="0" y="184.7" width="1440" height="97.3" fill="rgba(168,51,42,.12)"></rect>
-            <line class="gl" x1="0" y1="90.9" x2="1440" y2="90.9"></line>
-            <line class="gl" x1="0" y1="136.1" x2="1440" y2="136.1"></line>
-            <line class="zl" x1="0" y1="184.7" x2="1440" y2="184.7"></line>
-            <polyline fill="rgba(27,58,82,.08)" stroke="none" points="0.0,282.0 0.0,79.9 4.7,56.1 9.4,67.7 14.0,65.4 18.7,55.3 23.4,61.8 28.1,59.2 32.7,54.6 37.4,55.7 42.1,61.5 46.8,46.4 51.4,52.9 56.1,60.5 60.8,53.4 65.5,66.7 70.1,58.8 74.8,48.3 79.5,54.3 84.2,49.5 88.8,53.2 93.5,52.0 98.2,56.8 102.9,55.8 107.6,74.3 112.2,67.0 116.9,62.4 121.6,71.0 126.3,85.3 130.9,92.3 135.6,89.5 140.3,93.0 145.0,71.7 149.6,73.7 154.3,68.3 159.0,76.3 163.7,94.9 168.3,115.8 173.0,111.9 177.7,118.1 182.4,109.5 187.1,93.8 191.7,85.1 196.4,83.2 201.1,82.0 205.8,90.3 210.4,94.2 215.1,82.9 219.8,87.7 224.5,85.0 229.1,90.1 233.8,127.9 238.5,137.2 243.2,125.4 247.8,159.2 252.5,175.4 257.2,172.6 261.9,176.7 266.5,194.7 271.2,181.5 275.9,158.2 280.6,165.8 285.3,183.2 289.9,191.1 294.6,204.6 299.3,248.2 304.0,257.8 308.6,264.7 313.3,261.3 318.0,255.1 322.7,251.9 327.3,229.4 332.0,192.5 336.7,171.5 341.4,159.7 346.0,145.2 350.7,139.0 355.4,126.9 360.1,128.8 364.7,124.8 369.4,114.4 374.1,123.5 378.8,109.4 383.5,91.1 388.1,100.7 392.8,110.9 397.5,102.6 402.2,113.6 406.8,110.7 411.5,107.1 416.2,105.5 420.9,93.3 425.5,93.9 430.2,95.5 434.9,98.3 439.6,89.8 444.2,93.5 448.9,101.5 453.6,105.3 458.3,130.9 462.9,140.2 467.6,122.0 472.3,121.3 477.0,118.2 481.7,103.8 486.3,96.8 491.0,91.6 495.7,93.8 500.4,110.9 505.0,111.0 509.7,105.8 514.4,106.3 519.1,101.7 523.7,96.5 528.4,97.3 533.1,96.1 537.8,88.3 542.4,94.5 547.1,93.9 551.8,94.2 556.5,98.1 561.2,103.0 565.8,95.8 570.5,93.3 575.2,93.3 579.9,88.1 584.5,89.4 589.2,84.6 593.9,90.2 598.6,97.6 603.2,93.1 607.9,81.7 612.6,77.3 617.3,76.7 621.9,70.8 626.6,82.7 631.3,83.8 636.0,85.5 640.6,91.7 645.3,98.0 650.0,96.7 654.7,94.8 659.4,98.5 664.0,91.3 668.7,99.5 673.4,102.4 678.1,104.1 682.7,120.3 687.4,128.8 692.1,123.0 696.8,124.3 701.4,126.4 706.1,130.8 710.8,133.3 715.5,119.0 720.1,109.7 724.8,114.5 729.5,116.7 734.2,101.4 738.8,99.3 743.5,101.8 748.2,101.2 752.9,100.6 757.6,93.8 762.2,88.1 766.9,92.7 771.6,89.6 776.3,89.3 780.9,91.9 785.6,91.6 790.3,84.0 795.0,92.4 799.6,95.6 804.3,82.5 809.0,88.8 813.7,86.6 818.3,82.0 823.0,96.2 827.7,99.4 832.4,92.8 837.1,97.2 841.7,96.9 846.4,92.0 851.1,93.9 855.8,90.8 860.4,98.0 865.1,108.6 869.8,124.9 874.5,113.6 879.1,110.1 883.8,108.5 888.5,101.4 893.2,107.2 897.8,106.6 902.5,96.2 907.2,108.1 911.9,105.3 916.5,102.6 921.2,104.1 925.9,97.1 930.6,101.9 935.3,115.9 939.9,220.3 944.6,229.9 949.3,211.3 954.0,195.0 958.6,138.6 963.3,107.8 968.0,108.3 972.7,115.2 977.3,124.5 982.0,123.7 986.7,114.8 991.4,116.3 996.0,79.3 1000.7,72.4 1005.4,85.5 1010.1,92.9 1014.7,94.4 1019.4,104.6 1024.1,109.0 1028.8,99.7 1033.5,103.5 1038.1,109.9 1042.8,120.3 1047.5,134.2 1052.2,150.3 1056.8,138.4 1061.5,145.2 1066.2,152.8 1070.9,144.6 1075.5,140.3 1080.2,149.1 1084.9,158.3 1089.6,148.9 1094.2,139.4 1098.9,128.7 1103.6,126.8 1108.3,136.2 1112.9,127.2 1117.6,136.5 1122.3,124.9 1127.0,113.3 1131.7,112.8 1136.3,104.9 1141.0,105.8 1145.7,100.1 1150.4,92.9 1155.0,95.2 1159.7,102.0 1164.4,96.6 1169.1,99.5 1173.7,91.4 1178.4,99.0 1183.1,97.7 1187.8,109.4 1192.4,101.6 1197.1,102.4 1201.8,107.3 1206.5,102.6 1211.2,99.0 1215.8,102.5 1220.5,108.5 1225.2,120.8 1229.9,112.6 1234.5,106.5 1239.2,97.9 1243.9,101.6 1248.6,98.9 1253.2,94.8 1257.9,100.7 1262.6,100.9 1267.3,96.2 1271.9,102.6 1276.6,118.3 1281.3,107.5 1286.0,104.7 1290.6,101.6 1295.3,100.5 1300.0,103.6 1300.0,282.0"></polyline>
-            <polyline id="heroLine" fill="none" stroke="#1b3a52" stroke-width="2.1"
-              stroke-linejoin="round" stroke-linecap="round" points="0.0,79.9 4.7,56.1 9.4,67.7 14.0,65.4 18.7,55.3 23.4,61.8 28.1,59.2 32.7,54.6 37.4,55.7 42.1,61.5 46.8,46.4 51.4,52.9 56.1,60.5 60.8,53.4 65.5,66.7 70.1,58.8 74.8,48.3 79.5,54.3 84.2,49.5 88.8,53.2 93.5,52.0 98.2,56.8 102.9,55.8 107.6,74.3 112.2,67.0 116.9,62.4 121.6,71.0 126.3,85.3 130.9,92.3 135.6,89.5 140.3,93.0 145.0,71.7 149.6,73.7 154.3,68.3 159.0,76.3 163.7,94.9 168.3,115.8 173.0,111.9 177.7,118.1 182.4,109.5 187.1,93.8 191.7,85.1 196.4,83.2 201.1,82.0 205.8,90.3 210.4,94.2 215.1,82.9 219.8,87.7 224.5,85.0 229.1,90.1 233.8,127.9 238.5,137.2 243.2,125.4 247.8,159.2 252.5,175.4 257.2,172.6 261.9,176.7 266.5,194.7 271.2,181.5 275.9,158.2 280.6,165.8 285.3,183.2 289.9,191.1 294.6,204.6 299.3,248.2 304.0,257.8 308.6,264.7 313.3,261.3 318.0,255.1 322.7,251.9 327.3,229.4 332.0,192.5 336.7,171.5 341.4,159.7 346.0,145.2 350.7,139.0 355.4,126.9 360.1,128.8 364.7,124.8 369.4,114.4 374.1,123.5 378.8,109.4 383.5,91.1 388.1,100.7 392.8,110.9 397.5,102.6 402.2,113.6 406.8,110.7 411.5,107.1 416.2,105.5 420.9,93.3 425.5,93.9 430.2,95.5 434.9,98.3 439.6,89.8 444.2,93.5 448.9,101.5 453.6,105.3 458.3,130.9 462.9,140.2 467.6,122.0 472.3,121.3 477.0,118.2 481.7,103.8 486.3,96.8 491.0,91.6 495.7,93.8 500.4,110.9 505.0,111.0 509.7,105.8 514.4,106.3 519.1,101.7 523.7,96.5 528.4,97.3 533.1,96.1 537.8,88.3 542.4,94.5 547.1,93.9 551.8,94.2 556.5,98.1 561.2,103.0 565.8,95.8 570.5,93.3 575.2,93.3 579.9,88.1 584.5,89.4 589.2,84.6 593.9,90.2 598.6,97.6 603.2,93.1 607.9,81.7 612.6,77.3 617.3,76.7 621.9,70.8 626.6,82.7 631.3,83.8 636.0,85.5 640.6,91.7 645.3,98.0 650.0,96.7 654.7,94.8 659.4,98.5 664.0,91.3 668.7,99.5 673.4,102.4 678.1,104.1 682.7,120.3 687.4,128.8 692.1,123.0 696.8,124.3 701.4,126.4 706.1,130.8 710.8,133.3 715.5,119.0 720.1,109.7 724.8,114.5 729.5,116.7 734.2,101.4 738.8,99.3 743.5,101.8 748.2,101.2 752.9,100.6 757.6,93.8 762.2,88.1 766.9,92.7 771.6,89.6 776.3,89.3 780.9,91.9 785.6,91.6 790.3,84.0 795.0,92.4 799.6,95.6 804.3,82.5 809.0,88.8 813.7,86.6 818.3,82.0 823.0,96.2 827.7,99.4 832.4,92.8 837.1,97.2 841.7,96.9 846.4,92.0 851.1,93.9 855.8,90.8 860.4,98.0 865.1,108.6 869.8,124.9 874.5,113.6 879.1,110.1 883.8,108.5 888.5,101.4 893.2,107.2 897.8,106.6 902.5,96.2 907.2,108.1 911.9,105.3 916.5,102.6 921.2,104.1 925.9,97.1 930.6,101.9 935.3,115.9 939.9,220.3 944.6,229.9 949.3,211.3 954.0,195.0 958.6,138.6 963.3,107.8 968.0,108.3 972.7,115.2 977.3,124.5 982.0,123.7 986.7,114.8 991.4,116.3 996.0,79.3 1000.7,72.4 1005.4,85.5 1010.1,92.9 1014.7,94.4 1019.4,104.6 1024.1,109.0 1028.8,99.7 1033.5,103.5 1038.1,109.9 1042.8,120.3 1047.5,134.2 1052.2,150.3 1056.8,138.4 1061.5,145.2 1066.2,152.8 1070.9,144.6 1075.5,140.3 1080.2,149.1 1084.9,158.3 1089.6,148.9 1094.2,139.4 1098.9,128.7 1103.6,126.8 1108.3,136.2 1112.9,127.2 1117.6,136.5 1122.3,124.9 1127.0,113.3 1131.7,112.8 1136.3,104.9 1141.0,105.8 1145.7,100.1 1150.4,92.9 1155.0,95.2 1159.7,102.0 1164.4,96.6 1169.1,99.5 1173.7,91.4 1178.4,99.0 1183.1,97.7 1187.8,109.4 1192.4,101.6 1197.1,102.4 1201.8,107.3 1206.5,102.6 1211.2,99.0 1215.8,102.5 1220.5,108.5 1225.2,120.8 1229.9,112.6 1234.5,106.5 1239.2,97.9 1243.9,101.6 1248.6,98.9 1253.2,94.8 1257.9,100.7 1262.6,100.9 1267.3,96.2 1271.9,102.6 1276.6,118.3 1281.3,107.5 1286.0,104.7 1290.6,101.6 1295.3,100.5 1300.0,103.6"></polyline>
-            <line x1="1300" y1="103.6" x2="1318" y2="103.6" stroke="#a8332a" stroke-width="1.2" stroke-dasharray="3 3"></line>
-            <circle cx="1300" cy="103.6" r="4.5" fill="#a8332a" stroke="#fdfcf9" stroke-width="1.8"></circle>
-            <text class="endlbl" x="1428" y="92.6" text-anchor="end">AUG 2026 · NEUTRAL</text>
-            <text class="endval" x="1428" y="110.6" text-anchor="end">+0.17 z</text>
-            <text class="bandlbl" x="16" y="37">EXPANSION</text><text class="bandlbl" x="16" y="109">NEUTRAL</text>
-            <text class="bandlbl" x="16" y="154">SLOWDOWN</text><text class="bandlbl" x="16" y="203">CONTRACTION</text>
-            <text class="yr" x="257" y="296" text-anchor="middle">2008</text>
-            <text class="yr" x="482" y="296" text-anchor="middle">2012</text>
-            <text class="yr" x="706" y="296" text-anchor="middle">2016</text>
-            <text class="yr" x="931" y="296" text-anchor="middle">2020</text>
-            <text class="yr" x="1155" y="296" text-anchor="middle">2024</text>
-            <text class="yr" x="1300" y="296" text-anchor="middle">2026</text>
-          </svg>
-    <div class="bfoot">Two contractions in twenty-three years — the GFC at <strong>−2.15</strong> and COVID at
-      <strong>−1.65</strong>. Nothing else crosses the line.</div>
-  </div>
-
 </header>
 
-<div class="band">
-  <div class="band-in">
-    <div class="fig rv"><div class="fig-v">5</div><div class="fig-k">Funds live · since 15 Jul 2026</div></div>
-    <div class="fig rv" data-d="1"><div class="fig-v">351</div><div class="fig-k">Months, fund backtest 1997–2026</div></div>
-    <div class="fig rv" data-d="2"><div class="fig-v">279</div><div class="fig-k">Months of MRS history</div></div>
-    <div class="fig rv" data-d="3"><div class="fig-v">$150M</div><div class="fig-k">AUM reviewed</div></div>
-    <div class="fig rv" data-d="4"><div class="fig-v">3.93<small>/4</small></div><div class="fig-k">Georgetown MSF</div></div>
+<div class="work" id="work">
+  <div class="work-in">
+    <a class="fl rv" href="#funds">
+      <div class="fl-k">Flagship · Asset allocation</div>
+      <h3>Five Funds</h3>
+      <p>Certain, Endowment, SAA, DAA and Alpha: five multi-asset funds, each built from its own sleeve set, live and priced daily since 15 July 2026.</p>
+      <div class="fl-c"><div class="fl-cl">NAV since launch · base 100</div><svg viewBox="0 0 320 96" role="img" aria-label="Daily NAV of the five funds since launch on 15 July 2026, all around 100."><line x1="4" y1="50.5" x2="316" y2="50.5" stroke="var(--rule-2)" stroke-dasharray="2 3"/><polyline fill="none" stroke="#0891b2" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.7 9.7,55.5 15.3,54.2 21.0,55.7 26.7,52.8 32.4,52.3 38.0,56.7 43.7,55.8 49.4,56.3 55.1,56.8 60.7,57.4 66.4,52.9 72.1,54.6 77.7,53.0 83.4,49.0 89.1,45.1 94.8,45.7 100.4,41.2 106.1,40.2 111.8,40.5 117.5,38.5 123.1,38.1 128.8,38.2 134.5,38.1 140.1,40.4 145.8,33.8 151.5,35.0 157.2,33.2 162.8,32.6 168.5,30.2 174.2,32.8 179.9,31.5 185.5,37.3 191.2,37.6 196.9,41.5 202.5,39.1 208.2,34.9 213.9,36.5 219.6,38.6 225.2,39.4 230.9,43.9 236.6,44.1 242.3,46.6 247.9,46.5 253.6,49.5 259.3,44.3 264.9,46.0 270.6,43.1 276.3,42.7 282.0,49.7 287.6,52.0 293.3,49.9 299.0,57.2 304.7,57.4 310.3,58.3 316.0,58.2"/><polyline fill="none" stroke="#92400e" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.7 9.7,56.2 15.3,57.5 21.0,60.2 26.7,54.1 32.4,52.8 38.0,60.4 43.7,58.7 49.4,59.2 55.1,59.9 60.7,66.9 66.4,58.3 72.1,59.3 77.7,54.9 83.4,46.4 89.1,42.8 94.8,44.2 100.4,38.0 106.1,38.1 111.8,39.2 117.5,35.9 123.1,33.9 128.8,35.2 134.5,36.8 140.1,41.3 145.8,31.5 151.5,34.8 157.2,32.1 162.8,31.5 168.5,26.7 174.2,28.8 179.9,27.5 185.5,34.2 191.2,35.9 196.9,41.4 202.5,38.3 208.2,31.3 213.9,33.0 219.6,36.1 225.2,39.3 230.9,47.7 236.6,44.8 242.3,49.8 247.9,51.6 253.6,55.0 259.3,45.1 264.9,47.8 270.6,39.8 276.3,39.6 282.0,51.4 287.6,55.3 293.3,52.7 299.0,63.0 304.7,64.8 310.3,67.6 316.0,67.4"/><polyline fill="none" stroke="#8b5cf6" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.7 9.7,58.5 15.3,62.8 21.0,65.1 26.7,55.9 32.4,55.4 38.0,64.9 43.7,64.5 49.4,62.7 55.1,64.1 60.7,74.8 66.4,63.5 72.1,62.7 77.7,56.2 83.4,43.5 89.1,39.6 94.8,40.5 100.4,33.2 106.1,32.0 111.8,33.6 117.5,30.0 123.1,27.7 128.8,29.8 134.5,31.0 140.1,38.2 145.8,29.7 151.5,33.9 157.2,28.8 162.8,29.4 168.5,24.7 174.2,26.6 179.9,22.7 185.5,27.7 191.2,30.6 196.9,36.1 202.5,32.2 208.2,24.7 213.9,26.1 219.6,31.9 225.2,35.1 230.9,42.1 236.6,36.6 242.3,41.7 247.9,43.5 253.6,46.4 259.3,35.4 264.9,36.1 270.6,25.8 276.3,25.9 282.0,35.7 287.6,38.4 293.3,36.0 299.0,46.2 304.7,48.3 310.3,51.0 316.0,49.7"/><polyline fill="none" stroke="#86198f" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.7 9.7,59.3 15.3,63.8 21.0,65.8 26.7,55.4 32.4,54.5 38.0,64.3 43.7,64.1 49.4,62.7 55.1,64.8 60.7,75.0 66.4,62.8 72.1,61.8 77.7,55.4 83.4,42.7 89.1,38.4 94.8,38.8 100.4,31.0 106.1,29.0 111.8,30.7 117.5,26.7 123.1,25.0 128.8,26.8 134.5,27.4 140.1,35.4 145.8,26.9 151.5,30.7 157.2,24.8 162.8,25.9 168.5,21.5 174.2,23.5 179.9,19.2 185.5,24.4 191.2,27.1 196.9,32.5 202.5,28.4 208.2,20.6 213.9,22.0 219.6,28.1 225.2,31.0 230.9,37.7 236.6,31.9 242.3,37.5 247.9,39.1 253.6,42.3 259.3,31.2 264.9,31.6 270.6,21.2 276.3,21.2 282.0,30.7 287.6,33.0 293.3,30.6 299.0,41.1 304.7,43.2 310.3,45.8 316.0,44.4"/><polyline fill="none" stroke="#d97706" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.7 9.7,60.5 15.3,70.2 21.0,71.5 26.7,58.4 32.4,57.9 38.0,71.7 43.7,71.7 49.4,70.2 55.1,72.0 60.7,85.3 66.4,66.6 72.1,61.5 77.7,49.6 83.4,31.4 89.1,29.0 94.8,29.7 100.4,19.9 106.1,17.9 111.8,21.2 117.5,16.4 123.1,13.0 128.8,14.6 134.5,16.1 140.1,27.0 145.8,20.3 151.5,26.4 157.2,18.8 162.8,22.2 168.5,17.8 174.2,19.4 179.9,12.4 185.5,18.4 191.2,21.7 196.9,29.3 202.5,23.8 208.2,12.0 213.9,14.8 219.6,22.1 225.2,26.5 230.9,35.0 236.6,26.1 242.3,33.7 247.9,37.6 253.6,42.2 259.3,28.9 264.9,27.7 270.6,12.2 276.3,11.7 282.0,22.5 287.6,23.5 293.3,18.5 299.0,30.5 304.7,31.9 310.3,35.0 316.0,33.2"/></svg></div>
+      <div class="fl-f">Live NAV · 11-page dashboard · 1997–2026 backtest</div>
+    </a>
+    <a class="fl rv" data-d="1" href="#lab">
+      <div class="fl-k">Flagship · Fixed income &amp; derivatives</div>
+      <h3>Convexity Lab</h3>
+      <p>A research and portfolio-decision workstation: from market evidence and security analysis to portfolio risk, option strategies and hedged, stress-tested decisions.</p>
+      <div class="fl-c"><div class="fl-cl">10Y bond · convexity gain vs rate shock</div><svg viewBox="0 0 320 96" role="img" aria-label="Convexity gain of a 10-year bond under rate shocks: positive whichever way rates move."><line x1="4" y1="88.0" x2="316" y2="88.0" stroke="var(--rule-2)"/><polygon fill="rgba(27,58,82,.10)" points="4.0,88.0 4.0,16.2 11.8,23.4 19.6,30.1 27.4,36.5 35.2,42.5 43.0,48.1 50.8,53.3 58.6,58.2 66.4,62.7 74.2,66.8 82.0,70.5 89.8,73.9 97.6,76.9 105.4,79.5 113.2,81.8 121.0,83.7 128.8,85.3 136.6,86.5 144.4,87.4 152.2,87.9 160.0,88.0 167.8,87.8 175.6,87.2 183.4,86.3 191.2,85.1 199.0,83.5 206.8,81.6 214.6,79.3 222.4,76.7 230.2,73.8 238.0,70.5 245.8,66.9 253.6,63.0 261.4,58.7 269.2,54.1 277.0,49.2 284.8,44.0 292.6,38.4 300.4,32.6 308.2,26.4 316.0,19.9 316.0,88.0"/><polyline fill="none" stroke="#1b3a52" stroke-width="1.8" points="4.0,16.2 11.8,23.4 19.6,30.1 27.4,36.5 35.2,42.5 43.0,48.1 50.8,53.3 58.6,58.2 66.4,62.7 74.2,66.8 82.0,70.5 89.8,73.9 97.6,76.9 105.4,79.5 113.2,81.8 121.0,83.7 128.8,85.3 136.6,86.5 144.4,87.4 152.2,87.9 160.0,88.0 167.8,87.8 175.6,87.2 183.4,86.3 191.2,85.1 199.0,83.5 206.8,81.6 214.6,79.3 222.4,76.7 230.2,73.8 238.0,70.5 245.8,66.9 253.6,63.0 261.4,58.7 269.2,54.1 277.0,49.2 284.8,44.0 292.6,38.4 300.4,32.6 308.2,26.4 316.0,19.9"/><circle cx="4.0" cy="16.2" r="2.6" fill="#1b3a52"/><circle cx="82.0" cy="70.5" r="2.6" fill="#1b3a52"/><circle cx="160.0" cy="88.0" r="2.6" fill="#1b3a52"/><circle cx="238.0" cy="70.5" r="2.6" fill="#1b3a52"/><circle cx="316.0" cy="19.9" r="2.6" fill="#1b3a52"/></svg></div>
+      <div class="fl-f">15 research routes · bonds, options, FX · portfolio upload</div>
+    </a>
+    <a class="fl rv" data-d="2" href="#regime">
+      <div class="fl-k">Flagship · Macro framework</div>
+      <h3>Macro Regime Score</h3>
+      <p>Thirteen indicators across five pillars, scored monthly since 2003. It flagged the GFC nine months before the NBER dated it, and it is the input the dynamic layer reads.</p>
+      <div class="fl-c"><div class="fl-cl">Composite z-score · contraction band shaded</div><svg viewBox="0 0 320 96" role="img" aria-label="Macro Regime Score composite from 2003 to 2026; the only dips below the contraction line are the GFC and COVID."><rect x="4" y="57.3" width="312" height="32.7" fill="rgba(168,51,42,.10)"/><line x1="4" y1="57.3" x2="316" y2="57.3" stroke="rgba(168,51,42,.45)" stroke-dasharray="2 3"/><polyline fill="none" stroke="#1b3a52" stroke-width="1.6" stroke-linejoin="round" points="4.0,22.2 5.1,14.2 6.2,18.0 7.4,17.3 8.5,13.9 9.6,16.1 10.7,15.2 11.9,13.6 13.0,14.0 14.1,15.9 15.2,10.9 16.3,13.1 17.5,15.6 18.6,13.2 19.7,17.7 20.8,15.1 22.0,11.5 23.1,13.5 24.2,11.9 25.3,13.2 26.4,12.8 27.6,14.4 28.7,14.0 29.8,20.3 30.9,17.8 32.1,16.3 33.2,19.2 34.3,23.9 35.4,26.3 36.5,25.4 37.7,26.6 38.8,19.4 39.9,20.1 41.0,18.3 42.2,20.9 43.3,27.2 44.4,34.2 45.5,32.9 46.6,35.0 47.8,32.1 48.9,26.8 50.0,23.9 51.1,23.3 52.3,22.9 53.4,25.6 54.5,27.0 55.6,23.2 56.7,24.8 57.9,23.8 59.0,25.6 60.1,38.3 61.2,41.4 62.4,37.4 63.5,48.8 64.6,54.2 65.7,53.3 66.8,54.7 68.0,60.7 69.1,56.3 70.2,48.4 71.3,51.0 72.5,56.8 73.6,59.5 74.7,64.0 75.8,78.6 76.9,81.9 78.1,84.2 79.2,83.0 80.3,81.0 81.4,79.9 82.6,72.3 83.7,60.0 84.8,52.9 85.9,48.9 87.1,44.1 88.2,42.0 89.3,37.9 90.4,38.6 91.5,37.2 92.7,33.7 93.8,36.8 94.9,32.0 96.0,25.9 97.2,29.1 98.3,32.5 99.4,29.8 100.5,33.4 101.6,32.5 102.8,31.3 103.9,30.7 105.0,26.6 106.1,26.8 107.3,27.4 108.4,28.3 109.5,25.5 110.6,26.7 111.7,29.4 112.9,30.7 114.0,39.3 115.1,42.4 116.2,36.3 117.4,36.0 118.5,35.0 119.6,30.2 120.7,27.8 121.8,26.1 123.0,26.8 124.1,32.6 125.2,32.6 126.3,30.9 127.5,31.0 128.6,29.5 129.7,27.7 130.8,28.0 131.9,27.6 133.1,25.0 134.2,27.0 135.3,26.8 136.4,27.0 137.6,28.3 138.7,29.9 139.8,27.5 140.9,26.6 142.0,26.6 143.2,24.9 144.3,25.3 145.4,23.7 146.5,25.6 147.7,28.1 148.8,26.6 149.9,22.8 151.0,21.3 152.1,21.1 153.3,19.1 154.4,23.1 155.5,23.4 156.6,24.0 157.8,26.1 158.9,28.2 160.0,27.8 161.1,27.1 162.2,28.4 163.4,26.0 164.5,28.7 165.6,29.7 166.7,30.3 167.9,35.7 169.0,38.6 170.1,36.6 171.2,37.0 172.3,37.7 173.5,39.2 174.6,40.1 175.7,35.3 176.8,32.1 178.0,33.8 179.1,34.5 180.2,29.3 181.3,28.6 182.4,29.5 183.6,29.3 184.7,29.1 185.8,26.8 186.9,24.9 188.1,26.4 189.2,25.4 190.3,25.3 191.4,26.2 192.5,26.1 193.7,23.5 194.8,26.3 195.9,27.4 197.0,23.0 198.2,25.1 199.3,24.4 200.4,22.8 201.5,27.6 202.6,28.7 203.8,26.5 204.9,28.0 206.0,27.9 207.1,26.2 208.3,26.8 209.4,25.8 210.5,28.2 211.6,31.8 212.7,37.2 213.9,33.5 215.0,32.3 216.1,31.7 217.2,29.4 218.4,31.3 219.5,31.1 220.6,27.6 221.7,31.6 222.8,30.7 224.0,29.8 225.1,30.3 226.2,27.9 227.3,29.5 228.5,34.2 229.6,69.3 230.7,72.5 231.8,66.2 232.9,60.8 234.1,41.8 235.2,31.5 236.3,31.7 237.4,34.0 238.6,37.1 239.7,36.9 240.8,33.9 241.9,34.4 243.1,21.9 244.2,19.6 245.3,24.0 246.4,26.5 247.5,27.0 248.7,30.4 249.8,31.9 250.9,28.8 252.0,30.1 253.2,32.2 254.3,35.7 255.4,40.4 256.5,45.8 257.6,41.8 258.8,44.1 259.9,46.6 261.0,43.9 262.1,42.4 263.3,45.4 264.4,48.4 265.5,45.3 266.6,42.1 267.7,38.5 268.9,37.9 270.0,41.0 271.1,38.0 272.2,41.1 273.4,37.3 274.5,33.4 275.6,33.2 276.7,30.5 277.8,30.8 279.0,28.9 280.1,26.5 281.2,27.3 282.3,29.6 283.5,27.7 284.6,28.7 285.7,26.0 286.8,28.5 287.9,28.1 289.1,32.0 290.2,29.4 291.3,29.7 292.4,31.3 293.6,29.8 294.7,28.5 295.8,29.7 296.9,31.7 298.0,35.9 299.2,33.1 300.3,31.1 301.4,28.2 302.5,29.4 303.7,28.5 304.8,27.1 305.9,29.1 307.0,29.2 308.1,27.6 309.3,29.8 310.4,35.0 311.5,31.4 312.6,30.5 313.8,29.4 314.9,29.1 316.0,30.1"/><circle cx="316.0" cy="30.1" r="3" fill="#a8332a"/></svg></div>
+      <div class="fl-f">279 months · refreshed daily · Aug 2026: Neutral</div>
+    </a>
   </div>
 </div>
+
+
 
 <main>
 
@@ -446,10 +501,150 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
   </div>
 </section>
 
-<section id="regime" class="alt">
+<section id="lab" class="alt">
   <div class="wrap">
     <div class="sec-head rv">
       <div class="sec-n">02</div>
+      <div class="sec-t">
+        <div class="eyebrow">Fixed income · derivatives · portfolio risk</div>
+        <h2>Convexity Lab</h2>
+        <p>A research and portfolio-decision workstation. It takes a market view, or a real portfolio, from
+           evidence through security analysis, risk decomposition and strategy design to a hedged,
+           stress-tested decision, and keeps the thesis, assumptions and outcome on record.</p>
+      </div>
+    </div>
+
+    <article class="art rv">
+      <div class="art-head">
+        <h3>One environment, from research to decision</h3>
+        <div class="art-links">
+          <a class="lk lk-live" href="https://ankitv25.github.io/Convexity-Lab-RM/">Public preview</a>
+          <a class="lk" href="https://ankitv25.github.io/Convexity-Lab-RM/rates/">Rates &amp; bonds</a></div>
+      </div>
+      <p class="dek">Fifteen research routes built on twenty-five quantitative modules. Each stage answers a question an
+         investment committee would ask, and each one hands its output to the next. Every figure carries
+         its source and observation date.</p>
+
+      <ol class="flow">
+        <li class="st">
+          <div class="st-n">01 · Research</div>
+          <h4>What is the market telling me?</h4>
+          <p>The macro regime as a probability distribution across five pillars, cross-asset discovery across
+             FX, regional equity, duration, credit and commodities, and source-dated capital-market assumptions.
+             Views become ranked equity, rates, credit, FX, commodity and volatility ideas, each with
+             explicit invalidation conditions.</p>
+          <div class="st-m">Macro regime · Global discovery · Market views · CMAs</div>
+        </li>
+        <li class="st">
+          <div class="st-n">02 · Analyse</div>
+          <h4>What is this security worth, and what drives it?</h4>
+          <p>Cash bonds priced off a bootstrapped Treasury curve: implied yield, z-spread, model versus observed
+             price, a rate × spread P&amp;L grid and a Black–Derman–Toy lattice. Securities decomposed by
+             Fama–French five-factor plus momentum regression; all 11 GICS sectors and 56 industry groups
+             screened before a ticker is chosen.</p>
+          <div class="st-m">Bond fair value · Security lab · Industries &amp; factors</div>
+        </li>
+        <li class="st">
+          <div class="st-n">03 · Portfolio</div>
+          <h4>What do I actually own?</h4>
+          <p>Upload a broker statement (PDF), a CSV or a JSON file. Every parsed line is reviewed before it reaches
+             the model. Or load any of the five live funds at their exact weights. Returns are aligned in the
+             base currency, FX included.</p>
+          <div class="st-m">Statement import · Five-fund handoff · Base-currency returns</div>
+        </li>
+        <li class="st">
+          <div class="st-n">04 · Risk</div>
+          <h4>Where does the risk really come from?</h4>
+          <p>Capital weight against risk share by Euler contribution, beta, tracking error, VaR and CVaR, factor
+             and six-asset cross-asset exposures. Today's holdings are replayed through Q4 2018, COVID,
+             the 2022 rates shock, the March 2023 bank stress and the 2024 carry unwind, then shocked forward
+             from the macro regime.</p>
+          <div class="st-m">Portfolio risk lab · Historical &amp; forward stress</div>
+        </li>
+        <li class="st">
+          <div class="st-n">05 · Strategy</div>
+          <h4>Which structure expresses the view best?</h4>
+          <p>Ten option structures and a custom multi-leg builder with full Greeks, payoff, spot × volatility P&amp;L
+             and historical replay. A signal lab ranks every structure under one distribution. FX carry uses
+             covered-interest-parity forwards, including INR non-deliverable forwards, and four bond
+             expressions separate valuation, duration, curve and credit carry.</p>
+          <div class="st-m">Strategy studio · Quant signals · FX carry · Bond playbook</div>
+        </li>
+        <li class="st">
+          <div class="st-n">06 · Protect &amp; decide</div>
+          <h4>What does protection cost, and what risk remains?</h4>
+          <p>Hedge alternatives sized toward a target drawdown and compared on cost and pre- and post-stress loss.
+             The decision goes to a research log with its legs and exit scenarios, and the idea can be tracked
+             in a paper incubator with marks, Greeks and P&amp;L attribution.</p>
+          <div class="st-m">Protection analysis · Research log · Strategy incubator</div>
+        </li>
+      </ol>
+    </article>
+
+    <div class="duo">
+      <article class="art rv">
+        <div class="art-head"><h3>Protecting a portfolio</h3></div>
+        <p class="dek">Once a portfolio's risk is decomposed, the Lab compares ways to reshape it side by side. It
+           doesn't stop at one hedge verdict: each alternative is shown with its cost, the loss it removes in
+           stress and the risk it leaves behind.</p>
+        <div style="overflow-x:auto"><table class="hedge"><thead><tr><th>Alternative</th><th class="tl">What it addresses</th></tr></thead><tbody>
+          <tr><td>Index put-spread overlay</td><td class="tl">Narrows the modelled worst scenario toward a target drawdown, with a short lower strike capping the premium</td></tr>
+          <tr><td>Protective put, 5% OTM or at the money</td><td class="tl">Keeps crash convexity; the at-the-money version protects sooner at a higher premium</td></tr>
+          <tr><td>Collar on the largest risk</td><td class="tl">Keeps a deliberate concentration while defining its downside</td></tr>
+          <tr><td>Marginal-risk rebalance</td><td class="tl">Moves capital out of positions whose risk share exceeds their weight, with no options at all</td></tr>
+          <tr><td>Sector hedge</td><td class="tl">Reduces the largest sector concentration through a liquid sector proxy, without selling every underlying name</td></tr>
+          <tr><td>Base-currency FX hedge</td><td class="tl">Separates the asset thesis from an unintended currency bet, using forwards or defined-risk options</td></tr>
+          <tr><td>Liquidity &amp; Treasury buffer</td><td class="tl">Builds dry powder and reduces forced-selling risk before any derivative complexity is added</td></tr>
+        </tbody></table></div>
+      </article>
+
+      <article class="art rv">
+        <div class="art-head"><h3>Rates, priced exactly</h3></div>
+        <p class="dek">The public preview publishes the rates engine on a dated Federal Reserve curve. This chart shows
+           the 10-year bond's convexity gain: exact repricing after each par-yield shock, minus what duration
+           alone predicts.</p>
+        <div class="chart">
+<svg viewBox="0 0 480 250" role="img" aria-label="Convexity gain of a synthetic 10-year 4 percent bond: exact repricing minus the duration-only estimate, per 100 face. Plus 0.36 at minus 100 basis points, plus 0.09 at minus 50, zero at no change, plus 0.09 at plus 50 and plus 0.34 at plus 100 — positive whichever way rates move.">
+<line class="zl" x1="44" y1="206.0" x2="462" y2="206.0"></line><text class="ax" x="36" y="210.0" text-anchor="end">0.0</text>
+<line class="gl" x1="44" y1="160.0" x2="462" y2="160.0"></line><text class="ax" x="36" y="164.0" text-anchor="end">0.1</text>
+<line class="gl" x1="44" y1="114.0" x2="462" y2="114.0"></line><text class="ax" x="36" y="118.0" text-anchor="end">0.2</text>
+<line class="gl" x1="44" y1="68.0" x2="462" y2="68.0"></line><text class="ax" x="36" y="72.0" text-anchor="end">0.3</text>
+<line class="gl" x1="44" y1="22.0" x2="462" y2="22.0"></line><text class="ax" x="36" y="26.0" text-anchor="end">0.4</text>
+<text class="ax" x="44.0" y="226" text-anchor="start">-100 bp</text>
+<text class="ax" x="148.5" y="226" text-anchor="middle">-50 bp</text>
+<text class="ax" x="253.0" y="226" text-anchor="middle">0 bp</text>
+<text class="ax" x="357.5" y="226" text-anchor="middle">+50 bp</text>
+<text class="ax" x="462.0" y="226" text-anchor="end">+100 bp</text>
+<polygon fill="rgba(27,58,82,.10)" points="44.0,206.0 44.0,40.9 54.5,57.3 64.9,72.9 75.3,87.5 85.8,101.3 96.2,114.2 106.7,126.2 117.1,137.4 127.6,147.7 138.1,157.2 148.5,165.8 158.9,173.6 169.4,180.5 179.8,186.6 190.3,191.8 200.8,196.2 211.2,199.8 221.7,202.6 232.1,204.5 242.5,205.7 253.0,206.0 263.5,205.5 273.9,204.3 284.4,202.2 294.8,199.3 305.2,195.7 315.7,191.3 326.2,186.1 336.6,180.1 347.1,173.3 357.5,165.8 367.9,157.5 378.4,148.5 388.8,138.7 399.3,128.1 409.8,116.8 420.2,104.8 430.7,92.0 441.1,78.5 451.6,64.3 462.0,49.3 462.0,206.0"></polygon>
+<polyline fill="none" stroke="var(--brand)" stroke-width="2.2" points="44.0,40.9 54.5,57.3 64.9,72.9 75.3,87.5 85.8,101.3 96.2,114.2 106.7,126.2 117.1,137.4 127.6,147.7 138.1,157.2 148.5,165.8 158.9,173.6 169.4,180.5 179.8,186.6 190.3,191.8 200.8,196.2 211.2,199.8 221.7,202.6 232.1,204.5 242.5,205.7 253.0,206.0 263.5,205.5 273.9,204.3 284.4,202.2 294.8,199.3 305.2,195.7 315.7,191.3 326.2,186.1 336.6,180.1 347.1,173.3 357.5,165.8 367.9,157.5 378.4,148.5 388.8,138.7 399.3,128.1 409.8,116.8 420.2,104.8 430.7,92.0 441.1,78.5 451.6,64.3 462.0,49.3"></polyline>
+<circle cx="44.0" cy="40.9" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>-100 bp: exact price 97.89, duration-only 97.53, convexity gain +0.359</title></circle>
+<text class="val" x="54.0" y="30.9" text-anchor="start">+0.36</text>
+<circle cx="148.5" cy="165.8" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>-50 bp: exact price 93.97, duration-only 93.89, convexity gain +0.087</title></circle>
+<text class="val" x="158.5" y="155.8" text-anchor="start">+0.09</text>
+<circle cx="253.0" cy="206.0" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>+0 bp: exact price 90.24, duration-only 90.24, convexity gain +0.000</title></circle>
+<circle cx="357.5" cy="165.8" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>+50 bp: exact price 86.69, duration-only 86.60, convexity gain +0.087</title></circle>
+<text class="val" x="347.5" y="155.8" text-anchor="end">+0.09</text>
+<circle cx="462.0" cy="49.3" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>+100 bp: exact price 83.30, duration-only 82.96, convexity gain +0.341</title></circle>
+<text class="val" x="452.0" y="39.3" text-anchor="end">+0.34</text>
+</svg>
+        </div>
+        <p class="figcap">10-year 4% synthetic bond, curve observed 29 Sep 2026. Price units per 100 face.</p>
+      </article>
+    </div>
+
+    <p class="pull rv">Built to state its limits. Black–Scholes is labelled a European benchmark, and scenario weights
+      are labelled as assumptions. Nothing is sent to a broker. <strong>Every thesis is saved with its legs, inputs
+      and invalidation level</strong>, so a decision can be reopened and audited later, not just remembered.</p>
+    <p class="note rv">The full workstation runs privately behind owner sign-in while it moves to new hosting.
+      The public preview — rates and bonds, five-fund evidence, capital-market assumptions and the macro
+      regime — is live now.</p>
+  </div>
+</section>
+
+<section id="regime">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-n">03</div>
       <div class="sec-t">
         <div class="eyebrow">Macro framework</div>
         <h2>MRS &amp; regime analysis</h2>
@@ -469,6 +664,35 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
          expanding-window z-score, aggregated with fixed weights and classified against calibrated thresholds
          with a two-month persistence rule. It rebuilds daily on GitHub Actions; the latest scored month,
          August 2026, reads <strong>Neutral at +0.17z</strong> — the 43rd month in that regime.</p>
+<figure class="mrsband">
+    <div class="cap"><span>Macro Regime Score · composite z-score</span><span>279 months · Jun 2003 — Aug 2026</span></div>
+<svg viewBox="0 0 1440 300" role="img" aria-label="The Macro Regime Score composite z-score from June 2003 to August 2026 plotted against four regime bands. It falls to minus 2.15 in December 2008 and minus 1.65 during the COVID crash — the only two excursions into the Contraction band.">
+            <rect x="0" y="18" width="1440" height="72.9" fill="rgba(47,111,159,.10)"></rect>
+            <rect x="0" y="90.9" width="1440" height="45.2" fill="rgba(138,132,116,.10)"></rect>
+            <rect x="0" y="136.1" width="1440" height="48.6" fill="rgba(214,138,19,.13)"></rect>
+            <rect x="0" y="184.7" width="1440" height="97.3" fill="rgba(168,51,42,.12)"></rect>
+            <line class="gl" x1="0" y1="90.9" x2="1440" y2="90.9"></line>
+            <line class="gl" x1="0" y1="136.1" x2="1440" y2="136.1"></line>
+            <line class="zl" x1="0" y1="184.7" x2="1440" y2="184.7"></line>
+            <polyline fill="rgba(27,58,82,.08)" stroke="none" points="0.0,282.0 0.0,79.9 4.7,56.1 9.4,67.7 14.0,65.4 18.7,55.3 23.4,61.8 28.1,59.2 32.7,54.6 37.4,55.7 42.1,61.5 46.8,46.4 51.4,52.9 56.1,60.5 60.8,53.4 65.5,66.7 70.1,58.8 74.8,48.3 79.5,54.3 84.2,49.5 88.8,53.2 93.5,52.0 98.2,56.8 102.9,55.8 107.6,74.3 112.2,67.0 116.9,62.4 121.6,71.0 126.3,85.3 130.9,92.3 135.6,89.5 140.3,93.0 145.0,71.7 149.6,73.7 154.3,68.3 159.0,76.3 163.7,94.9 168.3,115.8 173.0,111.9 177.7,118.1 182.4,109.5 187.1,93.8 191.7,85.1 196.4,83.2 201.1,82.0 205.8,90.3 210.4,94.2 215.1,82.9 219.8,87.7 224.5,85.0 229.1,90.1 233.8,127.9 238.5,137.2 243.2,125.4 247.8,159.2 252.5,175.4 257.2,172.6 261.9,176.7 266.5,194.7 271.2,181.5 275.9,158.2 280.6,165.8 285.3,183.2 289.9,191.1 294.6,204.6 299.3,248.2 304.0,257.8 308.6,264.7 313.3,261.3 318.0,255.1 322.7,251.9 327.3,229.4 332.0,192.5 336.7,171.5 341.4,159.7 346.0,145.2 350.7,139.0 355.4,126.9 360.1,128.8 364.7,124.8 369.4,114.4 374.1,123.5 378.8,109.4 383.5,91.1 388.1,100.7 392.8,110.9 397.5,102.6 402.2,113.6 406.8,110.7 411.5,107.1 416.2,105.5 420.9,93.3 425.5,93.9 430.2,95.5 434.9,98.3 439.6,89.8 444.2,93.5 448.9,101.5 453.6,105.3 458.3,130.9 462.9,140.2 467.6,122.0 472.3,121.3 477.0,118.2 481.7,103.8 486.3,96.8 491.0,91.6 495.7,93.8 500.4,110.9 505.0,111.0 509.7,105.8 514.4,106.3 519.1,101.7 523.7,96.5 528.4,97.3 533.1,96.1 537.8,88.3 542.4,94.5 547.1,93.9 551.8,94.2 556.5,98.1 561.2,103.0 565.8,95.8 570.5,93.3 575.2,93.3 579.9,88.1 584.5,89.4 589.2,84.6 593.9,90.2 598.6,97.6 603.2,93.1 607.9,81.7 612.6,77.3 617.3,76.7 621.9,70.8 626.6,82.7 631.3,83.8 636.0,85.5 640.6,91.7 645.3,98.0 650.0,96.7 654.7,94.8 659.4,98.5 664.0,91.3 668.7,99.5 673.4,102.4 678.1,104.1 682.7,120.3 687.4,128.8 692.1,123.0 696.8,124.3 701.4,126.4 706.1,130.8 710.8,133.3 715.5,119.0 720.1,109.7 724.8,114.5 729.5,116.7 734.2,101.4 738.8,99.3 743.5,101.8 748.2,101.2 752.9,100.6 757.6,93.8 762.2,88.1 766.9,92.7 771.6,89.6 776.3,89.3 780.9,91.9 785.6,91.6 790.3,84.0 795.0,92.4 799.6,95.6 804.3,82.5 809.0,88.8 813.7,86.6 818.3,82.0 823.0,96.2 827.7,99.4 832.4,92.8 837.1,97.2 841.7,96.9 846.4,92.0 851.1,93.9 855.8,90.8 860.4,98.0 865.1,108.6 869.8,124.9 874.5,113.6 879.1,110.1 883.8,108.5 888.5,101.4 893.2,107.2 897.8,106.6 902.5,96.2 907.2,108.1 911.9,105.3 916.5,102.6 921.2,104.1 925.9,97.1 930.6,101.9 935.3,115.9 939.9,220.3 944.6,229.9 949.3,211.3 954.0,195.0 958.6,138.6 963.3,107.8 968.0,108.3 972.7,115.2 977.3,124.5 982.0,123.7 986.7,114.8 991.4,116.3 996.0,79.3 1000.7,72.4 1005.4,85.5 1010.1,92.9 1014.7,94.4 1019.4,104.6 1024.1,109.0 1028.8,99.7 1033.5,103.5 1038.1,109.9 1042.8,120.3 1047.5,134.2 1052.2,150.3 1056.8,138.4 1061.5,145.2 1066.2,152.8 1070.9,144.6 1075.5,140.3 1080.2,149.1 1084.9,158.3 1089.6,148.9 1094.2,139.4 1098.9,128.7 1103.6,126.8 1108.3,136.2 1112.9,127.2 1117.6,136.5 1122.3,124.9 1127.0,113.3 1131.7,112.8 1136.3,104.9 1141.0,105.8 1145.7,100.1 1150.4,92.9 1155.0,95.2 1159.7,102.0 1164.4,96.6 1169.1,99.5 1173.7,91.4 1178.4,99.0 1183.1,97.7 1187.8,109.4 1192.4,101.6 1197.1,102.4 1201.8,107.3 1206.5,102.6 1211.2,99.0 1215.8,102.5 1220.5,108.5 1225.2,120.8 1229.9,112.6 1234.5,106.5 1239.2,97.9 1243.9,101.6 1248.6,98.9 1253.2,94.8 1257.9,100.7 1262.6,100.9 1267.3,96.2 1271.9,102.6 1276.6,118.3 1281.3,107.5 1286.0,104.7 1290.6,101.6 1295.3,100.5 1300.0,103.6 1300.0,282.0"></polyline>
+            <polyline id="heroLine" fill="none" stroke="#1b3a52" stroke-width="2.1"
+              stroke-linejoin="round" stroke-linecap="round" points="0.0,79.9 4.7,56.1 9.4,67.7 14.0,65.4 18.7,55.3 23.4,61.8 28.1,59.2 32.7,54.6 37.4,55.7 42.1,61.5 46.8,46.4 51.4,52.9 56.1,60.5 60.8,53.4 65.5,66.7 70.1,58.8 74.8,48.3 79.5,54.3 84.2,49.5 88.8,53.2 93.5,52.0 98.2,56.8 102.9,55.8 107.6,74.3 112.2,67.0 116.9,62.4 121.6,71.0 126.3,85.3 130.9,92.3 135.6,89.5 140.3,93.0 145.0,71.7 149.6,73.7 154.3,68.3 159.0,76.3 163.7,94.9 168.3,115.8 173.0,111.9 177.7,118.1 182.4,109.5 187.1,93.8 191.7,85.1 196.4,83.2 201.1,82.0 205.8,90.3 210.4,94.2 215.1,82.9 219.8,87.7 224.5,85.0 229.1,90.1 233.8,127.9 238.5,137.2 243.2,125.4 247.8,159.2 252.5,175.4 257.2,172.6 261.9,176.7 266.5,194.7 271.2,181.5 275.9,158.2 280.6,165.8 285.3,183.2 289.9,191.1 294.6,204.6 299.3,248.2 304.0,257.8 308.6,264.7 313.3,261.3 318.0,255.1 322.7,251.9 327.3,229.4 332.0,192.5 336.7,171.5 341.4,159.7 346.0,145.2 350.7,139.0 355.4,126.9 360.1,128.8 364.7,124.8 369.4,114.4 374.1,123.5 378.8,109.4 383.5,91.1 388.1,100.7 392.8,110.9 397.5,102.6 402.2,113.6 406.8,110.7 411.5,107.1 416.2,105.5 420.9,93.3 425.5,93.9 430.2,95.5 434.9,98.3 439.6,89.8 444.2,93.5 448.9,101.5 453.6,105.3 458.3,130.9 462.9,140.2 467.6,122.0 472.3,121.3 477.0,118.2 481.7,103.8 486.3,96.8 491.0,91.6 495.7,93.8 500.4,110.9 505.0,111.0 509.7,105.8 514.4,106.3 519.1,101.7 523.7,96.5 528.4,97.3 533.1,96.1 537.8,88.3 542.4,94.5 547.1,93.9 551.8,94.2 556.5,98.1 561.2,103.0 565.8,95.8 570.5,93.3 575.2,93.3 579.9,88.1 584.5,89.4 589.2,84.6 593.9,90.2 598.6,97.6 603.2,93.1 607.9,81.7 612.6,77.3 617.3,76.7 621.9,70.8 626.6,82.7 631.3,83.8 636.0,85.5 640.6,91.7 645.3,98.0 650.0,96.7 654.7,94.8 659.4,98.5 664.0,91.3 668.7,99.5 673.4,102.4 678.1,104.1 682.7,120.3 687.4,128.8 692.1,123.0 696.8,124.3 701.4,126.4 706.1,130.8 710.8,133.3 715.5,119.0 720.1,109.7 724.8,114.5 729.5,116.7 734.2,101.4 738.8,99.3 743.5,101.8 748.2,101.2 752.9,100.6 757.6,93.8 762.2,88.1 766.9,92.7 771.6,89.6 776.3,89.3 780.9,91.9 785.6,91.6 790.3,84.0 795.0,92.4 799.6,95.6 804.3,82.5 809.0,88.8 813.7,86.6 818.3,82.0 823.0,96.2 827.7,99.4 832.4,92.8 837.1,97.2 841.7,96.9 846.4,92.0 851.1,93.9 855.8,90.8 860.4,98.0 865.1,108.6 869.8,124.9 874.5,113.6 879.1,110.1 883.8,108.5 888.5,101.4 893.2,107.2 897.8,106.6 902.5,96.2 907.2,108.1 911.9,105.3 916.5,102.6 921.2,104.1 925.9,97.1 930.6,101.9 935.3,115.9 939.9,220.3 944.6,229.9 949.3,211.3 954.0,195.0 958.6,138.6 963.3,107.8 968.0,108.3 972.7,115.2 977.3,124.5 982.0,123.7 986.7,114.8 991.4,116.3 996.0,79.3 1000.7,72.4 1005.4,85.5 1010.1,92.9 1014.7,94.4 1019.4,104.6 1024.1,109.0 1028.8,99.7 1033.5,103.5 1038.1,109.9 1042.8,120.3 1047.5,134.2 1052.2,150.3 1056.8,138.4 1061.5,145.2 1066.2,152.8 1070.9,144.6 1075.5,140.3 1080.2,149.1 1084.9,158.3 1089.6,148.9 1094.2,139.4 1098.9,128.7 1103.6,126.8 1108.3,136.2 1112.9,127.2 1117.6,136.5 1122.3,124.9 1127.0,113.3 1131.7,112.8 1136.3,104.9 1141.0,105.8 1145.7,100.1 1150.4,92.9 1155.0,95.2 1159.7,102.0 1164.4,96.6 1169.1,99.5 1173.7,91.4 1178.4,99.0 1183.1,97.7 1187.8,109.4 1192.4,101.6 1197.1,102.4 1201.8,107.3 1206.5,102.6 1211.2,99.0 1215.8,102.5 1220.5,108.5 1225.2,120.8 1229.9,112.6 1234.5,106.5 1239.2,97.9 1243.9,101.6 1248.6,98.9 1253.2,94.8 1257.9,100.7 1262.6,100.9 1267.3,96.2 1271.9,102.6 1276.6,118.3 1281.3,107.5 1286.0,104.7 1290.6,101.6 1295.3,100.5 1300.0,103.6"></polyline>
+            <line x1="1300" y1="103.6" x2="1318" y2="103.6" stroke="#a8332a" stroke-width="1.2" stroke-dasharray="3 3"></line>
+            <circle cx="1300" cy="103.6" r="4.5" fill="#a8332a" stroke="#fdfcf9" stroke-width="1.8"></circle>
+            <text class="endlbl" x="1428" y="92.6" text-anchor="end">AUG 2026 · NEUTRAL</text>
+            <text class="endval" x="1428" y="110.6" text-anchor="end">+0.17 z</text>
+            <text class="bandlbl" x="16" y="37">EXPANSION</text><text class="bandlbl" x="16" y="109">NEUTRAL</text>
+            <text class="bandlbl" x="16" y="154">SLOWDOWN</text><text class="bandlbl" x="16" y="203">CONTRACTION</text>
+            <text class="yr" x="257" y="296" text-anchor="middle">2008</text>
+            <text class="yr" x="482" y="296" text-anchor="middle">2012</text>
+            <text class="yr" x="706" y="296" text-anchor="middle">2016</text>
+            <text class="yr" x="931" y="296" text-anchor="middle">2020</text>
+            <text class="yr" x="1155" y="296" text-anchor="middle">2024</text>
+            <text class="yr" x="1300" y="296" text-anchor="middle">2026</text>
+          </svg>
+    <div class="bfoot">Two contractions in twenty-three years — the GFC at <strong>−2.15</strong> and COVID at
+      <strong>−1.65</strong>. Nothing else crosses the line.</div>
+  </figure>
 
       <div class="mrow">
         <div class="m"><div class="v">−2.15</div><div class="k">GFC trough, Dec 2008</div></div>
@@ -522,10 +746,10 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
   </div>
 </section>
 
-<section id="dynamic">
+<section id="dynamic" class="alt">
   <div class="wrap">
     <div class="sec-head rv">
-      <div class="sec-n">03</div>
+      <div class="sec-n">04</div>
       <div class="sec-t">
         <div class="eyebrow">Allocation implications</div>
         <h2>From regime to allocation</h2>
@@ -607,105 +831,6 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
   </div>
 </section>
 
-<section id="lab" class="alt">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div class="sec-n">04</div>
-      <div class="sec-t">
-        <div class="eyebrow">Cross-asset research</div>
-        <h2>Convexity Lab</h2>
-        <p>The newest layer: a research lab where every figure carries its observation date. The public preview
-           covers rates and bonds, the five funds and institutional capital-market assumptions; the private
-           workspace — option strategy studio, portfolio risk and the research log — is being migrated behind
-           owner authentication.</p>
-      </div>
-    </div>
-
-    <article class="art rv">
-      <div class="art-head">
-        <h3>Rates &amp; bond research</h3>
-        <div class="art-links">
-          <a class="lk lk-live" href="https://ankitv25.github.io/Convexity-Lab-RM/rates/">Live lab</a>
-          <a class="lk" href="https://github.com/ankitv25/Convexity-Lab-RM">Code</a></div>
-      </div>
-      <p class="dek">An observed Treasury curve (Federal Reserve H.15) bootstrapped to zero rates; synthetic 2-, 5- and
-         10-year bonds repriced exactly under par-yield shocks, with DV01, key-rate DV01 and the
-         duration-plus-convexity approximation set against the exact answer; a Black–Derman–Toy short-rate
-         lattice fitted to the curve; and three conditional expressions — long duration, short duration, and a
-         DV01-neutral 2s10s steepener with its unhedged risks spelled out.</p>
-
-      <div class="mrow">
-        <div class="m"><div class="v">+37 bp</div><div class="k">2s10s slope · 29 Sep 2026</div></div>
-        <div class="m"><div class="v">2.35%</div><div class="k">10Y breakeven inflation</div></div>
-        <div class="m"><div class="v">0.073</div><div class="k">10Y DV01 · per bp, face 100</div></div>
-        <div class="m"><div class="v">2.2e−16</div><div class="k">BDT curve-fit residual</div></div>
-      </div>
-
-      <div class="figw">
-        <p class="t">Why convexity is worth paying for</p>
-        <p class="s">10-year 4% synthetic bond: exact repricing after each parallel par-yield shock, minus what
-           duration alone predicts. Price units per 100 face. The gain is positive whichever way rates move.</p>
-        <div class="chart">
-<svg viewBox="0 0 720 240" role="img" aria-label="Convexity gain of a synthetic 10-year 4 percent bond: exact repricing minus the duration-only estimate, per 100 face. Plus 0.36 at minus 100 basis points, plus 0.09 at minus 50, zero at no change, plus 0.09 at plus 50 and plus 0.34 at plus 100 — positive whichever way rates move.">
-<line class="zl" x1="70" y1="196.0" x2="690" y2="196.0"></line><text class="ax" x="62" y="200.0" text-anchor="end">0.0</text>
-<line class="gl" x1="70" y1="151.5" x2="690" y2="151.5"></line><text class="ax" x="62" y="155.5" text-anchor="end">0.1</text>
-<line class="gl" x1="70" y1="107.0" x2="690" y2="107.0"></line><text class="ax" x="62" y="111.0" text-anchor="end">0.2</text>
-<line class="gl" x1="70" y1="62.5" x2="690" y2="62.5"></line><text class="ax" x="62" y="66.5" text-anchor="end">0.3</text>
-<line class="gl" x1="70" y1="18.0" x2="690" y2="18.0"></line><text class="ax" x="62" y="22.0" text-anchor="end">0.4</text>
-<text class="ax" x="70.0" y="216" text-anchor="middle">-100 bp</text>
-<text class="ax" x="225.0" y="216" text-anchor="middle">-50 bp</text>
-<text class="ax" x="380.0" y="216" text-anchor="middle">0 bp</text>
-<text class="ax" x="535.0" y="216" text-anchor="middle">+50 bp</text>
-<text class="ax" x="690.0" y="216" text-anchor="middle">+100 bp</text>
-<polygon fill="rgba(27,58,82,.10)" points="70.0,196.0 70.0,36.3 85.5,52.2 101.0,67.2 116.5,81.4 132.0,94.7 147.5,107.2 163.0,118.8 178.5,129.7 194.0,139.6 209.5,148.8 225.0,157.1 240.5,164.6 256.0,171.3 271.5,177.2 287.0,182.3 302.5,186.5 318.0,190.0 333.5,192.7 349.0,194.6 364.5,195.7 380.0,196.0 395.5,195.5 411.0,194.3 426.5,192.3 442.0,189.5 457.5,186.0 473.0,181.7 488.5,176.7 504.0,170.9 519.5,164.4 535.0,157.1 550.5,149.1 566.0,140.3 581.5,130.9 597.0,120.7 612.5,109.7 628.0,98.1 643.5,85.7 659.0,72.7 674.5,58.9 690.0,44.4 690.0,196.0"></polygon>
-<polyline fill="none" stroke="var(--brand)" stroke-width="2.2" points="70.0,36.3 85.5,52.2 101.0,67.2 116.5,81.4 132.0,94.7 147.5,107.2 163.0,118.8 178.5,129.7 194.0,139.6 209.5,148.8 225.0,157.1 240.5,164.6 256.0,171.3 271.5,177.2 287.0,182.3 302.5,186.5 318.0,190.0 333.5,192.7 349.0,194.6 364.5,195.7 380.0,196.0 395.5,195.5 411.0,194.3 426.5,192.3 442.0,189.5 457.5,186.0 473.0,181.7 488.5,176.7 504.0,170.9 519.5,164.4 535.0,157.1 550.5,149.1 566.0,140.3 581.5,130.9 597.0,120.7 612.5,109.7 628.0,98.1 643.5,85.7 659.0,72.7 674.5,58.9 690.0,44.4"></polyline>
-<circle cx="70.0" cy="36.3" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>-100 bp: exact price 97.89, duration-only 97.53, convexity gain +0.359</title></circle>
-<text class="val" x="82.0" y="26.3" text-anchor="start">+0.36</text>
-<circle cx="225.0" cy="157.1" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>-50 bp: exact price 93.97, duration-only 93.89, convexity gain +0.087</title></circle>
-<text class="val" x="237.0" y="147.1" text-anchor="start">+0.09</text>
-<circle cx="380.0" cy="196.0" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>+0 bp: exact price 90.24, duration-only 90.24, convexity gain +0.000</title></circle>
-<circle cx="535.0" cy="157.1" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>+50 bp: exact price 86.69, duration-only 86.60, convexity gain +0.087</title></circle>
-<text class="val" x="523.0" y="147.1" text-anchor="end">+0.09</text>
-<circle cx="690.0" cy="44.4" r="4" fill="var(--brand)" stroke="#fdfcf9" stroke-width="1.5"><title>+100 bp: exact price 83.30, duration-only 82.96, convexity gain +0.341</title></circle>
-<text class="val" x="678.0" y="34.4" text-anchor="end">+0.34</text>
-</svg>
-        </div>
-      </div>
-
-      <details class="tbl"><summary>Exact P&amp;L against duration + convexity, 10Y bond</summary>
-        <table><thead><tr><th>Par shock</th><th>Exact price</th><th>Exact P&amp;L</th><th>Duration + convexity</th></tr></thead><tbody>
-          <tr><td>−100 bp</td><td class="num">97.89</td><td class="num">+7.646</td><td class="num">+7.633</td></tr>
-          <tr><td>−50 bp</td><td class="num">93.97</td><td class="num">+3.731</td><td class="num">+3.729</td></tr>
-          <tr><td>0</td><td class="num">90.24</td><td class="num">0.000</td><td class="num">0.000</td></tr>
-          <tr><td>+50 bp</td><td class="num">86.69</td><td class="num">−3.556</td><td class="num">−3.555</td></tr>
-          <tr><td>+100 bp</td><td class="num">83.30</td><td class="num">−6.946</td><td class="num">−6.934</td></tr>
-        </tbody></table>
-        <p class="s">Yield snapshot 29 Sep 2026. Synthetic face-100 coupon-date bonds; no observed security prices,
-           financing, carry or bid–ask are represented.</p></details>
-    </article>
-
-    <div class="cols">
-      <div class="col rv"><div class="col-n">EVIDENCE</div><h3 class="colh">Five-fund performance</h3>
-        <p>Each fund against its own reference, from launch or from August, with drawdown, beta and tracking
-           error. Excess return is labelled a difference, not alpha; Sharpe and Sortino are withheld on a record
-           this short.</p>
-        <div class="taglist" style="margin-top:15px"><a class="lk" href="https://ankitv25.github.io/Convexity-Lab-RM/fund/">Open →</a></div></div>
-      <div class="col rv" data-d="1"><div class="col-n">ASSUMPTIONS</div><h3 class="colh">Capital-market assumptions</h3>
-        <p>Vanguard, J.P. Morgan and State Street long-horizon forecasts side by side — with vintage, horizon,
-           geometric versus arithmetic basis and currency stated, and no false average across conventions that
-           do not match.</p>
-        <div class="taglist" style="margin-top:15px"><a class="lk" href="https://ankitv25.github.io/Convexity-Lab-RM/assumptions/">Open →</a></div></div>
-      <div class="col rv" data-d="2"><div class="col-n">MACRO</div><h3 class="colh">Regime, with its date</h3>
-        <p>The five MRS pillars as of their last complete month, shown beside the fund NAV's own clock. Two
-           vintages are never blended into one implied cause.</p>
-        <div class="taglist" style="margin-top:15px"><a class="lk" href="https://ankitv25.github.io/Convexity-Lab-RM/macro/">Open →</a></div></div>
-    </div>
-
-    <p class="pull rv">A recent fetch does not make an older observation fresh. <strong>Every number in the lab
-      carries its own date</strong>, and what the data cannot support — alpha, Greeks from a NAV line,
-      calibrated probabilities — is withheld rather than estimated.</p>
-  </div>
-</section>
 
 <section id="infra">
   <div class="wrap">
@@ -754,33 +879,35 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
       <div class="sec-t">
         <div class="eyebrow">Background</div>
         <h2>Experience</h2>
-        <p>Five years at EXL developing models for Capital One, Discover and Citi set the standard the
+        <p>Five years at EXL building models for three of the largest US banks and card issuers set the standard the
            platform is built to: every assumption traced to a source, and portfolios sized around what
            happens in the bad state rather than the base case.</p>
       </div>
     </div>
-    <div class="tl-i rv"><div class="tl-d"><div class="logo"><img src="assets/logos/exl.svg" alt="EXL" loading="lazy"></div>Nov 2020 — Present<br>New York</div>
+    <div class="tl-h rv">Professional</div>
+    <div class="tl-i rv"><div class="tl-d"><img class="tl-mark exl" src="assets/logos/exl.svg" alt="EXL" width="72" height="27">Nov 2020 — Present<br>New York</div>
       <div><h3>Senior Consultant, Risk Strategy &amp; Modelling</h3>
-        <div class="tl-org">Risk Strategy &amp; Modelling for three major US banks and card issuers — Capital One, Discover &amp; Citi (at EXL)</div>
+        <div class="tl-org">EXL · risk strategy and modelling for three of the largest US banks and card issuers</div>
         <ul>
           <li>Led time-series default-probability model development — hazard-function, behavioral and macroeconomic variables — across three of the largest US lenders</li>
           <li>Portfolio stress testing simulating segment-level loss under adverse macro scenarios</li>
           <li>Built a Strategy Monitoring Framework integrating real-time data into loss, revenue and ROE projection</li>
         </ul>
-        <div class="clients"><span>Clients</span><img style="height:30px" src="assets/logos/capitalone.svg" alt="Capital One" loading="lazy"><img style="height:17px" src="assets/logos/discover.svg" alt="Discover" loading="lazy"><img src="assets/logos/citi.svg" alt="Citi" loading="lazy"></div>
         <div class="metrics"><span class="metric">−25% risk exposure</span><span class="metric">−10% loss</span><span class="metric">4 performance awards</span></div></div></div>
-    <div class="tl-i rv"><div class="tl-d"><div class="logo mono" aria-hidden="true">LEF</div>Jan — Feb 2026<br>Knoxville, TN</div>
+    <div class="tl-i rv"><div class="tl-d">Jan — Feb 2026<br>Knoxville, TN</div>
       <div><h3>Student Consultant — Equity Portfolio Review</h3>
-        <div class="tl-org">Leading Edge Financial · Wealth Management RIA · Georgetown MSF Winter Clinic</div>
+        <div class="tl-org">Wealth-management RIA · Georgetown MSF Winter Clinic</div>
         <ul><li>Six-week engagement on a $150M AUM equity portfolio, closing with an executive presentation to the sponsor team</li></ul>
         <div class="metrics"><span class="metric">+286bps return</span><span class="metric">−241bps volatility</span><span class="metric">Sharpe 0.51 → 0.81</span><span class="metric">Beta 1.07 → 0.84</span></div></div></div>
-    <div class="tl-i rv"><div class="tl-d"><div class="logo seal"><img src="assets/logos/georgetown.png" alt="Georgetown University" loading="lazy"></div>Aug 2025 — 2027<br>Washington, DC</div>
-      <div><h3>Master of Science in Finance</h3>
-        <div class="tl-org">Georgetown University, McDonough School of Business</div>
-        <ul><li>GPA 3.93 / 4.00</li></ul></div></div>
-    <div class="tl-i rv"><div class="tl-d"><div class="logo seal"><img src="assets/logos/iitk.png" alt="IIT Kanpur" loading="lazy"></div>Aug 2016 — Jul 2020<br>Kanpur, India</div>
-      <div><h3>Bachelor of Technology, Materials Science &amp; Engineering</h3>
-        <div class="tl-org">Indian Institute of Technology (IIT) Kanpur</div></div></div>
+    <div class="tl-h rv">Education</div>
+    <div class="tl-i edu rv"><div class="tl-d">Aug 2025 — 2027<br>Washington, DC</div>
+      <div><img class="tl-mark gu" src="assets/logos/georgetown.svg" alt="Georgetown University" width="236" height="50">
+        <h3>McDonough School of Business — Master of Science in Finance</h3>
+        <div class="metrics"><span class="metric">GPA 3.93 / 4.00</span></div></div></div>
+    <div class="tl-i edu rv"><div class="tl-d">Aug 2016 — Jul 2020<br>Kanpur, India</div>
+      <div class="edu-iitk"><img class="tl-mark iitk" src="assets/logos/iitk.svg" alt="" width="84" height="84">
+        <div><h3 class="inst">Indian Institute of Technology Kanpur</h3>
+        <div class="tl-org">Bachelor of Technology, Materials Science &amp; Engineering</div></div></div></div>
     <div class="cols c2">
       <div class="col rv"><div class="col-n">CERTIFICATIONS</div>
         <ul class="clist">
@@ -799,8 +926,8 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
 <footer class="foot" id="contact">
   <div class="wrap">
     <h2>Let's talk</h2>
-    <p>I'm building toward a multi-asset research and allocation seat. Happy to walk through any layer of
-       the platform — including the parts that failed.</p>
+    <p>I'm looking for a seat in multi-asset allocation, fixed income or portfolio risk. Happy to walk through
+       any layer of the funds, Convexity Lab or the regime model — including the parts that failed.</p>
     <div class="cta">
       <a class="btn btn-a" href="mailto:ankitv0125@gmail.com">ankitv0125@gmail.com</a>
       <a class="btn btn-b" href="https://linkedin.com/in/ankitv0125">LinkedIn</a>
@@ -841,10 +968,12 @@ tbody tr:hover td{background:rgba(47,111,159,.055)}
   if(ln&&ln.getTotalLength&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
     var L=ln.getTotalLength();
     ln.style.strokeDasharray=L; ln.style.strokeDashoffset=L;
-    requestAnimationFrame(function(){
+    var lo=new IntersectionObserver(function(es){
+      if(!es[0].isIntersecting)return; lo.disconnect();
       ln.style.transition='stroke-dashoffset 2.8s cubic-bezier(.3,.8,.4,1)';
       ln.style.strokeDashoffset=0;
-    });
+    },{threshold:.3});
+    lo.observe(ln);
   }
 })();
 </script>
