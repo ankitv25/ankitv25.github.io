@@ -7,21 +7,21 @@
   "rates.json": "https://ankitv25.github.io/Convexity-Lab-RM/data/lab/rates.json"
  },
  "nav": {
-  "asof": "2026-10-01",
-  "days": 56,
+  "asof": "2026-10-16",
+  "days": 67,
   "nav": {
-   "Certain": 99.3781,
-   "Endowment": 98.6271,
-   "SAA": 100.0638,
-   "DAA": 100.4926,
-   "Alpha": 101.3964
+   "Certain": 100.2507,
+   "Endowment": 99.788,
+   "SAA": 100.6248,
+   "DAA": 100.9531,
+   "Alpha": 101.1387
   },
   "since_launch_pct": {
-   "Certain": -0.6219,
-   "Endowment": -1.3729,
-   "SAA": 0.0638,
-   "DAA": 0.4926,
-   "Alpha": 1.3964
+   "Certain": 0.2507,
+   "Endowment": -0.212,
+   "SAA": 0.6248,
+   "DAA": 0.9531,
+   "Alpha": 1.1387
   }
  },
  "mrs": {
