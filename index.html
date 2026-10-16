@@ -3,711 +3,1237 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ankit Verma · Risk &amp; Portfolio Research</title>
-<meta name="description" content="Ankit Verma — quantitative risk and portfolio construction. IIT Kanpur · Georgetown MSF. Five multi-asset funds live since July 2026.">
+<title>Ankit Verma — Multi-Asset Portfolio Construction &amp; Asset Allocation</title>
+<meta name="description" content="Ankit Verma — Georgetown McDonough MS Finance, IIT Kanpur. Five multi-asset funds live since July 2026, Convexity Lab for fixed income, derivatives and portfolio risk, and a macro regime model.">
+<meta property="og:title" content="Ankit Verma — Multi-Asset Portfolio Construction &amp; Asset Allocation">
+<meta property="og:description" content="Five live multi-asset funds, a fixed-income, derivatives and portfolio-risk workstation, and a macro regime model.">
+<meta name="theme-color" content="#070B14">
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
-/* =========================================================
-   DESIGN TOKENS — do not change without reason
-   ========================================================= */
+/* ------------------------------------------------------------------ tokens
+   Dark research-portal system (from reference.html): deep navy ground, translucent panels,
+   off-white text (never #fff), gold as the one accent, teal for gains, numbers in mono. */
 :root{
-  --bg:#070B14;            /* page base: deep navy, never pure black */
-  --bg-2:#0B1220;
-  --panel:rgba(16,24,40,.62);
-  --panel-solid:#0F1729;
-  --panel-hi:rgba(22,33,56,.75);
-  --line:rgba(148,163,184,.12);
-  --line-hi:rgba(201,164,92,.35);
-  --text:#E6E9EF;          /* off-white, never #fff */
-  --text-2:#B4BCCB;
-  --muted:#7C879B;
-  --gold:#C9A45C;          /* primary accent */
-  --gold-soft:rgba(201,164,92,.14);
-  --teal:#4FB3A5;          /* secondary accent: "up" */
-  --teal-soft:rgba(79,179,165,.14);
-  --red:#D9706B;           /* "down" — use sparingly */
-  --radius:14px;
-  --radius-sm:9px;
-  --max:1200px;
-  --gutter:clamp(16px,4vw,32px);
-  --sans:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --bg:#070B14; --surface:rgba(16,24,40,.62); --surface-2:rgba(7,11,20,.55); --surface-3:rgba(148,163,184,.08);
+  --solid:#0F1729; --panel-hi:rgba(22,33,56,.78);
+  --ink:#E6E9EF; --ink-2:#B4BCCB; --ink-3:#7C879B; --line:rgba(148,163,184,.12); --line-2:rgba(148,163,184,.22);
+  --acc:#C9A45C; --acc-2:#D9B76F; --acc-soft:rgba(201,164,92,.14); --line-hi:rgba(201,164,92,.38);
+  --up:#4FB3A5; --dn:#D9706B;
+  --c1:#4FB3A5; --c2:#C9A45C; --c3:#D9706B; --cn:#7C879B;
+  --navy-3:#C9D1DE;
+  --display:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:14px;
   --shadow:0 1px 0 rgba(255,255,255,.03) inset,0 20px 40px -24px rgba(0,0,0,.6);
+  --shadow-lg:0 1px 0 rgba(255,255,255,.04) inset,0 30px 60px -30px rgba(0,0,0,.75);
+  --maxw:1200px; --gut:clamp(16px,4vw,32px);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:96px}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:var(--sans);
-  font-size:16px;line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-}
-a{color:inherit;text-decoration:none}
-.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
 
-/* =========================================================
-   BACKGROUND LAYERS
-   1. radial glows   2. animated market canvas   3. vignette
-   ========================================================= */
-.bg-glow{
-  position:fixed;inset:0;z-index:-3;pointer-events:none;
-  background:
-    radial-gradient(900px 600px at 8% -10%, rgba(201,164,92,.10), transparent 60%),
-    radial-gradient(800px 600px at 100% 30%, rgba(79,179,165,.08), transparent 60%),
-    radial-gradient(1000px 700px at 50% 120%, rgba(56,92,160,.12), transparent 60%),
-    linear-gradient(180deg,#070B14 0%,#08101D 50%,#070B14 100%);
-}
+/* ------------------------------------------------------------------ base */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{max-width:100%}
+a{color:var(--acc);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:4px}
+section{scroll-margin-top:72px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+.num,.kpi .v,.q,.fs-v,.hb-v,.brd,.bch,.val,.endval,.spec dd,.gpa,td.num{font-variant-numeric:tabular-nums lining-nums}
+.up{color:var(--up)}.dn{color:var(--dn)}.flat,.muted{color:var(--ink-3)}
+
+/* background layers: glow, animated market canvas, vignette */
+.bg-glow{position:fixed;inset:0;z-index:-3;pointer-events:none;
+  background:radial-gradient(900px 600px at 8% -10%,rgba(201,164,92,.10),transparent 60%),
+    radial-gradient(800px 600px at 100% 30%,rgba(79,179,165,.08),transparent 60%),
+    radial-gradient(1000px 700px at 50% 120%,rgba(56,92,160,.12),transparent 60%),
+    linear-gradient(180deg,#070B14 0%,#08101D 50%,#070B14 100%)}
 #market{position:fixed;inset:0;z-index:-2;pointer-events:none;width:100%;height:100%}
-.bg-vignette{
-  position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(ellipse at center, transparent 40%, rgba(4,7,13,.65) 100%);
-}
+.bg-vignette{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 40%,rgba(4,7,13,.65) 100%)}
 
-/* =========================================================
-   TICKER + NAV
-   ========================================================= */
-.ticker{
-  position:fixed;top:0;left:0;right:0;z-index:50;height:30px;
-  background:rgba(7,11,20,.85);backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--line);overflow:hidden;
-  font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--muted);
-}
-.ticker-track{display:flex;gap:44px;white-space:nowrap;height:100%;align-items:center;
-  animation:tick 60s linear infinite;width:max-content;padding-left:24px}
-.ticker-track span b{color:var(--text-2);font-weight:500}
-.up{color:var(--teal)} .gold{color:var(--gold)} .dn{color:var(--red)}
-@keyframes tick{to{transform:translateX(-50%)}}
-
-nav{
-  position:fixed;top:30px;left:0;right:0;z-index:49;
-  background:rgba(7,11,20,.6);backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);
-}
-.nav-in{max-width:var(--max);margin:0 auto;padding:0 var(--gutter);height:58px;
-  display:flex;align-items:center;justify-content:space-between;gap:16px}
-.mark{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.02em}
-.mark i{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;
-  font-style:normal;font-family:var(--mono);font-size:13px;color:var(--bg);
-  background:linear-gradient(135deg,var(--gold),#E6C887)}
-.nav-links{display:flex;gap:4px}
-.nav-links a{font-size:13.5px;color:var(--text-2);padding:7px 12px;border-radius:8px;transition:.2s}
-.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.04)}
-.btn{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;
-  padding:9px 16px;border-radius:9px;border:1px solid var(--line);transition:.2s;white-space:nowrap}
-.btn:hover{border-color:var(--line-hi);background:var(--gold-soft)}
-.btn-gold{background:var(--gold);color:#0A0F1A;border-color:var(--gold)}
-.btn-gold:hover{background:#D9B76F;border-color:#D9B76F}
-.btn svg{width:15px;height:15px}
-
-/* =========================================================
-   LAYOUT
-   ========================================================= */
-main{padding-top:88px}
-.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
-section{padding:72px 0}
-.sec-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:28px;flex-wrap:wrap}
-.kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);
-  display:flex;align-items:center;gap:10px}
-.kicker::before{content:"";width:18px;height:1px;background:var(--gold)}
-h2{font-size:clamp(26px,3.2vw,36px);font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-top:8px}
-.sec-sub{color:var(--muted);font-size:14.5px;max-width:460px}
-
-.panel{
-  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
-  backdrop-filter:blur(10px);box-shadow:var(--shadow);position:relative;overflow:hidden;
-}
-.panel.hover{transition:transform .25s ease,border-color .25s ease,background .25s}
-.panel.hover:hover{transform:translateY(-3px);border-color:var(--line-hi);background:var(--panel-hi)}
-
-/* =========================================================
-   HERO
-   ========================================================= */
-.hero{padding:56px 0 40px}
-.hero-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:28px;align-items:stretch}
-.hero-left{display:flex;flex-direction:column;justify-content:center;padding:12px 0}
-.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--text-2);
-  border:1px solid var(--line);border-radius:999px;padding:6px 12px;width:max-content;background:rgba(79,179,165,.06)}
-.status i{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 0 rgba(79,179,165,.6);animation:pulse 2s infinite}
-@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(79,179,165,0)}100%{box-shadow:0 0 0 0 rgba(79,179,165,0)}}
-h1{font-size:clamp(40px,6vw,68px);font-weight:800;letter-spacing:-.035em;line-height:1.02;margin:20px 0 16px}
-h1 em{font-style:normal;background:linear-gradient(90deg,var(--gold),#E9D29E);-webkit-background-clip:text;background-clip:text;color:transparent}
-.lede{font-size:clamp(16px,1.6vw,18.5px);color:var(--text-2);max-width:560px}
-.lede b{color:var(--text);font-weight:600}
-.edu-badges{display:flex;gap:12px;margin:26px 0;flex-wrap:wrap}
-.edu{display:flex;align-items:center;gap:12px;padding:10px 14px 10px 10px;border-radius:12px;
-  border:1px solid var(--line);background:rgba(15,23,41,.7)}
-.edu .crest{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;font-family:var(--mono);
-  font-size:12px;font-weight:600;border:1px solid var(--line-hi);color:var(--gold);background:var(--gold-soft)}
-.edu strong{display:block;font-size:14px;font-weight:600;line-height:1.25}
-.edu span{font-size:12px;color:var(--muted);font-family:var(--mono)}
-.cta-row{display:flex;gap:10px;flex-wrap:wrap}
-
-/* Terminal DES card */
-.term{display:flex;flex-direction:column}
-.term-top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);
-  font-family:var(--mono);font-size:12px;color:var(--muted);background:rgba(7,11,20,.5)}
-.term-top b{color:var(--gold);font-weight:600}
-.dots{display:flex;gap:6px}.dots i{width:9px;height:9px;border-radius:50%;background:#1E293B}
-.term-body{padding:6px 16px 4px;font-family:var(--mono);font-size:13px}
-.row{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}
-.row:last-child{border-bottom:0}
-.row dt{color:var(--muted);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;padding-top:1px}
-.row dd{color:var(--text)}
-.row dd .tag{margin:0 4px 4px 0}
-.term-chart{margin-top:auto;padding:10px 16px 14px;border-top:1px solid var(--line)}
-.term-chart-head{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:6px}
-
-.tag{display:inline-block;font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:6px;
-  border:1px solid var(--line);color:var(--text-2);background:rgba(255,255,255,.02)}
-.tag.g{color:var(--gold);border-color:rgba(201,164,92,.3);background:var(--gold-soft)}
-.tag.t{color:var(--teal);border-color:rgba(79,179,165,.3);background:var(--teal-soft)}
-
-/* KPI strip */
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
-.kpi{padding:18px 18px 16px}
-.kpi .v{font-family:var(--mono);font-size:clamp(24px,2.6vw,30px);font-weight:600;letter-spacing:-.02em}
-.kpi .l{font-size:12.5px;color:var(--muted);margin-top:2px}
-.kpi .d{position:absolute;top:14px;right:14px;font-family:var(--mono);font-size:11px}
-.kpi::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;
-  background:linear-gradient(90deg,var(--gold),transparent 70%);opacity:.5}
-
-/* =========================================================
-   FEATURED — BENTO
-   ========================================================= */
-.bento{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(180px,auto);gap:16px}
-.b-xl{grid-column:span 7;grid-row:span 2}
-.b-md{grid-column:span 5}
-.card{padding:22px;display:flex;flex-direction:column;gap:12px}
-.card-top{display:flex;justify-content:space-between;align-items:start;gap:12px}
-.card h3{font-size:19px;font-weight:700;letter-spacing:-.01em;line-height:1.25}
-.card .xl-title{font-size:clamp(22px,2.4vw,28px)}
-.card p{color:var(--text-2);font-size:14.5px}
-.card .meta{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
-.card .tags{display:flex;flex-wrap:wrap;gap:6px}
-.card .links{display:flex;gap:8px;margin-top:auto;padding-top:6px}
-.card .links .btn{padding:7px 12px;font-size:12.5px}
-.viz{border:1px solid var(--line);border-radius:var(--radius-sm);background:rgba(7,11,20,.55);padding:14px;position:relative}
-.viz svg{display:block;width:100%;height:auto}
-
-/* pillar diagram */
-.pillars{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.pillar{border:1px solid var(--line);border-radius:8px;padding:10px 8px;text-align:center;background:rgba(15,23,41,.8);
-  font-size:11.5px;line-height:1.3;color:var(--text-2);min-height:70px;display:flex;flex-direction:column;justify-content:center;gap:4px}
-.pillar b{font-family:var(--mono);font-size:10.5px;color:var(--gold);font-weight:600;letter-spacing:.06em}
-.flow{display:flex;justify-content:space-around;padding:6px 0;color:var(--muted)}
-.thesis{border:1px solid var(--line-hi);border-radius:8px;padding:11px;text-align:center;
-  background:linear-gradient(90deg,rgba(201,164,92,.12),rgba(201,164,92,.04));font-size:13px;font-weight:600}
-.thesis span{display:block;font-family:var(--mono);font-size:10.5px;color:var(--muted);font-weight:400;margin-top:2px}
-
-/* MRS weights */
-.wbar{display:flex;height:30px;border-radius:7px;overflow:hidden;border:1px solid var(--line)}
-.wbar div{display:grid;place-items:center;font-family:var(--mono);font-size:10.5px;color:#0A0F1A;font-weight:600}
-.wlegend{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:4px 12px;margin-top:10px;font-size:11.5px;color:var(--text-2)}
-.wlegend span{display:flex;align-items:center;gap:6px}.wlegend i{width:8px;height:8px;border-radius:2px}
-.regimes{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
-.regimes .tag.on{color:var(--teal);border-color:rgba(79,179,165,.45);background:var(--teal-soft)}
-
-/* =========================================================
-   ALL PROJECTS
-   ========================================================= */
-.chips{display:flex;gap:8px;flex-wrap:wrap}
-.chip{font-family:var(--mono);font-size:12px;padding:7px 13px;border-radius:999px;border:1px solid var(--line);
-  color:var(--text-2);background:transparent;cursor:pointer;transition:.2s}
-.chip:hover{border-color:var(--line-hi);color:var(--text)}
-.chip.on{background:var(--gold);border-color:var(--gold);color:#0A0F1A;font-weight:600}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.pcard{padding:18px;display:flex;flex-direction:column;gap:10px;min-height:220px}
-.pcard .spark{height:44px;margin:-2px 0 2px}
-.pcard h4{font-size:16px;font-weight:650;line-height:1.3}
-.pcard p{font-size:13.5px;color:var(--text-2);flex:1}
-.pcard .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:10px;border-top:1px solid var(--line)}
-.pcard .foot a{font-family:var(--mono);font-size:12px;color:var(--text-2);display:inline-flex;align-items:center;gap:6px}
-.pcard .foot a:hover{color:var(--gold)}
-.pcard.hide{display:none}
-@media (min-width:1025px){.grid3 .pcard:last-child:nth-child(3n+1){grid-column:1/-1;min-height:0}}
-
-/* =========================================================
-   EXPERIENCE TIMELINE
-   ========================================================= */
-.exp-grid{display:grid;grid-template-columns:320px 1fr;gap:20px}
-.exp-side{padding:22px;display:flex;flex-direction:column;gap:16px;align-self:start;position:sticky;top:110px}
-.route{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:13px}
-.route .line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),var(--teal));position:relative}
-.route .line::after{content:"";position:absolute;right:-1px;top:-3px;border:4px solid transparent;border-left-color:var(--teal)}
-.cov{display:flex;flex-wrap:wrap;gap:6px}
-.timeline{display:flex;flex-direction:column;gap:16px}
-.job{padding:22px 22px 22px 26px}
-.job::before{content:"";position:absolute;left:0;top:22px;bottom:22px;width:2px;border-radius:2px;background:linear-gradient(var(--gold),transparent)}
-.job-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
-.job h3{font-size:18px;font-weight:700}
-.job .org{color:var(--gold);font-weight:600;font-size:14px}
-.job .when{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right}
-.job ul{list-style:none;display:grid;gap:8px}
-.job li{font-size:14.5px;color:var(--text-2);padding-left:18px;position:relative}
-.job li::before{content:"▸";position:absolute;left:0;color:var(--gold);font-size:12px;top:2px}
-
-/* =========================================================
-   EDUCATION
-   ========================================================= */
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.educard{padding:24px;display:grid;grid-template-columns:64px 1fr;gap:18px;align-items:start}
-.educard .crest{width:64px;height:64px;border-radius:14px;display:grid;place-items:center;font-family:var(--mono);font-weight:600;
-  color:var(--gold);border:1px solid var(--line-hi);background:var(--gold-soft);font-size:15px}
-.educard h3{font-size:18px;font-weight:700}
-.educard .deg{color:var(--text-2);font-size:14.5px;margin:2px 0 12px}
-.educard .facts{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--muted)}
-.educard .facts b{display:block;color:var(--text);font-size:16px;font-weight:600}
-
-/* =========================================================
-   CONTACT — ORDER TICKET
-   ========================================================= */
-.ticket{display:grid;grid-template-columns:1.2fr 1fr;gap:0}
-.ticket-l{padding:32px;border-right:1px dashed var(--line)}
-.ticket-l h2{margin-top:10px}
-.ticket-l p{color:var(--text-2);margin-top:12px;max-width:440px}
-.ticket-r{padding:24px 28px;display:flex;flex-direction:column;gap:10px;justify-content:center;background:rgba(7,11,20,.4)}
-.tline{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border:1px solid var(--line);
-  border-radius:10px;font-family:var(--mono);font-size:13px;transition:.2s}
-.tline:hover{border-color:var(--line-hi);background:var(--gold-soft)}
-.tline span{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
-
-footer{border-top:1px solid var(--line);padding:24px 0 40px;font-family:var(--mono);font-size:12px;color:var(--muted)}
-footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-
-/* reveal */
 .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
 .rv.in{opacity:1;transform:none}
+.rv[data-d="1"]{transition-delay:.06s}.rv[data-d="2"]{transition-delay:.12s}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
 
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-@media (max-width:1024px){
-  .hero-grid{grid-template-columns:1fr}
-  .b-xl,.b-md{grid-column:span 12;grid-row:auto}
-  .grid3{grid-template-columns:repeat(2,1fr)}
-  .exp-grid{grid-template-columns:1fr}
-  .exp-side{position:static}
-  .nav-links{display:none}
-}
-@media (max-width:640px){
-  section{padding:52px 0}
-  .kpis{grid-template-columns:repeat(2,1fr)}
-  .grid3,.grid2{grid-template-columns:1fr}
-  .pillars{grid-template-columns:repeat(2,1fr)}
-  .ticket{grid-template-columns:1fr}
-  .ticket-l{border-right:0;border-bottom:1px dashed var(--line);padding:24px}
-  .row{grid-template-columns:96px 1fr}
-  .educard{grid-template-columns:1fr}
-  .nav-in .btn:not(.btn-gold){display:none}
-}
-@media (prefers-reduced-motion:reduce){
-  .ticker-track{animation:none}
-  .rv{opacity:1;transform:none;transition:none}
-  .status i{animation:none}
-  html{scroll-behavior:auto}
-}
+/* panels: one surface for every card-like element */
+.cv,.tape-in,.fl,.card,.kpi,.st,.tile,.insight{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:var(--shadow)}
+.fl,.st,.tile{transition:transform .25s ease,border-color .25s ease,background .25s}
+.fl:hover,.st:hover,.tile:hover{transform:translateY(-3px);border-color:var(--line-hi);background:var(--panel-hi)}
+
+/* ------------------------------------------------------------------ masthead */
+.mast{position:sticky;top:0;z-index:80;background:rgba(7,11,20,.72);border-bottom:1px solid var(--line);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.mast-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);height:60px;display:flex;align-items:center;gap:20px}
+.mast-name{font-size:1rem;font-weight:700;letter-spacing:.01em;color:var(--ink);margin-right:auto;display:flex;align-items:center;gap:11px}
+.mast-name i{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;font-style:normal;font-family:var(--mono);
+  font-size:12.5px;font-weight:600;color:var(--bg);background:linear-gradient(135deg,var(--acc),#E6C887)}
+.mast-nav{display:flex;gap:2px}
+.mast-nav a{color:var(--ink-2);font-size:.84rem;font-weight:500;padding:7px 11px;border-radius:8px;transition:.2s}
+.mast-nav a:hover{color:var(--ink);background:rgba(255,255,255,.04);text-decoration:none}
+.mast-nav a[aria-current]{color:var(--ink);background:rgba(255,255,255,.06)}
+.mast-cta{display:inline-flex;align-items:center;gap:7px;font-size:.84rem;font-weight:600;color:#0A0F1A;background:var(--acc);
+  padding:8px 14px;border-radius:9px;white-space:nowrap}
+.mast-cta:hover{text-decoration:none;background:var(--acc-2)}
+.mast-cta svg{width:14px;height:14px}
+.prog{position:absolute;left:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--acc),var(--up));width:0}
+.menu{display:none;position:relative}
+.menu>summary{list-style:none;cursor:pointer;width:42px;height:42px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:5px;border:1px solid var(--line-2);border-radius:10px}
+.menu>summary::-webkit-details-marker{display:none}
+.menu>summary span{display:block;width:18px;height:1.5px;background:var(--ink-2);transition:.18s}
+.menu[open]>summary span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.menu[open]>summary span:nth-child(2){opacity:0}
+.menu[open]>summary span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.menu-panel{position:absolute;right:0;top:52px;background:var(--solid);border:1px solid var(--line-2);border-radius:12px;min-width:240px;padding:6px;
+  display:flex;flex-direction:column;box-shadow:var(--shadow-lg)}
+.menu-panel a{padding:11px 14px;font-size:.92rem;color:var(--ink);border-radius:8px}
+.menu-panel a:hover{background:rgba(255,255,255,.05);text-decoration:none}
+@media(max-width:1060px){.mast-nav{display:none}.menu{display:block}}
+
+/* ------------------------------------------------------------------ hero */
+.hero{padding:64px 0 0}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:48px;align-items:center;padding-bottom:40px}
+@media(max-width:1024px){.hero-grid{grid-template-columns:1fr;gap:32px}}
+.badge{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.74rem;color:var(--ink-2);
+  padding:5px 13px 5px 6px;border:1px solid var(--line);border-radius:999px;background:rgba(79,179,165,.06)}
+.badge b{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--up);background:var(--surface-3);
+  padding:2px 9px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase;font-size:.66rem}
+.badge b::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--up);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(79,179,165,.6)}70%{box-shadow:0 0 0 8px rgba(79,179,165,0)}100%{box-shadow:0 0 0 0 rgba(79,179,165,0)}}
+@media (prefers-reduced-motion:reduce){.badge b::before{animation:none}}
+.hero h1{font-size:clamp(2.6rem,6vw,4.25rem);line-height:1.02;margin:22px 0 14px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
+.hero h1 em{display:block;font-style:normal;font-size:.58em;font-weight:700;letter-spacing:-.025em;margin-top:10px;
+  background:linear-gradient(90deg,var(--acc),#E9D29E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{font-size:clamp(1.02rem,1.5vw,1.14rem);line-height:1.6;color:var(--ink-2);margin:0;max-width:60ch}
+.hero .sub b{color:var(--ink);font-weight:600}
+.roles{display:flex;flex-wrap:wrap;gap:6px;margin:20px 0 0}
+.roles span{font-family:var(--mono);font-size:.7rem;color:var(--acc);border:1px solid rgba(201,164,92,.3);background:var(--acc-soft);
+  padding:3px 9px;border-radius:6px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 17px;font-size:.88rem;font-weight:600;border-radius:9px;
+  border:1px solid var(--line-2);color:var(--ink);background:transparent;transition:.2s;white-space:nowrap}
+.btn:hover{text-decoration:none;border-color:var(--line-hi);background:var(--acc-soft)}
+.btn-a{background:var(--acc);border-color:var(--acc);color:#0A0F1A}
+.btn-a:hover{background:var(--acc-2);border-color:var(--acc-2)}
+.btn svg{width:15px;height:15px}
+.btn .ar{transition:transform .16s}.btn:hover .ar{transform:translateX(3px)}
+
+/* credential card: school marks are rendered in off-white so they read on navy */
+.cv{padding:0;overflow:hidden;box-shadow:var(--shadow-lg)}
+.cv-top{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);background:rgba(7,11,20,.5)}
+.cv-top b{color:var(--acc);font-weight:600}
+.inst{padding:18px 22px 20px}
+.inst+.inst{border-top:1px dashed var(--line)}
+.inst-id{display:flex;align-items:center;gap:16px;min-height:52px}
+.mark-gu{display:block;width:230px;height:auto;filter:brightness(0) invert(.92)}
+.mark-seal{display:block;width:54px;height:54px;flex:none;filter:brightness(0) invert(.92)}
+.inst-name{font-size:1.24rem;font-weight:700;letter-spacing:-.015em;line-height:1.15;color:var(--ink)}
+.inst-name small{display:block;font-size:.8rem;font-weight:500;letter-spacing:0;color:var(--ink-3);margin-top:3px}
+.inst-sub{font-size:.86rem;color:var(--ink-2);margin-top:9px;font-weight:500}
+.inst-sub span{color:var(--ink-3);font-weight:400}
+.spec{display:grid;grid-template-columns:1.35fr .8fr 1fr;margin:14px 0 0;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.spec div{padding:10px 13px;min-width:0}
+.spec div+div{border-left:1px solid var(--line)}
+.spec dt{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.spec dd{margin:4px 0 0;font-weight:600;font-size:.9rem;color:var(--ink);line-height:1.3}
+.spec .hi{background:var(--acc-soft)}
+.spec .hi dt{color:var(--acc)}
+.spec.wide3{grid-template-columns:.8fr .8fr 1.6fr}
+.gpa{font-family:var(--mono);font-size:1.3rem!important;font-weight:600!important;color:var(--acc)!important;line-height:1.1!important}
+.gpa small{font-size:.66rem;font-weight:500;color:var(--ink-3);margin-left:4px}
+.cv-exp{display:flex;align-items:center;gap:16px;padding:14px 22px 16px;background:rgba(7,11,20,.45);border-top:1px solid var(--line)}
+.cv-exp img{width:50px;height:auto;flex:none}
+.cv-exp b{display:block;font-size:.88rem;font-weight:600;color:var(--ink);line-height:1.35}
+.cv-exp span{display:block;font-size:.78rem;color:var(--ink-3);line-height:1.45}
+@media(max-width:520px){.inst{padding:16px 16px 18px}.cv-exp{padding:14px 16px}.cv-top{padding:11px 16px}.mark-gu{width:196px}
+  .spec,.spec.wide3{grid-template-columns:1fr 1fr!important}.spec div:first-child{grid-column:1/-1;border-bottom:1px solid var(--line)}
+  .spec div:nth-child(2){border-left:0}}
+
+/* closing-NAV strip */
+.tape{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+.tape-in{display:grid;grid-template-columns:auto repeat(6,1fr);overflow:hidden}
+.tape-k{padding:13px 20px;display:flex;flex-direction:column;justify-content:center;line-height:1.55;white-space:nowrap;
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);border-right:1px solid var(--line);background:rgba(7,11,20,.45)}
+.tape-k b{color:var(--acc);font-weight:600}
+.q{padding:12px 15px;display:grid;grid-template-columns:auto 1fr;column-gap:8px;row-gap:1px;align-items:baseline;
+  font-family:var(--mono);color:var(--ink);text-decoration:none;transition:background .15s}
+.q+.q{border-left:1px solid var(--line)}
+.q i{width:8px;height:8px;border-radius:50%;background:var(--c);align-self:center}
+.q .qn{font-family:var(--sans);font-size:.76rem;font-weight:600;color:var(--ink-2)}
+.q .qp{grid-column:2;font-size:1rem;font-weight:600}
+.q .qc{grid-column:2;font-size:.74rem}
+a.q:hover{background:rgba(255,255,255,.03);text-decoration:none}
+@media(max-width:1000px){.tape-in{grid-template-columns:repeat(3,1fr)}
+  .tape-k{grid-column:1/-1;flex-direction:row;gap:10px;padding:10px 15px;border-right:0;border-bottom:1px solid var(--line)}
+  .q{border-bottom:1px solid var(--line)}.q+.q{border-left:0}
+  .q:nth-child(3n+3),.q:nth-child(3n+4){border-left:1px solid var(--line)}
+  .q:nth-last-child(-n+3){border-bottom:0}}
+
+/* ------------------------------------------------------------------ flagships */
+.flags{padding-top:28px}
+.flags-in{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:980px){.flags-in{grid-template-columns:1fr}}
+.fl{display:flex;flex-direction:column;padding:22px 22px 20px;color:var(--ink);position:relative;overflow:hidden}
+.fl::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:linear-gradient(90deg,var(--fc),transparent 70%);opacity:.6}
+.fl:hover{text-decoration:none}
+.fl-k{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.fl h3{font-size:1.32rem;font-weight:700;letter-spacing:-.015em;margin:8px 0 8px;line-height:1.2}
+.fl p{margin:0;color:var(--ink-2);font-size:.9rem;line-height:1.6;flex:1}
+.fl-c{margin:16px 0 0;padding:12px 12px 8px;background:var(--surface-2);border:1px solid var(--line);border-radius:9px}
+.fl-cl{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+.fl-c svg{display:block;width:100%;height:auto}
+.fs{display:grid;grid-template-columns:repeat(3,1fr);margin-top:14px}
+.fs div{padding:0 10px 0 0}
+.fs div+div{padding-left:12px;border-left:1px solid var(--line)}
+.fs-v{display:block;font-family:var(--mono);font-size:1.2rem;font-weight:600;line-height:1.1;color:var(--ink)}
+.fs-k{display:block;font-size:.72rem;color:var(--ink-3);margin-top:5px;line-height:1.35}
+.fl-go{margin-top:16px;font-family:var(--mono);font-size:.78rem;font-weight:500;color:var(--acc);display:flex;align-items:center;gap:6px}
+.fl-go .ar{transition:transform .16s}.fl:hover .fl-go .ar{transform:translateX(3px)}
+.sp-base{stroke:var(--line-2);stroke-dasharray:2 3}.sp-band{fill:rgba(217,112,107,.10)}.sp-thr{stroke:rgba(217,112,107,.45);stroke-dasharray:2 3}
+.sp-line{stroke:var(--navy-3)}.sp-dot{fill:var(--c3)}.sp-fill{fill:rgba(201,164,92,.10)}.sp-dot2{fill:var(--acc)}
+
+/* ------------------------------------------------------------------ sections */
+.sec{padding:84px 0}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:end;margin-bottom:30px}
+@media(max-width:900px){.sec{padding:60px 0}.sec-head{grid-template-columns:1fr;gap:14px;margin-bottom:24px}}
+.sec-k{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-bottom:10px}
+.sec-k::before{content:"";width:18px;height:1px;background:var(--acc)}
+.sec-k .n{color:var(--ink-3)}
+.sec-head h2{font-size:clamp(1.7rem,3.2vw,2.3rem);margin:0;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.sec-head .lede{color:var(--ink-3);margin:0;font-size:.98rem;line-height:1.65}
+
+.card{padding:26px}
+.mt,.insight.mt{margin-top:16px}
+@media(max-width:620px){.card{padding:18px}}
+.card-head{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;justify-content:space-between;margin-bottom:6px}
+.card-head h3{font-size:1.22rem;margin:0;font-weight:700;letter-spacing:-.012em;line-height:1.25}
+.card-head .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+.card-head>div:first-child{flex:1 1 420px;min-width:0}
+.links{display:flex;gap:8px;flex-wrap:wrap}
+.lk{font-size:.8rem;font-weight:600;padding:7px 13px;border:1px solid var(--line-2);border-radius:9px;color:var(--ink);
+  white-space:nowrap;transition:.2s;display:inline-flex;align-items:center;gap:6px}
+.lk:hover{border-color:var(--line-hi);background:var(--acc-soft);text-decoration:none}
+.lk-live{background:var(--acc);border-color:var(--acc);color:#0A0F1A}
+.lk-live:hover{background:var(--acc-2);border-color:var(--acc-2)}
+.dek{color:var(--ink-2);margin:10px 0 0;max-width:76ch;font-size:.94rem}
+.dek strong{color:var(--ink)}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.grid2.wide{grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr)}
+@media(max-width:900px){.grid2,.grid2.wide{grid-template-columns:1fr}}
+
+.figt{font-size:.98rem;font-weight:650;margin:0 0 3px;color:var(--ink)}
+.figs{font-size:.83rem;color:var(--ink-3);margin:0 0 16px}
+.ax{font-size:11.5px;fill:var(--ink-3);font-family:var(--mono)}
+.gl{stroke:var(--line);stroke-width:1}
+.zl{stroke:var(--line-2);stroke-width:1.2}
+.val{font-size:12.5px;font-weight:600;fill:var(--ink);font-family:var(--mono)}
+.bandlbl{font-size:14px;fill:var(--ink-3);font-family:var(--mono);letter-spacing:.1em;font-weight:500}
+.endlbl{font-size:14px;fill:var(--c3);font-family:var(--mono);letter-spacing:.08em;font-weight:600}
+.endval{font-size:16px;fill:var(--ink);font-family:var(--mono);font-weight:600}
+.yr{font-size:15px;fill:var(--ink-3);font-family:var(--mono);text-anchor:middle}
+.mrs-area{display:none}.mrs-line{stroke:var(--navy-3)}.mrs-lead{stroke:var(--c3);stroke-width:1.2;stroke-dasharray:3 3}
+.mrs-dot{fill:var(--c3);stroke:var(--bg);stroke-width:1.8}
+.cvx-area{fill:rgba(201,164,92,.12)}.cvx-line{stroke:var(--acc)}.cvx-dot{fill:var(--acc);stroke:var(--bg);stroke-width:1.5}
+.fan-90{fill:rgba(201,164,92,.10)}.fan-50{fill:rgba(201,164,92,.20)}
+.fan-p50{stroke:var(--acc);stroke-width:2.2}.fan-saa{stroke:var(--up);stroke-width:1.4;stroke-dasharray:5 4}
+.fan-6040{stroke:var(--ink-3);stroke-width:1.4;stroke-dasharray:2 4}
+.fan-lbl{font-size:11px;fill:var(--ink-3);font-family:var(--mono)}.fan-lbl.on{fill:var(--acc);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:.8rem;color:var(--ink-2)}
+.legend i{width:10px;height:10px;display:inline-block;margin-right:7px;vertical-align:-1px;border-radius:3px}
+.legend i.ln{height:2px;border-radius:0;vertical-align:3px;width:16px}
+
+/* NAV chart + quote board */
+.navgrid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:stretch;margin-top:20px}
+@media(max-width:900px){.navgrid{grid-template-columns:1fr;gap:16px}}
+.navchart{position:relative;touch-action:pan-y}
+.navchart svg{display:block;width:100%;height:auto}
+.navchart [data-f]{transition:opacity .2s}
+.navchart.focus [data-f]:not(.on){opacity:.12}
+.navchart .xh{stroke:var(--ink-2);stroke-width:1;stroke-dasharray:2 3;opacity:0}
+.navchart.hov .xh{opacity:.6}
+.navchart .hd{opacity:0}.navchart.hov .hd{opacity:1}
+@media(max-width:620px){.navchart .ax{font-size:19px}}
+.board{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:4px 14px 12px;display:flex;flex-direction:column}
+.board-h{display:flex;justify-content:space-between;align-items:baseline;padding:11px 0 9px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.board-h b{color:var(--acc);font-weight:600;letter-spacing:.06em}
+.brow{all:unset;box-sizing:border-box;display:grid;grid-template-columns:10px 1fr auto 64px;gap:10px;align-items:baseline;
+  padding:10px 8px;margin:0 -8px;width:calc(100% + 16px);border-radius:8px;cursor:pointer;transition:background .15s}
+.brow+.brow{box-shadow:inset 0 1px 0 var(--line)}
+.brow i{width:9px;height:9px;border-radius:50%;background:var(--c);align-self:center}
+.brow .bn{font-weight:600;font-size:.88rem;color:var(--ink)}
+.brow .bn small{display:block;font-weight:400;font-size:.72rem;color:var(--ink-3);margin-top:1px;white-space:nowrap}
+.brow .brd{font-family:var(--mono);font-size:.9rem;font-weight:600;color:var(--ink);text-align:right}
+.brow .bch{font-family:var(--mono);font-size:.78rem;text-align:right}
+.brow:hover,.brow[aria-pressed="true"]{background:rgba(255,255,255,.04);box-shadow:none}
+.brow:hover+.brow,.brow[aria-pressed="true"]+.brow{box-shadow:none}
+.brow:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+.board-f{font-size:.74rem;color:var(--ink-3);margin:auto 0 0;padding-top:10px;line-height:1.5}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:.86rem;min-width:560px}
+th,td{text-align:right;padding:10px 12px;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left;padding-left:0}
+th:last-child,td:last-child{padding-right:0}
+th{color:var(--ink-3);font-weight:500;font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:rgba(255,255,255,.02)}
+th.tl,td.tl{text-align:left}
+td{color:var(--ink-2)}
+td.num{font-family:var(--mono);color:var(--ink)}
+td.num.up{color:var(--up)}td.num.dn{color:var(--dn)}
+td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+.chip{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c);margin-right:10px}
+table.hedge{min-width:0}
+table.hedge td:first-child{width:38%;padding-right:18px;vertical-align:top;white-space:normal}
+
+details.more{border-top:1px solid var(--line);margin-top:16px}
+details.more+details.more{margin-top:0}
+details.more summary{list-style:none;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;
+  padding:14px 0;font-size:.9rem;font-weight:600;color:var(--ink)}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::after{content:"";width:7px;height:7px;border-right:1.6px solid var(--ink-3);border-bottom:1.6px solid var(--ink-3);
+  transform:rotate(45deg);transition:transform .2s;margin-right:4px}
+details.more[open] summary::after{transform:rotate(-135deg)}
+details.more summary:hover{color:var(--acc)}
+details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
+
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{padding:18px 18px 16px;min-width:0;position:relative;overflow:hidden}
+.kpi::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:linear-gradient(90deg,var(--acc),transparent 70%);opacity:.45}
+.kpi .v{font-family:var(--mono);font-size:1.5rem;font-weight:600;letter-spacing:-.02em;line-height:1.1;color:var(--ink);white-space:nowrap}
+.kpi .v .ar{color:var(--ink-3);font-weight:400;font-size:.62em;margin:0 .3em}
+.kpi .v small{font-size:.5em;font-weight:500;color:var(--ink-3);margin-left:3px}
+.kpi .k{font-size:.76rem;color:var(--ink-3);margin-top:6px;line-height:1.4}
+@media(max-width:1100px){.kpi .v{font-size:1.3rem}}
+@media(max-width:620px){.kpi{padding:14px 13px}.kpi .v{font-size:1.1rem;white-space:normal}}
+.card .kpi{background:var(--surface-2);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+.kpis.in-card{gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:16px}
+.kpis.in-card .kpi{border:0;border-radius:0;padding:13px 15px}
+.kpis.in-card .kpi::after{display:none}
+.kpis.in-card .kpi+.kpi{border-left:1px solid var(--line)}
+.kpis.in-card .kpi .v{font-size:1.15rem}
+.kpis.c3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:620px){.kpis.in-card{grid-template-columns:repeat(2,1fr)}.kpis.in-card.c3{grid-template-columns:repeat(3,1fr)}
+  .kpis.in-card:not(.c3) .kpi:nth-child(3){border-left:0}
+  .kpis.in-card:not(.c3) .kpi:nth-child(n+3){border-top:1px solid var(--line)}.kpis.in-card .kpi .v{font-size:1rem}
+  .kpis.in-card .kpi{padding:11px}}
+
+/* insight callouts */
+.insight{position:relative;padding:22px 26px 22px 28px;font-size:.98rem;line-height:1.68;color:var(--ink-2);margin:0}
+.insight::before{content:"";position:absolute;left:0;top:20px;bottom:20px;width:2px;border-radius:2px;background:linear-gradient(var(--acc),transparent)}
+.insight strong{color:var(--ink);font-weight:600}
+.insight .tag{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
+.insight.warn::before{background:linear-gradient(var(--dn),transparent)}.insight.warn .tag{color:var(--dn)}
+@media(max-width:620px){.insight{padding:18px 18px 18px 22px}}
+.stack{display:flex;flex-direction:column;gap:16px}
+.grid2 .insight{font-size:.95rem}
+.note{font-size:.86rem;color:var(--ink-3);max-width:78ch;margin:20px 0 0}
+
+/* HTML bar charts */
+.hbars{margin:6px 0 0;padding:0;list-style:none}
+.hb,.hb-g,.hb-ax{display:grid;grid-template-columns:136px minmax(0,1fr);gap:14px;align-items:center}
+.hb{padding:6px 0}
+.hb-l{font-size:.84rem;color:var(--ink-2)}
+.hb-l b{color:var(--ink);font-weight:600}
+.hb-t{position:relative;display:flex;align-items:center;min-height:24px;
+  background:repeating-linear-gradient(90deg,transparent 0 calc(25% - 1px),var(--line) calc(25% - 1px) 25%)}
+.hb-b{height:20px;width:var(--w);background:var(--c,#7C879B);border-radius:0 4px 4px 0;transform-origin:left;transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.hb-v{position:absolute;left:calc(var(--w) + 9px);font-family:var(--mono);font-size:.78rem;font-weight:600;color:var(--ink);white-space:nowrap}
+.hb-t.inv .hb-v{left:auto;right:calc(100% - var(--w) + 8px);color:#0A0F1A}
+.rv .hb-b{transform:scaleX(0)}.rv.in .hb-b{transform:none}
+.hb-g{padding:10px 0;border-top:1px solid var(--line)}
+.hb-g:first-child{border-top:0}
+.hb-st{display:flex;flex-direction:column;gap:5px}
+.hb-g .hb-t{min-height:17px}.hb-g .hb-b{height:15px}
+.hb-ax{font-family:var(--mono);font-size:.66rem;color:var(--ink-3);margin-top:8px}
+.hb-ax div{display:flex;justify-content:space-between}
+@media(max-width:520px){.hb,.hb-ax,.hb-g{grid-template-columns:96px minmax(0,1fr);gap:10px}.hb-l{font-size:.78rem}}
+@media(prefers-reduced-motion:reduce){.rv .hb-b{transform:none}}
+
+/* MRS band */
+.band{padding:0;overflow:hidden}
+.band .card-head{padding:26px 26px 18px;margin:0}
+.band .cap{padding:11px 26px;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(7,11,20,.45)}
+.band svg{display:block;width:100%;height:auto}
+.band .bfoot{padding:13px 26px 15px;font-size:.88rem;color:var(--ink-2);border-top:1px solid var(--line);background:rgba(7,11,20,.45)}
+.band .bfoot strong{color:var(--ink);font-family:var(--mono);font-weight:600}
+@media(max-width:620px){.band .card-head{padding:18px}.band .cap,.band .bfoot{padding:11px 18px}}
+
+/* Convexity Lab process */
+.flow{list-style:none;margin:0 0 16px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:980px){.flow{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.flow{grid-template-columns:1fr}}
+.st{padding:22px 22px 20px}
+.st-n{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:12px}
+.st-n b{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:7px;background:var(--acc-soft);border:1px solid rgba(201,164,92,.3);font-weight:600;letter-spacing:0;font-size:.72rem}
+.st h4{font-size:1.06rem;font-weight:700;letter-spacing:-.01em;margin:0 0 8px;line-height:1.3;color:var(--ink)}
+.st p{margin:0;font-size:.87rem;color:var(--ink-2);line-height:1.6}
+.st-m,.tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px}
+.st-m span,.tags span{font-family:var(--mono);font-size:.68rem;color:var(--ink-2);border:1px solid var(--line);background:rgba(255,255,255,.02);padding:3px 8px;border-radius:6px}
+.figcap{font-size:.8rem;color:var(--ink-3);margin:12px 0 0}
+.lab-intro{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
+.lab-intro h3{font-size:1.22rem;margin:0;font-weight:700;letter-spacing:-.012em}
+.lab-intro .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+.lab-intro>div:first-child{flex:1 1 520px}
+
+/* foundation */
+.tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.tile{grid-column:span 2;padding:22px;display:flex;flex-direction:column}
+.tile.w3{grid-column:span 3}
+@media(max-width:980px){.tiles{grid-template-columns:1fr 1fr}.tile,.tile.w3{grid-column:span 1}}
+@media(max-width:620px){.tiles{grid-template-columns:1fr}}
+.tile-k{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin-bottom:10px}
+.tile h3{margin:0 0 8px;font-size:1.08rem;font-weight:700;letter-spacing:-.01em}
+.tile p{margin:0;font-size:.88rem;color:var(--ink-2);line-height:1.6;flex:1}
+.tile .lk{align-self:flex-start;margin-top:16px}
+
+/* experience */
+.sub-h{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px}
+.sub-h::after{content:"";flex:1;height:1px;background:var(--line)}
+.sub-h.next{margin-top:40px}
+.role{display:grid;grid-template-columns:180px minmax(0,1fr);gap:28px;position:relative}
+.role::before{content:"";position:absolute;left:0;top:22px;bottom:22px;width:2px;border-radius:2px;background:linear-gradient(var(--acc),transparent)}
+.role + .role{margin-top:16px}
+@media(max-width:780px){.role{grid-template-columns:1fr;gap:12px}}
+.role-side{display:flex;flex-direction:column;gap:12px}
+.role-side img{width:64px;height:auto}
+.when{font-family:var(--mono);font-size:.74rem;color:var(--ink-3);line-height:1.6}
+.role h3{margin:0 0 4px;font-size:1.16rem;font-weight:700;letter-spacing:-.01em}
+.org{color:var(--acc);font-weight:600;font-size:.88rem}
+.role ul{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:7px;max-width:80ch}
+.role li{font-size:.92rem;color:var(--ink-2);padding-left:18px;position:relative}
+.role li::before{content:"▸";position:absolute;left:0;color:var(--acc);font-size:.72rem;top:3px}
+.awards{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.awards span{font-family:var(--mono);font-size:.68rem;color:var(--acc);border:1px solid rgba(201,164,92,.3);background:var(--acc-soft);padding:3px 8px;border-radius:6px}
+.edu{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media(max-width:900px){.edu{grid-template-columns:1fr}}
+.edu .card{display:flex;flex-direction:column;padding:24px 26px}
+.edu .when{margin-bottom:16px}
+.edu .inst-id{min-height:62px}
+.edu .mark-gu{width:262px}
+.edu .mark-seal{width:60px;height:60px}
+.edu .inst-sub{margin:10px 0 20px}
+.edu .spec{margin-top:auto}
+@media(max-width:520px){.edu .mark-gu{width:212px}.edu .card{padding:20px 18px}}
+.cl{margin:0;padding:0;list-style:none}
+.cl li{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:.88rem;color:var(--ink);font-weight:500}
+.cl li:last-child{border-bottom:0}
+.cl li span{color:var(--ink-3);text-align:right;font-weight:400}
+.toolchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.toolchips span{font-family:var(--mono);font-size:.72rem;color:var(--ink-2);border:1px solid var(--line);background:rgba(255,255,255,.02);padding:4px 9px;border-radius:6px}
+.toolchips + .card-head{margin-top:18px}
+
+/* contact */
+.foot{padding:72px 0 30px;border-top:1px solid var(--line)}
+.ticket{display:grid;grid-template-columns:1.2fr 1fr;padding:0;overflow:hidden}
+.ticket-l{padding:32px;border-right:1px dashed var(--line)}
+.ticket-l h2{font-size:clamp(1.7rem,3.2vw,2.3rem);margin:10px 0 12px;letter-spacing:-.02em;font-weight:700;line-height:1.15}
+.ticket-l p{color:var(--ink-2);margin:0;max-width:46ch}
+.ticket-r{padding:24px 28px;display:flex;flex-direction:column;gap:10px;justify-content:center;background:rgba(7,11,20,.4)}
+.tline{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);
+  border-radius:10px;font-family:var(--mono);font-size:.82rem;color:var(--ink);transition:.2s}
+.tline:hover{border-color:var(--line-hi);background:var(--acc-soft);text-decoration:none}
+.tline span{color:var(--ink-3);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase}
+@media(max-width:700px){.ticket{grid-template-columns:1fr}.ticket-l{border-right:0;border-bottom:1px dashed var(--line);padding:24px}.ticket-r{padding:20px}}
+.foot-note{padding-top:22px;margin-top:40px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.72rem;color:var(--ink-3);
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
 </style>
 </head>
 <body>
-
 <div class="bg-glow"></div>
 <canvas id="market" aria-hidden="true"></canvas>
 <div class="bg-vignette"></div>
 
-<!-- TICKER: only facts that are true; edit freely -->
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-track" id="ticker"></div>
-</div>
-
-<nav>
-  <div class="nav-in">
-    <a href="#top" class="mark"><i>AV</i><span>AV</span></a>
-    <div class="nav-links">
-      <a href="#featured">Highlights</a>
-      <a href="#projects">Projects</a>
-      <a href="#experience">Experience</a>
-      <a href="#education">Education</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <div style="display:flex;gap:8px">
-      <a class="btn" href="https://github.com/ankitv25" target="_blank" rel="noopener">GitHub</a>
-      <!-- TODO resume: no PDF exists in any repo yet. Set RESUME in the script once assets/Ankit_Verma_Resume.pdf is added; until then this button is removed so it cannot 404. -->
-      <a class="btn btn-gold" data-resume href="#" target="_blank" rel="noopener">Resume
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></a>
-    </div>
+<header class="mast">
+  <div class="mast-in">
+    <span class="mast-name"><i>AV</i>Ankit Verma</span>
+    <nav class="mast-nav" aria-label="Sections">
+      <a href="#funds">Funds</a><a href="#lab">Convexity Lab</a><a href="#regime">MRS</a><a href="#dynamic">DAA</a>
+      <a href="#infra">Infrastructure</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
+    </nav>
+    <a class="mast-cta" href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener">Resume <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></a>
+    <details class="menu"><summary aria-label="Open section menu"><span></span><span></span><span></span></summary>
+      <nav class="menu-panel" aria-label="Sections menu">
+        <a href="#funds">Five Funds</a><a href="#lab">Convexity Lab</a><a href="#regime">Macro Regime Score</a>
+        <a href="#dynamic">Dynamic Allocation</a><a href="#infra">Infrastructure</a>
+        <a href="#experience">Experience</a><a href="#contact">Contact</a>
+      </nav></details>
   </div>
-</nav>
+  <div class="prog" id="prog"></div>
+</header>
 
-<main id="top">
-
-<!-- ================= HERO ================= -->
-<section class="hero">
+<div class="hero">
   <div class="wrap">
     <div class="hero-grid">
-      <div class="hero-left rv">
-        <div class="status"><i></i>Open to buy-side roles · 2027</div>
-        <h1>Ankit Verma<br><em>Risk → Portfolio.</em></h1>
-        <p class="lede">Six years building and validating <b>institutional credit-risk models</b> for major US banks. Now building a <b>multi-asset portfolio construction platform</b> — macro regimes, strategic &amp; tactical allocation, and equity research.</p>
-        <div class="edu-badges">
-          <div class="edu"><div class="crest">IITK</div><div><strong>IIT Kanpur</strong><span>B.Tech · Materials Sci. &amp; Eng. · 2020</span></div></div>
-          <div class="edu"><div class="crest">GU</div><div><strong>Georgetown University</strong><span>MS Finance · 2027 · GPA 3.95</span></div></div>
-        </div>
-        <div class="cta-row">
-          <a class="btn btn-gold" href="#featured">View the platform
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6l6 6-6 6"/></svg></a>
-          <a class="btn" href="https://linkedin.com/in/ankitv0125" target="_blank" rel="noopener">LinkedIn</a>
+      <div>
+        <span class="badge"><b>Live</b>Five funds priced daily since 15 July 2026</span>
+        <h1>Ankit Verma<em>Multi-asset portfolio construction.</em></h1>
+        <p class="sub">I build portfolios end to end: <b>five multi-asset funds, live and priced daily since
+          15 July 2026</b>, each with its own mandate, constraints and real index benchmark. Strategic and dynamic
+          allocation run off my own macro regime model, with Black-Litterman optimisation and Monte Carlo and
+          stress testing on every book. Before Georgetown, 5+ years of institutional risk modelling at EXL for three
+          of the largest US banks and card issuers.</p>
+        <div class="roles"><span>Asset allocation</span><span>Portfolio construction</span><span>Macro regimes</span><span>Fixed income &amp; derivatives</span><span>Equity research</span></div>
+        <div class="cta">
+          <a class="btn btn-a" href="#funds">See the funds <span class="ar">→</span></a>
+          <a class="btn" href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener">Resume <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></a>
+          <a class="btn" href="https://linkedin.com/in/ankitv0125">LinkedIn</a>
+          <a class="btn" href="https://github.com/ankitv25">GitHub</a>
           <a class="btn" href="mailto:ankitv0125@gmail.com">Email</a>
         </div>
       </div>
-
-      <!-- Bloomberg-style DES card -->
-      <div class="panel term rv">
-        <div class="term-top"><div class="dots"><i></i><i></i><i></i></div><span><b>AV</b> &lt;CANDIDATE&gt; DES</span><span>NY</span></div>
-        <dl class="term-body">
-          <div class="row"><dt>Current</dt><dd>Senior Consultant, Risk Strategy &amp; Modelling — EXL</dd></div>
-          <div class="row"><dt>Coverage</dt><dd><span class="tag g">CCAR</span><span class="tag g">CECL</span><span class="tag g">IFRS-9</span><span class="tag">PD Models</span><span class="tag">Stress Testing</span></dd></div>
-          <div class="row"><dt>Track</dt><dd>~6 yrs · India → US · major financial institutions</dd></div>
-          <div class="row"><dt>Building</dt><dd>Multi-asset IM platform · 5 funds live · 5 public research repos</dd></div>
-          <div class="row"><dt>Target</dt><dd>Buy-side IM · Equity Research · Risk</dd></div>
-          <div class="row"><dt>Location</dt><dd>Jersey City / New York</dd></div>
-        </dl>
-        <div class="term-chart">
-          <div class="term-chart-head"><span>CAREER CURVE</span><span class="up">▲ compounding</span></div>
-          <svg id="heroSpark" viewBox="0 0 400 70" preserveAspectRatio="none" style="width:100%;height:70px"></svg>
+      <aside class="cv" aria-label="Education and experience">
+        <div class="cv-top"><span><b>AV</b> · Credentials</span><span>New York, NY</span></div>
+        <div class="inst">
+          <div class="inst-id"><img class="mark-gu" src="assets/logos/georgetown.svg" alt="Georgetown University" width="230" height="49"></div>
+          <div class="inst-sub">McDonough School of Business <span>· Washington, DC</span></div>
+          <dl class="spec">
+            <div><dt>Degree</dt><dd>MS in Finance</dd></div>
+            <div><dt>Class</dt><dd>2025–27</dd></div>
+            <div class="hi"><dt>GPA</dt><dd class="gpa">3.95<small>/ 4.00</small></dd></div>
+          </dl>
         </div>
-      </div>
-    </div>
-
-    <div class="kpis">
-      <div class="panel kpi rv"><span class="d up">▲</span><div class="v">~6<span style="font-size:.55em;color:var(--muted)"> yrs</span></div><div class="l">Institutional quant risk</div></div>
-      <div class="panel kpi rv"><span class="d gold">MSF</span><div class="v">3.95</div><div class="l">Georgetown GPA, while working full-time</div></div>
-      <div class="panel kpi rv"><span class="d up">MC</span><div class="v">4,000</div><div class="l">Block-bootstrap paths per fund, 10-year horizon</div></div>
-      <div class="panel kpi rv"><span class="d gold">R&amp;D</span><div class="v">5</div><div class="l">Public research repositories</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= FEATURED (BENTO) ================= -->
-<section id="featured">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div><div class="kicker">Highlights</div><h2>Investment Management Platform</h2></div>
-      <p class="sec-sub">Five multi-asset funds, live and priced daily since 15 July 2026 — every one built through the same regime-to-weights pipeline.</p>
-    </div>
-
-    <div class="bento">
-      <!-- XL: platform architecture -->
-      <article class="panel hover card b-xl rv">
-        <div class="card-top"><div><div class="meta">Flagship · Architecture</div><h3 class="xl-title">From macro regime to portfolio weights</h3></div><span class="tag t">Live</span></div>
-        <p>An end-to-end allocation stack: the Macro Regime Score feeds strategic and dynamic allocation; every book is decomposed for risk, replayed through historical stress and projected with block-bootstrap Monte Carlo — then run live as five funds, each against a real index benchmark.</p>
-        <div class="viz">
-          <div class="pillars">
-            <div class="pillar"><b>01</b>Macro Regime</div>
-            <div class="pillar"><b>02</b>Strategic Allocation</div>
-            <div class="pillar"><b>03</b>Dynamic Allocation</div>
-            <div class="pillar"><b>04</b>Risk &amp; Stress</div>
-            <div class="pillar"><b>05</b>Monte Carlo</div>
-          </div>
-          <div class="flow mono">↓ ↓ ↓ ↓ ↓</div>
-          <div class="thesis">Five live funds<span>construction · attribution · daily NAV</span></div>
+        <div class="inst">
+          <div class="inst-id"><img class="mark-seal" src="assets/logos/iitk.svg" alt="" width="54" height="54">
+            <div class="inst-name">IIT Kanpur<small>Indian Institute of Technology · Kanpur, India</small></div></div>
+          <dl class="spec wide3">
+            <div><dt>Degree</dt><dd>B.Tech</dd></div>
+            <div><dt>Class</dt><dd>2016–20</dd></div>
+            <div><dt>Major</dt><dd>Materials Science &amp; Eng.</dd></div>
+          </dl>
         </div>
-        <div class="viz" style="flex:1;display:flex;flex-direction:column">
-          <div class="term-chart-head"><span>PORTFOLIO PATHS · BLOCK BOOTSTRAP (ILLUSTRATIVE)</span><span class="gold">p5 · p50 · p95</span></div>
-          <svg id="fan" viewBox="0 0 600 180" preserveAspectRatio="none" style="flex:1;min-height:150px;height:100%"></svg>
+        <div class="cv-exp">
+          <img src="assets/logos/exl.svg" alt="EXL" width="52" height="19">
+          <div><b>Senior Consultant, Risk Strategy &amp; Modelling</b><span>Nov 2020 – present · Loss-forecasting, PD and stress-testing models for three of the largest US banks and card issuers</span></div>
         </div>
-        <div class="tags"><span class="tag">Python</span><span class="tag">Black-Litterman</span><span class="tag">Monte Carlo</span><span class="tag">Regime Scoring</span></div>
-        <div class="links"><a class="btn btn-gold" href="https://ankitv25.github.io/Asset-Allocation/" target="_blank" rel="noopener">Live dashboard ↗</a><a class="btn" href="https://github.com/ankitv25/Asset-Allocation" target="_blank" rel="noopener">Code</a></div>
-      </article>
-
-      <!-- SAA -->
-      <article class="panel hover card b-md rv">
-        <div class="card-top"><div><div class="meta">Strategic Asset Allocation</div><h3>Black-Litterman + block-bootstrap MC</h3></div></div>
-        <div class="viz">
-          <svg viewBox="0 0 300 120" aria-label="Efficient frontier">
-            <defs><linearGradient id="fz" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#C9A45C" stop-opacity=".25"/><stop offset="1" stop-color="#C9A45C" stop-opacity="0"/></linearGradient></defs>
-            <g stroke="rgba(148,163,184,.12)"><line x1="20" y1="100" x2="290" y2="100"/><line x1="20" y1="10" x2="20" y2="100"/></g>
-            <g id="cloud"></g>
-            <path d="M28,92 C60,50 110,28 180,20 S270,14 290,13 L290,100 L28,100 Z" fill="url(#fz)"/>
-            <path d="M28,92 C60,50 110,28 180,20 S270,14 290,13" fill="none" stroke="#C9A45C" stroke-width="2"/>
-            <circle cx="118" cy="32" r="5" fill="#0A0F1A" stroke="#4FB3A5" stroke-width="2"/>
-            <text x="126" y="48" fill="#7C879B" font-family="JetBrains Mono" font-size="9">max-Sharpe</text>
-            <text x="270" y="112" fill="#7C879B" font-family="JetBrains Mono" font-size="8">σ</text>
-            <text x="6" y="16" fill="#7C879B" font-family="JetBrains Mono" font-size="8">μ</text>
-          </svg>
-        </div>
-        <p>4,000-path block bootstrap over a 10-year horizon, with attribution isolating strategic vs. dynamic value-add.</p>
-        <div class="links"><a class="btn btn-gold" href="https://ankitv25.github.io/Asset-Allocation/index.html?p=saa" target="_blank" rel="noopener">Dashboard ↗</a><a class="btn" href="https://github.com/ankitv25/Asset-Allocation" target="_blank" rel="noopener">Code</a></div>
-      </article>
-
-      <!-- MRS -->
-      <article class="panel hover card b-md rv">
-        <div class="card-top"><div><div class="meta">Macro Regime Score · v2.1</div><h3>Five-pillar regime classifier</h3></div></div>
-        <div class="viz">
-          <div class="wbar">
-            <div style="flex:30;background:#C9A45C">30</div>
-            <div style="flex:20;background:#4FB3A5">20</div>
-            <div style="flex:20;background:#6C8EC9">20</div>
-            <div style="flex:15;background:#A8B3C7">15</div>
-            <div style="flex:15;background:#8C7AB8">15</div>
-          </div>
-          <div class="wlegend">
-            <span><i style="background:#C9A45C"></i>Growth</span><span><i style="background:#4FB3A5"></i>Credit</span>
-            <span><i style="background:#6C8EC9"></i>Market Stress</span><span><i style="background:#A8B3C7"></i>Inflation</span>
-            <span><i style="background:#8C7AB8"></i>Liquidity / Rates</span>
-          </div>
-          <div class="regimes" id="regimes"><span class="tag">Expansion</span><span class="tag on">Neutral</span><span class="tag">Slowdown</span><span class="tag">Contraction</span></div>
-        </div>
-        <div class="links"><a class="btn btn-gold" href="https://ankitv25.github.io/Macro-Regime-Score/" target="_blank" rel="noopener">Dashboard ↗</a><a class="btn" href="https://github.com/ankitv25/Macro-Regime-Score" target="_blank" rel="noopener">Code</a></div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ================= ALL PROJECTS ================= -->
-<section id="projects">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div><div class="kicker">Research Library</div><h2>All projects</h2></div>
-      <div class="chips" id="chips"></div>
-    </div>
-    <div class="grid3" id="pgrid"></div>
-  </div>
-</section>
-
-<!-- ================= EXPERIENCE ================= -->
-<section id="experience">
-  <div class="wrap">
-    <div class="sec-head rv"><div><div class="kicker">Professional Experience</div><h2>Six years inside bank risk</h2></div></div>
-    <div class="exp-grid">
-      <aside class="panel exp-side rv">
-        <div class="meta mono" style="font-size:11px;color:var(--muted);letter-spacing:.08em">ONE FIRM · TWO MARKETS</div>
-        <div class="route"><span>India</span><span class="line"></span><span>United States</span></div>
-        <div class="meta mono" style="font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:6px">COVERAGE</div>
-        <div class="cov"><span class="tag g">CCAR</span><span class="tag g">CECL</span><span class="tag g">IFRS-9 Validation</span><span class="tag">PD Model Development</span><span class="tag">Stress Testing</span><span class="tag">Collections Strategy</span><span class="tag">Risk Reporting</span></div>
       </aside>
-      <div class="timeline">
-        <article class="panel job rv">
-          <div class="job-head"><div><h3>Senior Consultant, Risk Strategy &amp; Modelling</h3><div class="org">EXL · India → United States</div></div><div class="when">Nov 2020 – Present<br>Jersey City, NJ</div></div>
-          <ul>
-            <li>Led time-series default-probability model development — hazard-function, behavioral and macroeconomic variables — across three of the largest US lenders.</li>
-            <li>Portfolio stress testing simulating segment-level loss under adverse macro scenarios.</li>
-            <li>Built a Strategy Monitoring Framework integrating real-time data into loss, revenue and ROE projection.</li>
-            <li>−25% risk exposure and −10% loss on the strategies delivered; 4 performance awards.</li>
-          </ul>
-        </article>
-        <!-- TODO EXL India: the repo has one EXL entry (Nov 2020 – Present). Split it into India and US cards once the
-             India title, dates and city are supplied; the route panel already shows India → United States. -->
-        <article class="panel job rv">
-          <div class="job-head"><div><h3>Student Consultant — Equity Portfolio Review</h3><div class="org">Wealth-management RIA · Georgetown MSF Winter Clinic</div></div><div class="when">Jan – Feb 2026<br>Knoxville, TN</div></div>
-          <ul>
-            <li>Six-week engagement on a $150M AUM equity portfolio, closing with an executive presentation to the sponsor team.</li>
-            <li>Recommended changes: +286 bps return, −241 bps volatility, Sharpe 0.51 → 0.81, beta 1.07 → 0.84.</li>
-          </ul>
-        </article>
-      </div>
     </div>
+  </div>
+  <div class="tape" role="region" aria-label="Fund NAVs at the latest close, and the latest Macro Regime Score reading">
+    <div class="tape-in">
+      <div class="tape-k"><b>Close</b><span data-k="nav.asof">16 Oct 2026</span></div>
+      <!--gen:tape-funds--><a class="q" href="#funds" style="--c:#e8a13a"><i></i><span class="qn">Alpha</span><span class="qp">101.14</span><span class="qc up">+1.14%</span></a>
+<a class="q" href="#funds" style="--c:#cf6bd6"><i></i><span class="qn">DAA</span><span class="qp">100.95</span><span class="qc up">+0.95%</span></a>
+<a class="q" href="#funds" style="--c:#a58bf8"><i></i><span class="qn">SAA</span><span class="qp">100.62</span><span class="qc up">+0.62%</span></a>
+<a class="q" href="#funds" style="--c:#3db5d1"><i></i><span class="qn">Certain</span><span class="qp">100.25</span><span class="qc up">+0.25%</span></a>
+<a class="q" href="#funds" style="--c:#b07d5b"><i></i><span class="qn">Endowment</span><span class="qp">99.79</span><span class="qc dn">−0.21%</span></a><!--/gen:tape-funds-->
+      <a class="q" href="#regime" style="--c:var(--acc)"><i></i><span class="qn">MRS · <span data-k="mrs.mon">Aug</span></span><span class="qp" data-k="mrs.z">+0.17z</span><span class="qc flat" data-k="mrs.regime">Neutral</span></a>
+    </div>
+  </div>
+</div>
+
+<div class="flags" id="work">
+  <div class="wrap flags-in">
+    <a class="fl rv" href="#funds" style="--fc:#d97706">
+      <div class="fl-k">Flagship · Asset allocation</div>
+      <h3>Five Funds</h3>
+      <p>Certain, Endowment, SAA, DAA and Alpha: five multi-asset funds, each built from its own sleeve set, live and priced daily since 15 July 2026.</p>
+      <div class="fl-c"><div class="fl-cl">NAV since launch · base 100</div><!--gen:spark-nav--><svg viewBox="0 0 320 96" role="img" aria-label="Daily NAV of the five funds since launch, base 100."><line x1="4" y1="50.1" x2="316" y2="50.1" class="sp-base"></line><polyline fill="none" stroke="#3db5d1" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,55.6 13.5,54.2 18.2,55.8 22.9,52.6 27.6,52.1 32.4,56.8 37.1,55.9 41.8,56.4 46.5,57.0 51.3,57.6 56.0,52.7 60.7,54.6 65.5,52.9 70.2,48.5 74.9,44.3 79.6,44.9 84.4,40.0 89.1,38.9 93.8,39.2 98.5,37.1 103.3,36.7 108.0,36.8 112.7,36.6 117.5,39.2 122.2,32.0 126.9,33.3 131.6,31.4 136.4,30.7 141.1,28.0 145.8,30.9 150.5,29.5 155.3,35.8 160.0,36.1 164.7,40.3 169.5,37.8 174.2,33.2 178.9,35.0 183.6,37.2 188.4,38.1 193.1,43.0 197.8,43.2 202.5,45.9 207.3,45.8 212.0,49.1 216.7,43.4 221.5,45.3 226.2,42.1 230.9,41.7 235.6,49.3 240.4,51.8 245.1,49.5 249.8,57.5 254.5,57.7 259.3,58.7 264.0,55.5 268.7,56.1 273.5,56.1 278.2,53.0 282.9,55.4 287.6,53.3 292.4,50.8 297.1,50.7 301.8,50.1 306.5,52.8 311.3,47.0 316.0,46.7"></polyline><polyline fill="none" stroke="#b07d5b" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,56.3 13.5,57.8 18.2,60.7 22.9,54.0 27.6,52.6 32.4,60.9 37.1,59.1 41.8,59.6 46.5,60.4 51.3,68.0 56.0,58.6 60.7,59.7 65.5,54.9 70.2,45.6 74.9,41.8 79.6,43.3 84.4,36.6 89.1,36.7 93.8,37.9 98.5,34.3 103.3,32.2 108.0,33.5 112.7,35.3 117.5,40.1 122.2,29.5 126.9,33.1 131.6,30.2 136.4,29.5 141.1,24.3 145.8,26.6 150.5,25.1 155.3,32.4 160.0,34.3 164.7,40.3 169.5,36.9 174.2,29.3 178.9,31.2 183.6,34.5 188.4,38.0 193.1,47.1 197.8,43.9 202.5,49.4 207.3,51.3 212.0,55.0 216.7,44.3 221.5,47.2 226.2,38.5 230.9,38.3 235.6,51.1 240.4,55.4 245.1,52.5 249.8,63.7 254.5,65.7 259.3,68.8 264.0,66.6 268.7,64.5 273.5,62.3 278.2,56.4 282.9,62.6 287.6,60.9 292.4,54.6 297.1,53.3 301.8,51.9 306.5,58.3 311.3,50.6 316.0,53.0"></polyline><polyline fill="none" stroke="#a58bf8" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,58.9 13.5,63.5 18.2,66.0 22.9,56.0 27.6,55.5 32.4,65.8 37.1,65.4 41.8,63.5 46.5,64.9 51.3,76.6 56.0,64.3 60.7,63.4 65.5,56.4 70.2,42.6 74.9,38.3 79.6,39.3 84.4,31.3 89.1,30.1 93.8,31.7 98.5,27.8 103.3,25.3 108.0,27.6 112.7,28.9 117.5,36.8 122.2,27.6 126.9,32.2 131.6,26.6 136.4,27.2 141.1,22.1 145.8,24.2 150.5,19.9 155.3,25.4 160.0,28.5 164.7,34.5 169.5,30.3 174.2,22.1 178.9,23.6 183.6,30.0 188.4,33.4 193.1,41.0 197.8,35.0 202.5,40.5 207.3,42.5 212.0,45.7 216.7,33.7 221.5,34.5 226.2,23.3 230.9,23.4 235.6,34.0 240.4,37.0 245.1,34.4 249.8,45.4 254.5,47.7 259.3,50.7 264.0,47.8 268.7,44.0 273.5,39.4 278.2,35.2 282.9,40.7 287.6,41.8 292.4,34.3 297.1,33.9 301.8,33.1 306.5,41.1 311.3,34.8 316.0,41.7"></polyline><polyline fill="none" stroke="#cf6bd6" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,59.7 13.5,64.6 18.2,66.8 22.9,55.5 27.6,54.5 32.4,65.1 37.1,64.9 41.8,63.4 46.5,65.7 51.3,76.8 56.0,63.5 60.7,62.4 65.5,55.5 70.2,41.7 74.9,37.0 79.6,37.4 84.4,29.0 89.1,26.7 93.8,28.6 98.5,24.3 103.3,22.4 108.0,24.4 112.7,25.0 117.5,33.7 122.2,24.5 126.9,28.6 131.6,22.2 136.4,23.4 141.1,18.6 145.8,20.8 150.5,16.1 155.3,21.8 160.0,24.7 164.7,30.6 169.5,26.2 174.2,17.6 178.9,19.1 183.6,25.7 188.4,28.9 193.1,36.3 197.8,29.9 202.5,36.0 207.3,37.7 212.0,41.2 216.7,29.2 221.5,29.6 226.2,18.3 230.9,18.3 235.6,28.7 240.4,31.1 245.1,28.5 249.8,39.9 254.5,42.2 259.3,45.1 264.0,42.3 268.7,38.1 273.5,33.0 278.2,28.7 282.9,34.7 287.6,36.3 292.4,28.2 297.1,27.9 301.8,27.2 306.5,36.0 311.3,30.1 316.0,37.3"></polyline><polyline fill="none" stroke="#e8a13a" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,61.0 13.5,71.5 18.2,72.9 22.9,58.7 27.6,58.2 32.4,73.2 37.1,73.2 41.8,71.5 46.5,73.5 51.3,88.0 56.0,67.6 60.7,62.1 65.5,49.2 70.2,29.4 74.9,26.8 79.6,27.5 84.4,16.8 89.1,14.7 93.8,18.2 98.5,13.1 103.3,9.4 108.0,11.1 112.7,12.8 117.5,24.6 122.2,17.3 126.9,24.0 131.6,15.7 136.4,19.4 141.1,14.6 145.8,16.4 150.5,8.8 155.3,15.3 160.0,18.9 164.7,27.1 169.5,21.1 174.2,8.3 178.9,11.3 183.6,19.3 188.4,24.1 193.1,33.3 197.8,23.7 202.5,31.9 207.3,36.1 212.0,41.2 216.7,26.6 221.5,25.4 226.2,8.5 230.9,8.0 235.6,19.7 240.4,20.8 245.1,15.3 249.8,28.4 254.5,29.9 259.3,33.3 264.0,31.3 268.7,23.2 273.5,14.0 278.2,8.1 282.9,15.8 287.6,21.2 292.4,11.2 297.1,11.9 301.8,12.2 306.5,27.1 311.3,22.5 316.0,34.8"></polyline></svg><!--/gen:spark-nav--></div>
+      <div class="fs"><div><span class="fs-v">5</span><span class="fs-k">Funds, priced daily</span></div><div><span class="fs-v">11</span><span class="fs-k">Dashboard pages</span></div><div><span class="fs-v">1997</span><span class="fs-k">Backtest from</span></div></div>
+      <div class="fl-go">The live record <span class="ar">→</span></div>
+    </a>
+    <a class="fl rv" data-d="1" href="#lab" style="--fc:#3b5f8a">
+      <div class="fl-k">Flagship · Fixed income &amp; derivatives</div>
+      <h3>Convexity Lab</h3>
+      <p>A research and portfolio-decision workstation: from market evidence and security analysis to portfolio risk, option strategies and hedged, stress-tested decisions.</p>
+      <div class="fl-c"><div class="fl-cl">10Y bond · convexity gain vs rate shock</div><!--gen:spark-cvx--><svg viewBox="0 0 320 96" role="img" aria-label="Convexity gain of a 10-year bond under rate shocks: positive whichever way rates move."><line x1="4" y1="88" x2="316" y2="88" class="sp-base"></line><polygon class="sp-fill" points="4,88 4.0,20.0 11.8,26.7 19.6,33.1 27.4,39.2 35.2,44.9 43.0,50.2 50.8,55.2 58.6,59.8 66.4,64.0 74.2,67.9 82.0,71.5 89.8,74.7 97.6,77.5 105.4,80.0 113.2,82.2 121.0,84.0 128.8,85.5 136.6,86.6 144.4,87.4 152.2,87.9 160.0,88.0 167.8,87.8 175.6,87.3 183.4,86.4 191.2,85.2 199.0,83.7 206.8,81.9 214.6,79.7 222.4,77.3 230.2,74.5 238.0,71.4 245.8,67.9 253.6,64.2 261.4,60.2 269.2,55.8 277.0,51.1 284.8,46.2 292.6,40.9 300.4,35.3 308.2,29.4 316.0,23.2 316,88"></polygon><polyline fill="none" class="sp-line" stroke-width="1.8" points="4.0,20.0 11.8,26.7 19.6,33.1 27.4,39.2 35.2,44.9 43.0,50.2 50.8,55.2 58.6,59.8 66.4,64.0 74.2,67.9 82.0,71.5 89.8,74.7 97.6,77.5 105.4,80.0 113.2,82.2 121.0,84.0 128.8,85.5 136.6,86.6 144.4,87.4 152.2,87.9 160.0,88.0 167.8,87.8 175.6,87.3 183.4,86.4 191.2,85.2 199.0,83.7 206.8,81.9 214.6,79.7 222.4,77.3 230.2,74.5 238.0,71.4 245.8,67.9 253.6,64.2 261.4,60.2 269.2,55.8 277.0,51.1 284.8,46.2 292.6,40.9 300.4,35.3 308.2,29.4 316.0,23.2"></polyline><circle cx="4.0" cy="20.0" r="2.6" class="sp-dot2"></circle><circle cx="82.0" cy="71.5" r="2.6" class="sp-dot2"></circle><circle cx="160.0" cy="88.0" r="2.6" class="sp-dot2"></circle><circle cx="238.0" cy="71.4" r="2.6" class="sp-dot2"></circle><circle cx="316.0" cy="23.2" r="2.6" class="sp-dot2"></circle></svg><!--/gen:spark-cvx--></div>
+      <div class="fs"><div><span class="fs-v">15</span><span class="fs-k">Research routes</span></div><div><span class="fs-v">25</span><span class="fs-k">Quant modules</span></div><div><span class="fs-v">10</span><span class="fs-k">Option structures</span></div></div>
+      <div class="fl-go">From research to decision <span class="ar">→</span></div>
+    </a>
+    <a class="fl rv" data-d="2" href="#regime" style="--fc:#5a84ad">
+      <div class="fl-k">Flagship · Macro framework</div>
+      <h3>Macro Regime Score</h3>
+      <p>Thirteen indicators across five pillars, scored monthly since 2003. It flagged the GFC nine months before the NBER dated it, and it is the input the dynamic layer reads.</p>
+      <div class="fl-c"><div class="fl-cl">Composite z-score · contraction band shaded</div><!--gen:spark-mrs--><svg viewBox="0 0 320 96" role="img" aria-label="Macro Regime Score composite since 2003; the Contraction band is shaded."><rect x="4" y="59.1" width="312" height="30.9" class="sp-band"></rect><line x1="4" y1="59.1" x2="316" y2="59.1" class="sp-thr"></line><polyline fill="none" class="sp-line" stroke-width="1.5" stroke-linejoin="round" points="4.0,25.6 5.1,18.1 6.2,21.7 7.4,21.0 8.5,17.8 9.6,19.9 10.7,19.0 11.9,17.6 13.0,18.0 14.1,19.8 15.2,15.0 16.3,17.1 17.5,19.5 18.6,17.2 19.7,21.5 20.8,19.0 22.0,15.6 23.1,17.5 24.2,16.0 25.3,17.2 26.4,16.8 27.6,18.3 28.7,18.0 29.8,23.8 30.9,21.5 32.1,20.0 33.2,22.8 34.3,27.3 35.4,29.5 36.5,28.7 37.7,29.8 38.8,23.0 39.9,23.7 41.0,21.9 42.2,24.4 43.3,30.3 44.4,37.0 45.5,35.7 46.6,37.7 47.8,35.0 48.9,30.0 50.0,27.2 51.1,26.6 52.3,26.3 53.4,28.9 54.5,30.2 55.6,26.6 56.7,28.0 57.9,27.2 59.0,28.8 60.1,40.7 61.2,43.9 62.4,40.0 63.5,50.9 64.6,56.1 65.7,55.2 66.8,56.5 68.0,62.2 69.1,58.0 70.2,50.6 71.3,53.0 72.5,58.5 73.6,61.1 74.7,65.4 75.8,79.2 76.9,82.3 78.1,84.5 79.2,83.4 80.3,81.4 81.4,80.5 82.6,73.3 83.7,61.6 84.8,54.9 85.9,51.1 87.1,46.5 88.2,44.6 89.3,40.7 90.4,41.3 91.5,40.0 92.7,36.8 93.8,39.6 94.9,35.2 96.0,29.4 97.2,32.4 98.3,35.7 99.4,33.0 100.5,36.5 101.6,35.6 102.8,34.5 103.9,34.0 105.0,30.1 106.1,30.3 107.3,30.8 108.4,31.7 109.5,29.0 110.6,30.2 111.7,32.7 112.9,33.9 114.0,42.1 115.1,45.0 116.2,39.3 117.4,39.0 118.5,38.1 119.6,33.5 120.7,31.2 121.8,29.6 123.0,30.3 124.1,35.7 125.2,35.8 126.3,34.1 127.5,34.2 128.6,32.8 129.7,31.1 130.8,31.3 131.9,31.0 133.1,28.5 134.2,30.4 135.3,30.2 136.4,30.4 137.6,31.6 138.7,33.1 139.8,30.8 140.9,30.0 142.0,30.0 143.2,28.4 144.3,28.8 145.4,27.3 146.5,29.0 147.7,31.4 148.8,30.0 149.9,26.3 151.0,24.9 152.1,24.7 153.3,22.9 154.4,26.6 155.5,27.0 156.6,27.5 157.8,29.5 158.9,31.5 160.0,31.1 161.1,30.5 162.2,31.7 163.4,29.3 164.5,32.0 165.6,32.9 166.7,33.4 167.9,38.6 169.0,41.3 170.1,39.5 171.2,39.8 172.3,40.5 173.5,41.9 174.6,42.7 175.7,38.2 176.8,35.2 178.0,36.8 179.1,37.4 180.2,32.6 181.3,31.9 182.4,32.7 183.6,32.5 184.7,32.3 185.8,30.2 186.9,28.3 188.1,29.8 189.2,28.8 190.3,28.7 191.4,29.6 192.5,29.5 193.7,27.0 194.8,29.7 195.9,30.7 197.0,26.6 198.2,28.5 199.3,27.8 200.4,26.4 201.5,30.9 202.6,31.9 203.8,29.8 204.9,31.2 206.0,31.1 207.1,29.6 208.3,30.2 209.4,29.2 210.5,31.5 211.6,34.8 212.7,40.0 213.9,36.5 215.0,35.3 216.1,34.8 217.2,32.6 218.4,34.4 219.5,34.2 220.6,30.9 221.7,34.7 222.8,33.8 224.0,33.0 225.1,33.4 226.2,31.2 227.3,32.7 228.5,37.2 229.6,70.4 230.7,73.4 231.8,67.5 232.9,62.3 234.1,44.4 235.2,34.6 236.3,34.8 237.4,37.0 238.6,39.9 239.7,39.7 240.8,36.8 241.9,37.3 243.1,25.5 244.2,23.3 245.3,27.5 246.4,29.9 247.5,30.3 248.7,33.6 249.8,35.0 250.9,32.0 252.0,33.2 253.2,35.3 254.3,38.6 255.4,43.0 256.5,48.1 257.6,44.3 258.8,46.5 259.9,48.9 261.0,46.3 262.1,44.9 263.3,47.7 264.4,50.6 265.5,47.7 266.6,44.6 267.7,41.2 268.9,40.6 270.0,43.6 271.1,40.7 272.2,43.7 273.4,40.0 274.5,36.3 275.6,36.2 276.7,33.6 277.8,33.9 279.0,32.1 280.1,29.8 281.2,30.6 282.3,32.8 283.5,31.0 284.6,31.9 285.7,29.4 286.8,31.8 287.9,31.4 289.1,35.1 290.2,32.6 291.3,32.9 292.4,34.4 293.6,32.9 294.7,31.8 295.8,32.9 296.9,34.8 298.0,38.7 299.2,36.1 300.3,34.2 301.4,31.5 302.5,32.6 303.7,31.8 304.8,30.4 305.9,32.3 307.0,32.4 308.1,30.9 309.3,33.0 310.4,37.9 311.5,34.5 312.6,33.6 313.8,32.6 314.9,32.3 316.0,33.2"></polyline><circle cx="316" cy="33.2" r="3" class="sp-dot"></circle></svg><!--/gen:spark-mrs--></div>
+      <div class="fs"><div><span class="fs-v" data-k="mrs.months">279</span><span class="fs-k">Months scored</span></div><div><span class="fs-v">13</span><span class="fs-k">Indicators</span></div><div><span class="fs-v" data-k="mrs.z">+0.17z</span><span class="fs-k"><span data-k="mrs.month_short">Aug 2026</span> · <span data-k="mrs.regime">Neutral</span></span></div></div>
+      <div class="fl-go">The regime record <span class="ar">→</span></div>
+    </a>
+  </div>
+</div>
+
+<main>
+
+<section id="funds" class="sec">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-k"><span class="n">01</span>Asset allocation</div>
+        <h2>Five funds, live since 15 July 2026</h2>
+      </div>
+      <p class="lede">Certain · Endowment · SAA · DAA · Alpha. Each fund declares its own sleeve set, its own construction
+         constraints and a real index benchmark. All five launched at NAV 100.00 and are priced daily from
+         dividend-adjusted closes, net of a 15bp annual fee and 10bp per side.</p>
+    </div>
+
+    <article class="card rv">
+      <div class="card-head">
+        <div><div class="k">The live record · NAV per unit</div><h3>Five mandates, not one dial</h3></div>
+        <div class="links">
+          <a class="lk lk-live" href="https://ankitv25.github.io/Asset-Allocation/">Live dashboard</a>
+          <a class="lk" href="https://ankitv25.github.io/Asset-Allocation/live.html">Live NAV</a>
+          <a class="lk" href="https://github.com/ankitv25/Asset-Allocation">Code</a></div>
+      </div>
+      <p class="dek">Five funds that differ only by an equity/bond dial are not five funds. Here, a holding a fund
+         does not believe in is bounded to zero rather than left for the optimiser to discover — Certain holds
+         T-bills, TIPS and Swiss francs; Endowment is built around real assets; SAA is the lean policy
+         portfolio; DAA runs that policy actively; Alpha takes equity-level risk on its own ~14% volatility budget.
+         Eleven dashboard pages render any of the five, from construction to stress and Monte Carlo.</p>
+
+      <div class="navgrid">
+        <div>
+          <p class="figs" style="margin-bottom:10px">Daily, <span data-k="nav.from">15 Jul</span> – <span data-k="nav.asof">16 Oct 2026</span>. <span data-k="nav.days">67</span> trading days is a short
+             sample — read it as a record, not a verdict on skill.</p>
+          <div class="navchart" id="navChart"><!--gen:navchart--><svg viewBox="0 0 680 280" role="img" aria-label="Daily NAV of the five funds from launch at 100 on 15 Jul 2026 to 16 Oct 2026. Alpha +1.14 percent, DAA +0.95 percent, SAA +0.62 percent, Certain +0.25 percent, Endowment −0.21 percent since launch.">
+<line class="gl" x1="48" y1="238.0" x2="660" y2="238.0"></line><text class="ax" x="40" y="242.0" text-anchor="end">96</text>
+<line class="gl" x1="48" y1="182.5" x2="660" y2="182.5"></line><text class="ax" x="40" y="186.5" text-anchor="end">98</text>
+<line class="zl" x1="48" y1="127.0" x2="660" y2="127.0"></line><text class="ax" x="40" y="131.0" text-anchor="end">100</text>
+<line class="gl" x1="48" y1="71.5" x2="660" y2="71.5"></line><text class="ax" x="40" y="75.5" text-anchor="end">102</text>
+<line class="gl" x1="48" y1="16.0" x2="660" y2="16.0"></line><text class="ax" x="40" y="20.0" text-anchor="end">104</text>
+<text class="ax" x="48.0" y="266" text-anchor="start">15 Jul</text>
+<text class="ax" x="168.5" y="266" text-anchor="middle">3 Aug</text>
+<text class="ax" x="363.3" y="266" text-anchor="middle">1 Sep</text>
+<text class="ax" x="558.0" y="266" text-anchor="middle">1 Oct</text>
+<text class="ax" x="660" y="266" text-anchor="end">16 Oct</text>
+<polyline data-f="Certain" fill="none" stroke="#3db5d1" stroke-width="2" stroke-linejoin="round" points="48.0,129.8 57.3,138.3 66.5,135.4 75.8,138.8 85.1,132.1 94.4,131.0 103.6,140.9 112.9,138.9 122.2,140.1 131.5,141.2 140.7,142.5 150.0,132.4 159.3,136.2 168.5,132.7 177.8,123.7 187.1,114.9 196.4,116.3 205.6,106.1 214.9,103.9 224.2,104.5 233.5,100.0 242.7,99.3 252.0,99.5 261.3,99.1 270.5,104.4 279.8,89.5 289.1,92.3 298.4,88.2 307.6,86.9 316.9,81.4 326.2,87.2 335.5,84.4 344.7,97.5 354.0,98.1 363.3,106.8 372.5,101.5 381.8,92.0 391.1,95.7 400.4,100.3 409.6,102.1 418.9,112.3 428.2,112.8 437.5,118.3 446.7,118.0 456.0,124.8 465.3,113.1 474.5,117.1 483.8,110.5 493.1,109.5 502.4,125.2 511.6,130.4 520.9,125.8 530.2,142.2 539.5,142.7 548.7,144.7 558.0,138.2 567.3,139.4 576.5,139.4 585.8,133.0 595.1,138.0 604.4,133.5 613.6,128.5 622.9,128.2 632.2,127.0 641.5,132.5 650.7,120.6 660.0,120.0"><title>Certain — NAV 100.25 on 16 Oct 2026 (+0.25% since launch)</title></polyline>
+<polyline data-f="Endowment" fill="none" stroke="#b07d5b" stroke-width="2" stroke-linejoin="round" points="48.0,129.8 57.3,139.8 66.5,142.9 75.8,148.8 85.1,135.1 94.4,132.2 103.6,149.3 112.9,145.6 122.2,146.5 131.5,148.2 140.7,163.9 150.0,144.5 159.3,146.8 168.5,136.9 177.8,117.8 187.1,109.8 196.4,113.0 205.6,99.0 214.9,99.2 224.2,101.8 233.5,94.3 242.7,89.9 252.0,92.7 261.3,96.4 270.5,106.4 279.8,84.3 289.1,91.8 298.4,85.8 307.6,84.5 316.9,73.7 326.2,78.3 335.5,75.3 344.7,90.5 354.0,94.4 363.3,106.7 372.5,99.6 381.8,84.0 391.1,87.8 400.4,94.8 409.6,102.0 418.9,120.8 428.2,114.2 437.5,125.5 446.7,129.5 456.0,137.2 465.3,115.0 474.5,120.9 483.8,103.0 493.1,102.6 502.4,129.1 511.6,137.8 520.9,132.0 530.2,155.2 539.5,159.1 548.7,165.5 558.0,161.1 567.3,156.6 576.5,152.3 585.8,140.1 595.1,152.7 604.4,149.2 613.6,136.2 622.9,133.7 632.2,130.8 641.5,143.8 650.7,128.0 660.0,132.9"><title>Endowment — NAV 99.79 on 16 Oct 2026 (−0.21% since launch)</title></polyline>
+<polyline data-f="SAA" fill="none" stroke="#a58bf8" stroke-width="2" stroke-linejoin="round" points="48.0,129.8 57.3,145.1 66.5,154.7 75.8,159.9 85.1,139.1 94.4,138.1 103.6,159.4 112.9,158.5 122.2,154.6 131.5,157.5 140.7,181.7 150.0,156.2 159.3,154.5 168.5,139.9 177.8,111.4 187.1,102.6 196.4,104.6 205.6,88.2 214.9,85.5 224.2,89.0 233.5,81.0 242.7,75.8 252.0,80.5 261.3,83.2 270.5,99.5 279.8,80.4 289.1,89.9 298.4,78.4 307.6,79.6 316.9,69.0 326.2,73.4 335.5,64.6 344.7,75.9 354.0,82.3 363.3,94.7 372.5,86.0 381.8,69.1 391.1,72.2 400.4,85.4 409.6,92.4 418.9,108.2 428.2,95.7 437.5,107.2 446.7,111.2 456.0,117.8 465.3,93.0 474.5,94.7 483.8,71.7 493.1,71.8 502.4,93.7 511.6,100.0 520.9,94.4 530.2,117.3 539.5,122.0 548.7,128.2 558.0,122.1 567.3,114.4 576.5,104.9 585.8,96.3 595.1,107.5 604.4,109.8 613.6,94.3 622.9,93.6 632.2,91.9 641.5,108.4 650.7,95.3 660.0,109.7"><title>SAA — NAV 100.62 on 16 Oct 2026 (+0.62% since launch)</title></polyline>
+<polyline data-f="DAA" fill="none" stroke="#cf6bd6" stroke-width="2" stroke-linejoin="round" points="48.0,129.8 57.3,146.8 66.5,157.0 75.8,161.4 85.1,138.1 94.4,136.1 103.6,158.0 112.9,157.6 122.2,154.5 131.5,159.3 140.7,182.1 150.0,154.7 159.3,152.4 168.5,138.2 177.8,109.5 187.1,99.8 196.4,100.7 205.6,83.3 214.9,78.7 224.2,82.5 233.5,73.7 242.7,69.8 252.0,73.8 261.3,75.1 270.5,93.1 279.8,74.1 289.1,82.5 298.4,69.3 307.6,71.7 316.9,61.9 326.2,66.4 335.5,56.7 344.7,68.4 354.0,74.4 363.3,86.7 372.5,77.5 381.8,59.8 391.1,63.0 400.4,76.6 409.6,83.2 418.9,98.4 428.2,85.2 437.5,97.8 446.7,101.4 456.0,108.7 465.3,83.7 474.5,84.7 483.8,61.3 493.1,61.3 502.4,82.7 511.6,87.7 520.9,82.3 530.2,105.9 539.5,110.6 548.7,116.6 558.0,110.8 567.3,102.2 576.5,91.7 585.8,82.8 595.1,95.2 604.4,98.5 613.6,81.8 622.9,81.1 632.2,79.6 641.5,97.9 650.7,85.6 660.0,100.6"><title>DAA — NAV 100.95 on 16 Oct 2026 (+0.95% since launch)</title></polyline>
+<polyline data-f="Alpha" fill="none" stroke="#e8a13a" stroke-width="2" stroke-linejoin="round" points="48.0,129.8 57.3,149.5 66.5,171.2 75.8,174.2 85.1,144.8 94.4,143.6 103.6,174.6 112.9,174.6 122.2,171.3 131.5,175.3 140.7,205.3 150.0,163.1 159.3,151.8 168.5,125.1 177.8,84.1 187.1,78.9 196.4,80.3 205.6,58.3 214.9,53.8 224.2,61.1 233.5,50.5 242.7,42.8 252.0,46.4 261.3,49.9 270.5,74.2 279.8,59.2 289.1,73.0 298.4,55.9 307.6,63.5 316.9,53.7 326.2,57.3 335.5,41.5 344.7,55.0 354.0,62.5 363.3,79.5 372.5,67.1 381.8,40.7 391.1,46.8 400.4,63.4 409.6,73.2 418.9,92.2 428.2,72.3 437.5,89.4 446.7,98.1 456.0,108.5 465.3,78.4 474.5,75.9 483.8,40.9 493.1,40.0 502.4,64.1 511.6,66.5 520.9,55.1 530.2,82.2 539.5,85.2 548.7,92.3 558.0,88.1 567.3,71.4 576.5,52.3 585.8,40.1 595.1,56.1 604.4,67.3 613.6,46.5 622.9,48.1 632.2,48.6 641.5,79.5 650.7,69.9 660.0,95.4"><title>Alpha — NAV 101.14 on 16 Oct 2026 (+1.14% since launch)</title></polyline>
+<circle data-f="Certain" cx="660" cy="120.0" r="3.6" fill="#3db5d1"></circle>
+<circle data-f="Endowment" cx="660" cy="132.9" r="3.6" fill="#b07d5b"></circle>
+<circle data-f="SAA" cx="660" cy="109.7" r="3.6" fill="#a58bf8"></circle>
+<circle data-f="DAA" cx="660" cy="100.6" r="3.6" fill="#cf6bd6"></circle>
+<circle data-f="Alpha" cx="660" cy="95.4" r="3.6" fill="#e8a13a"></circle>
+<line class="xh" id="navXh" x1="0" y1="16" x2="0" y2="238"></line><g class="hd" id="navDots"></g></svg><!--/gen:navchart--></div>
+        </div>
+        <div class="board" id="navBoard" aria-live="polite">
+          <div class="board-h"><span>NAV per unit</span><b id="navDate" data-k="nav.asof">16 Oct 2026</b></div>
+          <!--gen:navboard--><button class="brow" type="button" data-f="Alpha" style="--c:#e8a13a"><i></i><span class="bn">Alpha<small>vs S&amp;P 500</small></span><span class="brd">101.14</span><span class="bch up">+1.14%</span></button>
+<button class="brow" type="button" data-f="DAA" style="--c:#cf6bd6"><i></i><span class="bn">DAA<small>vs ACWI 80 / Agg 20</small></span><span class="brd">100.95</span><span class="bch up">+0.95%</span></button>
+<button class="brow" type="button" data-f="SAA" style="--c:#a58bf8"><i></i><span class="bn">SAA<small>vs ACWI 80 / Agg 20</small></span><span class="brd">100.62</span><span class="bch up">+0.62%</span></button>
+<button class="brow" type="button" data-f="Certain" style="--c:#3db5d1"><i></i><span class="bn">Certain<small>vs ACWI 40 / Agg 60</small></span><span class="brd">100.25</span><span class="bch up">+0.25%</span></button>
+<button class="brow" type="button" data-f="Endowment" style="--c:#b07d5b"><i></i><span class="bn">Endowment<small>vs ACWI 60 / Agg 40</small></span><span class="brd">99.79</span><span class="bch dn">−0.21%</span></button><!--/gen:navboard-->
+          <p class="board-f">Change since launch at 100.00. Hover or tap the chart to read any day; select a fund to isolate it.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="card mt rv">
+      <div class="card-head"><div><div class="k">Since launch · against each fund's own reference</div><h3>Returns and mandates</h3></div></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Fund</th><th class="tl">Horizon</th><th class="tl">Role</th><th class="tl">Reference</th><th>Fund</th><th>Reference</th><th>Active</th></tr></thead><tbody>
+<!--gen:fundtable--><tr><td><span class="chip" style="--c:#3db5d1"></span>Certain</td><td class="tl">3+ yrs</td><td class="tl">Capital preservation tier — purchasing power first</td><td class="tl">ACWI 40 / Agg 60</td><td class="num">+0.25%</td><td class="num">−0.99%</td><td class="num up">+1.24 pp</td></tr>
+<tr><td><span class="chip" style="--c:#b07d5b"></span>Endowment</td><td class="tl">10+ yrs</td><td class="tl">Long-horizon real-asset tier</td><td class="tl">ACWI 60 / Agg 40</td><td class="num">−0.21%</td><td class="num">−0.60%</td><td class="num up">+0.39 pp</td></tr>
+<tr><td><span class="chip" style="--c:#a58bf8"></span>SAA</td><td class="tl">20+ yrs</td><td class="tl">House policy portfolio — the strategic anchor</td><td class="tl">ACWI 80 / Agg 20</td><td class="num">+0.62%</td><td class="num">−0.23%</td><td class="num up">+0.85 pp</td></tr>
+<tr><td><span class="chip" style="--c:#cf6bd6"></span>DAA</td><td class="tl">20+ yrs</td><td class="tl">The policy portfolio run actively</td><td class="tl">ACWI 80 / Agg 20</td><td class="num">+0.95%</td><td class="num">−0.23%</td><td class="num up">+1.18 pp</td></tr>
+<tr><td><span class="chip" style="--c:#e8a13a"></span>Alpha</td><td class="tl">10+ yrs</td><td class="tl">Equity-level risk, run actively</td><td class="tl">S&amp;P 500</td><td class="num">+1.14%</td><td class="num">+1.37%</td><td class="num dn">−0.23 pp</td></tr><!--/gen:fundtable-->
+      </tbody></table></div>
+
+      <details class="more"><summary>Backtest of today's weights, 1997 – 2026</summary>
+        <div class="tbl-wrap"><table><thead><tr><th>Fund</th><th>CAGR</th><th>Vol</th><th>Sharpe</th><th>Worst loss</th></tr></thead><tbody>
+          <tr><td>Certain</td><td class="num">4.94%</td><td class="num">4.1%</td><td class="num">0.67</td><td class="num">−10.0%</td></tr>
+          <tr><td>Endowment</td><td class="num">7.28%</td><td class="num">8.1%</td><td class="num">0.64</td><td class="num">−24.3%</td></tr>
+          <tr><td>SAA</td><td class="num">7.81%</td><td class="num">8.8%</td><td class="num">0.65</td><td class="num">−25.5%</td></tr>
+          <tr><td>DAA</td><td class="num">8.09%</td><td class="num">8.3%</td><td class="num">0.72</td><td class="num">−20.8%</td></tr>
+          <tr><td>Alpha</td><td class="num">9.34%</td><td class="num">13.5%</td><td class="num">0.57</td><td class="num">−44.0%</td></tr>
+          <tr><td>ACWI 40 / Agg 60</td><td class="num">6.04%</td><td class="num">7.3%</td><td class="num">0.54</td><td class="num">−23.6%</td></tr>
+          <tr><td>ACWI 60 / Agg 40</td><td class="num">6.94%</td><td class="num">10.0%</td><td class="num">0.50</td><td class="num">−35.6%</td></tr>
+          <tr><td>ACWI 80 / Agg 20</td><td class="num">7.73%</td><td class="num">13.0%</td><td class="num">0.47</td><td class="num">−46.1%</td></tr>
+          <tr><td>S&amp;P 500</td><td class="num">9.69%</td><td class="num">15.4%</td><td class="num">0.54</td><td class="num">−50.8%</td></tr>
+        </tbody></table></div>
+        <p class="s">Today's weights carried back over history, net of dealing costs and the 15bp fee — not the live
+           track record. Benchmarks are real indices, never home-made paper blends.</p></details>
+
+      <details class="more"><summary>Holdings by fund</summary>
+        <div class="tbl-wrap"><table><thead><tr><th>Holding</th><th>Certain</th><th>Endowment</th><th>SAA</th><th>DAA</th><th>Alpha</th></tr></thead><tbody>
+<!--gen:holdings--><tr><td>US equity</td><td class="num">9.0%</td><td class="num">23.5%</td><td class="num">35.0%</td><td class="num">35.7%</td><td class="num">64.5%</td></tr>
+<tr><td>Developed ex-US equity</td><td class="num">5.0%</td><td class="num">4.5%</td><td class="num">7.0%</td><td class="num">8.3%</td><td class="num">7.0%</td></tr>
+<tr><td>Emerging-market equity</td><td class="num muted">—</td><td class="num">6.0%</td><td class="num">9.0%</td><td class="num">10.4%</td><td class="num">13.7%</td></tr>
+<tr><td>US Treasuries (intermediate)</td><td class="num">22.0%</td><td class="num">8.0%</td><td class="num">6.0%</td><td class="num">3.6%</td><td class="num muted">—</td></tr>
+<tr><td>IG corporate credit</td><td class="num">8.0%</td><td class="num">5.0%</td><td class="num muted">—</td><td class="num muted">—</td><td class="num muted">—</td></tr>
+<tr><td>TIPS</td><td class="num">16.0%</td><td class="num">8.0%</td><td class="num muted">—</td><td class="num muted">—</td><td class="num muted">—</td></tr>
+<tr><td>Listed real estate</td><td class="num muted">—</td><td class="num">4.0%</td><td class="num muted">—</td><td class="num muted">—</td><td class="num muted">—</td></tr>
+<tr><td>Broad commodities</td><td class="num">4.0%</td><td class="num">5.0%</td><td class="num">3.0%</td><td class="num">4.0%</td><td class="num">2.9%</td></tr>
+<tr><td>Gold</td><td class="num">7.0%</td><td class="num">8.0%</td><td class="num">8.0%</td><td class="num">8.8%</td><td class="num">8.4%</td></tr>
+<tr><td>Cash (T-bills)</td><td class="num">26.0%</td><td class="num">6.0%</td><td class="num">4.0%</td><td class="num">4.2%</td><td class="num">1.2%</td></tr>
+<tr><td>Listed infrastructure</td><td class="num muted">—</td><td class="num">7.0%</td><td class="num muted">—</td><td class="num muted">—</td><td class="num muted">—</td></tr>
+<tr><td>Managed futures (trend)</td><td class="num muted">—</td><td class="num muted">—</td><td class="num">8.0%</td><td class="num">8.0%</td><td class="num">1.9%</td></tr>
+<tr><td>US Treasuries (long)</td><td class="num muted">—</td><td class="num">15.0%</td><td class="num">20.0%</td><td class="num">16.9%</td><td class="num">0.5%</td></tr>
+<tr><td>Swiss franc</td><td class="num">3.0%</td><td class="num muted">—</td><td class="num muted">—</td><td class="num muted">—</td><td class="num muted">—</td></tr><!--/gen:holdings-->
+        </tbody></table></div>
+        <p class="s">Each fund's book as the dashboard publishes it on <span data-k="nav.asof">16 Oct 2026</span>. The static funds hold their
+           policy weights; DAA and Alpha move with their engines at each month end.</p></details>
+    </article>
+
+    <p class="insight mt rv"><span class="tag">Design note</span>Excluding the trend sleeve costs <strong>Certain 0.04 of Sharpe and Endowment nothing</strong>
+      — so neither carries one. The price is 2022: every asset except cash and commodities fell, and
+      Certain's −10% worst loss is entirely that year.</p>
   </div>
 </section>
 
-<!-- ================= EDUCATION ================= -->
-<section id="education">
+<section id="lab" class="sec alt">
   <div class="wrap">
-    <div class="sec-head rv"><div><div class="kicker">Education</div><h2>Engineering rigor, finance depth</h2></div></div>
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-k"><span class="n">02</span>Fixed income · derivatives · portfolio risk</div>
+        <h2>Convexity Lab</h2>
+      </div>
+      <p class="lede">A research and portfolio-decision workstation. It takes a market view, or a real portfolio, from
+         evidence through security analysis, risk decomposition and strategy design to a hedged,
+         stress-tested decision, and keeps the thesis, assumptions and outcome on record.</p>
+    </div>
+
+    <div class="lab-intro rv">
+      <div><div class="k">Six stages</div><h3>One environment, from research to decision</h3>
+        <p class="dek">Fifteen research routes built on twenty-five quantitative modules. Each stage answers a question an
+         investment committee would ask, and each one hands its output to the next. Every figure carries
+         its source and observation date.</p></div>
+      <div class="links">
+        <a class="lk lk-live" href="https://ankitv25.github.io/Convexity-Lab-RM/">Public preview</a>
+        <a class="lk" href="https://ankitv25.github.io/Convexity-Lab-RM/rates/">Rates &amp; bonds</a></div>
+    </div>
+
+    <ol class="flow">
+      <li class="st rv">
+        <div class="st-n"><b>01</b>Research</div>
+        <h4>What is the market telling me?</h4>
+        <p>The macro regime as a probability distribution across five pillars, cross-asset discovery across
+           FX, regional equity, duration, credit and commodities, and source-dated capital-market assumptions.
+           Views become ranked equity, rates, credit, FX, commodity and volatility ideas, each with
+           explicit invalidation conditions.</p>
+        <div class="st-m"><span>Macro regime</span><span>Global discovery</span><span>Market views</span><span>CMAs</span></div>
+      </li>
+      <li class="st rv" data-d="1">
+        <div class="st-n"><b>02</b>Analyse</div>
+        <h4>What is this security worth, and what drives it?</h4>
+        <p>Cash bonds priced off a bootstrapped Treasury curve: implied yield, z-spread, model versus observed
+           price, a rate × spread P&amp;L grid and a Black–Derman–Toy lattice. Securities decomposed by
+           Fama–French five-factor plus momentum regression; all 11 GICS sectors and 56 industry groups
+           screened before a ticker is chosen.</p>
+        <div class="st-m"><span>Bond fair value</span><span>Security lab</span><span>Industries &amp; factors</span></div>
+      </li>
+      <li class="st rv" data-d="2">
+        <div class="st-n"><b>03</b>Portfolio</div>
+        <h4>What do I actually own?</h4>
+        <p>Upload a broker statement (PDF), a CSV or a JSON file. Every parsed line is reviewed before it reaches
+           the model. Or load any of the five live funds at their exact weights. Returns are aligned in the
+           base currency, FX included.</p>
+        <div class="st-m"><span>Statement import</span><span>Five-fund handoff</span><span>Base-currency returns</span></div>
+      </li>
+      <li class="st rv">
+        <div class="st-n"><b>04</b>Risk</div>
+        <h4>Where does the risk really come from?</h4>
+        <p>Capital weight against risk share by Euler contribution, beta, tracking error, VaR and CVaR, factor
+           and six-asset cross-asset exposures. Today's holdings are replayed through Q4 2018, COVID,
+           the 2022 rates shock, the March 2023 bank stress and the 2024 carry unwind, then shocked forward
+           from the macro regime.</p>
+        <div class="st-m"><span>Portfolio risk lab</span><span>Historical &amp; forward stress</span></div>
+      </li>
+      <li class="st rv" data-d="1">
+        <div class="st-n"><b>05</b>Strategy</div>
+        <h4>Which structure expresses the view best?</h4>
+        <p>Ten option structures and a custom multi-leg builder with full Greeks, payoff, spot × volatility P&amp;L
+           and historical replay. A signal lab ranks every structure under one distribution. FX carry uses
+           covered-interest-parity forwards, including INR non-deliverable forwards, and four bond
+           expressions separate valuation, duration, curve and credit carry.</p>
+        <div class="st-m"><span>Strategy studio</span><span>Quant signals</span><span>FX carry</span><span>Bond playbook</span></div>
+      </li>
+      <li class="st rv" data-d="2">
+        <div class="st-n"><b>06</b>Protect &amp; decide</div>
+        <h4>What does protection cost, and what risk remains?</h4>
+        <p>Hedge alternatives sized toward a target drawdown and compared on cost and pre- and post-stress loss.
+           The decision goes to a research log with its legs and exit scenarios, and the idea can be tracked
+           in a paper incubator with marks, Greeks and P&amp;L attribution.</p>
+        <div class="st-m"><span>Protection analysis</span><span>Research log</span><span>Strategy incubator</span></div>
+      </li>
+    </ol>
+
     <div class="grid2">
-      <article class="panel hover educard rv">
-        <div class="crest">GU</div>
-        <div><h3>Georgetown University</h3><div class="deg">Master of Science in Finance</div>
-          <div class="facts"><div><b>3.95 / 4.00</b>GPA</div><div><b>2027</b>Expected</div><div><b>Full-time</b>Working alongside</div></div></div>
+      <article class="card rv">
+        <div class="card-head"><div><div class="k">Stage 06 · alternatives</div><h3>Protecting a portfolio</h3></div></div>
+        <p class="dek">Once a portfolio's risk is decomposed, the Lab compares ways to reshape it side by side. It
+           doesn't stop at one hedge verdict: each alternative is shown with its cost, the loss it removes in
+           stress and the risk it leaves behind.</p>
+        <div class="tbl-wrap" style="margin-top:14px"><table class="hedge"><thead><tr><th>Alternative</th><th class="tl">What it addresses</th></tr></thead><tbody>
+          <tr><td>Index put-spread overlay</td><td class="tl">Narrows the modelled worst scenario toward a target drawdown, with a short lower strike capping the premium</td></tr>
+          <tr><td>Protective put, 5% OTM or at the money</td><td class="tl">Keeps crash convexity; the at-the-money version protects sooner at a higher premium</td></tr>
+          <tr><td>Collar on the largest risk</td><td class="tl">Keeps a deliberate concentration while defining its downside</td></tr>
+          <tr><td>Marginal-risk rebalance</td><td class="tl">Moves capital out of positions whose risk share exceeds their weight, with no options at all</td></tr>
+          <tr><td>Sector hedge</td><td class="tl">Reduces the largest sector concentration through a liquid sector proxy, without selling every underlying name</td></tr>
+          <tr><td>Base-currency FX hedge</td><td class="tl">Separates the asset thesis from an unintended currency bet, using forwards or defined-risk options</td></tr>
+          <tr><td>Liquidity &amp; Treasury buffer</td><td class="tl">Builds dry powder and reduces forced-selling risk before any derivative complexity is added</td></tr>
+        </tbody></table></div>
       </article>
-      <article class="panel hover educard rv">
-        <div class="crest">IITK</div>
-        <div><h3>Indian Institute of Technology Kanpur</h3><div class="deg">Bachelor of Technology · Materials Science &amp; Engineering</div>
-          <div class="facts"><div><b>2016 – 2020</b>Kanpur, India</div><div><b>2020</b>Graduated</div><!-- TODO honours / rank: not in any repo --></div></div>
+
+      <article class="card rv" data-d="1">
+        <div class="card-head"><div><div class="k">Stage 02 · Treasury curve, <span data-k="cvx.asof">2 Oct 2026</span></div><h3>Rates, priced exactly</h3></div></div>
+        <p class="dek">The public preview publishes the rates engine on a dated Treasury par curve. This chart shows
+           the 10-year bond's convexity gain: exact repricing after each par-yield shock, minus what duration
+           alone predicts.</p>
+        <div style="margin-top:18px"><!--gen:cvxchart--><svg viewBox="0 0 480 250" role="img" aria-label="Convexity gain of a synthetic 10-year 4 percent bond on the 2 Oct 2026 curve: exact repricing minus the duration-only estimate, per 100 face. +0.36 at −100 basis points, +0.09 at −50 basis points, +0.09 at +50 basis points, +0.34 at +100 basis points — positive whichever way rates move.">
+<line class="zl" x1="44" y1="206.0" x2="462" y2="206.0"></line><text class="ax" x="36" y="210.0" text-anchor="end">0.0</text>
+<line class="gl" x1="44" y1="160.0" x2="462" y2="160.0"></line><text class="ax" x="36" y="164.0" text-anchor="end">0.1</text>
+<line class="gl" x1="44" y1="114.0" x2="462" y2="114.0"></line><text class="ax" x="36" y="118.0" text-anchor="end">0.2</text>
+<line class="gl" x1="44" y1="68.0" x2="462" y2="68.0"></line><text class="ax" x="36" y="72.0" text-anchor="end">0.3</text>
+<line class="gl" x1="44" y1="22.0" x2="462" y2="22.0"></line><text class="ax" x="36" y="26.0" text-anchor="end">0.4</text>
+<text class="ax" x="44.0" y="226" text-anchor="start">−100 bp</text>
+<text class="ax" x="148.5" y="226" text-anchor="middle">−50 bp</text>
+<text class="ax" x="253.0" y="226" text-anchor="middle">0 bp</text>
+<text class="ax" x="357.5" y="226" text-anchor="middle">+50 bp</text>
+<text class="ax" x="462.0" y="226" text-anchor="end">+100 bp</text>
+<polygon class="cvx-area" points="44.0,206.0 44.0,41.3 54.5,57.7 64.9,73.2 75.3,87.8 85.8,101.6 96.3,114.5 106.7,126.5 117.2,137.6 127.6,147.9 138.1,157.4 148.5,165.9 158.9,173.7 169.4,180.6 179.8,186.6 190.3,191.9 200.8,196.3 211.2,199.9 221.7,202.6 232.1,204.5 242.5,205.7 253.0,206.0 263.5,205.5 273.9,204.2 284.4,202.2 294.8,199.3 305.2,195.6 315.7,191.2 326.1,186.0 336.6,180.0 347.1,173.3 357.5,165.7 367.9,157.4 378.4,148.4 388.9,138.6 399.3,128.0 409.8,116.8 420.2,104.7 430.7,91.9 441.1,78.4 451.6,64.2 462.0,49.2 462.0,206.0"></polygon>
+<polyline class="cvx-line" fill="none" stroke-width="2.2" points="44.0,41.3 54.5,57.7 64.9,73.2 75.3,87.8 85.8,101.6 96.3,114.5 106.7,126.5 117.2,137.6 127.6,147.9 138.1,157.4 148.5,165.9 158.9,173.7 169.4,180.6 179.8,186.6 190.3,191.9 200.8,196.3 211.2,199.9 221.7,202.6 232.1,204.5 242.5,205.7 253.0,206.0 263.5,205.5 273.9,204.2 284.4,202.2 294.8,199.3 305.2,195.6 315.7,191.2 326.1,186.0 336.6,180.0 347.1,173.3 357.5,165.7 367.9,157.4 378.4,148.4 388.9,138.6 399.3,128.0 409.8,116.8 420.2,104.7 430.7,91.9 441.1,78.4 451.6,64.2 462.0,49.2"></polyline>
+<circle class="cvx-dot" cx="44.0" cy="41.3" r="4"><title>−100 bp: exact price 97.73, duration-only 97.37, convexity gain +0.358</title></circle>
+<text class="val" x="54.0" y="31.3" text-anchor="start">+0.36</text>
+<circle class="cvx-dot" cx="148.5" cy="165.9" r="4"><title>−50 bp: exact price 93.82, duration-only 93.73, convexity gain +0.087</title></circle>
+<text class="val" x="158.5" y="155.9" text-anchor="start">+0.09</text>
+<circle class="cvx-dot" cx="253.0" cy="206.0" r="4"><title>0 bp: exact price 90.09, duration-only 90.09, convexity gain 0.000</title></circle>
+<circle class="cvx-dot" cx="357.5" cy="165.7" r="4"><title>+50 bp: exact price 86.54, duration-only 86.45, convexity gain +0.088</title></circle>
+<text class="val" x="347.5" y="155.7" text-anchor="end">+0.09</text>
+<circle class="cvx-dot" cx="462.0" cy="49.2" r="4"><title>+100 bp: exact price 83.15, duration-only 82.81, convexity gain +0.341</title></circle>
+<text class="val" x="452.0" y="39.2" text-anchor="end">+0.34</text>
+</svg><!--/gen:cvxchart--></div>
+        <p class="figcap">10-year 4% synthetic bond, curve observed <span data-k="cvx.asof">2 Oct 2026</span>. Price units per 100 face.</p>
       </article>
+    </div>
+
+    <p class="insight mt rv"><span class="tag">Built to state its limits</span>Black–Scholes is labelled a European benchmark, and scenario weights
+      are labelled as assumptions. Nothing is sent to a broker. <strong>Every thesis is saved with its legs, inputs
+      and invalidation level</strong>, so a decision can be reopened and audited later, not just remembered.</p>
+    <p class="note rv">The full workstation runs privately behind owner sign-in while it moves to new hosting.
+      The public preview — rates and bonds, five-fund evidence, capital-market assumptions and the macro
+      regime — is live now.</p>
+  </div>
+</section>
+
+<section id="regime" class="sec">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-k"><span class="n">03</span>Macro framework</div>
+        <h2>MRS &amp; regime analysis</h2>
+      </div>
+      <p class="lede">The funds need to know what environment they are operating in. The Macro Regime Score
+         is the framework that answers it — and the input the dynamic layer argues from.</p>
+    </div>
+
+    <article class="card band rv">
+      <div class="card-head">
+        <div><div class="k">Rebuilt daily on GitHub Actions</div><h3>A monthly composite of the US macro-financial environment</h3>
+          <p class="dek">Thirteen indicators across five economically-motivated pillars, each normalized to an
+           expanding-window z-score, aggregated with fixed weights and classified against calibrated thresholds
+           with a two-month persistence rule. The latest scored month, <span data-k="mrs.month">August 2026</span>, reads
+           <strong><span data-k="mrs.regime">Neutral</span> at <span data-k="mrs.z">+0.17z</span></strong> — the <span data-k="mrs.in_regime">43rd</span> month in that regime.</p></div>
+        <div class="links">
+          <a class="lk lk-live" href="https://ankitv25.github.io/Macro-Regime-Score/">Live dashboard</a>
+          <a class="lk" href="https://github.com/ankitv25/Macro-Regime-Score">Code</a></div>
+      </div>
+      <div class="cap"><span>Macro Regime Score · composite z-score</span><span><span data-k="mrs.months">279</span> months · <span data-k="mrs.range">Jun 2003 — Aug 2026</span></span></div>
+      <!--gen:mrsband--><svg viewBox="0 0 1440 300" role="img" aria-label="The Macro Regime Score composite z-score from June 2003 to August 2026 plotted against four regime bands. it falls to −2.15 in December 2008; it falls to −1.65 in April 2020 — the only excursions into the Contraction band.">
+<rect x="0" y="18.0" width="1440" height="72.9" fill="rgba(79,179,165,.07)"></rect>
+<rect x="0" y="90.9" width="1440" height="45.2" fill="rgba(124,135,155,.05)"></rect>
+<rect x="0" y="136.1" width="1440" height="48.6" fill="rgba(201,164,92,.08)"></rect>
+<rect x="0" y="184.7" width="1440" height="97.3" fill="rgba(217,112,107,.09)"></rect>
+<line class="gl" x1="0" y1="90.9" x2="1440" y2="90.9"></line>
+<line class="gl" x1="0" y1="136.1" x2="1440" y2="136.1"></line>
+<line class="zl" x1="0" y1="184.7" x2="1440" y2="184.7"></line>
+<polyline class="mrs-area" stroke="none" points="0.0,282.0 0.0,79.7 4.7,55.9 9.4,67.4 14.0,65.2 18.7,55.1 23.4,61.6 28.1,59.0 32.7,54.5 37.4,55.8 42.1,61.5 46.8,46.4 51.4,52.8 56.1,60.4 60.8,53.3 65.5,66.6 70.1,58.7 74.8,48.2 79.5,54.2 84.2,49.4 88.8,53.1 93.5,51.9 98.2,56.7 102.9,55.6 107.6,74.1 112.2,66.7 116.9,62.2 121.6,70.8 126.3,85.0 130.9,92.0 135.6,89.2 140.3,92.7 145.0,71.4 149.6,73.5 154.3,68.0 159.0,75.9 163.7,94.4 168.3,115.3 173.0,111.4 177.7,117.6 182.4,109.1 187.1,93.4 191.7,84.7 196.4,82.8 201.1,81.7 205.8,90.1 210.4,94.0 215.1,82.6 219.8,87.3 224.5,84.5 229.1,89.6 233.8,127.0 238.5,137.3 243.2,124.9 247.8,159.2 252.5,175.4 257.2,172.6 261.9,176.8 266.5,194.7 271.2,181.5 275.9,158.1 280.6,165.8 285.3,183.1 289.9,191.1 294.6,204.6 299.3,248.2 304.0,257.8 308.6,264.7 313.3,261.2 318.0,255.1 322.7,252.1 327.3,229.6 332.0,192.7 336.7,171.7 341.4,159.8 346.0,145.4 350.7,139.2 355.4,127.1 360.1,129.0 364.7,125.0 369.4,114.7 374.1,123.7 378.8,109.6 383.5,91.4 388.1,101.1 392.8,111.2 397.5,103.0 402.2,113.9 406.8,111.1 411.5,107.4 416.2,105.9 420.9,93.7 425.5,94.3 430.2,95.9 434.9,98.7 439.6,90.2 444.2,93.9 448.9,101.9 453.6,105.7 458.3,131.3 462.9,140.7 467.6,122.5 472.3,121.8 477.0,118.8 481.7,104.3 486.3,97.3 491.0,92.1 495.7,94.3 500.4,111.4 505.0,111.5 509.7,106.3 514.4,106.7 519.1,102.1 523.7,96.8 528.4,97.6 533.1,96.4 537.8,88.6 542.4,94.8 547.1,94.2 551.8,94.6 556.5,98.4 561.2,103.3 565.8,96.1 570.5,93.5 575.2,93.5 579.9,88.4 584.5,89.6 589.2,84.8 593.9,90.4 598.6,97.8 603.2,93.3 607.9,82.0 612.6,77.5 617.3,76.9 621.9,71.0 626.6,82.9 631.3,84.0 636.0,85.7 640.6,91.9 645.3,98.1 650.0,96.8 654.7,94.9 659.4,98.7 664.0,91.4 668.7,99.6 673.4,102.5 678.1,104.2 682.7,120.4 687.4,128.9 692.1,123.1 696.8,124.4 701.4,126.4 706.1,130.9 710.8,133.4 715.5,119.2 720.1,109.8 724.8,114.6 729.5,116.8 734.2,101.5 738.8,99.4 743.5,101.9 748.2,101.3 752.9,100.7 757.6,93.9 762.2,88.2 766.9,92.8 771.6,89.7 776.3,89.5 780.9,92.0 785.6,91.7 790.3,84.0 795.0,92.4 799.6,95.7 804.3,82.6 809.0,88.8 813.7,86.6 818.3,82.1 823.0,96.3 827.7,99.4 832.4,92.9 837.1,97.3 841.7,97.0 846.4,92.1 851.1,94.0 855.8,90.8 860.4,98.1 865.1,108.6 869.8,125.0 874.5,113.7 879.1,110.2 883.8,108.6 888.5,101.5 893.2,107.3 897.8,106.7 902.5,96.3 907.2,108.1 911.9,105.4 916.5,102.7 921.2,104.2 925.9,97.2 930.6,102.0 935.3,115.9 939.9,220.3 944.6,229.9 949.3,211.3 954.0,195.1 958.6,138.6 963.3,107.9 968.0,108.4 972.7,115.3 977.3,124.6 982.0,123.8 986.7,114.9 991.4,116.4 996.0,79.3 1000.7,72.5 1005.4,85.5 1010.1,93.0 1014.7,94.5 1019.4,104.7 1024.1,109.1 1028.8,99.7 1033.5,103.5 1038.1,109.9 1042.8,120.3 1047.5,134.3 1052.2,150.3 1056.8,138.4 1061.5,145.2 1066.2,152.8 1070.9,144.5 1075.5,140.3 1080.2,149.1 1084.9,158.2 1089.6,148.9 1094.2,139.4 1098.9,128.7 1103.6,126.8 1108.3,136.2 1112.9,127.1 1117.6,136.5 1122.3,124.9 1127.0,113.4 1131.7,112.8 1136.3,104.9 1141.0,105.8 1145.7,100.1 1150.4,92.9 1155.0,95.3 1159.7,102.1 1164.4,96.6 1169.1,99.6 1173.7,91.4 1178.4,99.0 1183.1,97.7 1187.8,109.4 1192.4,101.7 1197.1,102.4 1201.8,107.3 1206.5,102.6 1211.2,99.0 1215.8,102.6 1220.5,108.5 1225.2,120.8 1229.9,112.6 1234.5,106.5 1239.2,98.0 1243.9,101.6 1248.6,99.0 1253.2,94.8 1257.9,100.7 1262.6,100.9 1267.3,96.3 1271.9,102.7 1276.6,118.3 1281.3,107.5 1286.0,104.7 1290.6,101.6 1295.3,100.5 1300.0,103.6 1300.0,282.0"></polyline>
+<polyline id="heroLine" class="mrs-line" fill="none" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round" points="0.0,79.7 4.7,55.9 9.4,67.4 14.0,65.2 18.7,55.1 23.4,61.6 28.1,59.0 32.7,54.5 37.4,55.8 42.1,61.5 46.8,46.4 51.4,52.8 56.1,60.4 60.8,53.3 65.5,66.6 70.1,58.7 74.8,48.2 79.5,54.2 84.2,49.4 88.8,53.1 93.5,51.9 98.2,56.7 102.9,55.6 107.6,74.1 112.2,66.7 116.9,62.2 121.6,70.8 126.3,85.0 130.9,92.0 135.6,89.2 140.3,92.7 145.0,71.4 149.6,73.5 154.3,68.0 159.0,75.9 163.7,94.4 168.3,115.3 173.0,111.4 177.7,117.6 182.4,109.1 187.1,93.4 191.7,84.7 196.4,82.8 201.1,81.7 205.8,90.1 210.4,94.0 215.1,82.6 219.8,87.3 224.5,84.5 229.1,89.6 233.8,127.0 238.5,137.3 243.2,124.9 247.8,159.2 252.5,175.4 257.2,172.6 261.9,176.8 266.5,194.7 271.2,181.5 275.9,158.1 280.6,165.8 285.3,183.1 289.9,191.1 294.6,204.6 299.3,248.2 304.0,257.8 308.6,264.7 313.3,261.2 318.0,255.1 322.7,252.1 327.3,229.6 332.0,192.7 336.7,171.7 341.4,159.8 346.0,145.4 350.7,139.2 355.4,127.1 360.1,129.0 364.7,125.0 369.4,114.7 374.1,123.7 378.8,109.6 383.5,91.4 388.1,101.1 392.8,111.2 397.5,103.0 402.2,113.9 406.8,111.1 411.5,107.4 416.2,105.9 420.9,93.7 425.5,94.3 430.2,95.9 434.9,98.7 439.6,90.2 444.2,93.9 448.9,101.9 453.6,105.7 458.3,131.3 462.9,140.7 467.6,122.5 472.3,121.8 477.0,118.8 481.7,104.3 486.3,97.3 491.0,92.1 495.7,94.3 500.4,111.4 505.0,111.5 509.7,106.3 514.4,106.7 519.1,102.1 523.7,96.8 528.4,97.6 533.1,96.4 537.8,88.6 542.4,94.8 547.1,94.2 551.8,94.6 556.5,98.4 561.2,103.3 565.8,96.1 570.5,93.5 575.2,93.5 579.9,88.4 584.5,89.6 589.2,84.8 593.9,90.4 598.6,97.8 603.2,93.3 607.9,82.0 612.6,77.5 617.3,76.9 621.9,71.0 626.6,82.9 631.3,84.0 636.0,85.7 640.6,91.9 645.3,98.1 650.0,96.8 654.7,94.9 659.4,98.7 664.0,91.4 668.7,99.6 673.4,102.5 678.1,104.2 682.7,120.4 687.4,128.9 692.1,123.1 696.8,124.4 701.4,126.4 706.1,130.9 710.8,133.4 715.5,119.2 720.1,109.8 724.8,114.6 729.5,116.8 734.2,101.5 738.8,99.4 743.5,101.9 748.2,101.3 752.9,100.7 757.6,93.9 762.2,88.2 766.9,92.8 771.6,89.7 776.3,89.5 780.9,92.0 785.6,91.7 790.3,84.0 795.0,92.4 799.6,95.7 804.3,82.6 809.0,88.8 813.7,86.6 818.3,82.1 823.0,96.3 827.7,99.4 832.4,92.9 837.1,97.3 841.7,97.0 846.4,92.1 851.1,94.0 855.8,90.8 860.4,98.1 865.1,108.6 869.8,125.0 874.5,113.7 879.1,110.2 883.8,108.6 888.5,101.5 893.2,107.3 897.8,106.7 902.5,96.3 907.2,108.1 911.9,105.4 916.5,102.7 921.2,104.2 925.9,97.2 930.6,102.0 935.3,115.9 939.9,220.3 944.6,229.9 949.3,211.3 954.0,195.1 958.6,138.6 963.3,107.9 968.0,108.4 972.7,115.3 977.3,124.6 982.0,123.8 986.7,114.9 991.4,116.4 996.0,79.3 1000.7,72.5 1005.4,85.5 1010.1,93.0 1014.7,94.5 1019.4,104.7 1024.1,109.1 1028.8,99.7 1033.5,103.5 1038.1,109.9 1042.8,120.3 1047.5,134.3 1052.2,150.3 1056.8,138.4 1061.5,145.2 1066.2,152.8 1070.9,144.5 1075.5,140.3 1080.2,149.1 1084.9,158.2 1089.6,148.9 1094.2,139.4 1098.9,128.7 1103.6,126.8 1108.3,136.2 1112.9,127.1 1117.6,136.5 1122.3,124.9 1127.0,113.4 1131.7,112.8 1136.3,104.9 1141.0,105.8 1145.7,100.1 1150.4,92.9 1155.0,95.3 1159.7,102.1 1164.4,96.6 1169.1,99.6 1173.7,91.4 1178.4,99.0 1183.1,97.7 1187.8,109.4 1192.4,101.7 1197.1,102.4 1201.8,107.3 1206.5,102.6 1211.2,99.0 1215.8,102.6 1220.5,108.5 1225.2,120.8 1229.9,112.6 1234.5,106.5 1239.2,98.0 1243.9,101.6 1248.6,99.0 1253.2,94.8 1257.9,100.7 1262.6,100.9 1267.3,96.3 1271.9,102.7 1276.6,118.3 1281.3,107.5 1286.0,104.7 1290.6,101.6 1295.3,100.5 1300.0,103.6"></polyline>
+<line x1="1300" y1="103.6" x2="1318" y2="103.6" class="mrs-lead"></line>
+<circle cx="1300" cy="103.6" r="4.5" class="mrs-dot"></circle>
+<text class="endlbl" x="1428" y="92.6" text-anchor="end">AUG 2026 · NEUTRAL</text>
+<text class="endval" x="1428" y="110.6" text-anchor="end">+0.17 z</text>
+<text class="bandlbl" x="16" y="37.0">EXPANSION</text>
+<text class="bandlbl" x="16" y="109.9">NEUTRAL</text>
+<text class="bandlbl" x="16" y="155.1">SLOWDOWN</text>
+<text class="bandlbl" x="16" y="203.7">CONTRACTION</text>
+<text class="yr" x="257" y="296" text-anchor="middle">2008</text>
+<text class="yr" x="482" y="296" text-anchor="middle">2012</text>
+<text class="yr" x="706" y="296" text-anchor="middle">2016</text>
+<text class="yr" x="931" y="296" text-anchor="middle">2020</text>
+<text class="yr" x="1155" y="296" text-anchor="middle">2024</text>
+<text class="yr" x="1267" y="296" text-anchor="middle">2026</text>
+</svg><!--/gen:mrsband-->
+      <div class="bfoot"><!--gen:mrsfoot-->Two contractions in 23 years — the GFC at <strong>−2.15</strong> and COVID at <strong>−1.65</strong>. Nothing else crosses the line.<!--/gen:mrsfoot--></div>
+    </article>
+
+    <div class="kpis mt rv"><!--gen:mrskpis--><div class="kpi"><div class="v">−2.15</div><div class="k">GFC trough, Dec 2008</div></div><div class="kpi"><div class="v">9 months</div><div class="k">Raw signal before NBER</div></div><div class="kpi"><div class="v">20</div><div class="k">Transitions in 23 years</div></div><div class="kpi"><div class="v">0.989</div><div class="k">Equal-weight robustness corr.</div></div><!--/gen:mrskpis--></div>
+
+    <div class="grid2 wide mt">
+      <article class="card rv">
+        <p class="figt">Regime frequency, 2003–2026</p>
+        <p class="figs">How the <span data-k="mrs.conf_n">278</span> confirmed months, <span data-k="mrs.conf_range">Jul 2003 – Aug 2026</span>, distribute across the calibrated bands.</p>
+        <ul class="hbars rv" aria-label="Share of confirmed months in each regime.">
+<!--gen:mrsfreq--><li class="hb" title="Neutral — 62.2% of months, composite between −0.30 and +0.35"><span class="hb-l"><b>Neutral</b></span><span class="hb-t" style="--w:62.2%;--c:var(--cn)"><span class="hb-b"></span><span class="hb-v">62.2%</span></span></li>
+<li class="hb" title="Expansion — 24.1% of months, composite at or above +0.35"><span class="hb-l"><b>Expansion</b></span><span class="hb-t" style="--w:24.1%;--c:var(--c1)"><span class="hb-b"></span><span class="hb-v">24.1%</span></span></li>
+<li class="hb" title="Slowdown — 8.3% of months, composite between −1.00 and −0.30"><span class="hb-l"><b>Slowdown</b></span><span class="hb-t" style="--w:8.3%;--c:var(--c2)"><span class="hb-b"></span><span class="hb-v">8.3%</span></span></li>
+<li class="hb" title="Contraction — 5.4% of months, composite below −1.00"><span class="hb-l"><b>Contraction</b></span><span class="hb-t" style="--w:5.4%;--c:var(--c3)"><span class="hb-b"></span><span class="hb-v">5.4%</span></span></li><!--/gen:mrsfreq-->
+        </ul>
+        <div class="hb-ax" aria-hidden="true"><span></span><div><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div></div>
+      </article>
+      <p class="insight rv" data-d="1"><span class="tag">Why it was rebuilt</span>The predecessor framework had a Contraction regime that was <strong>mathematically
+        unreachable</strong> — 280 months spanning the GFC and COVID without a single trigger. Percentile
+        scoring maps every input to a uniform distribution, and the central limit theorem then collapses the
+        composite toward its centre. That mechanism was published as an appendix rather than patched away;
+        the redesign to expanding z-scores followed from it.</p>
+    </div>
+
+    <article class="card mt rv" style="padding-top:6px;padding-bottom:6px">
+      <details class="more" style="border:0;margin:0"><summary>Pillar structure and weights</summary>
+        <div class="tbl-wrap"><table><thead><tr><th>Pillar</th><th>Weight</th><th>Indicators</th><th class="tl">Role</th></tr></thead><tbody>
+          <tr><td>Growth</td><td class="num">30%</td><td class="num">4</td><td class="tl">NFP, IP, GDP, services PCE — sized for upside participation, not only crisis detection</td></tr>
+          <tr><td>Credit</td><td class="num">20%</td><td class="num">2</td><td class="tl">IG spread level and momentum — the best crisis-type discriminator</td></tr>
+          <tr><td>Market Stress</td><td class="num">20%</td><td class="num">3</td><td class="tl">VIX, bond stress, SPY drawdown — the fastest signal</td></tr>
+          <tr><td>Inflation</td><td class="num">15%</td><td class="num">2</td><td class="tl">PCE deviation and momentum — decisive in the 2021–22 tightening regime</td></tr>
+          <tr><td>Liquidity / Rates</td><td class="num">15%</td><td class="num">2</td><td class="tl">NFCI and 10Y–2Y curve — the principal leading indicator</td></tr>
+        </tbody></table></div></details>
+    </article>
+  </div>
+</section>
+
+<section id="dynamic" class="sec tint">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-k"><span class="n">04</span>Allocation implications</div>
+        <h2>From regime to allocation</h2>
+      </div>
+      <p class="lede">The dynamic layer. A regime model that never changes a position is a research curiosity — this is
+         where the macro call becomes an exposure change, bounded by rule rather than by judgment.</p>
+    </div>
+
+    <article class="card rv">
+      <div class="card-head"><div><div class="k">Five engines · one tilt corridor</div><h3>DAA — the policy portfolio, run actively</h3></div>
+        <div class="links"><a class="lk lk-live" href="https://ankitv25.github.io/Asset-Allocation/index.html?p=daa">DAA on the dashboard</a></div></div>
+      <p class="dek">Five engines re-read at each month end — valuation from a live capital-market assumption,
+         trend, relative strength, the MRS regime, and the size of the diversifier sleeve — held inside a
+         <strong>tilt corridor</strong> around the SAA, so a tilt can never quietly become a different
+         portfolio. The trend sleeve is sized by the macro state: about 6½% in Expansion and Neutral, about
+         11% in Slowdown and Contraction, against an 8% policy weight. Alpha runs the same engines on its own
+         volatility budget.</p>
+      <div class="kpis" style="margin-top:22px">
+        <div class="kpi"><div class="v">0.65<span class="ar">→</span>0.72</div><div class="k">Sharpe · SAA → DAA</div></div>
+        <div class="kpi"><div class="v">−25.5%<span class="ar">→</span>−20.8%</div><div class="k">Worst loss · SAA → DAA</div></div>
+        <div class="kpi"><div class="v">7.81%<span class="ar">→</span>8.09%</div><div class="k">CAGR · 1997–2026</div></div>
+        <div class="kpi"><div class="v">6½%<span class="ar">→</span>11%</div><div class="k">Trend sleeve · calm → stress</div></div>
+      </div>
+      <details class="more"><summary>What each engine adds</summary>
+        <div class="tbl-wrap"><table><thead><tr><th>Engine</th><th>CAGR</th><th>Sharpe</th><th>Worst loss</th></tr></thead><tbody>
+          <tr><td>Valuation</td><td class="num">+0.27 pp</td><td class="num">+0.030</td><td class="num">1.0 pp shallower</td></tr>
+          <tr><td>Trend</td><td class="num">+0.22 pp</td><td class="num">+0.033</td><td class="num">1.7 pp shallower</td></tr>
+          <tr><td>Regime</td><td class="num">+0.16 pp</td><td class="num">+0.008</td><td class="num">0.8 pp shallower</td></tr>
+          <tr><td>Relative strength</td><td class="num">+0.09 pp</td><td class="num">+0.006</td><td class="num">0.1 pp deeper</td></tr>
+          <tr><td>Diversifier sizing</td><td class="num">+0.03 pp</td><td class="num">+0.018</td><td class="num">1.8 pp shallower</td></tr>
+        </tbody></table></div>
+        <p class="s">Leave-one-out on the DAA, 1997–2026: the full engine set against the same book with that one
+           engine removed. Diversifier sizing adds little return but does the most for the worst loss.</p></details>
+    </article>
+
+    <article class="card mt rv">
+      <div class="card-head"><div><div class="k">Forward view · <span data-k="mc.paths">4,000</span> block-bootstrap paths · <span data-k="mc.years">10</span> years</div>
+        <h3>Ten years forward: DAA against 60/40</h3></div>
+        <div class="links"><a class="lk" href="https://ankitv25.github.io/Asset-Allocation/montecarlo.html?p=daa">Monte Carlo on the dashboard</a></div></div>
+      <p class="dek">Each path resamples <span data-k="mc.block">12</span>-month blocks of DAA's own monthly history
+         (<span data-k="mc.window">1997-06–2026-08</span>), so crises arrive with their real sequencing rather than as independent
+         draws. Bands are the 5th–95th and 25th–75th percentiles of the growth of $1.</p>
+      <div style="margin-top:18px">
+        <div><!--gen:mcfan--><svg viewBox="0 0 600 260" role="img" aria-label="Ten-year Monte Carlo for DAA, 4,000 block-bootstrap paths: median growth of one dollar 2.22, fifth percentile 1.42, ninety-fifth 3.23; 60/40 median 2.00."><line class="gl" x1="44" y1="226.0" x2="548" y2="226.0"></line><text class="ax" x="36" y="230.0" text-anchor="end">0.8×</text><line class="gl" x1="44" y1="183.6" x2="548" y2="183.6"></line><text class="ax" x="36" y="187.6" text-anchor="end">1.2×</text><line class="gl" x1="44" y1="141.2" x2="548" y2="141.2"></line><text class="ax" x="36" y="145.2" text-anchor="end">1.8×</text><line class="gl" x1="44" y1="98.8" x2="548" y2="98.8"></line><text class="ax" x="36" y="102.8" text-anchor="end">2.2×</text><line class="gl" x1="44" y1="56.4" x2="548" y2="56.4"></line><text class="ax" x="36" y="60.4" text-anchor="end">2.8×</text><line class="gl" x1="44" y1="14.0" x2="548" y2="14.0"></line><text class="ax" x="36" y="18.0" text-anchor="end">3.2×</text><text class="ax" x="44.0" y="250" text-anchor="middle">Today</text><text class="ax" x="144.8" y="250" text-anchor="middle">Yr 2</text><text class="ax" x="245.6" y="250" text-anchor="middle">Yr 4</text><text class="ax" x="346.4" y="250" text-anchor="middle">Yr 6</text><text class="ax" x="447.2" y="250" text-anchor="middle">Yr 8</text><text class="ax" x="548.0" y="250" text-anchor="middle">Yr 10</text><polygon class="fan-90" points="44.0,204.8 94.4,187.3 144.8,173.8 195.2,159.3 245.6,143.1 296.0,126.3 346.4,107.5 396.8,86.4 447.2,65.1 497.6,40.8 548.0,15.7 548.0,169.6 497.6,176.3 447.2,182.1 396.8,188.6 346.4,193.9 296.0,197.6 245.6,202.2 195.2,205.9 144.8,208.9 94.4,210.8 44.0,204.8"></polygon><polygon class="fan-50" points="44.0,204.8 94.4,193.4 144.8,182.5 195.2,171.3 245.6,159.6 296.0,146.9 346.4,133.2 396.8,118.6 447.2,103.6 497.6,85.9 548.0,67.7 548.0,132.4 497.6,142.2 447.2,152.2 396.8,161.4 346.4,169.3 296.0,177.9 245.6,184.8 195.2,191.5 144.8,197.1 94.4,200.6 44.0,204.8"></polygon><polyline class="fan-6040" fill="none" points="44.0,204.8 94.4,196.9 144.8,190.7 195.2,183.8 245.6,176.4 296.0,168.3 346.4,159.5 396.8,150.7 447.2,140.6 497.6,130.4 548.0,119.6"></polyline><polyline class="fan-saa" fill="none" points="44.0,204.8 94.4,196.2 144.8,188.6 195.2,181.1 245.6,172.6 296.0,163.9 346.4,153.8 396.8,143.3 447.2,130.9 497.6,118.7 548.0,104.9"></polyline><polyline class="fan-p50" fill="none" points="44.0,204.8 94.4,196.3 144.8,188.5 195.2,180.7 245.6,172.1 296.0,162.6 346.4,152.2 396.8,140.7 447.2,128.4 497.6,114.8 548.0,101.2"></polyline><text class="fan-lbl" x="554" y="9.7">3.23×</text><text class="fan-lbl on" x="554" y="105.2">2.22×</text><text class="fan-lbl" x="554" y="181.6">1.42×</text></svg><!--/gen:mcfan-->
+          <div class="legend"><span><i style="background:rgba(201,164,92,.35)"></i>DAA p5–p95 · p25–p75</span>
+            <span><i class="ln" style="background:var(--acc)"></i>DAA median</span>
+            <span><i class="ln" style="background:var(--up)"></i>SAA median</span>
+            <span><i class="ln" style="background:var(--ink-3)"></i>60/40 median</span></div></div>
+        <div class="kpis in-card"><!--gen:mckpis--><div class="kpi"><div class="v">8.3%<span class="ar">vs</span>7.2%</div><div class="k">Median CAGR · DAA vs 60/40</div></div><div class="kpi"><div class="v">1.42×<span class="ar">vs</span>1.12×</div><div class="k">Bad-case (p5) growth of $1</div></div><div class="kpi"><div class="v">−13.1%<span class="ar">vs</span>−17.0%</div><div class="k">Median worst drawdown</div></div><div class="kpi"><div class="v">0.1%<span class="ar">vs</span>2.8%</div><div class="k">Paths that lose money</div></div><!--/gen:mckpis--></div>
+      </div>
+    </article>
+
+    <div class="grid2 wide mt">
+      <article class="card rv">
+        <p class="figt">Lineage: the MRS overlay on the prior book</p>
+        <p class="figs">Where the dynamic layer came from. Maximum drawdown before and after; each pair is a distinct mechanism
+           tested separately — the walk-forward gate on the whole overlay, dynamic duration on two crisis types, and the
+           v3.7 damping fix for whipsaw.</p>
+        <ul class="hbars rv" aria-label="Maximum drawdown before and after the MRS overlay. Walk-forward gate: minus 38 percent to minus 22 percent. GFC with dynamic duration: minus 34.5 to minus 33.6 percent. 2022 with dynamic duration: minus 19.7 to minus 17.5 percent. Whipsaw fix version 3.7: minus 31.1 to minus 27.5 percent.">
+          <li class="hb-g"><span class="hb-l"><b>Gate · legacy book</b></span><span class="hb-st"><span class="hb-t inv" title="Static base — maximum drawdown −38.0%" style="--w:95%;--c:var(--cn)"><span class="hb-b"></span><span class="hb-v">−38.0%</span></span><span class="hb-t" title="With MRS overlay — maximum drawdown −22.0%" style="--w:55%;--c:var(--c1)"><span class="hb-b"></span><span class="hb-v">−22.0%</span></span></span></li>
+          <li class="hb-g"><span class="hb-l"><b>GFC · duration</b></span><span class="hb-st"><span class="hb-t inv" title="GFC, static duration — −34.5%" style="--w:86.25%;--c:var(--cn)"><span class="hb-b"></span><span class="hb-v">−34.5%</span></span><span class="hb-t inv" title="GFC, dynamic duration — −33.6%" style="--w:84%;--c:var(--c1)"><span class="hb-b"></span><span class="hb-v">−33.6%</span></span></span></li>
+          <li class="hb-g"><span class="hb-l"><b>2022 · duration</b></span><span class="hb-st"><span class="hb-t" title="2022 inflation, static duration — −19.7%" style="--w:49.25%;--c:var(--cn)"><span class="hb-b"></span><span class="hb-v">−19.7%</span></span><span class="hb-t" title="2022 inflation, dynamic duration — −17.5%" style="--w:43.75%;--c:var(--c1)"><span class="hb-b"></span><span class="hb-v">−17.5%</span></span></span></li>
+          <li class="hb-g"><span class="hb-l"><b>Whipsaw · v3.7</b></span><span class="hb-st"><span class="hb-t inv" title="Before λ=0.6 damping — −31.1%" style="--w:77.75%;--c:var(--cn)"><span class="hb-b"></span><span class="hb-v">−31.1%</span></span><span class="hb-t" title="After λ=0.6 damping and growth-Contraction gate — −27.5%" style="--w:68.75%;--c:var(--c1)"><span class="hb-b"></span><span class="hb-v">−27.5%</span></span></span></li>
+        </ul>
+        <div class="hb-ax" aria-hidden="true"><span></span><div><span>0%</span><span>−10%</span><span>−20%</span><span>−30%</span><span>−40%</span></div></div>
+        <div class="legend"><span><i style="background:var(--cn)"></i>Static base</span>
+          <span><i style="background:var(--c1)"></i>With MRS overlay</span></div>
+      </article>
+
+      <div class="stack">
+        <p class="insight rv" data-d="1"><span class="tag">Validated</span>Dynamic duration improves <strong>both</strong> crisis types at once — the rare case
+          where a hedge is not a trade-off. The overlay survives a +2-month signal lag, 15% label noise and
+          30bp/side costs; acting on the confirmed regime at one-month lag is the honest optimum, since each
+          additional lag month costs roughly 0.02 Sharpe.</p>
+        <p class="insight warn rv" data-d="2"><span class="tag">Open work</span>Mechanical regime rotation is <strong>research-only</strong>: its frozen-rule
+          walk-forward gate failed, so it is deliberately not published as live. The overlay mechanics above
+          are validated on the prior book; re-validating them on the current taxonomy is open work, not a
+          finished claim.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ================= CONTACT ================= -->
-<section id="contact">
+<section id="infra" class="sec">
   <div class="wrap">
-    <div class="panel ticket rv">
-      <div class="ticket-l">
-        <div class="kicker">Get in touch</div>
-        <h2>Let's talk portfolios, risk, or research.</h2>
-        <p>Targeting buy-side investment management, equity research, and risk roles for 2027. Based in the New York area.</p>
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-k"><span class="n">05</span>Foundation</div>
+        <h2>Supporting research &amp; infrastructure</h2>
       </div>
-      <div class="ticket-r">
-        <a class="tline" href="mailto:ankitv0125@gmail.com"><span>Email</span>ankitv0125@gmail.com ↗</a>
-        <a class="tline" href="https://linkedin.com/in/ankitv0125" target="_blank" rel="noopener"><span>LinkedIn</span>/in/ankitv0125 ↗</a>
-        <a class="tline" href="https://github.com/ankitv25" target="_blank" rel="noopener"><span>GitHub</span>@ankitv25 ↗</a>
-        <a class="tline" data-resume href="#" target="_blank" rel="noopener"><span>Resume</span>Download PDF ↓</a>
+      <p class="lede">The universe, estimation and governance the funds are built from — and, kept separate, the two
+         research programmes that run alongside them and deliberately do not feed them.</p>
+    </div>
+    <div class="tiles">
+      <div class="tile rv"><div class="tile-k">Universe</div><h3>Asset Universe</h3>
+        <p>The instrument registry, sleeve hierarchy and event-tagged sub-period analytics every fund is
+           built from — plus the beta and correlation/covariance infrastructure feeding the optimizer.</p>
+        <div class="tags"><span>Instrument registry</span><span>Sleeve hierarchy</span><span>Σ estimation</span><span>Risk decomposition</span></div></div>
+      <div class="tile rv" data-d="1"><div class="tile-k">Parallel programme</div><h3>Growth Engine</h3>
+        <p>A structural-growth framework across three methodology versions — theme rankings, scorecards,
+           shadow sleeves and an integration utility grid, with GICS-baseline incrementality testing.</p>
+        <div class="tags"><span>Theme scoring</span><span>GICS baseline</span><span>Incrementality</span></div></div>
+      <div class="tile rv" data-d="2"><div class="tile-k">Governance</div><h3>Investment Policy Statement v1</h3>
+        <p>A signable IPS formalizing the objective, the spending rule, the corridor and the review calendar
+           — with capital market assumptions validated against 13 institutional houses.</p>
+        <div class="tags"><span>IPS v1</span><span>CMA validation</span><span>13 houses</span></div></div>
+      <div class="tile w3 rv"><div class="tile-k">Parallel programme</div><h3>Equity Research</h3>
+        <p>A driver-based DCF framework across defence &amp; aerospace, technology and energy — sourced evidence to
+           scored sector drivers to a 10-year unlevered DCF, three valuation lanes. A peer workstream, not a
+           layer beneath the funds.</p>
+        <a class="lk" href="https://github.com/ankitv25/Equity-valuation-workflow">Methodology →</a></div>
+      <div class="tile w3 rv" data-d="1"><div class="tile-k">Discipline</div><h3>The failure record</h3>
+        <p>v3.5 non-convergence · the 39%-gold greedy trap · the hindsight-machine proof · a Contraction
+           regime that was mathematically unreachable · a missing price history that left Alpha 17% in cash
+           until the NAV pipeline learned to refuse a gap. Nothing was deleted — the negative results are the
+           reason to trust the positive ones.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="experience" class="sec tint">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-k"><span class="n">06</span>Background</div>
+        <h2>Experience &amp; education</h2>
       </div>
+      <p class="lede">Five-plus years at EXL building models for three of the largest US banks and card issuers set the standard the
+         platform is built to: every assumption traced to a source, and portfolios sized around what
+         happens in the bad state rather than the base case.</p>
+    </div>
+
+    <div class="sub-h rv">Professional</div>
+    <article class="card role rv">
+      <div class="role-side"><img src="assets/logos/exl.svg" alt="EXL" width="64" height="24"><div class="when">Nov 2020 — Present<br>New York, NY</div></div>
+      <div><h3>Senior Consultant, Risk Strategy &amp; Modelling</h3>
+        <div class="org">EXL · risk strategy and modelling for three of the largest US banks and card issuers</div>
+        <ul>
+          <li>Led and managed the validation of loss-forecasting models for CCAR, CECL and IFRS-9 regulatory submissions</li>
+          <li>Led time-series PD model development using hazard-function, behavioral and macroeconomic variables</li>
+          <li>Stress-tested portfolios to simulate segment-level loss spikes under adverse macroeconomic scenarios</li>
+          <li>Built a Strategy Monitoring Framework integrating real-time data into loss, revenue and ROE projection</li>
+          <li>Data reconciliation, trend analysis, backtesting and sensitivity analysis to strengthen risk assessments</li>
+        </ul>
+        <div class="kpis in-card">
+          <div class="kpi"><div class="v">−25%</div><div class="k">Portfolio risk exposure, via model re-calibration</div></div>
+          <div class="kpi"><div class="v">−10%</div><div class="k">Loss, from earlier risk identification</div></div>
+          <div class="kpi"><div class="v">−50%</div><div class="k">Model run-time</div></div>
+          <div class="kpi"><div class="v">4</div><div class="k">Performance awards</div></div>
+        </div>
+        <div class="awards"><span>Ace Award · H1 2021</span><span>Stellar Performance · Q1 2023</span><span>The Pioneer Award · H2 2023</span><span>Ace Award · H1 2024</span></div></div>
+    </article>
+    <article class="card role rv">
+      <div class="role-side"><div class="when">Jan — Feb 2026<br>Knoxville, TN</div></div>
+      <div><h3>Student Consultant — Equity Portfolio Review</h3>
+        <div class="org">Wealth-management RIA · Georgetown MSF Winter Clinic</div>
+        <ul><li>Six-week engagement reviewing a $150M AUM equity portfolio, closing with an executive presentation to the sponsor team</li>
+          <li>Raised expected return and cut volatility and beta, strengthening downside protection and overall risk efficiency</li></ul>
+        <div class="kpis in-card">
+          <div class="kpi"><div class="v">+286<small>bps</small></div><div class="k">Return</div></div>
+          <div class="kpi"><div class="v">−241<small>bps</small></div><div class="k">Volatility</div></div>
+          <div class="kpi"><div class="v">0.51<span class="ar">→</span>0.81</div><div class="k">Sharpe</div></div>
+          <div class="kpi"><div class="v">1.07<span class="ar">→</span>0.84</div><div class="k">Beta</div></div>
+        </div></div>
+    </article>
+
+    <div class="sub-h next rv">Education</div>
+    <div class="edu">
+      <article class="card rv">
+        <div class="when">Aug 2025 — 2027 · Washington, DC</div>
+        <div class="inst-id"><img class="mark-gu" src="assets/logos/georgetown.svg" alt="Georgetown University" width="276" height="58"></div>
+        <div class="inst-sub">McDonough School of Business</div>
+        <dl class="spec">
+          <div><dt>Degree</dt><dd>Master of Science in Finance</dd></div>
+          <div><dt>Class</dt><dd>2027</dd></div>
+          <div class="hi"><dt>GPA</dt><dd class="gpa">3.95<small>/ 4.00</small></dd></div>
+        </dl>
+      </article>
+      <article class="card rv" data-d="1">
+        <div class="when">Aug 2016 — Jul 2020 · Kanpur, India</div>
+        <div class="inst-id"><img class="mark-seal" src="assets/logos/iitk.svg" alt="" width="62" height="62">
+          <div class="inst-name">IIT Kanpur<small>Indian Institute of Technology</small></div></div>
+        <div class="inst-sub">Materials Science &amp; Engineering</div>
+        <dl class="spec" style="grid-template-columns:1.3fr .7fr">
+          <div><dt>Degree</dt><dd>Bachelor of Technology</dd></div>
+          <div><dt>Class</dt><dd>2020</dd></div>
+        </dl>
+      </article>
+    </div>
+
+    <div class="grid2" style="margin-top:18px">
+      <article class="card rv"><div class="card-head"><div><div class="k">Certifications</div></div></div>
+        <ul class="cl">
+          <li>Bloomberg Market Concepts<span>Bloomberg</span></li>
+          <li>Financial Engineering Specialization<span>Columbia University</span></li>
+          <li>Machine Learning Specialization<span>Stanford University</span></li>
+          <li>Building RAG Agents with LLMs<span>NVIDIA</span></li>
+          <li>Investment simulations · Fidelity (IM), JPMorgan (M&amp;A), Citi (MQA)<span>Forage</span></li>
+        </ul></article>
+      <article class="card rv" data-d="1"><div class="card-head"><div><div class="k">Finance &amp; strategy</div></div></div>
+        <div class="toolchips"><span>Portfolio construction</span><span>Asset allocation</span><span>DCF valuation</span><span>Financial modelling</span><span>Risk analysis</span></div>
+        <div class="card-head"><div><div class="k">Tools</div></div></div>
+        <div class="toolchips"><span>Bloomberg Terminal</span><span>Morningstar</span><span>Compustat</span><span>FRED</span><span>Advanced Excel</span><span>Tableau</span><span>Matlab</span><span>JMP Pro</span></div>
+        <div class="card-head"><div><div class="k">Languages</div></div></div>
+        <div class="toolchips"><span>Python</span><span>R</span><span>SQL</span><span>C/C++</span><span>SAS</span><span>VBA</span></div></article>
     </div>
   </div>
 </section>
 
 </main>
 
-<footer><div class="wrap"><span>© 2026 Ankit Verma</span><span>Built for GitHub Pages · no tracking</span></div></footer>
+<footer class="foot" id="contact">
+  <div class="wrap">
+    <div class="card ticket rv">
+      <div class="ticket-l"><div class="sec-k">Get in touch</div>
+        <h2>Let's talk portfolios, allocation or research.</h2>
+        <p>I'm looking for a buy-side seat in multi-asset allocation, portfolio management or investment research.
+           Happy to walk through any layer of the funds, the regime model or Convexity Lab — including the parts that failed.</p></div>
+      <div class="ticket-r">
+        <a class="tline" href="mailto:ankitv0125@gmail.com"><span>Email</span>ankitv0125@gmail.com ↗</a>
+        <a class="tline" href="https://linkedin.com/in/ankitv0125"><span>LinkedIn</span>/in/ankitv0125 ↗</a>
+        <a class="tline" href="https://github.com/ankitv25"><span>GitHub</span>@ankitv25 ↗</a>
+        <a class="tline" href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener"><span>Resume</span>Download PDF ↓</a>
+      </div>
+    </div>
+    <div class="foot-note">
+      <span>© 2026 Ankit Verma · New York, NY</span>
+      <span>Figures refreshed weekly from the live dashboards · latest <span data-k="site.asof">16 Oct 2026</span> · Independent research, not investment advice.</span>
+    </div>
+  </div>
+</footer>
 
-<!--gen:live--><script type="application/json" id="liveData">{"asof":"2026-10-16","asof_label":"16 Oct 2026","funds":[{"name":"Alpha","nav":"101.14","chg":"+1.14%","up":true},{"name":"DAA","nav":"100.95","chg":"+0.95%","up":true},{"name":"SAA","nav":"100.62","chg":"+0.62%","up":true},{"name":"Certain","nav":"100.25","chg":"+0.25%","up":true},{"name":"Endowment","nav":"99.79","chg":"−0.21%","up":false}],"mrs":{"month":"Aug 2026","regime":"Neutral","z":"+0.17z"}}</script><!--/gen:live-->
+<!--gen:navdata--><script type="application/json" id="navData">{"d":["2026-07-15","2026-07-16","2026-07-17","2026-07-20","2026-07-21","2026-07-22","2026-07-23","2026-07-24","2026-07-27","2026-07-28","2026-07-29","2026-07-30","2026-07-31","2026-08-03","2026-08-04","2026-08-05","2026-08-06","2026-08-07","2026-08-10","2026-08-11","2026-08-12","2026-08-13","2026-08-14","2026-08-17","2026-08-18","2026-08-19","2026-08-20","2026-08-21","2026-08-24","2026-08-25","2026-08-26","2026-08-27","2026-08-28","2026-08-31","2026-09-01","2026-09-02","2026-09-03","2026-09-04","2026-09-08","2026-09-09","2026-09-10","2026-09-11","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-21","2026-09-22","2026-09-23","2026-09-24","2026-09-25","2026-09-28","2026-09-29","2026-09-30","2026-10-01","2026-10-02","2026-10-05","2026-10-06","2026-10-07","2026-10-08","2026-10-09","2026-10-12","2026-10-13","2026-10-14","2026-10-15","2026-10-16"],"g":{"x0":48,"dx":9.272727,"a":96,"sy":27.75,"y1":238},"s":{"Certain":[99.9,99.59,99.7,99.58,99.81,99.86,99.5,99.57,99.53,99.49,99.44,99.81,99.67,99.8,100.12,100.44,100.39,100.75,100.83,100.81,100.97,101.0,100.99,101.0,100.81,101.35,101.25,101.4,101.45,101.64,101.43,101.53,101.06,101.04,100.73,100.92,101.26,101.13,100.96,100.9,100.53,100.51,100.31,100.32,100.08,100.5,100.36,100.59,100.63,100.06,99.88,100.04,99.45,99.44,99.36,99.6,99.55,99.55,99.78,99.6,99.77,99.95,99.96,100.0,99.8,100.23,100.25],"Endowment":[99.9,99.54,99.43,99.21,99.71,99.81,99.2,99.33,99.3,99.24,98.67,99.37,99.29,99.64,100.33,100.62,100.5,101.01,101.0,100.91,101.18,101.34,101.24,101.1,100.74,101.54,101.27,101.49,101.53,101.92,101.75,101.86,101.32,101.18,100.73,100.99,101.55,101.41,101.16,100.9,100.22,100.46,100.05,99.91,99.63,100.43,100.22,100.86,100.88,99.92,99.61,99.82,98.99,98.84,98.61,98.77,98.93,99.09,99.53,99.07,99.2,99.67,99.76,99.86,99.39,99.96,99.79],"SAA":[99.9,99.35,99.0,98.82,99.56,99.6,98.83,98.86,99.01,98.9,98.03,98.95,99.01,99.53,100.56,100.88,100.81,101.4,101.49,101.37,101.66,101.84,101.67,101.58,100.99,101.68,101.34,101.75,101.71,102.09,101.93,102.25,101.84,101.61,101.16,101.48,102.09,101.97,101.5,101.25,100.68,101.13,100.71,100.57,100.33,101.22,101.16,101.99,101.99,101.2,100.97,101.17,100.35,100.18,99.96,100.17,100.45,100.8,101.11,100.7,100.62,101.18,101.2,101.26,100.67,101.14,100.62],"DAA":[99.9,99.29,98.92,98.76,99.6,99.67,98.88,98.9,99.01,98.84,98.01,99.0,99.08,99.6,100.63,100.98,100.95,101.57,101.74,101.6,101.92,102.06,101.92,101.87,101.22,101.91,101.6,102.08,101.99,102.35,102.18,102.54,102.11,101.89,101.45,101.78,102.42,102.31,101.81,101.58,101.03,101.5,101.05,100.92,100.66,101.56,101.52,102.37,102.37,101.6,101.42,101.61,100.76,100.59,100.38,100.59,100.89,101.27,101.59,101.15,101.03,101.63,101.66,101.71,101.05,101.49,100.95],"Alpha":[99.9,99.19,98.41,98.3,99.36,99.4,98.28,98.28,98.4,98.26,97.18,98.7,99.11,100.07,101.55,101.73,101.68,102.48,102.64,102.37,102.76,103.03,102.91,102.78,101.9,102.44,101.95,102.56,102.29,102.64,102.51,103.08,102.59,102.33,101.71,102.16,103.11,102.89,102.29,101.94,101.25,101.97,101.35,101.04,100.67,101.75,101.84,103.1,103.14,102.27,102.18,102.59,101.62,101.51,101.25,101.4,102.0,102.69,103.13,102.55,102.15,102.9,102.84,102.83,101.71,102.06,101.14]}}</script><!--/gen:navdata-->
 <script>
-/* =========================================================
-   CONTENT DATA — edit here, markup renders from it
-   ========================================================= */
-const RESUME = null; // TODO: 'assets/Ankit_Verma_Resume.pdf' once the PDF is added
-const LIVE = (()=>{try{return JSON.parse(document.getElementById('liveData').textContent)}catch(e){return null}})();
-
-const TICKER = [
-  ['IITK','B.TECH MSE 2020','up','▲'],['GEORGETOWN MSF','GPA 3.95','up','▲'],['EXL','SR CONSULTANT','gold','●'],
-  ['COVERAGE','CCAR · CECL · IFRS-9','gold','●'],['SAA','BL + MC 4K','up','▲'],
-  ['TRACK','~6 YRS','up','▲'],['TARGET','BUY-SIDE IM 2027','gold','●']
-];
-if(LIVE){
-  TICKER.splice(4,0,['MRS v2.1',`${LIVE.mrs.regime.toUpperCase()} ${LIVE.mrs.z} · ${LIVE.mrs.month.toUpperCase()}`,'gold','●'],
-    ...LIVE.funds.map(f=>[`${f.name.toUpperCase()} NAV`,`${f.nav} ${f.chg}`,f.up?'up':'dn',f.up?'▲':'▼']));
-}
-
-const CATEGORIES = ['All','Portfolio','Allocation','Macro','Risk','Equity'];
-
-// dash/code: null = no public link exists (private repo) — the card says so instead of linking nowhere
-const PROJECTS = [
-  {title:'Five Funds — live NAV', cat:'Portfolio', desc:'Certain, Endowment, SAA, DAA and Alpha: five multi-asset funds, each with its own sleeve set, constraints and real index benchmark, priced daily since 15 July 2026 net of fees and dealing costs.', tags:['Live NAV','Benchmarks','Python'], dash:'https://ankitv25.github.io/Asset-Allocation/live.html', code:'https://github.com/ankitv25/Asset-Allocation'},
-  {title:'Strategic Asset Allocation', cat:'Allocation', desc:'Black-Litterman views in excess-return space on a benchmark prior, with a 4,000-path block-bootstrap Monte Carlo over a 10-year horizon for the policy weights.', tags:['Black-Litterman','Monte Carlo'], dash:'https://ankitv25.github.io/Asset-Allocation/index.html?p=saa', code:'https://github.com/ankitv25/Asset-Allocation'},
-  {title:'Dynamic Asset Allocation', cat:'Allocation', desc:'Five engines — valuation, trend, relative strength, the MRS regime and the diversifier sleeve — re-read each month end inside a tilt corridor around the SAA, with attribution separating dynamic from strategic value-add.', tags:['Tilt corridor','Attribution'], dash:'https://ankitv25.github.io/Asset-Allocation/index.html?p=daa', code:'https://github.com/ankitv25/Asset-Allocation'},
-  {title:'Macro Regime Score (MRS)', cat:'Macro', desc:'Thirteen indicators across five pillars — growth, credit, market stress, inflation, liquidity/rates — as expanding-window z-scores, scored monthly since 2003. Flagged the GFC nine months before the NBER dated it.', tags:['Regimes','z-scores','v2.1'], dash:'https://ankitv25.github.io/Macro-Regime-Score/', code:'https://github.com/ankitv25/Macro-Regime-Score'},
-  {title:'Convexity Lab', cat:'Risk', desc:'A fixed-income, derivatives and portfolio-risk workstation: bootstrapped Treasury-curve bond pricing, Euler risk contributions, historical and forward stress, option structures and hedge comparison.', tags:['Fixed income','Derivatives','Stress'], dash:'https://ankitv25.github.io/Convexity-Lab-RM/', code:'https://github.com/ankitv25/Convexity-Lab-RM'},
-  {title:'Event-Driven Risk Research', cat:'Risk', desc:'A risk-assessment methodology: structured intake, then identification, prioritisation and audit of risks, keeping user evidence, industry inference and assumptions explicitly separate.', tags:['Risk assessment','Methodology'], dash:null, code:'https://github.com/ankitv25/Event-Driven-Risk-Research'},
-  {title:'Equity Research — DCF workflow', cat:'Equity', desc:'A driver-based DCF framework across defence & aerospace, technology and energy: sourced evidence to scored sector drivers to a 10-year unlevered DCF, with three valuation lanes.', tags:['DCF','Valuation','Excel'], dash:null, code:'https://github.com/ankitv25/Equity-valuation-workflow'},
-  {title:'Growth Engine', cat:'Equity', desc:'A structural-growth framework across three methodology versions — theme rankings, scorecards, shadow sleeves and an integration utility grid, with GICS-baseline incrementality testing.', tags:['GICS','Themes'], dash:null, code:null},
-  {title:'Investment Policy Statement v1', cat:'Portfolio', desc:'A signable IPS formalising the objective, spending rule, tilt corridor and review calendar, with capital-market assumptions validated against 13 institutional houses.', tags:['IPS','CMAs'], dash:null, code:null},
-];
-
-/* ---------- resume links: removed until a PDF exists ---------- */
-document.querySelectorAll('[data-resume]').forEach(a=>{if(RESUME)a.href=RESUME;else a.remove()});
-
-/* ---------- current MRS regime ---------- */
-if(LIVE)document.querySelectorAll('#regimes .tag').forEach(t=>t.classList.toggle('on',t.textContent===LIVE.mrs.regime));
-
-/* ---------- ticker ---------- */
 (function(){
-  const t=document.getElementById('ticker');
-  const html=TICKER.map(([k,v,c,s])=>`<span>${k} <b>${v}</b> <span class="${c}">${s}</span></span>`).join('');
-  t.innerHTML=html+html; // duplicated for seamless loop
-})();
-
-/* ---------- seeded random walk for sparklines ---------- */
-function rng(seed){return()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646}}
-function walk(n,seed,drift=.15,vol=1){const r=rng(seed);let v=0;const a=[];for(let i=0;i<n;i++){v+=drift+(r()-.5)*2*vol;a.push(v)}return a}
-function sparkPath(arr,w,h,pad=4){const mn=Math.min(...arr),mx=Math.max(...arr);
-  return arr.map((y,i)=>`${i?'L':'M'}${(i/(arr.length-1)*w).toFixed(1)},${(h-pad-(y-mn)/(mx-mn||1)*(h-2*pad)).toFixed(1)}`).join(' ')}
-
-/* ---------- hero sparkline ---------- */
-(function(){
-  const s=document.getElementById('heroSpark');const d=sparkPath(walk(80,7,.35,1.1),400,70);
-  s.innerHTML=`<defs><linearGradient id="hs" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4FB3A5" stop-opacity=".28"/><stop offset="1" stop-color="#4FB3A5" stop-opacity="0"/></linearGradient></defs>
-  <path d="${d} L400,70 L0,70 Z" fill="url(#hs)"/><path d="${d}" fill="none" stroke="#4FB3A5" stroke-width="1.8"/>`;
-})();
-
-/* ---------- frontier scatter cloud ---------- */
-(function(){
-  const g=document.getElementById('cloud');const r=rng(42);let h='';
-  for(let i=0;i<70;i++){const x=40+r()*240;const top=92-62*Math.sqrt((x-28)/262);const y=top+8+r()*(100-top-10);
-    h+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.6" fill="rgba(180,188,203,.28)"/>`}
-  g.innerHTML=h;
-})();
-
-/* ---------- Monte Carlo fan chart ---------- */
-(function(){
-  const s=document.getElementById('fan'),W=600,H=180,N=60,P=40,r=rng(99);let h='';
-  const paths=[];for(let k=0;k<P;k++){let v=0;const a=[0];for(let i=1;i<N;i++){v+=.12+(r()-.5)*1.6;a.push(v)}paths.push(a)}
-  const all=paths.flat(),mn=Math.min(...all),mx=Math.max(...all);
-  const X=i=>i/(N-1)*W,Y=v=>H-8-(v-mn)/(mx-mn)*(H-16);
-  const q=(i,p)=>{const c=paths.map(a=>a[i]).sort((a,b)=>a-b);return c[Math.floor(p*(c.length-1))]};
-  let band='M'+[...Array(N).keys()].map(i=>`${X(i)},${Y(q(i,.95))}`).join(' L')+' L'+[...Array(N).keys()].reverse().map(i=>`${X(i)},${Y(q(i,.05))}`).join(' L')+'Z';
-  h+=`<path d="${band}" fill="rgba(201,164,92,.10)"/>`;
-  paths.forEach(a=>h+=`<path d="M${a.map((v,i)=>`${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' L')}" fill="none" stroke="rgba(180,188,203,.10)" stroke-width="1"/>`);
-  [[.05,'#D9706B'],[.5,'#C9A45C'],[.95,'#4FB3A5']].forEach(([p,c])=>h+=`<path d="M${[...Array(N).keys()].map(i=>`${X(i).toFixed(1)},${Y(q(i,p)).toFixed(1)}`).join(' L')}" fill="none" stroke="${c}" stroke-width="1.8"/>`);
-  s.innerHTML=h;
-})();
-
-/* ---------- projects grid + filter ---------- */
-function lnk(u,label,none){return u?`<a href="${u}" target="_blank" rel="noopener">${label}</a>`:`<span class="mono" style="font-size:12px;color:var(--muted)">${none}</span>`}
-(function(){
-  const chips=document.getElementById('chips'),grid=document.getElementById('pgrid');
-  chips.innerHTML=CATEGORIES.map((c,i)=>`<button class="chip${i?'':' on'}" data-c="${c}">${c}</button>`).join('');
-  grid.innerHTML=PROJECTS.map((p,i)=>{
-    const d=sparkPath(walk(40,i*97+13,.2,1),300,44);const up=i%3!==1;
-    const col=up?'#4FB3A5':'#C9A45C';
-    return `<article class="panel hover pcard rv" data-c="${p.cat}">
-      <div class="card-top"><span class="tag ${up?'t':'g'}">${p.cat}</span><span class="mono" style="font-size:11px;color:var(--muted)">R-${String(i+1).padStart(2,'0')}</span></div>
-      <svg class="spark" viewBox="0 0 300 44" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="${col}" stroke-width="1.6" opacity=".9"/></svg>
-      <h4>${p.title}</h4><p>${p.desc}</p>
-      <div class="tags" style="display:flex;gap:6px;flex-wrap:wrap">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-      <div class="foot">${lnk(p.dash,'Dashboard ↗','No public dashboard')}${lnk(p.code,'Code ↗','Private repo')}</div>
-    </article>`}).join('');
-  chips.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
-    chips.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b));
-    grid.querySelectorAll('.pcard').forEach(c=>c.classList.toggle('hide',b.dataset.c!=='All'&&c.dataset.c!==b.dataset.c));
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.08,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+  var p=document.getElementById('prog');
+  addEventListener('scroll',function(){
+    var h=document.documentElement,m=h.scrollHeight-h.clientHeight;
+    p.style.width=(m>0?(h.scrollTop/m*100):0)+'%';
+  },{passive:true});
+  var links=[].slice.call(document.querySelectorAll('.mast-nav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  var spy=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var i=secs.indexOf(e.target); if(i<0)return;
+      if(e.isIntersecting){links.forEach(function(l){l.removeAttribute('aria-current')});links[i].setAttribute('aria-current','true');}
+    });
+  },{rootMargin:'-30% 0px -60% 0px'});
+  secs.forEach(function(s){if(s)spy.observe(s)});
+  document.querySelectorAll('.menu-panel a').forEach(function(a){
+    a.addEventListener('click',function(){document.querySelector('.menu').removeAttribute('open')});
   });
-})();
 
-/* ---------- reveal on scroll ---------- */
-(function(){
-  const els=document.querySelectorAll('.rv');
-  if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return}
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
-  els.forEach(e=>io.observe(e));
-})();
+  /* NAV chart: the board doubles as the readout. Data and geometry come from scripts/refresh_data.py. */
+  var nd=document.getElementById('navData'),nc=document.getElementById('navChart'),bd=document.getElementById('navBoard');
+  if(nd&&nc&&bd){
+    var NAV=JSON.parse(nd.textContent),G=NAV.g,N=NAV.d.length;
+    var svg=nc.querySelector('svg'),xh=document.getElementById('navXh'),dots=document.getElementById('navDots');
+    var rows=[].slice.call(bd.querySelectorAll('.brow')),dateEl=document.getElementById('navDate');
+    var col={};[].forEach.call(svg.querySelectorAll('polyline[data-f]'),function(l){col[l.getAttribute('data-f')]=l.getAttribute('stroke')});
+    var MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function yOf(v){return G.y1-(v-G.a)*G.sy}
+    function fmtD(s){var q=s.split('-');return (+q[2])+' '+MO[+q[1]-1]+' '+q[0]}
+    function show(i){
+      dateEl.textContent=fmtD(NAV.d[i]);
+      var x=G.x0+i*G.dx; xh.setAttribute('x1',x);xh.setAttribute('x2',x);
+      var h='';rows.forEach(function(r){
+        var f=r.getAttribute('data-f'),v=NAV.s[f][i],c=v-100,cls=c>0.004?'up':(c<-0.004?'dn':'flat');
+        r.querySelector('.brd').textContent=v.toFixed(2);
+        var ch=r.querySelector('.bch');ch.textContent=(Math.abs(c)<0.005?'':(c>0?'+':'−'))+Math.abs(c).toFixed(2)+'%';ch.className='bch '+cls;
+        h+='<circle cx="'+x.toFixed(1)+'" cy="'+yOf(v).toFixed(1)+'" r="3.8" fill="'+col[f]+'" stroke="#070B14" stroke-width="1.5"></circle>';
+      });
+      dots.innerHTML=h;
+    }
+    function pick(ev){
+      var pt=svg.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;
+      var m=svg.getScreenCTM();if(!m)return;var q=pt.matrixTransform(m.inverse());
+      var i=Math.round((q.x-G.x0)/G.dx);i=Math.max(0,Math.min(N-1,i));nc.classList.add('hov');show(i);
+    }
+    svg.addEventListener('pointermove',pick);svg.addEventListener('pointerdown',pick);
+    svg.addEventListener('pointerleave',function(){nc.classList.remove('hov');show(N-1)});
+    function focusF(f){nc.classList.toggle('focus',!!f);
+      [].forEach.call(svg.querySelectorAll('[data-f]'),function(el){el.classList.toggle('on',el.getAttribute('data-f')===f)});
+      rows.forEach(function(r){r.setAttribute('aria-pressed',r.getAttribute('data-f')===f?'true':'false')});}
+    var pinned=null;
+    rows.forEach(function(r){var f=r.getAttribute('data-f');
+      r.addEventListener('mouseenter',function(){if(!pinned)focusF(f)});
+      r.addEventListener('mouseleave',function(){if(!pinned)focusF(null)});
+      r.addEventListener('click',function(){pinned=(pinned===f)?null:f;focusF(pinned)});
+    });
+    focusF(null);
+  }
 
-/* =========================================================
-   BACKGROUND: live "market" canvas
-   faint chart-paper grid + drifting price lines + candles
-   ========================================================= */
+  var ln=document.getElementById('heroLine');
+  if(ln&&ln.getTotalLength&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
+    var L=ln.getTotalLength();
+    ln.style.strokeDasharray=L; ln.style.strokeDashoffset=L;
+    var lo=new IntersectionObserver(function(es){
+      if(!es[0].isIntersecting)return; lo.disconnect();
+      ln.style.transition='stroke-dashoffset 2.6s cubic-bezier(.3,.8,.4,1)';
+      ln.style.strokeDashoffset=0;
+    },{threshold:.3});
+    lo.observe(ln);
+  }
+})();
+</script>
+<script>
+/* Background: faint chart-paper grid and three slow-drifting price lines. Decorative, aria-hidden. */
 (function(){
-  const cv=document.getElementById('market'),ctx=cv.getContext('2d');
-  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let W,H,dpr,series,candles,off=0;
-  const STEP=6;
-  function gen(){
-    const n=Math.ceil(W/STEP)+60;
-    series=[
-      {c:'rgba(201,164,92,.10)',w:1.4,y:H*.32,a:walk(n,3,.0,2.2)},
-      {c:'rgba(79,179,165,.08)',w:1.2,y:H*.55,a:walk(n,11,.0,1.8)},
-      {c:'rgba(108,142,201,.07)',w:1.0,y:H*.75,a:walk(n,29,.0,1.5)},
-    ];
-    const r=rng(5);let p=0;candles=[];
-    for(let i=0;i<Math.ceil(W/14)+30;i++){const o=p;p+=(r()-.5)*14;const hi=Math.max(o,p)+r()*8,lo=Math.min(o,p)-r()*8;candles.push({o,c:p,hi,lo})}
-  }
-  function size(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);gen()}
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    // grid
-    ctx.strokeStyle='rgba(148,163,184,.035)';ctx.lineWidth=1;ctx.beginPath();
-    for(let x=(-off*.3)%48;x<W;x+=48){ctx.moveTo(x,0);ctx.lineTo(x,H)}
-    for(let y=0;y<H;y+=48){ctx.moveTo(0,y);ctx.lineTo(W,y)}
-    ctx.stroke();
-    // price lines
-    series.forEach(s=>{ctx.strokeStyle=s.c;ctx.lineWidth=s.w;ctx.beginPath();
-      const sh=(off/STEP)|0, fr=(off%STEP);
-      for(let i=0;i<Math.ceil(W/STEP)+2;i++){const v=s.a[(i+sh)%s.a.length];const x=i*STEP-fr;const y=s.y-v*6;i?ctx.lineTo(x,y):ctx.moveTo(x,y)}
-      ctx.stroke()});
-    // candles along lower band
-    const base=H*.9,cw=14,sh=(off*.5/cw)|0,fr=(off*.5)%cw;
-    for(let i=0;i<Math.ceil(W/cw)+2;i++){const k=candles[(i+sh)%candles.length];const x=i*cw-fr;const up=k.c>=k.o;
-      ctx.strokeStyle=ctx.fillStyle=up?'rgba(79,179,165,.07)':'rgba(217,112,107,.06)';
-      ctx.beginPath();ctx.moveTo(x+cw/2,base-k.hi);ctx.lineTo(x+cw/2,base-k.lo);ctx.stroke();
-      const t=base-Math.max(k.o,k.c),b=Math.abs(k.c-k.o)||1;ctx.fillRect(x+3,t,cw-6,b)}
-  }
+  var cv=document.getElementById('market');if(!cv||!cv.getContext)return;var ctx=cv.getContext('2d');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,W,H,series,off=0,STEP=6;
+  function rng(seed){return function(){seed=(seed*16807)%2147483647;return(seed-1)/2147483646}}
+  function walk(n,seed,vol){var r=rng(seed),v=0,a=[];for(var i=0;i<n;i++){v+=(r()-.5)*2*vol;a.push(v)}return a}
+  function gen(){var n=Math.ceil(W/STEP)+60;series=[
+    {c:'rgba(201,164,92,.10)',w:1.4,y:H*.32,a:walk(n,3,2.2)},
+    {c:'rgba(79,179,165,.08)',w:1.2,y:H*.55,a:walk(n,11,1.8)},
+    {c:'rgba(108,142,201,.07)',w:1.0,y:H*.75,a:walk(n,29,1.5)}]}
+  function size(){var d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);gen()}
+  function draw(){ctx.clearRect(0,0,W,H);ctx.strokeStyle='rgba(148,163,184,.035)';ctx.lineWidth=1;ctx.beginPath();
+    for(var x=(-off*.3)%48;x<W;x+=48){ctx.moveTo(x,0);ctx.lineTo(x,H)}for(var y=0;y<H;y+=48){ctx.moveTo(0,y);ctx.lineTo(W,y)}ctx.stroke();
+    series.forEach(function(s){ctx.strokeStyle=s.c;ctx.lineWidth=s.w;ctx.beginPath();var sh=(off/STEP)|0,fr=off%STEP;
+      for(var i=0;i<Math.ceil(W/STEP)+2;i++){var v=s.a[(i+sh)%s.a.length],px=i*STEP-fr,py=s.y-v*6;i?ctx.lineTo(px,py):ctx.moveTo(px,py)}ctx.stroke()})}
   function loop(){off+=.25;draw();requestAnimationFrame(loop)}
-  addEventListener('resize',()=>{size();draw()});
-  size();draw();if(!reduce)requestAnimationFrame(loop);
+  addEventListener('resize',function(){size();draw()});size();draw();if(!reduce)requestAnimationFrame(loop);
 })();
 </script>
 </body>

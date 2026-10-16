@@ -30,7 +30,10 @@ URLS = {
     'composite_history.json': 'https://ankitv25.github.io/Macro-Regime-Score/data/composite_history.json',
     'metadata.json': 'https://ankitv25.github.io/Macro-Regime-Score/data/metadata.json',
     'rates.json': 'https://ankitv25.github.io/Convexity-Lab-RM/data/lab/rates.json',
+    'portfolio_books.json': 'https://ankitv25.github.io/Asset-Allocation/data/portfolio_books.json',
 }
+# The funds' identity hues, lifted for the dark page so every line clears the navy ground.
+ON_DARK = {'#0891b2': '#3db5d1', '#92400e': '#b07d5b', '#8b5cf6': '#a58bf8', '#86198f': '#cf6bd6', '#d97706': '#e8a13a'}
 FUNDS = ['Certain', 'Endowment', 'SAA', 'DAA', 'Alpha']
 MO = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
@@ -110,11 +113,15 @@ def load(src):
     m = re.match(r'^window\.LIVE_NAV\s*=\s*(\{.*\})\s*;?\s*$', js, re.S)
     if not m:
         raise FeedError('live_nav.js is not a window.LIVE_NAV assignment')
-    return (json.loads(m.group(1)), json.loads(raw['composite_history.json']),
-            json.loads(raw['metadata.json']), json.loads(raw['rates.json']))
+    nav = json.loads(m.group(1))
+    for fx in nav.get('facts', {}).values():
+        if isinstance(fx, dict) and 'color' in fx:
+            fx['color'] = ON_DARK.get(fx['color'].lower(), fx['color'])
+    return (nav, json.loads(raw['composite_history.json']),
+            json.loads(raw['metadata.json']), json.loads(raw['rates.json']), json.loads(raw['portfolio_books.json']))
 
 
-def validate(nav, mrs, meta, rates, prev):
+def validate(nav, mrs, meta, rates, books, prev):
     dates = nav.get('dates') or []
     if len(dates) < 2:
         raise FeedError('live NAV has fewer than two dates')
@@ -130,6 +137,19 @@ def validate(nav, mrs, meta, rates, prev):
         raise FeedError('MRS composite history is malformed')
     if len(rates.get('curve', [])) < 8:
         raise FeedError('Convexity Lab rates curve is malformed')
+    try:
+        mc = books['books']['daa']['monte_carlo']
+        fan = mc['fan']
+        for k in ('DAA', 'SAA', '60/40'):
+            q = [fan[k][p] for p in ('p5', 'p25', 'p50', 'p75', 'p95')]
+            if len(fan[k]['years']) < 5 or any(len(x) != len(fan[k]['years']) for x in q):
+                raise FeedError(f'Monte Carlo fan for {k} is malformed')
+            if any(not (a <= b <= c <= d <= e) for a, b, c, d, e in zip(*q)):
+                raise FeedError(f'Monte Carlo percentiles for {k} are not ordered')
+        if mc['params']['n_paths'] < 1000:
+            raise FeedError('Monte Carlo has too few paths')
+    except (KeyError, TypeError) as e:
+        raise FeedError(f'portfolio_books.json is missing Monte Carlo data: {e}')
     if prev:
         if dates[-1] < prev['nav']['asof']:
             raise FeedError(f"live NAV went backwards: {dates[-1]} < {prev['nav']['asof']}")
@@ -299,7 +319,7 @@ def mrs_block(rows, meta):
          + '; '.join(f'it falls to {neg(e["composite"])} in {m_long(e["date"])}' for _, e in named)
          + (' — the only excursions into the Contraction band.' if named else '.') + '">']
     edges = [zt, 0.35, -0.30, -1.00, zb]
-    fills = ['rgba(79,134,198,.07)', 'rgba(161,161,166,.07)', 'rgba(210,154,60,.09)', 'rgba(192,57,43,.07)']
+    fills = ['rgba(79,179,165,.07)', 'rgba(124,135,155,.05)', 'rgba(201,164,92,.08)', 'rgba(217,112,107,.09)']
     for (t, b_), fc in zip(zip(edges, edges[1:]), fills):
         o.append(f'<rect x="0" y="{Y(t):.1f}" width="{W}" height="{Y(b_) - Y(t):.1f}" fill="{fc}"></rect>')
     for t in (0.35, -0.30):
@@ -461,15 +481,50 @@ def cvx_block(rates):
 
 
 # ---------------------------------------------------------------- page rewrite
-def live_block(s1, s2):
-    """Compact figures for the ticker and the MRS regime tag, as JSON the page script reads."""
-    funds = sorted(s1['nav'], key=lambda f: -s1['since_launch_pct'][f])
-    live = {'asof': s1['asof'], 'asof_label': d_long(s1['asof']),
-            'funds': [{'name': f, 'nav': f"{s1['nav'][f]:.2f}", 'chg': f"{sgn(s1['since_launch_pct'][f])}%",
-                       'up': s1['since_launch_pct'][f] >= 0} for f in funds],
-            'mrs': {'month': m_short(s2['through']), 'regime': s2['regime'], 'z': f"{sgn(s2['composite'])}z"}}
-    body = json.dumps(live, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
-    return {'live': f'<script type="application/json" id="liveData">{body}</script>'}
+def mc_block(books):
+    """Ten-year Monte Carlo fan for DAA from the dashboard's block bootstrap, against SAA and 60/40 medians."""
+    mc = books['books']['daa']['monte_carlo']
+    fan, prm = mc['fan'], mc['params']
+    summ = {r['strategy']: r for r in mc['summary']}
+    W, H, X0, X1, Y0, Y1 = 600, 260, 44, 548, 14, 226
+    yrs = [0] + list(fan['DAA']['years'])
+    def ser(k, p): return [1.0] + list(fan[k][p])
+    hi = max(ser('DAA', 'p95') + ser('SAA', 'p95')); lo = min(ser('DAA', 'p5') + [1.0])
+    lo, hi = math.floor(lo * 4) / 4, math.ceil(hi * 4) / 4
+    X = lambda t: X0 + (X1 - X0) * t / yrs[-1]
+    Y = lambda v: Y1 - (Y1 - Y0) * (v - lo) / (hi - lo)
+    P = lambda arr: ' '.join(f'{X(t):.1f},{Y(v):.1f}' for t, v in zip(yrs, arr))
+    band = lambda a, b: P(ser('DAA', a)) + ' ' + ' '.join(f'{X(t):.1f},{Y(v):.1f}' for t, v in reversed(list(zip(yrs, ser('DAA', b)))))
+    d, sa, b6 = summ['DAA'], summ['SAA'], summ['60/40']
+    o = [f'<svg viewBox="0 0 {W} {H}" role="img" aria-label="Ten-year Monte Carlo for DAA, {prm["n_paths"]:,} block-bootstrap paths: '
+         f'median growth of one dollar {d["terminal_median"]:.2f}, fifth percentile {d["terminal_p5"]:.2f}, ninety-fifth {d["terminal_p95"]:.2f}; '
+         f'60/40 median {b6["terminal_median"]:.2f}.">']
+    t = lo
+    while t <= hi + 1e-9:
+        o.append(f'<line class="gl" x1="{X0}" y1="{Y(t):.1f}" x2="{X1}" y2="{Y(t):.1f}"></line>'
+                 f'<text class="ax" x="{X0 - 8}" y="{Y(t) + 4:.1f}" text-anchor="end">{t:.1f}×</text>')
+        t += 0.5
+    for yv in range(0, int(yrs[-1]) + 1, 2):
+        o.append(f'<text class="ax" x="{X(yv):.1f}" y="{H - 10}" text-anchor="middle">{"Today" if yv == 0 else f"Yr {yv}"}</text>')
+    o.append(f'<polygon class="fan-90" points="{band("p95", "p5")}"></polygon>')
+    o.append(f'<polygon class="fan-50" points="{band("p75", "p25")}"></polygon>')
+    o.append(f'<polyline class="fan-6040" fill="none" points="{P(ser("60/40", "p50"))}"></polyline>')
+    o.append(f'<polyline class="fan-saa" fill="none" points="{P(ser("SAA", "p50"))}"></polyline>')
+    o.append(f'<polyline class="fan-p50" fill="none" points="{P(ser("DAA", "p50"))}"></polyline>')
+    for k, cls_, dy in (('p95', 'fan-lbl', -6), ('p50', 'fan-lbl on', 4), ('p5', 'fan-lbl', 12)):
+        v = ser('DAA', k)[-1]
+        o.append(f'<text class="{cls_}" x="{X1 + 6}" y="{Y(v) + dy:.1f}">{v:.2f}×</text>')
+    o.append('</svg>')
+    kp = (f'<div class="kpi"><div class="v">{d["cagr_median"]:.1f}%<span class="ar">vs</span>{b6["cagr_median"]:.1f}%</div><div class="k">Median CAGR · DAA vs 60/40</div></div>'
+          f'<div class="kpi"><div class="v">{d["terminal_p5"]:.2f}×<span class="ar">vs</span>{b6["terminal_p5"]:.2f}×</div><div class="k">Bad-case (p5) growth of $1</div></div>'
+          f'<div class="kpi"><div class="v">{neg(d["maxdd_median"], 1, "%")}<span class="ar">vs</span>{neg(b6["maxdd_median"], 1, "%")}</div><div class="k">Median worst drawdown</div></div>'
+          f'<div class="kpi"><div class="v">{d["prob_loss"]:.1f}%<span class="ar">vs</span>{b6["prob_loss"]:.1f}%</div><div class="k">Paths that lose money</div></div>')
+    snap = {'n_paths': prm['n_paths'], 'horizon_years': prm['horizon_years'], 'block_months': prm['block_months'],
+            'history_window': prm['history_window'], 'daa': {k: d[k] for k in ('cagr_median', 'terminal_p5', 'maxdd_median', 'prob_loss')},
+            '6040': {k: b6[k] for k in ('cagr_median', 'terminal_p5', 'maxdd_median', 'prob_loss')}}
+    keys = {'mc.paths': f'{prm["n_paths"]:,}', 'mc.years': str(prm['horizon_years']), 'mc.block': str(prm['block_months']),
+            'mc.window': prm['history_window'].replace(' — ', '–')}
+    return {'mcfan': ''.join(o), 'mckpis': kp}, keys, snap
 
 
 def apply(html, blocks, keys):
@@ -505,13 +560,14 @@ def main():
         with open(SNAP, encoding='utf-8') as f:
             prev = json.load(f)
     try:
-        nav, mrs, meta, rates = load(a.src)
-        validate(nav, mrs, meta, rates, prev)
+        nav, mrs, meta, rates, books = load(a.src)
+        validate(nav, mrs, meta, rates, books, prev)
         b1, k1, s1 = fund_block(nav)
         b2, k2, s2 = mrs_block(mrs, meta)
         b3, k3, s3 = cvx_block(rates)
-        blocks = {**b1, **b2, **b3, **live_block(s1, s2)}
-        keys = {**k1, **k2, **k3}
+        b4, k4, s4 = mc_block(books)
+        blocks = {**b1, **b2, **b3, **b4}
+        keys = {**k1, **k2, **k3, **k4}
         latest = max(s1['asof'], s2['through'], s3['curve_asof'])
         keys['site.asof'] = d_long(latest)
         with open(PAGE, encoding='utf-8') as f:
@@ -520,7 +576,7 @@ def main():
     except (FeedError, KeyError, ValueError, OSError) as e:
         print(f'refresh refused: {e}', file=sys.stderr)
         sys.exit(1)
-    snap = {'built': date.today().isoformat(), 'sources': URLS, 'nav': s1, 'mrs': s2, 'convexity': s3}
+    snap = {'built': date.today().isoformat(), 'sources': URLS, 'nav': s1, 'mrs': s2, 'convexity': s3, 'monte_carlo': s4}
     print(f"funds  through {s1['asof']}  ({s1['days']} trading days)  " +
           '  '.join(f"{f} {v:.2f}" for f, v in s1['nav'].items()))
     print(f"MRS    through {s2['through']}  {s2['regime']} {s2['composite']:+.4f}z  "

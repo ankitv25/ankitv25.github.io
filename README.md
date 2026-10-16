@@ -1,18 +1,19 @@
 # ankitv25.github.io
 
-Personal site — one page, `index.html`, built from the approved design in `reference.html`.
-Content lives in the `TICKER` and `PROJECTS` arrays in the page script; markup renders from them.
-`old-index.html` is the previous page, kept until the new one is signed off.
+Personal site — one page, `index.html`: the full section structure (funds, Convexity Lab, MRS, DAA,
+foundation, experience) in the dark design language of `reference.html`. `Verma_Ankit_Resume.pdf` is
+linked from the masthead, hero and contact card and is deployed with the page. `old-index.html` is the
+previous light version, kept until the new one is signed off.
 
 ## Figures are generated, not typed
 
-The live figures — the five fund NAVs and returns in the ticker, and the current Macro Regime Score
-reading and regime tag — are written by `scripts/refresh_data.py` into the `<!--gen:live-->` JSON block
-from the public dashboards:
+Every live number on the page — fund NAVs and returns, the NAV chart and its hover data, holdings,
+the Macro Regime Score chart and statistics, the convexity chart and the ten-year Monte Carlo fan — is
+written by `scripts/refresh_data.py` from the public dashboards:
 
 | Dashboard | Feed |
 |---|---|
-| Asset-Allocation | `https://ankitv25.github.io/Asset-Allocation/data/live_nav.js` |
+| Asset-Allocation | `https://ankitv25.github.io/Asset-Allocation/data/live_nav.js`, `portfolio_books.json` (Monte Carlo) |
 | Macro-Regime-Score | `https://ankitv25.github.io/Macro-Regime-Score/data/composite_history.json`, `metadata.json` |
 | Convexity-Lab-RM | `https://ankitv25.github.io/Convexity-Lab-RM/data/lab/rates.json` |
 

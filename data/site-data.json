@@ -4,7 +4,8 @@
   "live_nav.js": "https://ankitv25.github.io/Asset-Allocation/data/live_nav.js",
   "composite_history.json": "https://ankitv25.github.io/Macro-Regime-Score/data/composite_history.json",
   "metadata.json": "https://ankitv25.github.io/Macro-Regime-Score/data/metadata.json",
-  "rates.json": "https://ankitv25.github.io/Convexity-Lab-RM/data/lab/rates.json"
+  "rates.json": "https://ankitv25.github.io/Convexity-Lab-RM/data/lab/rates.json",
+  "portfolio_books.json": "https://ankitv25.github.io/Asset-Allocation/data/portfolio_books.json"
  },
  "nav": {
   "asof": "2026-10-16",
@@ -48,6 +49,24 @@
    "-50": 0.0871,
    "50": 0.0875,
    "100": 0.3409
+  }
+ },
+ "monte_carlo": {
+  "n_paths": 4000,
+  "horizon_years": 10,
+  "block_months": 12,
+  "history_window": "1997-06 \u2014 2026-08",
+  "daa": {
+   "cagr_median": 8.31,
+   "terminal_p5": 1.415,
+   "maxdd_median": -13.14,
+   "prob_loss": 0.1
+  },
+  "6040": {
+   "cagr_median": 7.21,
+   "terminal_p5": 1.119,
+   "maxdd_median": -16.98,
+   "prob_loss": 2.8
   }
  }
 }
