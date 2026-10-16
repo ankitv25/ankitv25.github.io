@@ -1,0 +1,52 @@
+name: Weekly data refresh
+
+# Pulls the latest figures from the three public dashboards and regenerates every data-driven
+# part of index.html (scripts/refresh_data.py — stdlib only, nothing to install):
+#   Asset-Allocation   data/live_nav.js            five-fund NAV, references, policy books
+#   Macro-Regime-Score data/composite_history.json monthly composite and regime
+#   Convexity-Lab-RM   data/lab/rates.json         dated Treasury curve
+#
+# Monday 13:00 UTC (09:00 New York in summer, 08:00 in winter): after the Asset-Allocation
+# refresh (Mon/Wed/Fri 11:00 UTC) has priced Friday's close, so each week lands complete.
+# The script refuses to write if a feed is malformed or goes backwards, so the job fails
+# loudly instead of publishing a broken page.
+#
+# Commits made with GITHUB_TOKEN do not fire `push` events, so deploy-pages.yml listens for
+# this workflow's completion instead (the same fix the MRS repo uses).
+
+on:
+  schedule:
+    - cron: '0 13 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Refresh figures from the dashboards
+        run: python scripts/refresh_data.py
+      - name: Commit if anything changed
+        run: |
+          if git diff --quiet -- index.html data/site-data.json; then
+            echo "Figures already current — nothing to commit."
+            exit 0
+          fi
+          git config user.name "site-refresh[bot]"
+          git config user.email "site-refresh@users.noreply.github.com"
+          git add index.html data/site-data.json
+          git commit -m "Weekly data refresh: $(python -c "import json;d=json.load(open('data/site-data.json'));print('funds', d['nav']['asof'], '· MRS', d['mrs']['through'][:7], '· curve', d['convexity']['curve_asof'])")"
+          git push origin HEAD:main

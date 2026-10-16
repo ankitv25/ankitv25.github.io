@@ -1,0 +1,53 @@
+{
+ "built": "2026-10-16",
+ "sources": {
+  "live_nav.js": "https://ankitv25.github.io/Asset-Allocation/data/live_nav.js",
+  "composite_history.json": "https://ankitv25.github.io/Macro-Regime-Score/data/composite_history.json",
+  "metadata.json": "https://ankitv25.github.io/Macro-Regime-Score/data/metadata.json",
+  "rates.json": "https://ankitv25.github.io/Convexity-Lab-RM/data/lab/rates.json"
+ },
+ "nav": {
+  "asof": "2026-10-01",
+  "days": 56,
+  "nav": {
+   "Certain": 99.3781,
+   "Endowment": 98.6271,
+   "SAA": 100.0638,
+   "DAA": 100.4926,
+   "Alpha": 101.3964
+  },
+  "since_launch_pct": {
+   "Certain": -0.6219,
+   "Endowment": -1.3729,
+   "SAA": 0.0638,
+   "DAA": 0.4926,
+   "Alpha": 1.3964
+  }
+ },
+ "mrs": {
+  "through": "2026-08-31",
+  "months": 279,
+  "composite": 0.1673,
+  "regime": "Neutral",
+  "months_in_regime": 43,
+  "transitions": 20,
+  "freq_pct": {
+   "Expansion": 24.1,
+   "Neutral": 62.2,
+   "Slowdown": 8.3,
+   "Contraction": 5.4
+  },
+  "generated_at": "2026-10-16 18:15"
+ },
+ "convexity": {
+  "curve_asof": "2026-10-02",
+  "price": 90.0896,
+  "duration": 8.0792,
+  "gain": {
+   "-100": 0.3581,
+   "-50": 0.0871,
+   "50": 0.0875,
+   "100": 0.3409
+  }
+ }
+}

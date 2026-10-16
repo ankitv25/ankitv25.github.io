@@ -1,0 +1,58 @@
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Refresh commits use GITHUB_TOKEN, which deliberately raises no `push` event; deploy when the
+  # refresh workflow completes instead. Deploying is idempotent, so this runs every time.
+  workflow_run:
+    workflows: ["Weekly data refresh"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      # Pin to main: on workflow_run the default ref is the commit the refresh STARTED from,
+      # i.e. before its data commit.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Show what is being deployed
+        run: |
+          git log -1 --format='deploying %h %s (%ai)'
+          cat data/site-data.json | head -c 600; echo
+      - name: Stage the site
+        run: |
+          mkdir _site
+          cp -R index.html assets data _site/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - uses: actions/deploy-pages@v4
+        id: deployment
+      # A green run is not proof the live site changed: compare the live snapshot with main.
+      - name: Verify the live site serves this commit's data
+        run: |
+          want=$(sha256sum data/site-data.json | cut -d' ' -f1)
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            got=$(curl -fsSL "https://ankitv25.github.io/data/site-data.json?v=$GITHUB_RUN_ID-$i" | sha256sum | cut -d' ' -f1)
+            [ "$got" = "$want" ] && { echo "live site matches main"; exit 0; }
+            sleep 15
+          done
+          echo "::error::live data/site-data.json does not match main after deploy"; exit 1
