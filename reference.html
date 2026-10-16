@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AV · Risk &amp; Portfolio Research</title>
+<meta name="description" content="Quantitative risk and portfolio construction. IIT Kanpur · Georgetown MSF.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   DESIGN TOKENS — do not change without reason
+   ========================================================= */
+:root{
+  --bg:#070B14;            /* page base: deep navy, never pure black */
+  --bg-2:#0B1220;
+  --panel:rgba(16,24,40,.62);
+  --panel-solid:#0F1729;
+  --panel-hi:rgba(22,33,56,.75);
+  --line:rgba(148,163,184,.12);
+  --line-hi:rgba(201,164,92,.35);
+  --text:#E6E9EF;          /* off-white, never #fff */
+  --text-2:#B4BCCB;
+  --muted:#7C879B;
+  --gold:#C9A45C;          /* primary accent */
+  --gold-soft:rgba(201,164,92,.14);
+  --teal:#4FB3A5;          /* secondary accent: "up" */
+  --teal-soft:rgba(79,179,165,.14);
+  --red:#D9706B;           /* "down" — use sparingly */
+  --radius:14px;
+  --radius-sm:9px;
+  --max:1200px;
+  --gutter:clamp(16px,4vw,32px);
+  --sans:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --shadow:0 1px 0 rgba(255,255,255,.03) inset,0 20px 40px -24px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:96px}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* =========================================================
+   BACKGROUND LAYERS
+   1. radial glows   2. animated market canvas   3. vignette
+   ========================================================= */
+.bg-glow{
+  position:fixed;inset:0;z-index:-3;pointer-events:none;
+  background:
+    radial-gradient(900px 600px at 8% -10%, rgba(201,164,92,.10), transparent 60%),
+    radial-gradient(800px 600px at 100% 30%, rgba(79,179,165,.08), transparent 60%),
+    radial-gradient(1000px 700px at 50% 120%, rgba(56,92,160,.12), transparent 60%),
+    linear-gradient(180deg,#070B14 0%,#08101D 50%,#070B14 100%);
+}
+#market{position:fixed;inset:0;z-index:-2;pointer-events:none;width:100%;height:100%}
+.bg-vignette{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse at center, transparent 40%, rgba(4,7,13,.65) 100%);
+}
+
+/* =========================================================
+   TICKER + NAV
+   ========================================================= */
+.ticker{
+  position:fixed;top:0;left:0;right:0;z-index:50;height:30px;
+  background:rgba(7,11,20,.85);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);overflow:hidden;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--muted);
+}
+.ticker-track{display:flex;gap:44px;white-space:nowrap;height:100%;align-items:center;
+  animation:tick 60s linear infinite;width:max-content;padding-left:24px}
+.ticker-track span b{color:var(--text-2);font-weight:500}
+.up{color:var(--teal)} .gold{color:var(--gold)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+nav{
+  position:fixed;top:30px;left:0;right:0;z-index:49;
+  background:rgba(7,11,20,.6);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{max-width:var(--max);margin:0 auto;padding:0 var(--gutter);height:58px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px}
+.mark{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.02em}
+.mark i{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;
+  font-style:normal;font-family:var(--mono);font-size:13px;color:var(--bg);
+  background:linear-gradient(135deg,var(--gold),#E6C887)}
+.nav-links{display:flex;gap:4px}
+.nav-links a{font-size:13.5px;color:var(--text-2);padding:7px 12px;border-radius:8px;transition:.2s}
+.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;
+  padding:9px 16px;border-radius:9px;border:1px solid var(--line);transition:.2s;white-space:nowrap}
+.btn:hover{border-color:var(--line-hi);background:var(--gold-soft)}
+.btn-gold{background:var(--gold);color:#0A0F1A;border-color:var(--gold)}
+.btn-gold:hover{background:#D9B76F;border-color:#D9B76F}
+.btn svg{width:15px;height:15px}
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+main{padding-top:88px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+section{padding:72px 0}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:28px;flex-wrap:wrap}
+.kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:10px}
+.kicker::before{content:"";width:18px;height:1px;background:var(--gold)}
+h2{font-size:clamp(26px,3.2vw,36px);font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-top:8px}
+.sec-sub{color:var(--muted);font-size:14.5px;max-width:460px}
+
+.panel{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  backdrop-filter:blur(10px);box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.panel.hover{transition:transform .25s ease,border-color .25s ease,background .25s}
+.panel.hover:hover{transform:translateY(-3px);border-color:var(--line-hi);background:var(--panel-hi)}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero{padding:56px 0 40px}
+.hero-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:28px;align-items:stretch}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:12px 0}
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--text-2);
+  border:1px solid var(--line);border-radius:999px;padding:6px 12px;width:max-content;background:rgba(79,179,165,.06)}
+.status i{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 0 rgba(79,179,165,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(79,179,165,0)}100%{box-shadow:0 0 0 0 rgba(79,179,165,0)}}
+h1{font-size:clamp(40px,6vw,68px);font-weight:800;letter-spacing:-.035em;line-height:1.02;margin:20px 0 16px}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--gold),#E9D29E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:clamp(16px,1.6vw,18.5px);color:var(--text-2);max-width:560px}
+.lede b{color:var(--text);font-weight:600}
+.edu-badges{display:flex;gap:12px;margin:26px 0;flex-wrap:wrap}
+.edu{display:flex;align-items:center;gap:12px;padding:10px 14px 10px 10px;border-radius:12px;
+  border:1px solid var(--line);background:rgba(15,23,41,.7)}
+.edu .crest{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;font-family:var(--mono);
+  font-size:12px;font-weight:600;border:1px solid var(--line-hi);color:var(--gold);background:var(--gold-soft)}
+.edu strong{display:block;font-size:14px;font-weight:600;line-height:1.25}
+.edu span{font-size:12px;color:var(--muted);font-family:var(--mono)}
+.cta-row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* Terminal DES card */
+.term{display:flex;flex-direction:column}
+.term-top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:12px;color:var(--muted);background:rgba(7,11,20,.5)}
+.term-top b{color:var(--gold);font-weight:600}
+.dots{display:flex;gap:6px}.dots i{width:9px;height:9px;border-radius:50%;background:#1E293B}
+.term-body{padding:6px 16px 4px;font-family:var(--mono);font-size:13px}
+.row{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.row:last-child{border-bottom:0}
+.row dt{color:var(--muted);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;padding-top:1px}
+.row dd{color:var(--text)}
+.row dd .tag{margin:0 4px 4px 0}
+.term-chart{margin-top:auto;padding:10px 16px 14px;border-top:1px solid var(--line)}
+.term-chart-head{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:6px}
+
+.tag{display:inline-block;font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:6px;
+  border:1px solid var(--line);color:var(--text-2);background:rgba(255,255,255,.02)}
+.tag.g{color:var(--gold);border-color:rgba(201,164,92,.3);background:var(--gold-soft)}
+.tag.t{color:var(--teal);border-color:rgba(79,179,165,.3);background:var(--teal-soft)}
+
+/* KPI strip */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+.kpi{padding:18px 18px 16px}
+.kpi .v{font-family:var(--mono);font-size:clamp(24px,2.6vw,30px);font-weight:600;letter-spacing:-.02em}
+.kpi .l{font-size:12.5px;color:var(--muted);margin-top:2px}
+.kpi .d{position:absolute;top:14px;right:14px;font-family:var(--mono);font-size:11px}
+.kpi::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;
+  background:linear-gradient(90deg,var(--gold),transparent 70%);opacity:.5}
+
+/* =========================================================
+   FEATURED — BENTO
+   ========================================================= */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(180px,auto);gap:16px}
+.b-xl{grid-column:span 7;grid-row:span 2}
+.b-md{grid-column:span 5}
+.card{padding:22px;display:flex;flex-direction:column;gap:12px}
+.card-top{display:flex;justify-content:space-between;align-items:start;gap:12px}
+.card h3{font-size:19px;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+.card .xl-title{font-size:clamp(22px,2.4vw,28px)}
+.card p{color:var(--text-2);font-size:14.5px}
+.card .meta{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.card .tags{display:flex;flex-wrap:wrap;gap:6px}
+.card .links{display:flex;gap:8px;margin-top:auto;padding-top:6px}
+.card .links .btn{padding:7px 12px;font-size:12.5px}
+.viz{border:1px solid var(--line);border-radius:var(--radius-sm);background:rgba(7,11,20,.55);padding:14px;position:relative}
+.viz svg{display:block;width:100%;height:auto}
+
+/* pillar diagram */
+.pillars{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.pillar{border:1px solid var(--line);border-radius:8px;padding:10px 8px;text-align:center;background:rgba(15,23,41,.8);
+  font-size:11.5px;line-height:1.3;color:var(--text-2);min-height:70px;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.pillar b{font-family:var(--mono);font-size:10.5px;color:var(--gold);font-weight:600;letter-spacing:.06em}
+.flow{display:flex;justify-content:space-around;padding:6px 0;color:var(--muted)}
+.thesis{border:1px solid var(--line-hi);border-radius:8px;padding:11px;text-align:center;
+  background:linear-gradient(90deg,rgba(201,164,92,.12),rgba(201,164,92,.04));font-size:13px;font-weight:600}
+.thesis span{display:block;font-family:var(--mono);font-size:10.5px;color:var(--muted);font-weight:400;margin-top:2px}
+
+/* MRS weights */
+.wbar{display:flex;height:30px;border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+.wbar div{display:grid;place-items:center;font-family:var(--mono);font-size:10.5px;color:#0A0F1A;font-weight:600}
+.wlegend{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:4px 12px;margin-top:10px;font-size:11.5px;color:var(--text-2)}
+.wlegend span{display:flex;align-items:center;gap:6px}.wlegend i{width:8px;height:8px;border-radius:2px}
+.regimes{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.regimes .tag.on{color:var(--teal);border-color:rgba(79,179,165,.45);background:var(--teal-soft)}
+
+/* =========================================================
+   ALL PROJECTS
+   ========================================================= */
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:12px;padding:7px 13px;border-radius:999px;border:1px solid var(--line);
+  color:var(--text-2);background:transparent;cursor:pointer;transition:.2s}
+.chip:hover{border-color:var(--line-hi);color:var(--text)}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#0A0F1A;font-weight:600}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pcard{padding:18px;display:flex;flex-direction:column;gap:10px;min-height:220px}
+.pcard .spark{height:44px;margin:-2px 0 2px}
+.pcard h4{font-size:16px;font-weight:650;line-height:1.3}
+.pcard p{font-size:13.5px;color:var(--text-2);flex:1}
+.pcard .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:10px;border-top:1px solid var(--line)}
+.pcard .foot a{font-family:var(--mono);font-size:12px;color:var(--text-2);display:inline-flex;align-items:center;gap:6px}
+.pcard .foot a:hover{color:var(--gold)}
+.pcard.hide{display:none}
+@media (min-width:1025px){.grid3 .pcard:last-child:nth-child(3n+1){grid-column:1/-1;min-height:0}}
+
+/* =========================================================
+   EXPERIENCE TIMELINE
+   ========================================================= */
+.exp-grid{display:grid;grid-template-columns:320px 1fr;gap:20px}
+.exp-side{padding:22px;display:flex;flex-direction:column;gap:16px;align-self:start;position:sticky;top:110px}
+.route{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:13px}
+.route .line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold),var(--teal));position:relative}
+.route .line::after{content:"";position:absolute;right:-1px;top:-3px;border:4px solid transparent;border-left-color:var(--teal)}
+.cov{display:flex;flex-wrap:wrap;gap:6px}
+.timeline{display:flex;flex-direction:column;gap:16px}
+.job{padding:22px 22px 22px 26px}
+.job::before{content:"";position:absolute;left:0;top:22px;bottom:22px;width:2px;border-radius:2px;background:linear-gradient(var(--gold),transparent)}
+.job-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.job h3{font-size:18px;font-weight:700}
+.job .org{color:var(--gold);font-weight:600;font-size:14px}
+.job .when{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right}
+.job ul{list-style:none;display:grid;gap:8px}
+.job li{font-size:14.5px;color:var(--text-2);padding-left:18px;position:relative}
+.job li::before{content:"▸";position:absolute;left:0;color:var(--gold);font-size:12px;top:2px}
+
+/* =========================================================
+   EDUCATION
+   ========================================================= */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.educard{padding:24px;display:grid;grid-template-columns:64px 1fr;gap:18px;align-items:start}
+.educard .crest{width:64px;height:64px;border-radius:14px;display:grid;place-items:center;font-family:var(--mono);font-weight:600;
+  color:var(--gold);border:1px solid var(--line-hi);background:var(--gold-soft);font-size:15px}
+.educard h3{font-size:18px;font-weight:700}
+.educard .deg{color:var(--text-2);font-size:14.5px;margin:2px 0 12px}
+.educard .facts{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.educard .facts b{display:block;color:var(--text);font-size:16px;font-weight:600}
+
+/* =========================================================
+   CONTACT — ORDER TICKET
+   ========================================================= */
+.ticket{display:grid;grid-template-columns:1.2fr 1fr;gap:0}
+.ticket-l{padding:32px;border-right:1px dashed var(--line)}
+.ticket-l h2{margin-top:10px}
+.ticket-l p{color:var(--text-2);margin-top:12px;max-width:440px}
+.ticket-r{padding:24px 28px;display:flex;flex-direction:column;gap:10px;justify-content:center;background:rgba(7,11,20,.4)}
+.tline{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border:1px solid var(--line);
+  border-radius:10px;font-family:var(--mono);font-size:13px;transition:.2s}
+.tline:hover{border-color:var(--line-hi);background:var(--gold-soft)}
+.tline span{color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+
+footer{border-top:1px solid var(--line);padding:24px 0 40px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width:1024px){
+  .hero-grid{grid-template-columns:1fr}
+  .b-xl,.b-md{grid-column:span 12;grid-row:auto}
+  .grid3{grid-template-columns:repeat(2,1fr)}
+  .exp-grid{grid-template-columns:1fr}
+  .exp-side{position:static}
+  .nav-links{display:none}
+}
+@media (max-width:640px){
+  section{padding:52px 0}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .grid3,.grid2{grid-template-columns:1fr}
+  .pillars{grid-template-columns:repeat(2,1fr)}
+  .ticket{grid-template-columns:1fr}
+  .ticket-l{border-right:0;border-bottom:1px dashed var(--line);padding:24px}
+  .row{grid-template-columns:96px 1fr}
+  .educard{grid-template-columns:1fr}
+  .nav-in .btn:not(.btn-gold){display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .ticker-track{animation:none}
+  .rv{opacity:1;transform:none;transition:none}
+  .status i{animation:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<canvas id="market" aria-hidden="true"></canvas>
+<div class="bg-vignette"></div>
+
+<!-- TICKER: only facts that are true; edit freely -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<nav>
+  <div class="nav-in">
+    <a href="#top" class="mark"><i>AV</i><span>AV</span></a>
+    <div class="nav-links">
+      <a href="#featured">Highlights</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div style="display:flex;gap:8px">
+      <a class="btn" href="TODO_GITHUB_URL" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn-gold" href="TODO_RESUME.pdf" target="_blank" rel="noopener">Resume
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-left rv">
+        <div class="status"><i></i>Open to buy-side roles · 2027</div>
+        <h1>TODO Full Name<br><em>Risk → Portfolio.</em></h1>
+        <p class="lede">Six years building and validating <b>institutional credit-risk models</b> for major US banks. Now building a <b>multi-asset portfolio construction platform</b> — macro regimes, strategic &amp; tactical allocation, and equity research.</p>
+        <div class="edu-badges">
+          <div class="edu"><div class="crest">IITK</div><div><strong>IIT Kanpur</strong><span>Engineering · TODO year</span></div></div>
+          <div class="edu"><div class="crest">GU</div><div><strong>Georgetown University</strong><span>MS Finance · 2027 · GPA 3.9</span></div></div>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-gold" href="#featured">View the platform
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-6-6l6 6-6 6"/></svg></a>
+          <a class="btn" href="TODO_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn" href="mailto:TODO_EMAIL">Email</a>
+        </div>
+      </div>
+
+      <!-- Bloomberg-style DES card -->
+      <div class="panel term rv">
+        <div class="term-top"><div class="dots"><i></i><i></i><i></i></div><span><b>AV</b> &lt;CANDIDATE&gt; DES</span><span>NY</span></div>
+        <dl class="term-body">
+          <div class="row"><dt>Current</dt><dd>Senior Consultant, Risk Strategy &amp; Modelling — EXL</dd></div>
+          <div class="row"><dt>Coverage</dt><dd><span class="tag g">CCAR</span><span class="tag g">CECL</span><span class="tag g">IFRS-9</span><span class="tag">PD Models</span><span class="tag">Stress Testing</span></dd></div>
+          <div class="row"><dt>Track</dt><dd>~6 yrs · India → US · major financial institutions</dd></div>
+          <div class="row"><dt>Building</dt><dd>Multi-asset IM platform · 7 research repos</dd></div>
+          <div class="row"><dt>Target</dt><dd>Buy-side IM · Equity Research · Risk</dd></div>
+          <div class="row"><dt>Location</dt><dd>Jersey City / New York</dd></div>
+        </dl>
+        <div class="term-chart">
+          <div class="term-chart-head"><span>CAREER CURVE</span><span class="up">▲ compounding</span></div>
+          <svg id="heroSpark" viewBox="0 0 400 70" preserveAspectRatio="none" style="width:100%;height:70px"></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="panel kpi rv"><span class="d up">▲</span><div class="v">~6<span style="font-size:.55em;color:var(--muted)"> yrs</span></div><div class="l">Institutional quant risk</div></div>
+      <div class="panel kpi rv"><span class="d gold">MSF</span><div class="v">3.90</div><div class="l">Georgetown GPA, while working full-time</div></div>
+      <div class="panel kpi rv"><span class="d up">MC</span><div class="v">10,000</div><div class="l">Bootstrap paths per allocation run</div></div>
+      <div class="panel kpi rv"><span class="d gold">R&amp;D</span><div class="v">7</div><div class="l">Public research repositories</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURED (BENTO) ================= -->
+<section id="featured">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><div class="kicker">Highlights</div><h2>Investment Management Platform</h2></div>
+      <p class="sec-sub">~1.5 years of sustained build. Five research pillars integrated through a single portfolio thesis layer.</p>
+    </div>
+
+    <div class="bento">
+      <!-- XL: platform architecture -->
+      <article class="panel hover card b-xl rv">
+        <div class="card-top"><div><div class="meta">Flagship · Architecture</div><h3 class="xl-title">From macro regime to portfolio weights</h3></div><span class="tag t">Live</span></div>
+        <p>An end-to-end research stack: regime identification feeds strategic and tactical allocation, event-driven risk research stress-tests positions, and sector/equity research supplies the bottom-up view — all reconciled in one thesis layer.</p>
+        <div class="viz">
+          <div class="pillars">
+            <div class="pillar"><b>01</b>Macro Regime</div>
+            <div class="pillar"><b>02</b>Strategic Allocation</div>
+            <div class="pillar"><b>03</b>Tactical Allocation</div>
+            <div class="pillar"><b>04</b>Event-Driven Risk</div>
+            <div class="pillar"><b>05</b>Sector &amp; Equity</div>
+          </div>
+          <div class="flow mono">↓ ↓ ↓ ↓ ↓</div>
+          <div class="thesis">Portfolio Thesis Layer<span>construction · translation · attribution</span></div>
+        </div>
+        <div class="viz" style="flex:1;display:flex;flex-direction:column">
+          <div class="term-chart-head"><span>PORTFOLIO PATHS · BLOCK BOOTSTRAP (ILLUSTRATIVE)</span><span class="gold">p5 · p50 · p95</span></div>
+          <svg id="fan" viewBox="0 0 600 180" preserveAspectRatio="none" style="flex:1;min-height:150px;height:100%"></svg>
+        </div>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Black-Litterman</span><span class="tag">Monte Carlo</span><span class="tag">Regime Scoring</span></div>
+        <div class="links"><a class="btn btn-gold" href="TODO">Live dashboard ↗</a><a class="btn" href="TODO">Code</a></div>
+      </article>
+
+      <!-- SAA -->
+      <article class="panel hover card b-md rv">
+        <div class="card-top"><div><div class="meta">Strategic Asset Allocation</div><h3>Black-Litterman + block-bootstrap MC</h3></div></div>
+        <div class="viz">
+          <svg viewBox="0 0 300 120" aria-label="Efficient frontier">
+            <defs><linearGradient id="fz" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#C9A45C" stop-opacity=".25"/><stop offset="1" stop-color="#C9A45C" stop-opacity="0"/></linearGradient></defs>
+            <g stroke="rgba(148,163,184,.12)"><line x1="20" y1="100" x2="290" y2="100"/><line x1="20" y1="10" x2="20" y2="100"/></g>
+            <g id="cloud"></g>
+            <path d="M28,92 C60,50 110,28 180,20 S270,14 290,13 L290,100 L28,100 Z" fill="url(#fz)"/>
+            <path d="M28,92 C60,50 110,28 180,20 S270,14 290,13" fill="none" stroke="#C9A45C" stroke-width="2"/>
+            <circle cx="118" cy="32" r="5" fill="#0A0F1A" stroke="#4FB3A5" stroke-width="2"/>
+            <text x="126" y="48" fill="#7C879B" font-family="JetBrains Mono" font-size="9">max-Sharpe</text>
+            <text x="270" y="112" fill="#7C879B" font-family="JetBrains Mono" font-size="8">σ</text>
+            <text x="6" y="16" fill="#7C879B" font-family="JetBrains Mono" font-size="8">μ</text>
+          </svg>
+        </div>
+        <p>10,000-path bootstrap with attribution isolating strategic vs. dynamic value-add.</p>
+        <div class="links"><a class="btn btn-gold" href="TODO">Dashboard ↗</a><a class="btn" href="TODO">Code</a></div>
+      </article>
+
+      <!-- MRS -->
+      <article class="panel hover card b-md rv">
+        <div class="card-top"><div><div class="meta">Macro Regime Score · v2.1</div><h3>Five-pillar regime classifier</h3></div></div>
+        <div class="viz">
+          <div class="wbar">
+            <div style="flex:30;background:#C9A45C">30</div>
+            <div style="flex:20;background:#4FB3A5">20</div>
+            <div style="flex:20;background:#6C8EC9">20</div>
+            <div style="flex:15;background:#A8B3C7">15</div>
+            <div style="flex:15;background:#8C7AB8">15</div>
+          </div>
+          <div class="wlegend">
+            <span><i style="background:#C9A45C"></i>Growth</span><span><i style="background:#4FB3A5"></i>Credit</span>
+            <span><i style="background:#6C8EC9"></i>Market Stress</span><span><i style="background:#A8B3C7"></i>Inflation</span>
+            <span><i style="background:#8C7AB8"></i>Liquidity / Rates</span>
+          </div>
+          <div class="regimes"><span class="tag on">Expansion</span><span class="tag">Neutral</span><span class="tag">Slowdown</span><span class="tag">Contraction</span></div>
+        </div>
+        <div class="links"><a class="btn btn-gold" href="TODO">Dashboard ↗</a><a class="btn" href="TODO">Code</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ALL PROJECTS ================= -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><div class="kicker">Research Library</div><h2>All projects</h2></div>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="grid3" id="pgrid"></div>
+  </div>
+</section>
+
+<!-- ================= EXPERIENCE ================= -->
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head rv"><div><div class="kicker">Professional Experience</div><h2>Six years inside bank risk</h2></div></div>
+    <div class="exp-grid">
+      <aside class="panel exp-side rv">
+        <div class="meta mono" style="font-size:11px;color:var(--muted);letter-spacing:.08em">ONE FIRM · TWO MARKETS</div>
+        <div class="route"><span>India</span><span class="line"></span><span>United States</span></div>
+        <div class="meta mono" style="font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:6px">COVERAGE</div>
+        <div class="cov"><span class="tag g">CCAR</span><span class="tag g">CECL</span><span class="tag g">IFRS-9 Validation</span><span class="tag">PD Model Development</span><span class="tag">Stress Testing</span><span class="tag">Collections Strategy</span><span class="tag">Risk Reporting</span></div>
+      </aside>
+      <div class="timeline">
+        <article class="panel job rv">
+          <div class="job-head"><div><h3>Senior Consultant, Risk Strategy &amp; Modelling</h3><div class="org">EXL · United States</div></div><div class="when">TODO – Present<br>Jersey City, NJ</div></div>
+          <ul>
+            <li>TODO: impact bullet with a real metric (from resume).</li>
+            <li>TODO: impact bullet with a real metric (from resume).</li>
+            <li>TODO: impact bullet with a real metric (from resume).</li>
+          </ul>
+        </article>
+        <article class="panel job rv">
+          <div class="job-head"><div><h3>TODO Title</h3><div class="org">EXL · India</div></div><div class="when">TODO – TODO<br>TODO city</div></div>
+          <ul>
+            <li>TODO: impact bullet with a real metric (from resume).</li>
+            <li>TODO: impact bullet with a real metric (from resume).</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EDUCATION ================= -->
+<section id="education">
+  <div class="wrap">
+    <div class="sec-head rv"><div><div class="kicker">Education</div><h2>Engineering rigor, finance depth</h2></div></div>
+    <div class="grid2">
+      <article class="panel hover educard rv">
+        <div class="crest">GU</div>
+        <div><h3>Georgetown University</h3><div class="deg">Master of Science in Finance</div>
+          <div class="facts"><div><b>3.9</b>GPA</div><div><b>2027</b>Expected</div><div><b>Full-time</b>Working alongside</div></div></div>
+      </article>
+      <article class="panel hover educard rv">
+        <div class="crest">IITK</div>
+        <div><h3>Indian Institute of Technology Kanpur</h3><div class="deg">TODO degree · Engineering</div>
+          <div class="facts"><div><b>TODO</b>Graduated</div><div><b>TODO</b>Honors / rank</div></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="wrap">
+    <div class="panel ticket rv">
+      <div class="ticket-l">
+        <div class="kicker">Get in touch</div>
+        <h2>Let's talk portfolios, risk, or research.</h2>
+        <p>Targeting buy-side investment management, equity research, and risk roles for 2027. Based in the New York area.</p>
+      </div>
+      <div class="ticket-r">
+        <a class="tline" href="mailto:TODO_EMAIL"><span>Email</span>TODO_EMAIL ↗</a>
+        <a class="tline" href="TODO_LINKEDIN_URL" target="_blank" rel="noopener"><span>LinkedIn</span>/in/TODO ↗</a>
+        <a class="tline" href="TODO_GITHUB_URL" target="_blank" rel="noopener"><span>GitHub</span>@TODO ↗</a>
+        <a class="tline" href="TODO_RESUME.pdf" target="_blank" rel="noopener"><span>Resume</span>Download PDF ↓</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap"><span>© 2026 AV</span><span>Built for GitHub Pages · no tracking</span></div></footer>
+
+<script>
+/* =========================================================
+   CONTENT DATA — edit here, markup renders from it
+   ========================================================= */
+const TICKER = [
+  ['IITK','ENGG','up','▲'],['GEORGETOWN MSF','GPA 3.90','up','▲'],['EXL','SR CONSULTANT','gold','●'],
+  ['COVERAGE','CCAR · CECL · IFRS-9','gold','●'],['MRS','v2.1','up','▲'],['SAA','BL + MC 10K','up','▲'],
+  ['TRACK','~6 YRS','up','▲'],['TARGET','BUY-SIDE IM 2027','gold','●']
+];
+
+const CATEGORIES = ['All','Macro','Allocation','Risk','Equity','Portfolio'];
+
+const PROJECTS = [
+  {title:'Macro Regime Score (MRS)', cat:'Macro', desc:'Five-pillar regime scoring — growth, credit, market stress, inflation, liquidity/rates — classifying expansion through contraction.', tags:['Regimes','Scoring'], dash:'TODO', code:'TODO'},
+  {title:'Strategic Asset Allocation', cat:'Allocation', desc:'Black-Litterman optimisation with block-bootstrap Monte Carlo (10,000 paths) for long-horizon policy weights.', tags:['Black-Litterman','Monte Carlo'], dash:'TODO', code:'TODO'},
+  {title:'Dynamic / Tactical Allocation', cat:'Allocation', desc:'Regime-conditioned tilts around the strategic portfolio, with attribution separating tactical from strategic value-add.', tags:['Tactical','Attribution'], dash:'TODO', code:'TODO'},
+  {title:'Event-Driven Risk Research', cat:'Risk', desc:'Scenario and event studies that stress portfolio positions against historical and hypothetical shocks.', tags:['Scenarios','Stress'], dash:'TODO', code:'TODO'},
+  {title:'GICS Sector Research', cat:'Equity', desc:'Sector-level research across GICS sectors feeding relative-value views into the allocation layer.', tags:['GICS','Sectors'], dash:'TODO', code:'TODO'},
+  {title:'Equity Research', cat:'Equity', desc:'Bottom-up company research and valuation supporting sector and portfolio theses.', tags:['Valuation','Fundamentals'], dash:'TODO', code:'TODO'},
+  {title:'Portfolio Construction Layer', cat:'Portfolio', desc:'Translates regime, allocation and research views into a single investable portfolio thesis.', tags:['Construction','Thesis'], dash:'TODO', code:'TODO'},
+];
+
+/* ---------- ticker ---------- */
+(function(){
+  const t=document.getElementById('ticker');
+  const html=TICKER.map(([k,v,c,s])=>`<span>${k} <b>${v}</b> <span class="${c}">${s}</span></span>`).join('');
+  t.innerHTML=html+html; // duplicated for seamless loop
+})();
+
+/* ---------- seeded random walk for sparklines ---------- */
+function rng(seed){return()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646}}
+function walk(n,seed,drift=.15,vol=1){const r=rng(seed);let v=0;const a=[];for(let i=0;i<n;i++){v+=drift+(r()-.5)*2*vol;a.push(v)}return a}
+function sparkPath(arr,w,h,pad=4){const mn=Math.min(...arr),mx=Math.max(...arr);
+  return arr.map((y,i)=>`${i?'L':'M'}${(i/(arr.length-1)*w).toFixed(1)},${(h-pad-(y-mn)/(mx-mn||1)*(h-2*pad)).toFixed(1)}`).join(' ')}
+
+/* ---------- hero sparkline ---------- */
+(function(){
+  const s=document.getElementById('heroSpark');const d=sparkPath(walk(80,7,.35,1.1),400,70);
+  s.innerHTML=`<defs><linearGradient id="hs" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4FB3A5" stop-opacity=".28"/><stop offset="1" stop-color="#4FB3A5" stop-opacity="0"/></linearGradient></defs>
+  <path d="${d} L400,70 L0,70 Z" fill="url(#hs)"/><path d="${d}" fill="none" stroke="#4FB3A5" stroke-width="1.8"/>`;
+})();
+
+/* ---------- frontier scatter cloud ---------- */
+(function(){
+  const g=document.getElementById('cloud');const r=rng(42);let h='';
+  for(let i=0;i<70;i++){const x=40+r()*240;const top=92-62*Math.sqrt((x-28)/262);const y=top+8+r()*(100-top-10);
+    h+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.6" fill="rgba(180,188,203,.28)"/>`}
+  g.innerHTML=h;
+})();
+
+/* ---------- Monte Carlo fan chart ---------- */
+(function(){
+  const s=document.getElementById('fan'),W=600,H=180,N=60,P=40,r=rng(99);let h='';
+  const paths=[];for(let k=0;k<P;k++){let v=0;const a=[0];for(let i=1;i<N;i++){v+=.12+(r()-.5)*1.6;a.push(v)}paths.push(a)}
+  const all=paths.flat(),mn=Math.min(...all),mx=Math.max(...all);
+  const X=i=>i/(N-1)*W,Y=v=>H-8-(v-mn)/(mx-mn)*(H-16);
+  const q=(i,p)=>{const c=paths.map(a=>a[i]).sort((a,b)=>a-b);return c[Math.floor(p*(c.length-1))]};
+  let band='M'+[...Array(N).keys()].map(i=>`${X(i)},${Y(q(i,.95))}`).join(' L')+' L'+[...Array(N).keys()].reverse().map(i=>`${X(i)},${Y(q(i,.05))}`).join(' L')+'Z';
+  h+=`<path d="${band}" fill="rgba(201,164,92,.10)"/>`;
+  paths.forEach(a=>h+=`<path d="M${a.map((v,i)=>`${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' L')}" fill="none" stroke="rgba(180,188,203,.10)" stroke-width="1"/>`);
+  [[.05,'#D9706B'],[.5,'#C9A45C'],[.95,'#4FB3A5']].forEach(([p,c])=>h+=`<path d="M${[...Array(N).keys()].map(i=>`${X(i).toFixed(1)},${Y(q(i,p)).toFixed(1)}`).join(' L')}" fill="none" stroke="${c}" stroke-width="1.8"/>`);
+  s.innerHTML=h;
+})();
+
+/* ---------- projects grid + filter ---------- */
+(function(){
+  const chips=document.getElementById('chips'),grid=document.getElementById('pgrid');
+  chips.innerHTML=CATEGORIES.map((c,i)=>`<button class="chip${i?'':' on'}" data-c="${c}">${c}</button>`).join('');
+  grid.innerHTML=PROJECTS.map((p,i)=>{
+    const d=sparkPath(walk(40,i*97+13,.2,1),300,44);const up=i%3!==1;
+    const col=up?'#4FB3A5':'#C9A45C';
+    return `<article class="panel hover pcard rv" data-c="${p.cat}">
+      <div class="card-top"><span class="tag ${up?'t':'g'}">${p.cat}</span><span class="mono" style="font-size:11px;color:var(--muted)">R-${String(i+1).padStart(2,'0')}</span></div>
+      <svg class="spark" viewBox="0 0 300 44" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="${col}" stroke-width="1.6" opacity=".9"/></svg>
+      <h4>${p.title}</h4><p>${p.desc}</p>
+      <div class="tags" style="display:flex;gap:6px;flex-wrap:wrap">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      <div class="foot"><a href="${p.dash}" target="_blank" rel="noopener">Dashboard ↗</a><a href="${p.code}" target="_blank" rel="noopener">Code ↗</a></div>
+    </article>`}).join('');
+  chips.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
+    chips.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b));
+    grid.querySelectorAll('.pcard').forEach(c=>c.classList.toggle('hide',b.dataset.c!=='All'&&c.dataset.c!==b.dataset.c));
+  });
+})();
+
+/* ---------- reveal on scroll ---------- */
+(function(){
+  const els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return}
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.08});
+  els.forEach(e=>io.observe(e));
+})();
+
+/* =========================================================
+   BACKGROUND: live "market" canvas
+   faint chart-paper grid + drifting price lines + candles
+   ========================================================= */
+(function(){
+  const cv=document.getElementById('market'),ctx=cv.getContext('2d');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,dpr,series,candles,off=0;
+  const STEP=6;
+  function gen(){
+    const n=Math.ceil(W/STEP)+60;
+    series=[
+      {c:'rgba(201,164,92,.10)',w:1.4,y:H*.32,a:walk(n,3,.0,2.2)},
+      {c:'rgba(79,179,165,.08)',w:1.2,y:H*.55,a:walk(n,11,.0,1.8)},
+      {c:'rgba(108,142,201,.07)',w:1.0,y:H*.75,a:walk(n,29,.0,1.5)},
+    ];
+    const r=rng(5);let p=0;candles=[];
+    for(let i=0;i<Math.ceil(W/14)+30;i++){const o=p;p+=(r()-.5)*14;const hi=Math.max(o,p)+r()*8,lo=Math.min(o,p)-r()*8;candles.push({o,c:p,hi,lo})}
+  }
+  function size(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);gen()}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // grid
+    ctx.strokeStyle='rgba(148,163,184,.035)';ctx.lineWidth=1;ctx.beginPath();
+    for(let x=(-off*.3)%48;x<W;x+=48){ctx.moveTo(x,0);ctx.lineTo(x,H)}
+    for(let y=0;y<H;y+=48){ctx.moveTo(0,y);ctx.lineTo(W,y)}
+    ctx.stroke();
+    // price lines
+    series.forEach(s=>{ctx.strokeStyle=s.c;ctx.lineWidth=s.w;ctx.beginPath();
+      const sh=(off/STEP)|0, fr=(off%STEP);
+      for(let i=0;i<Math.ceil(W/STEP)+2;i++){const v=s.a[(i+sh)%s.a.length];const x=i*STEP-fr;const y=s.y-v*6;i?ctx.lineTo(x,y):ctx.moveTo(x,y)}
+      ctx.stroke()});
+    // candles along lower band
+    const base=H*.9,cw=14,sh=(off*.5/cw)|0,fr=(off*.5)%cw;
+    for(let i=0;i<Math.ceil(W/cw)+2;i++){const k=candles[(i+sh)%candles.length];const x=i*cw-fr;const up=k.c>=k.o;
+      ctx.strokeStyle=ctx.fillStyle=up?'rgba(79,179,165,.07)':'rgba(217,112,107,.06)';
+      ctx.beginPath();ctx.moveTo(x+cw/2,base-k.hi);ctx.lineTo(x+cw/2,base-k.lo);ctx.stroke();
+      const t=base-Math.max(k.o,k.c),b=Math.abs(k.c-k.o)||1;ctx.fillRect(x+3,t,cw-6,b)}
+  }
+  function loop(){off+=.25;draw();requestAnimationFrame(loop)}
+  addEventListener('resize',()=>{size();draw()});
+  size();draw();if(!reduce)requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

@@ -461,12 +461,31 @@ def cvx_block(rates):
 
 
 # ---------------------------------------------------------------- page rewrite
+def live_block(s1, s2):
+    """Compact figures for the ticker and the MRS regime tag, as JSON the page script reads."""
+    funds = sorted(s1['nav'], key=lambda f: -s1['since_launch_pct'][f])
+    live = {'asof': s1['asof'], 'asof_label': d_long(s1['asof']),
+            'funds': [{'name': f, 'nav': f"{s1['nav'][f]:.2f}", 'chg': f"{sgn(s1['since_launch_pct'][f])}%",
+                       'up': s1['since_launch_pct'][f] >= 0} for f in funds],
+            'mrs': {'month': m_short(s2['through']), 'regime': s2['regime'], 'z': f"{sgn(s2['composite'])}z"}}
+    body = json.dumps(live, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
+    return {'live': f'<script type="application/json" id="liveData">{body}</script>'}
+
+
 def apply(html, blocks, keys):
+    """Rewrite every generated block the page carries; blocks the page does not use are skipped."""
+    used = 0
     for name, content in blocks.items():
         pat = re.compile(r'(<!--gen:' + re.escape(name) + r'-->)(.*?)(<!--/gen:' + re.escape(name) + r'-->)', re.S)
         if not pat.search(html):
-            raise FeedError(f'index.html has no <!--gen:{name}--> block')
+            continue
+        used += 1
         html = pat.sub(lambda m: m.group(1) + content + m.group(3), html)
+    if not used:
+        raise FeedError('index.html carries no <!--gen:...--> block to refresh')
+    unknown = set(re.findall(r'<!--gen:([\w-]+)-->', html)) - set(blocks)
+    if unknown:
+        raise FeedError('index.html has gen blocks the script does not produce: ' + ', '.join(sorted(unknown)))
     for k, v in keys.items():
         pat = re.compile(r'(<(\w+)\b[^>]*\bdata-k="' + re.escape(k) + r'"[^>]*>)(.*?)(</\2>)', re.S)
         html, n = pat.subn(lambda m: m.group(1) + v + m.group(4), html)
@@ -491,7 +510,7 @@ def main():
         b1, k1, s1 = fund_block(nav)
         b2, k2, s2 = mrs_block(mrs, meta)
         b3, k3, s3 = cvx_block(rates)
-        blocks = {**b1, **b2, **b3}
+        blocks = {**b1, **b2, **b3, **live_block(s1, s2)}
         keys = {**k1, **k2, **k3}
         latest = max(s1['asof'], s2['through'], s3['curve_asof'])
         keys['site.asof'] = d_long(latest)
