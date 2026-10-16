@@ -299,7 +299,7 @@ def mrs_block(rows, meta):
          + '; '.join(f'it falls to {neg(e["composite"])} in {m_long(e["date"])}' for _, e in named)
          + (' — the only excursions into the Contraction band.' if named else '.') + '">']
     edges = [zt, 0.35, -0.30, -1.00, zb]
-    fills = ['rgba(47,111,159,.10)', 'rgba(138,143,153,.10)', 'rgba(214,138,19,.12)', 'rgba(177,58,46,.11)']
+    fills = ['rgba(79,134,198,.07)', 'rgba(161,161,166,.07)', 'rgba(210,154,60,.09)', 'rgba(192,57,43,.07)']
     for (t, b_), fc in zip(zip(edges, edges[1:]), fills):
         o.append(f'<rect x="0" y="{Y(t):.1f}" width="{W}" height="{Y(b_) - Y(t):.1f}" fill="{fc}"></rect>')
     for t in (0.35, -0.30):
