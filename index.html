@@ -11,7 +11,7 @@
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
 /* ------------------------------------------------------------------ tokens
    Institutional dark: the asset-manager voice (serif display, quiet spaced-cap labels, fact-sheet
@@ -26,8 +26,8 @@
   --navy-3:#C9D1DE;
   --display:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
   --r:14px;
   --shadow:0 1px 0 rgba(255,255,255,.03) inset,0 20px 40px -24px rgba(0,0,0,.6);
   --shadow-lg:0 1px 0 rgba(255,255,255,.04) inset,0 30px 60px -30px rgba(0,0,0,.75);
@@ -66,7 +66,7 @@ section{scroll-margin-top:72px}
 .badge,.cv-top,.tape-k,.fl-k,.fl-cl,.sec-k,.card-head .k,.board-h,th,.band .cap,.insight .tag,.st-n,.lab-intro .k,.tile-k,.sub-h,.spec dt,.tline span{
   font-family:var(--sans)!important;font-weight:600;letter-spacing:.13em}
 .when,.fl-go,.tline,.roles span,.awards span,.st-m span,.tags span,.toolchips span{font-family:var(--sans)!important}
-.serif,.hero h1,.sec-head h2,.ticket-l h2,.fl h3{font-family:var(--serif);font-weight:400!important;letter-spacing:-.005em!important}
+.serif,.hero h1,.sec-head h2,.ticket-l h2,.fl h3{font-family:var(--serif);font-weight:500!important;letter-spacing:-.018em!important;font-optical-sizing:auto}
 
 /* panels: one surface for every card-like element */
 .cv,.tape-in,.fl,.card,.kpi,.st,.tile,.insight{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
@@ -78,7 +78,7 @@ section{scroll-margin-top:72px}
 .mast{position:sticky;top:0;z-index:80;background:rgba(7,11,20,.72);border-bottom:1px solid var(--line);
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
 .mast-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);height:60px;display:flex;align-items:center;gap:20px}
-.mast-name{font-family:var(--serif);font-size:1.32rem;font-weight:400;letter-spacing:0;color:var(--ink);margin-right:auto;display:flex;align-items:center;gap:11px}
+.mast-name{font-family:var(--serif);font-size:1.22rem;font-weight:500;letter-spacing:0;color:var(--ink);margin-right:auto;display:flex;align-items:center;gap:11px}
 .mast-name i{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;font-style:normal;font-family:var(--serif);
   font-size:15px;color:var(--acc);border:1px solid var(--line-hi);background:var(--acc-soft)}
 .mast-nav{display:flex;gap:2px}
@@ -115,8 +115,8 @@ section{scroll-margin-top:72px}
 .badge b::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--up)}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(79,179,165,.6)}70%{box-shadow:0 0 0 8px rgba(79,179,165,0)}100%{box-shadow:0 0 0 0 rgba(79,179,165,0)}}
 @media (prefers-reduced-motion:reduce){.badge b::before{animation:none}}
-.hero h1{font-size:clamp(3.2rem,7.4vw,5.6rem);line-height:.98;margin:22px 0 16px;color:var(--ink)}
-.hero h1 em{display:block;font-style:italic;font-size:.56em;line-height:1.1;margin-top:12px;color:#D9BD82}
+.hero h1{font-size:clamp(3rem,6.6vw,5rem);line-height:1;margin:22px 0 16px;color:var(--ink)}
+.hero h1 em{display:block;font-style:italic;font-weight:400;font-size:.5em;line-height:1.15;margin-top:14px;letter-spacing:-.01em;color:#D9BD82}
 .hero .sub{font-size:clamp(1.02rem,1.5vw,1.14rem);line-height:1.6;color:var(--ink-2);margin:0;max-width:60ch}
 .hero .sub b{color:var(--ink);font-weight:600}
 .roles{display:flex;flex-wrap:wrap;gap:6px;margin:20px 0 0}
@@ -1344,23 +1344,91 @@ summary .ev{margin-left:10px;margin-right:auto}
 })();
 </script>
 <script>
-/* Background: faint chart-paper grid and three slow, smooth curves drifting across it. Decorative, aria-hidden. */
+/* Background: a faint field of market motifs, one per asset theme — a Treasury curve, an efficient frontier,
+   an allocation ring, a volatility surface, a correlation grid and a return distribution with its VaR tail.
+   Low opacity, slow motion, gentle parallax on scroll. Decorative only (aria-hidden); static if reduced motion. */
 (function(){
   var cv=document.getElementById('market');if(!cv||!cv.getContext)return;var ctx=cv.getContext('2d');
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,W,H,series,off=0,STEP=6;
-  function rng(seed){return function(){seed=(seed*16807)%2147483647;return(seed-1)/2147483646}}
-  function walk(n,seed,vol){var r=rng(seed),p=[r()*6,r()*6,r()*6],a=[];for(var i=0;i<n;i++){a.push(vol*(2.2*Math.sin(i/41+p[0])+1.3*Math.sin(i/17+p[1])+.6*Math.sin(i/9+p[2])))}return a}
-  function gen(){var n=Math.ceil(W/STEP)+60;series=[
-    {c:'rgba(201,164,92,.09)',w:1.3,y:H*.32,a:walk(n,3,2.2)},
-    {c:'rgba(79,179,165,.08)',w:1.2,y:H*.55,a:walk(n,11,1.8)},
-    {c:'rgba(108,142,201,.07)',w:1.0,y:H*.75,a:walk(n,29,1.5)}]}
-  function size(){var d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);gen()}
-  function draw(){ctx.clearRect(0,0,W,H);ctx.strokeStyle='rgba(148,163,184,.03)';ctx.lineWidth=1;ctx.beginPath();
-    for(var x=(-off*.3)%48;x<W;x+=48){ctx.moveTo(x,0);ctx.lineTo(x,H)}for(var y=0;y<H;y+=48){ctx.moveTo(0,y);ctx.lineTo(W,y)}ctx.stroke();
-    series.forEach(function(s){ctx.strokeStyle=s.c;ctx.lineWidth=s.w;ctx.beginPath();var sh=(off/STEP)|0,fr=off%STEP;
-      for(var i=0;i<Math.ceil(W/STEP)+2;i++){var v=s.a[(i+sh)%s.a.length],px=i*STEP-fr,py=s.y-v*6;i?ctx.lineTo(px,py):ctx.moveTo(px,py)}ctx.stroke()})}
-  function loop(){off+=.12;draw();requestAnimationFrame(loop)}
-  addEventListener('resize',function(){size();draw()});size();draw();if(!reduce)requestAnimationFrame(loop);
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,W,H,sy=scrollY,t0=performance.now();
+  var GOLD='201,164,92',TEAL='79,179,165',SLATE='148,163,184',BLUE='120,150,210',RED='217,112,107';
+  function col(c,a){return 'rgba('+c+','+Math.min(1,a*1.3).toFixed(3)+')'}
+  function line(pts,c,a,w,dash){ctx.beginPath();pts.forEach(function(p,i){i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])});
+    ctx.strokeStyle=col(c,a);ctx.lineWidth=w||1;ctx.setLineDash(dash||[]);ctx.stroke();ctx.setLineDash([])}
+  function dot(x,y,r,c,a){ctx.beginPath();ctx.arc(x,y,r,0,6.2832);ctx.fillStyle=col(c,a);ctx.fill()}
+  function label(s,x,y,c,a,al){ctx.font='500 10px "IBM Plex Mono",ui-monospace,monospace';ctx.fillStyle=col(c,a);ctx.textAlign=al||'left';ctx.fillText(s,x,y)}
+
+  /* Treasury par curve, Nelson-Siegel shape whose slope and hump breathe slowly */
+  function curve(cx,cy,s,t){
+    var ten=[.25,1,2,3,5,7,10,20,30],lab={2:'2Y',5:'5Y',10:'10Y',30:'30Y'},l=1.8;
+    var b1=-.9+.45*Math.sin(t*.11),b2=.9*Math.sin(t*.07+1);
+    function y(T){var u=T/l,f=(1-Math.exp(-u))/u;return 4.2+b1*f+b2*(f-Math.exp(-u))}
+    var x0=cx-s/2,y0=cy+s*.22,X=function(T){return x0+s*Math.sqrt(T/30)},Y=function(v){return y0-(v-2.6)*s*.16};
+    line([[x0,y0],[x0+s,y0]],SLATE,.10);
+    var pts=ten.map(function(T){return [X(T),Y(y(T))]});
+    line(ten.map(function(T){return [X(T),Y(y(T)-.35)]}),SLATE,.08,1,[3,4]);
+    line(pts,GOLD,.16,1.4);
+    pts.forEach(function(p,i){dot(p[0],p[1],2,GOLD,.22);if(lab[ten[i]])label(lab[ten[i]],p[0],y0+14,SLATE,.16,'center')});
+  }
+  /* efficient frontier: a cloud of portfolios under the hull, the tangency point and the capital market line */
+  function frontier(cx,cy,s,t){
+    var x0=cx-s/2,y0=cy+s*.3,F=function(v){return Math.sqrt(Math.max(0,v-.08))};
+    line([[x0,y0-s*.62],[x0,y0],[x0+s,y0]],SLATE,.10);
+    var hull=[];for(var i=0;i<=40;i++){var v=.08+i/40*.92;hull.push([x0+v*s,y0-F(v)*s*.58])}
+    line(hull,TEAL,.16,1.4);
+    for(var k=0;k<34;k++){var v2=.18+((k*37)%100)/100*.8,dep=.08+((k*53)%100)/100*.32,
+      jx=Math.sin(t*.3+k)*2,jy=Math.cos(t*.27+k*1.7)*2;
+      dot(x0+v2*s+jx,y0-(F(v2)-dep)*s*.58+jy,1.5,SLATE,.18)}
+    var tv=.32,tx=x0+tv*s,ty=y0-F(tv)*s*.58,rf=y0-s*.12;
+    line([[x0,rf],[tx+(tx-x0)*1.3,ty+(ty-rf)*1.3]],GOLD,.12,1,[4,4]);
+    dot(tx,ty,3.2,GOLD,.30);label('max Sharpe',tx+8,ty-6,GOLD,.18);label('σ',x0+s,y0+14,SLATE,.16,'right');label('μ',x0-6,y0-s*.62,SLATE,.16,'right');
+  }
+  /* strategic allocation ring, turning slowly */
+  function ring(cx,cy,r,t){
+    var w=[.35,.22,.18,.13,.12],c=[GOLD,TEAL,BLUE,SLATE,RED],a=t*.03;
+    w.forEach(function(f,i){ctx.beginPath();ctx.arc(cx,cy,r,a+.04,a+f*6.2832-.04);ctx.strokeStyle=col(c[i],.16);ctx.lineWidth=r*.16;ctx.stroke();a+=f*6.2832});
+    ctx.beginPath();ctx.arc(cx,cy,r*.62,0,6.2832);ctx.strokeStyle=col(SLATE,.08);ctx.lineWidth=1;ctx.stroke();
+    label('SAA',cx,cy+4,GOLD,.18,'center');
+  }
+  /* implied-volatility surface: a smile across strikes that flattens with maturity, undulating */
+  function surface(cx,cy,s,t){
+    var nI=12,nJ=8,P=function(i,j){var k=i/(nI-1)-.5,m=j/(nJ-1),z=.22+.9*k*k*(1-.6*m)+.04*Math.sin(t*.35+j*.6+i*.3);
+      return [cx-s/2+i*s/(nI-1)*.82+m*s*.18,cy+s*.2-m*s*.32-z*s*.42]};
+    for(var j=0;j<nJ;j++){var r=[];for(var i=0;i<nI;i++)r.push(P(i,j));line(r,BLUE,.10+.05*(1-j/nJ),1)}
+    for(var i2=0;i2<nI;i2+=2){var c2=[];for(var j2=0;j2<nJ;j2++)c2.push(P(i2,j2));line(c2,SLATE,.07,1)}
+    label('implied vol',cx+s/2,cy+s*.26,SLATE,.14,'right');
+  }
+  /* correlation grid across six sleeves, values drifting */
+  function heat(cx,cy,s,t){
+    var n=6,c=s/n,x0=cx-s/2,y0=cy-s/2;
+    for(var i=0;i<n;i++)for(var j=0;j<n;j++){var v=i===j?1:Math.cos((i+1)*(j+1)*.9+t*.05*(i-j));
+      ctx.fillStyle=i===j?col(GOLD,.14):(v>0?col(TEAL,.03+.10*v):col(RED,.03-.09*v));ctx.fillRect(x0+i*c+1.5,y0+j*c+1.5,c-3,c-3)}
+    label('ρ',x0-8,y0+10,SLATE,.18,'right');
+  }
+  /* return distribution with the 5% tail shaded and the VaR line */
+  function bell(cx,cy,s,t){
+    var x0=cx-s/2,y0=cy+s*.18,sk=.12*Math.sin(t*.1),pts=[],tail=[[x0,y0]],q=-1.645;
+    for(var i=0;i<=60;i++){var z=-3.5+i/60*7,p=Math.exp(-z*z/2)*(1+sk*z),x=x0+(z+3.5)/7*s,y=y0-p*s*.34;pts.push([x,y]);if(z<=q)tail.push([x,y])}
+    var xq=x0+(q+3.5)/7*s;tail.push([xq,y0]);
+    ctx.beginPath();tail.forEach(function(p,i){i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])});ctx.closePath();ctx.fillStyle=col(RED,.10);ctx.fill();
+    line([[x0,y0],[x0+s,y0]],SLATE,.10);line(pts,TEAL,.16,1.4);
+    line([[xq,y0],[xq,y0-s*.22]],RED,.20,1,[3,3]);label('VaR 95%',xq-6,y0-s*.24,RED,.20,'right');
+  }
+  var DRAW={curve:curve,frontier:frontier,ring:ring,surface:surface,heat:heat,bell:bell};
+  /* positions over a loop two screens tall: x as a share of width, y as a share of height */
+  var M=[{k:'curve',x:.84,y:.20,s:300},{k:'frontier',x:.13,y:.58,s:250},{k:'ring',x:.90,y:.86,s:58},
+         {k:'surface',x:.16,y:1.16,s:300},{k:'heat',x:.87,y:1.36,s:140},{k:'bell',x:.15,y:1.70,s:280}];
+  function size(){var d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0)}
+  function draw(now){
+    var t=reduce?0:(now-t0)/1000,sc=W<700?.62:(W<1100?.82:1),L=2*H;
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='rgba(148,163,184,.028)';ctx.lineWidth=1;ctx.beginPath();
+    for(var x=0;x<W;x+=48){ctx.moveTo(x,0);ctx.lineTo(x,H)}for(var y=(-(sy*.15)%48);y<H;y+=48){ctx.moveTo(0,y);ctx.lineTo(W,y)}ctx.stroke();
+    M.forEach(function(m){var yy=((m.y*H-sy*.22+H*.25)%L+L)%L-H*.25;if(yy<-H*.4||yy>H*1.4)return;DRAW[m.k](m.x*W,yy,m.s*sc,t+m.x*9)});
+  }
+  function loop(now){draw(now);requestAnimationFrame(loop)}
+  addEventListener('resize',function(){size();draw(performance.now())});
+  addEventListener('scroll',function(){sy=scrollY;if(reduce)draw(0)},{passive:true});
+  size();draw(performance.now());if(!reduce)requestAnimationFrame(loop);
 })();
 </script>
 </body>
