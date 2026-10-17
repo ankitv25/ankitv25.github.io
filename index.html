@@ -4,654 +4,521 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ankit Verma — Multi-Asset Portfolio Construction &amp; Asset Allocation</title>
-<meta name="description" content="Ankit Verma — Georgetown McDonough MS Finance, IIT Kanpur. Five multi-asset funds live since July 2026, Convexity Lab for fixed income, derivatives and portfolio risk, and a macro regime model.">
+<meta name="description" content="Ankit Verma — Georgetown McDonough MS Finance, IIT Kanpur, 5+ years of institutional credit-risk modelling at EXL. Five multi-asset funds live since July 2026, Convexity Lab, and a macro regime model.">
 <meta property="og:title" content="Ankit Verma — Multi-Asset Portfolio Construction &amp; Asset Allocation">
 <meta property="og:description" content="Five live multi-asset funds, a fixed-income, derivatives and portfolio-risk workstation, and a macro regime model.">
-<meta name="theme-color" content="#070B14">
+<meta name="theme-color" content="#050608">
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700&display=swap">
 <style>
-/* ------------------------------------------------------------------ tokens
-   Institutional dark: the asset-manager voice (serif display, quiet spaced-cap labels, fact-sheet
-   language) over a markets core (live figures in mono, teal/red for moves). Navy ground, gold accent. */
+/* =====================================================================
+   Design system — cinematic dark, in the idiom of Apple's Pro pages and
+   Netflix's browse rows. One type family (SF / Inter), one gold accent,
+   real data as the imagery, spotlight glows instead of texture.
+   ===================================================================== */
 :root{
-  --bg:#070B14; --surface:rgba(16,24,40,.62); --surface-2:rgba(7,11,20,.55); --surface-3:rgba(148,163,184,.08);
-  --solid:#0F1729; --panel-hi:rgba(22,33,56,.78);
-  --ink:#E6E9EF; --ink-2:#B4BCCB; --ink-3:#7C879B; --line:rgba(148,163,184,.12); --line-2:rgba(148,163,184,.22);
-  --acc:#C9A45C; --acc-2:#D9B76F; --acc-soft:rgba(201,164,92,.14); --line-hi:rgba(201,164,92,.38);
-  --up:#4FB3A5; --dn:#D9706B;
-  --c1:#4FB3A5; --c2:#C9A45C; --c3:#D9706B; --cn:#7C879B;
-  --navy-3:#C9D1DE;
-  --display:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  --serif:"Newsreader",Georgia,"Times New Roman",serif;
-  --r:14px;
-  --shadow:0 1px 0 rgba(255,255,255,.03) inset,0 20px 40px -24px rgba(0,0,0,.6);
-  --shadow-lg:0 1px 0 rgba(255,255,255,.04) inset,0 30px 60px -30px rgba(0,0,0,.75);
-  --maxw:1200px; --gut:clamp(16px,4vw,32px);
+  --bg:#050608; --bg-2:#090B0F; --panel:#0E1016; --panel-2:#13161D; --panel-3:#1A1E27;
+  --line:rgba(255,255,255,.07); --line-2:rgba(255,255,255,.13);
+  --ink:#F5F5F7; --ink-2:#C7C7CC; --ink-3:#8E8E93; --ink-4:#636366;
+  --gold:#D4B072; --gold-2:#EBD5A4; --gold-soft:rgba(212,176,114,.12);
+  --up:#5BC2B3; --dn:#E8806F;
+  --c1:#5BC2B3; --c2:#D4B072; --c3:#E8806F; --cn:#6E6E73; --navy-3:#C9CED8;
+  --grad:linear-gradient(100deg,#F6E7C1 0%,#D4B072 46%,#B3843B 100%);
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter Tight",Inter,system-ui,sans-serif;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,system-ui,sans-serif;
+  --mono:"SF Mono",ui-monospace,Menlo,"IBM Plex Mono",monospace;
+  --r:28px; --r-sm:18px; --maxw:1180px; --gut:clamp(20px,4vw,40px);
+  --ease:cubic-bezier(.2,.8,.2,1);
 }
-
-/* ------------------------------------------------------------------ base */
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.62;
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:56px}
+body{margin:0;background:var(--bg);color:var(--ink-3);font-family:var(--sans);font-size:17px;line-height:1.5;letter-spacing:-.011em;
   -webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,svg{max-width:100%}
-a{color:var(--acc);text-decoration:none}
+a{color:var(--gold);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:3px}
-a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:4px}
-section{scroll-margin-top:72px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+strong,b{color:var(--ink);font-weight:600}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
-.num,.kpi .v,.q,.fs-v,.hb-v,.brd,.bch,.val,.endval,.spec dd,.gpa,td.num{font-variant-numeric:tabular-nums lining-nums}
-.up{color:var(--up)}.dn{color:var(--dn)}.flat,.muted{color:var(--ink-3)}
+.num,td.num,.kpi .v,.q,.brd,.bch,.hb-v,.spec dd,.gpa,.n{font-variant-numeric:tabular-nums lining-nums}
+.up{color:var(--up)}.dn{color:var(--dn)}.flat,.muted{color:var(--ink-4)}
 
-/* background layers: glow, animated market canvas, vignette */
-.bg-glow{position:fixed;inset:0;z-index:-3;pointer-events:none;
-  background:radial-gradient(900px 600px at 8% -10%,rgba(201,164,92,.10),transparent 60%),
-    radial-gradient(800px 600px at 100% 30%,rgba(79,179,165,.08),transparent 60%),
-    radial-gradient(1000px 700px at 50% 120%,rgba(56,92,160,.12),transparent 60%),
-    linear-gradient(180deg,#070B14 0%,#08101D 50%,#070B14 100%)}
-#market{position:fixed;inset:0;z-index:-2;pointer-events:none;width:100%;height:100%}
-.bg-vignette{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 40%,rgba(4,7,13,.65) 100%)}
-
-.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+/* motion */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .rv.in{opacity:1;transform:none}
-.rv[data-d="1"]{transition-delay:.06s}.rv[data-d="2"]{transition-delay:.12s}
+.rv[data-d="1"]{transition-delay:.08s}.rv[data-d="2"]{transition-delay:.16s}.rv[data-d="3"]{transition-delay:.24s}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
 
-/* labels: one quiet caption style everywhere */
-.badge,.cv-top,.tape-k,.fl-k,.fl-cl,.sec-k,.card-head .k,.board-h,th,.band .cap,.insight .tag,.st-n,.lab-intro .k,.tile-k,.sub-h,.spec dt,.tline span{
-  font-family:var(--sans)!important;font-weight:600;letter-spacing:.13em}
-.when,.fl-go,.tline,.roles span,.awards span,.st-m span,.tags span,.toolchips span{font-family:var(--sans)!important}
-.serif,.hero h1,.sec-head h2,.ticket-l h2,.fl h3{font-family:var(--serif);font-weight:500!important;letter-spacing:-.018em!important;font-optical-sizing:auto}
-
-/* panels: one surface for every card-like element */
-.cv,.tape-in,.fl,.card,.kpi,.st,.tile,.insight{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:var(--shadow)}
-.fl,.st,.tile{transition:transform .25s ease,border-color .25s ease,background .25s}
-.fl:hover,.st:hover,.tile:hover{transform:translateY(-3px);border-color:var(--line-hi);background:var(--panel-hi)}
-
-/* ------------------------------------------------------------------ masthead */
-.mast{position:sticky;top:0;z-index:80;background:rgba(7,11,20,.72);border-bottom:1px solid var(--line);
-  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
-.mast-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);height:60px;display:flex;align-items:center;gap:20px}
-.mast-name{font-family:var(--serif);font-size:1.22rem;font-weight:500;letter-spacing:0;color:var(--ink);margin-right:auto;display:flex;align-items:center;gap:11px}
-.mast-name i{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;font-style:normal;font-family:var(--serif);
-  font-size:15px;color:var(--acc);border:1px solid var(--line-hi);background:var(--acc-soft)}
-.mast-nav{display:flex;gap:2px}
-.mast-nav a{color:var(--ink-2);font-size:.84rem;font-weight:500;padding:7px 11px;border-radius:8px;transition:.2s}
-.mast-nav a:hover{color:var(--ink);background:rgba(255,255,255,.04);text-decoration:none}
-.mast-nav a[aria-current]{color:var(--ink);background:rgba(255,255,255,.06)}
-.mast-cta{display:inline-flex;align-items:center;gap:7px;font-size:.84rem;font-weight:600;color:#0A0F1A;background:var(--acc);
-  padding:8px 14px;border-radius:9px;white-space:nowrap}
-.mast-cta:hover{text-decoration:none;background:var(--acc-2)}
-.mast-cta svg{width:14px;height:14px}
-.prog{position:absolute;left:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--acc),var(--up));width:0}
+/* ---------------------------------------------------------------- global nav */
+.gnav{position:sticky;top:0;z-index:90;background:rgba(5,6,8,.72);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--line)}
+.gnav-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);height:52px;display:flex;align-items:center;gap:24px}
+.brand{font-family:var(--display);font-weight:600;font-size:17px;color:var(--ink);letter-spacing:-.02em;margin-right:auto;white-space:nowrap}
+.brand:hover{text-decoration:none}
+.brand i{font-style:normal;color:var(--gold)}
+.gl-links{display:flex;gap:26px}
+.gl-links a{font-size:12.5px;color:var(--ink-2);letter-spacing:0;transition:color .2s}
+.gl-links a:hover,.gl-links a[aria-current]{color:var(--ink);text-decoration:none}
+.pill{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;padding:6px 14px;border-radius:999px;background:var(--gold);color:#16120A;white-space:nowrap;transition:background .2s}
+.pill:hover{background:var(--gold-2);text-decoration:none}
+.pill svg{width:13px;height:13px}
+.prog{position:absolute;left:0;bottom:-1px;height:1px;background:var(--grad);width:0}
 .menu{display:none;position:relative}
-.menu>summary{list-style:none;cursor:pointer;width:42px;height:42px;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:5px;border:1px solid var(--line-2);border-radius:10px}
+.menu>summary{list-style:none;cursor:pointer;width:38px;height:38px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px}
 .menu>summary::-webkit-details-marker{display:none}
-.menu>summary span{display:block;width:18px;height:1.5px;background:var(--ink-2);transition:.18s}
-.menu[open]>summary span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
-.menu[open]>summary span:nth-child(2){opacity:0}
-.menu[open]>summary span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
-.menu-panel{position:absolute;right:0;top:52px;background:var(--solid);border:1px solid var(--line-2);border-radius:12px;min-width:240px;padding:6px;
-  display:flex;flex-direction:column;box-shadow:var(--shadow-lg)}
-.menu-panel a{padding:11px 14px;font-size:.92rem;color:var(--ink);border-radius:8px}
-.menu-panel a:hover{background:rgba(255,255,255,.05);text-decoration:none}
-@media(max-width:1060px){.mast-nav{display:none}.menu{display:block}}
+.menu>summary span{width:17px;height:1.5px;background:var(--ink-2);transition:.2s}
+.menu[open]>summary span:nth-child(1){transform:translateY(3.25px) rotate(45deg)}
+.menu[open]>summary span:nth-child(2){transform:translateY(-3.25px) rotate(-45deg)}
+.menu-panel{position:absolute;right:-8px;top:46px;min-width:250px;padding:8px;background:rgba(20,22,28,.96);border:1px solid var(--line-2);border-radius:16px;
+  display:flex;flex-direction:column;box-shadow:0 30px 60px -20px rgba(0,0,0,.8);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.menu-panel a{padding:11px 14px;color:var(--ink);font-size:15px;border-radius:10px}
+.menu-panel a:hover{background:rgba(255,255,255,.06);text-decoration:none}
+@media(max-width:1000px){.gl-links{display:none}.menu{display:block}}
 
-/* ------------------------------------------------------------------ hero */
-.hero{padding:64px 0 0}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:48px;align-items:center;padding-bottom:40px}
-@media(max-width:1024px){.hero-grid{grid-template-columns:1fr;gap:32px}}
-.badge{display:inline-flex;align-items:center;gap:10px;font-size:.66rem;text-transform:uppercase;color:var(--ink-2);
-  padding:5px 13px 5px 6px;border:1px solid var(--line);border-radius:999px;background:rgba(79,179,165,.06)}
-.badge b{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--up);background:var(--surface-3);
-  padding:2px 9px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase;font-size:.66rem}
-.badge b::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--up)}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(79,179,165,.6)}70%{box-shadow:0 0 0 8px rgba(79,179,165,0)}100%{box-shadow:0 0 0 0 rgba(79,179,165,0)}}
-@media (prefers-reduced-motion:reduce){.badge b::before{animation:none}}
-.hero h1{font-size:clamp(3rem,6.6vw,5rem);line-height:1;margin:22px 0 16px;color:var(--ink)}
-.hero h1 em{display:block;font-style:italic;font-weight:400;font-size:.5em;line-height:1.15;margin-top:14px;letter-spacing:-.01em;color:#D9BD82}
-.hero .sub{font-size:clamp(1.02rem,1.5vw,1.14rem);line-height:1.6;color:var(--ink-2);margin:0;max-width:60ch}
-.hero .sub b{color:var(--ink);font-weight:600}
-.roles{display:flex;flex-wrap:wrap;gap:6px;margin:20px 0 0}
-.roles span{font-size:.78rem;font-weight:500;color:var(--ink-2);border:1px solid var(--line-2);padding:4px 11px;border-radius:999px}
-.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 17px;font-size:.88rem;font-weight:600;border-radius:9px;
-  border:1px solid var(--line-2);color:var(--ink);background:transparent;transition:.2s;white-space:nowrap}
-.btn:hover{text-decoration:none;border-color:var(--line-hi);background:var(--acc-soft)}
-.btn-a{background:var(--acc);border-color:var(--acc);color:#0A0F1A}
-.btn-a:hover{background:var(--acc-2);border-color:var(--acc-2)}
-.btn svg{width:15px;height:15px}
-.btn .ar{transition:transform .16s}.btn:hover .ar{transform:translateX(3px)}
+/* ---------------------------------------------------------------- hero */
+.hero{position:relative;min-height:calc(100svh - 52px);display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:72px 0 0;isolation:isolate}
+.hero-art{position:absolute;inset:0;z-index:-1;pointer-events:none;
+  -webkit-mask-image:linear-gradient(90deg,#000 0%,rgba(0,0,0,.85) 10%,transparent 31%,transparent 69%,rgba(0,0,0,.85) 90%,#000 100%),linear-gradient(180deg,transparent 4%,#000 24%,#000 66%,transparent 86%);
+  -webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,#000 0%,rgba(0,0,0,.85) 10%,transparent 31%,transparent 69%,rgba(0,0,0,.85) 90%,#000 100%),linear-gradient(180deg,transparent 4%,#000 24%,#000 66%,transparent 86%);mask-composite:intersect}
+.hero-art svg{width:100%;height:100%;display:block}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:
+  radial-gradient(60% 50% at 50% 38%,rgba(212,176,114,.13),transparent 70%),
+  radial-gradient(40% 40% at 85% 70%,rgba(91,194,179,.08),transparent 70%)}
+.hero-in{position:relative;text-align:center;padding-bottom:40px}
+.hero-in::before{content:"";position:absolute;left:50%;top:44%;width:min(1000px,100%);height:110%;transform:translate(-50%,-50%);z-index:-1;pointer-events:none;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(5,6,8,.5),transparent 70%)}
+.eyebrow{font-family:var(--display);font-size:clamp(15px,1.4vw,19px);font-weight:600;color:var(--gold);letter-spacing:-.01em;margin:0 0 14px}
+.hero h1{font-family:var(--display);font-size:clamp(60px,10.5vw,148px);font-weight:700;letter-spacing:-.045em;line-height:.92;color:var(--ink);margin:0}
+.hero .claim{font-family:var(--display);font-size:clamp(28px,4.6vw,64px);font-weight:600;letter-spacing:-.035em;line-height:1.02;margin:10px 0 0;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lede{max-width:46ch;text-wrap:balance;margin:26px auto 0;font-size:clamp(18px,1.7vw,22px);line-height:1.42;color:var(--ink-3);letter-spacing:-.018em}
+.hero .lede b{color:var(--ink)}
+.ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-size:17px;font-weight:500;padding:13px 26px;border-radius:999px;transition:.25s var(--ease);letter-spacing:-.01em}
+.btn:hover{text-decoration:none}
+.btn-p{background:var(--gold);color:#16120A}
+.btn-p:hover{background:var(--gold-2);transform:scale(1.03)}
+.btn-s{color:var(--gold);border:1px solid rgba(212,176,114,.5)}
+.btn-s:hover{background:var(--gold-soft)}
+.btn svg{width:16px;height:16px}
+.trust{display:flex;justify-content:center;align-items:center;gap:clamp(22px,5vw,64px);flex-wrap:wrap;margin:56px 0 0;padding:0}
+.trust li{list-style:none;display:flex;align-items:center;gap:12px;color:var(--ink-3);font-size:13px;line-height:1.3;text-align:left}
+.trust img{display:block;filter:brightness(0) invert(.86);opacity:.9}
+.trust .gu{height:36px;width:auto}.trust .ik{height:40px;width:40px}.trust .ex{height:20px;width:auto;filter:none;opacity:1}
+.trust b{display:block;color:var(--ink);font-weight:600;font-size:14px}
+@media(max-width:700px){.hero-art{display:none}.hero{min-height:0;padding-top:64px}
+  .trust{flex-direction:column;align-items:stretch;gap:16px;max-width:330px;margin:44px auto 0}
+  .trust li{display:grid;grid-template-columns:118px 1fr;align-items:center;gap:14px}
+  .trust .gu{height:28px}.trust .ik{height:34px;width:34px}.trust .ex{height:18px}}
+.ribbon{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(10,12,16,.7);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.ribbon-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);display:grid;grid-template-columns:auto repeat(6,1fr);align-items:stretch}
+.ribbon-k{padding:16px 20px 16px 0;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-4);display:flex;flex-direction:column;justify-content:center;white-space:nowrap}
+.ribbon-k b{color:var(--gold);font-weight:600}
+.q{padding:14px 16px;display:grid;grid-template-columns:auto 1fr;column-gap:8px;align-items:baseline;color:var(--ink);border-left:1px solid var(--line);transition:background .2s}
+.q:hover{background:rgba(255,255,255,.03);text-decoration:none}
+.q i{width:7px;height:7px;border-radius:50%;background:var(--c);align-self:center}
+.q .qn{font-size:12px;font-weight:500;color:var(--ink-3)}
+.q .qp{grid-column:2;font-family:var(--display);font-size:19px;font-weight:600;letter-spacing:-.02em}
+.q .qc{grid-column:2;font-size:12px;font-weight:500}
+@media(max-width:1000px){.ribbon-in{grid-template-columns:repeat(3,1fr)}.ribbon-k{grid-column:1/-1;flex-direction:row;gap:8px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .q{border-left:0;border-bottom:1px solid var(--line);padding:12px 10px}.q:nth-child(3n+3),.q:nth-child(3n+4){border-left:1px solid var(--line)}.q:nth-last-child(-n+3){border-bottom:0}}
 
-/* credential card: school marks are rendered in off-white so they read on navy */
-.cv{padding:0;overflow:hidden;box-shadow:var(--shadow-lg)}
-.cv-top{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-bottom:1px solid var(--line);
-  font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);background:rgba(7,11,20,.5)}
-.cv-top b{color:var(--acc);font-weight:600}
-.inst{padding:18px 22px 20px}
-.inst+.inst{border-top:1px dashed var(--line)}
-.inst-id{display:flex;align-items:center;gap:16px;min-height:52px}
-.mark-gu{display:block;width:230px;height:auto;filter:brightness(0) invert(.92)}
-.mark-seal{display:block;width:54px;height:54px;flex:none;filter:brightness(0) invert(.92)}
-.inst-name{font-size:1.24rem;font-weight:700;letter-spacing:-.015em;line-height:1.15;color:var(--ink)}
-.inst-name small{display:block;font-size:.8rem;font-weight:500;letter-spacing:0;color:var(--ink-3);margin-top:3px}
-.inst-sub{font-size:.86rem;color:var(--ink-2);margin-top:9px;font-weight:500}
-.inst-sub span{color:var(--ink-3);font-weight:400}
-.spec{display:grid;grid-template-columns:1.35fr .8fr 1fr;margin:14px 0 0;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.spec div{padding:10px 13px;min-width:0}
-.spec div+div{border-left:1px solid var(--line)}
-.spec dt{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
-.spec dd{margin:4px 0 0;font-weight:600;font-size:.9rem;color:var(--ink);line-height:1.3}
-.spec .hi{background:var(--acc-soft)}
-.spec .hi dt{color:var(--acc)}
-.spec.wide3{grid-template-columns:.8fr .8fr 1.6fr}
-.gpa{font-family:var(--mono);font-size:1.3rem!important;font-weight:600!important;color:var(--acc)!important;line-height:1.1!important}
-.gpa small{font-size:.66rem;font-weight:500;color:var(--ink-3);margin-left:4px}
-.cv-exp{display:flex;align-items:center;gap:16px;padding:14px 22px 16px;background:rgba(7,11,20,.45);border-top:1px solid var(--line)}
-.cv-exp img{width:50px;height:auto;flex:none}
-.cv-exp b{display:block;font-size:.88rem;font-weight:600;color:var(--ink);line-height:1.35}
-.cv-exp span{display:block;font-size:.78rem;color:var(--ink-3);line-height:1.45}
-@media(max-width:520px){.inst{padding:16px 16px 18px}.cv-exp{padding:14px 16px}.cv-top{padding:11px 16px}.mark-gu{width:196px}
-  .spec,.spec.wide3{grid-template-columns:1fr 1fr!important}.spec div:first-child{grid-column:1/-1;border-bottom:1px solid var(--line)}
-  .spec div:nth-child(2){border-left:0}}
+/* ---------------------------------------------------------------- big numbers */
+.stats{padding:120px 0 40px}
+.stats h2,.ch-head h2,.row-head h2{font-family:var(--display);font-weight:700;letter-spacing:-.04em;color:var(--ink);margin:0;line-height:1.02}
+.stats h2{font-size:clamp(34px,4.4vw,60px);text-align:center;max-width:22ch;margin:0 auto}
+.stats h2 span{color:var(--ink-4)}
+.stat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:72px;border-top:1px solid var(--line)}
+.stat{padding:28px 18px 0 0}
+.stat .n{display:block;font-family:var(--display);font-size:clamp(40px,5vw,68px);font-weight:700;letter-spacing:-.045em;line-height:1;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat .n small{font-size:.42em;letter-spacing:-.02em}
+.stat p{margin:12px 0 0;font-size:15px;line-height:1.4;color:var(--ink-3);max-width:18ch}
+.stat p b{color:var(--ink-2);font-weight:600}
+@media(max-width:900px){.stat-grid{grid-template-columns:repeat(2,1fr);gap:8px 20px}.stat:last-child{grid-column:1/-1}}
 
-/* closing-NAV strip */
-.tape{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
-.tape-in{display:grid;grid-template-columns:auto repeat(6,1fr);overflow:hidden}
-.tape-k{padding:13px 20px;display:flex;flex-direction:column;justify-content:center;line-height:1.55;white-space:nowrap;
-  font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);border-right:1px solid var(--line);background:rgba(7,11,20,.45)}
-.tape-k b{color:var(--acc);font-weight:600}
-.q{padding:12px 15px;display:grid;grid-template-columns:auto 1fr;column-gap:8px;row-gap:1px;align-items:baseline;
-  font-family:var(--mono);color:var(--ink);text-decoration:none;transition:background .15s}
-.q+.q{border-left:1px solid var(--line)}
-.q i{width:8px;height:8px;border-radius:50%;background:var(--c);align-self:center}
-.q .qn{font-family:var(--sans);font-size:.76rem;font-weight:600;color:var(--ink-2)}
-.q .qp{grid-column:2;font-size:1rem;font-weight:600}
-.q .qc{grid-column:2;font-size:.74rem}
-a.q:hover{background:rgba(255,255,255,.03);text-decoration:none}
-@media(max-width:1000px){.tape-in{grid-template-columns:repeat(3,1fr)}
-  .tape-k{grid-column:1/-1;flex-direction:row;gap:10px;padding:10px 15px;border-right:0;border-bottom:1px solid var(--line)}
-  .q{border-bottom:1px solid var(--line)}.q+.q{border-left:0}
-  .q:nth-child(3n+3),.q:nth-child(3n+4){border-left:1px solid var(--line)}
-  .q:nth-last-child(-n+3){border-bottom:0}}
+/* ---------------------------------------------------------------- browse row (posters) */
+.row-sec{padding:80px 0 40px}
+.row-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:22px}
+.row-head h2{font-size:clamp(28px,3.4vw,40px)}
+.row-head p{margin:8px 0 0;font-size:17px}
+.row-nav{display:flex;gap:10px}
+.row-nav button{all:unset;cursor:pointer;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--panel-2);border:1px solid var(--line-2);color:var(--ink);transition:.2s}
+.row-nav button:hover{background:var(--panel-3)}
+.row-nav svg{width:16px;height:16px}
+.rail{display:grid;grid-auto-flow:column;grid-auto-columns:clamp(260px,27vw,330px);gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:10px var(--gut) 34px;margin:0 calc(-1 * var(--gut));scrollbar-width:none;scroll-padding:0 var(--gut)}
+.rail::-webkit-scrollbar{display:none}
+.poster{scroll-snap-align:start;position:relative;display:flex;flex-direction:column;min-height:420px;border-radius:var(--r);overflow:hidden;color:var(--ink);
+  background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .45s}
+.poster:hover{transform:scale(1.035);box-shadow:0 40px 80px -30px rgba(0,0,0,.9),0 0 0 1px rgba(212,176,114,.25);border-color:transparent;text-decoration:none;z-index:2}
+.poster .art{position:relative;height:210px;padding:26px 22px 0;display:flex;align-items:flex-end;
+  background:radial-gradient(90% 80% at 50% 100%,var(--glow,rgba(212,176,114,.18)),transparent 70%)}
+.poster .art svg{width:100%;height:auto;display:block}
+.poster .art .big{font-family:var(--display);font-size:64px;font-weight:700;letter-spacing:-.05em;line-height:.9;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:6px}
+.poster .art .big small{display:block;font-size:14px;letter-spacing:-.01em;-webkit-text-fill-color:var(--ink-3);color:var(--ink-3);font-weight:500;margin-top:10px}
+.poster .body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+.poster .ev{align-self:flex-start}
+.poster h3{font-family:var(--display);font-size:24px;font-weight:700;letter-spacing:-.03em;margin:10px 0 6px;line-height:1.1}
+.poster p{margin:0;font-size:15px;line-height:1.45;color:var(--ink-3);flex:1}
+.poster .go{margin-top:16px;font-size:15px;color:var(--gold);display:flex;align-items:center;gap:6px}
+.poster .go::after{content:"›";font-size:20px;line-height:1;transition:transform .3s var(--ease)}
+.poster:hover .go::after{transform:translateX(4px)}
 
-/* ------------------------------------------------------------------ flagships */
-.flags{padding-top:28px}
-.flags-in{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media(max-width:980px){.flags-in{grid-template-columns:1fr}}
-.fl{display:flex;flex-direction:column;padding:22px 22px 20px;color:var(--ink);position:relative;overflow:hidden}
-.fl::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:linear-gradient(90deg,var(--fc),transparent 70%);opacity:.6}
-.fl:hover{text-decoration:none}
-.fl-k{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
-.fl h3{font-size:1.75rem;margin:6px 0 8px;line-height:1.1}
-.fl p{margin:0;color:var(--ink-2);font-size:.9rem;line-height:1.6;flex:1}
-.fl-c{margin:16px 0 0;padding:12px 12px 8px;background:var(--surface-2);border:1px solid var(--line);border-radius:9px}
-.fl-cl{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
-.fl-c svg{display:block;width:100%;height:auto}
-.fs{display:grid;grid-template-columns:repeat(3,1fr);margin-top:14px}
-.fs div{padding:0 10px 0 0}
-.fs div+div{padding-left:12px;border-left:1px solid var(--line)}
-.fs-v{display:block;font-family:var(--mono);font-size:1.2rem;font-weight:600;line-height:1.1;color:var(--ink)}
-.fs-k{display:block;font-size:.72rem;color:var(--ink-3);margin-top:5px;line-height:1.35}
-.fl-go{margin-top:16px;font-size:.84rem;font-weight:600;color:var(--acc);display:flex;align-items:center;gap:6px}
-.fl-go .ar{transition:transform .16s}.fl:hover .fl-go .ar{transform:translateX(3px)}
-.sp-base{stroke:var(--line-2);stroke-dasharray:2 3}.sp-band{fill:rgba(217,112,107,.10)}.sp-thr{stroke:rgba(217,112,107,.45);stroke-dasharray:2 3}
-.sp-line{stroke:var(--navy-3)}.sp-dot{fill:var(--c3)}.sp-fill{fill:rgba(201,164,92,.10)}.sp-dot2{fill:var(--acc)}
+/* ---------------------------------------------------------------- chapters */
+.chapter{position:relative;padding:150px 0 90px;isolation:isolate;overflow-x:clip}
+.chapter::before{content:"";position:absolute;left:50%;top:0;width:min(1200px,100%);height:700px;transform:translateX(-50%);z-index:-1;pointer-events:none;
+  background:radial-gradient(50% 50% at 50% 40%,var(--spot,rgba(212,176,114,.09)),transparent 70%)}
+.chapter.alt{background:var(--bg-2)}
+.ch-head{text-align:center;max-width:900px;margin:0 auto 56px}
+.ch-head h2{font-size:clamp(40px,5.6vw,76px)}
+.ch-head h2 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ch-head .sub{margin:22px auto 0;max-width:50ch;text-wrap:balance;font-size:clamp(18px,1.7vw,22px);line-height:1.42;letter-spacing:-.018em}
+.ch-head .ev{margin:0 0 18px}
+.stage{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:clamp(20px,3vw,40px);box-shadow:0 60px 120px -60px rgba(0,0,0,.9)}
+.specs{display:grid;grid-template-columns:repeat(4,1fr);margin:56px 0 0;border-top:1px solid var(--line)}
+.specs > div,.specs .kpi{padding:26px 20px 0 0;border:0;background:none;box-shadow:none}
+.specs dt,.specs .kpi .k{order:2;font-size:15px;color:var(--ink-3);margin:10px 0 0;line-height:1.4}
+.specs dd,.specs .kpi .v{margin:0;font-family:var(--display);font-size:clamp(30px,3.4vw,46px);font-weight:700;letter-spacing:-.04em;line-height:1.05;color:var(--ink);white-space:nowrap}
+.specs .kpi{display:flex;flex-direction:column}
+@media(max-width:900px){.specs{grid-template-columns:1fr 1fr;gap:4px 18px}}
+@media(max-width:900px){.chapter{padding:96px 0 60px}.stats{padding:84px 0 20px}.ch-head{margin-bottom:36px}}
+.deep{margin-top:56px;display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.deep>*,.stage,.exp>*{min-width:0}
+.deep-h{display:flex;align-items:center;gap:16px;font-family:var(--display);font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-.02em;margin:24px 0 6px}
+.deep-h::after{content:"";flex:1;height:1px;background:var(--line)}
 
-/* ------------------------------------------------------------------ sections */
-.sec{padding:84px 0}
-.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:end;margin-bottom:30px}
-@media(max-width:900px){.sec{padding:60px 0}.sec-head{grid-template-columns:1fr;gap:14px;margin-bottom:24px}}
-.sec-k{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-bottom:10px}
-.sec-k::before{content:"";width:18px;height:1px;background:var(--acc)}
-.sec-k .n{color:var(--ink-3)}
-.sec-head h2{font-size:clamp(2.1rem,4.2vw,3.1rem);margin:0;line-height:1.05}
-.sec-head .lede{color:var(--ink-3);margin:0;font-size:.98rem;line-height:1.65}
-
-.card{padding:26px}
-.mt,.insight.mt{margin-top:16px}
-@media(max-width:620px){.card{padding:18px}}
-.card-head{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;justify-content:space-between;margin-bottom:6px}
-.card-head h3{font-size:1.22rem;margin:0;font-weight:700;letter-spacing:-.012em;line-height:1.25}
-.card-head .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
-.card-head>div:first-child{flex:1 1 420px;min-width:0}
-.links{display:flex;gap:8px;flex-wrap:wrap}
-.lk{font-size:.8rem;font-weight:600;padding:7px 13px;border:1px solid var(--line-2);border-radius:9px;color:var(--ink);
-  white-space:nowrap;transition:.2s;display:inline-flex;align-items:center;gap:6px}
-.lk:hover{border-color:var(--line-hi);background:var(--acc-soft);text-decoration:none}
-.lk-live{background:var(--acc);border-color:var(--acc);color:#0A0F1A}
-.lk-live:hover{background:var(--acc-2);border-color:var(--acc-2)}
-.dek{color:var(--ink-2);margin:10px 0 0;max-width:76ch;font-size:.94rem}
-.dek strong{color:var(--ink)}
+/* ---------------------------------------------------------------- shared panels (reused content) */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-sm);padding:28px}
+.stage .card,.card .card{background:var(--panel-2)}
+@media(max-width:620px){.card{padding:20px}}
+.mt{margin-top:16px}
+.card-head{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;justify-content:space-between;margin-bottom:4px}
+.card-head>div:first-child{flex:1 1 380px;min-width:0}
+.card-head .k{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);margin-bottom:8px}
+.card-head h3,.lab-intro h3{font-family:var(--display);font-size:24px;font-weight:700;letter-spacing:-.03em;color:var(--ink);margin:0;line-height:1.15}
+.dek{margin:10px 0 0;max-width:72ch;font-size:16px;line-height:1.55}
+.links{display:flex;gap:10px;flex-wrap:wrap}
+.lk{display:inline-flex;align-items:center;font-size:14px;font-weight:500;padding:8px 16px;border-radius:999px;color:var(--gold);border:1px solid rgba(212,176,114,.4);white-space:nowrap;transition:.2s}
+.lk:hover{background:var(--gold-soft);text-decoration:none}
+.lk-live{background:var(--gold);color:#16120A;border-color:var(--gold)}
+.lk-live:hover{background:var(--gold-2)}
 .grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
 .grid2.wide{grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr)}
 @media(max-width:900px){.grid2,.grid2.wide{grid-template-columns:1fr}}
+.stack{display:flex;flex-direction:column;gap:16px}
+.figt{font-family:var(--display);font-size:20px;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin:0 0 4px}
+.figs,.figcap{font-size:14px;color:var(--ink-4);margin:0 0 16px}
+.figcap{margin:12px 0 0}
+.note{font-size:14px;color:var(--ink-4);max-width:80ch;margin:20px auto 0;text-align:center}
+.ev{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:999px;
+  border:1px solid;margin-right:8px;white-space:nowrap;vertical-align:2px}
+.ev::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.ev.live{color:var(--up);border-color:rgba(91,194,179,.4);background:rgba(91,194,179,.08)}
+.ev.bt{color:var(--gold);border-color:rgba(212,176,114,.4);background:var(--gold-soft)}
+.ev.sim{color:#9DB3E0;border-color:rgba(157,179,224,.4);background:rgba(157,179,224,.08)}
+summary .ev{margin-left:12px;margin-right:auto}
 
-.figt{font-size:.98rem;font-weight:650;margin:0 0 3px;color:var(--ink)}
-.figs{font-size:.83rem;color:var(--ink-3);margin:0 0 16px}
-.ax{font-size:11.5px;fill:var(--ink-3);font-family:var(--mono)}
-.gl{stroke:var(--line);stroke-width:1}
-.zl{stroke:var(--line-2);stroke-width:1.2}
-.val{font-size:12.5px;font-weight:600;fill:var(--ink);font-family:var(--mono)}
-.bandlbl{font-size:14px;fill:var(--ink-3);font-family:var(--mono);letter-spacing:.1em;font-weight:500}
-.endlbl{font-size:14px;fill:var(--c3);font-family:var(--mono);letter-spacing:.08em;font-weight:600}
-.endval{font-size:16px;fill:var(--ink);font-family:var(--mono);font-weight:600}
-.yr{font-size:15px;fill:var(--ink-3);font-family:var(--mono);text-anchor:middle}
-.mrs-area{display:none}.mrs-line{stroke:var(--navy-3)}.mrs-lead{stroke:var(--c3);stroke-width:1.2;stroke-dasharray:3 3}
-.mrs-dot{fill:var(--c3);stroke:var(--bg);stroke-width:1.8}
-.cvx-area{fill:rgba(201,164,92,.12)}.cvx-line{stroke:var(--acc)}.cvx-dot{fill:var(--acc);stroke:var(--bg);stroke-width:1.5}
-.fan-90{fill:rgba(201,164,92,.10)}.fan-50{fill:rgba(201,164,92,.20)}
-.fan-p50{stroke:var(--acc);stroke-width:2.2}.fan-saa{stroke:var(--up);stroke-width:1.4;stroke-dasharray:5 4}
-.fan-6040{stroke:var(--ink-3);stroke-width:1.4;stroke-dasharray:2 4}
-.fan-lbl{font-size:11px;fill:var(--ink-3);font-family:var(--mono)}.fan-lbl.on{fill:var(--acc);font-weight:600}
-.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:.8rem;color:var(--ink-2)}
-.legend i{width:10px;height:10px;display:inline-block;margin-right:7px;vertical-align:-1px;border-radius:3px}
-.legend i.ln{height:2px;border-radius:0;vertical-align:3px;width:16px}
-
-/* NAV chart + quote board */
-.navgrid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:stretch;margin-top:20px}
-@media(max-width:900px){.navgrid{grid-template-columns:1fr;gap:16px}}
-.navchart{position:relative;touch-action:pan-y}
-.navchart svg{display:block;width:100%;height:auto}
-.navchart [data-f]{transition:opacity .2s}
-.navchart.focus [data-f]:not(.on){opacity:.12}
-.navchart .xh{stroke:var(--ink-2);stroke-width:1;stroke-dasharray:2 3;opacity:0}
-.navchart.hov .xh{opacity:.6}
-.navchart .hd{opacity:0}.navchart.hov .hd{opacity:1}
-@media(max-width:620px){.navchart .ax{font-size:19px}}
-.board{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:4px 14px 12px;display:flex;flex-direction:column}
-.board-h{display:flex;justify-content:space-between;align-items:baseline;padding:11px 0 9px;border-bottom:1px solid var(--line);
-  font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
-.board-h b{color:var(--acc);font-weight:600;letter-spacing:.06em}
-.brow{all:unset;box-sizing:border-box;display:grid;grid-template-columns:10px 1fr auto 64px;gap:10px;align-items:baseline;
-  padding:10px 8px;margin:0 -8px;width:calc(100% + 16px);border-radius:8px;cursor:pointer;transition:background .15s}
-.brow+.brow{box-shadow:inset 0 1px 0 var(--line)}
-.brow i{width:9px;height:9px;border-radius:50%;background:var(--c);align-self:center}
-.brow .bn{font-weight:600;font-size:.88rem;color:var(--ink)}
-.brow .bn small{display:block;font-weight:400;font-size:.72rem;color:var(--ink-3);margin-top:1px;white-space:nowrap}
-.brow .brd{font-family:var(--mono);font-size:.9rem;font-weight:600;color:var(--ink);text-align:right}
-.brow .bch{font-family:var(--mono);font-size:.78rem;text-align:right}
-.brow:hover,.brow[aria-pressed="true"]{background:rgba(255,255,255,.04);box-shadow:none}
-.brow:hover+.brow,.brow[aria-pressed="true"]+.brow{box-shadow:none}
-.brow:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
-.board-f{font-size:.74rem;color:var(--ink-3);margin:auto 0 0;padding-top:10px;line-height:1.5}
+/* insight */
+.insight{position:relative;margin:0;padding:28px 32px;border-radius:var(--r-sm);background:var(--panel);border:1px solid var(--line);
+  font-family:var(--display);font-size:20px;line-height:1.45;letter-spacing:-.02em;color:var(--ink-3)}
+.insight strong{color:var(--ink)}
+.insight .tag{display:block;font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.insight.warn .tag{color:var(--dn)}
+.grid2 .insight{font-size:18px}
+@media(max-width:620px){.insight{padding:22px;font-size:17px}}
 
 /* tables */
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:8px}
-table{width:100%;border-collapse:collapse;font-size:.86rem;min-width:560px}
-th,td{text-align:right;padding:10px 12px;border-bottom:1px solid var(--line)}
-th:first-child,td:first-child{text-align:left;padding-left:0}
-th:last-child,td:last-child{padding-right:0}
-th{color:var(--ink-3);font-weight:500;font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em}
-tbody tr:last-child td{border-bottom:0}
-tbody tr:hover td{background:rgba(255,255,255,.02)}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:560px}
+th,td{text-align:right;padding:13px 12px;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left;padding-left:0}th:last-child,td:last-child{padding-right:0}
+th{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-4)}
 th.tl,td.tl{text-align:left}
-td{color:var(--ink-2)}
-td.num{font-family:var(--mono);color:var(--ink)}
-td.num.up{color:var(--up)}td.num.dn{color:var(--dn)}
-td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+td{color:var(--ink-3)}td.num{color:var(--ink);font-weight:500}td.num.up{color:var(--up)}td.num.dn{color:var(--dn)}
+td:first-child{color:var(--ink);font-weight:600;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
 .chip{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c);margin-right:10px}
-table.hedge{min-width:0}
-table.hedge td:first-child{width:38%;padding-right:18px;vertical-align:top;white-space:normal}
-
-details.more{border-top:1px solid var(--line);margin-top:16px}
+table.hedge{min-width:0}table.hedge td:first-child{width:38%;padding-right:18px;vertical-align:top;white-space:normal}
+details.more{border-top:1px solid var(--line);margin-top:18px}
 details.more+details.more{margin-top:0}
-details.more summary{list-style:none;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;
-  padding:14px 0;font-size:.9rem;font-weight:600;color:var(--ink)}
+details.more summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;padding:18px 0;font-size:17px;font-weight:500;color:var(--ink)}
 details.more summary::-webkit-details-marker{display:none}
-details.more summary::after{content:"";width:7px;height:7px;border-right:1.6px solid var(--ink-3);border-bottom:1.6px solid var(--ink-3);
-  transform:rotate(45deg);transition:transform .2s;margin-right:4px}
-details.more[open] summary::after{transform:rotate(-135deg)}
-details.more summary:hover{color:var(--acc)}
-details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
+details.more summary::after{content:"+";font-size:24px;font-weight:300;color:var(--gold);line-height:1;transition:transform .3s var(--ease)}
+details.more[open] summary::after{transform:rotate(45deg)}
+details.more .s{font-size:14px;color:var(--ink-4);margin:12px 0 18px}
 
-/* KPIs */
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+/* kpis */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 @media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}}
-.kpi{padding:18px 18px 16px;min-width:0;position:relative;overflow:hidden}
-.kpi::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:linear-gradient(90deg,var(--acc),transparent 70%);opacity:.45}
-.kpi .v{font-family:var(--mono);font-size:1.5rem;font-weight:600;letter-spacing:-.02em;line-height:1.1;color:var(--ink);white-space:nowrap}
-.kpi .v .ar{color:var(--ink-3);font-weight:400;font-size:.62em;margin:0 .3em}
-.kpi .v small{font-size:.5em;font-weight:500;color:var(--ink-3);margin-left:3px}
-.kpi .k{font-size:.76rem;color:var(--ink-3);margin-top:6px;line-height:1.4}
-@media(max-width:1100px){.kpi .v{font-size:1.3rem}}
-@media(max-width:620px){.kpi{padding:14px 13px}.kpi .v{font-size:1.1rem;white-space:normal}}
-.card .kpi{background:var(--surface-2);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
-.kpis.in-card{gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:16px}
-.kpis.in-card .kpi{border:0;border-radius:0;padding:13px 15px}
-.kpis.in-card .kpi::after{display:none}
+.kpi{padding:20px;border-radius:14px;background:var(--panel-2);border:1px solid var(--line);min-width:0}
+.kpi .v{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:-.035em;line-height:1.05;color:var(--ink);white-space:nowrap}
+.kpi .v .ar{color:var(--ink-4);font-weight:400;font-size:.6em;margin:0 .25em}
+.kpi .v small{font-size:.5em;color:var(--ink-4);font-weight:500;margin-left:3px}
+.kpi .k{font-size:13px;color:var(--ink-3);margin-top:6px;line-height:1.4}
+@media(max-width:1100px){.kpi .v{font-size:23px}}
+@media(max-width:620px){.kpi{padding:15px}.kpi .v{font-size:19px;white-space:normal}}
+.kpis.in-card{gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:18px}
+.kpis.in-card .kpi{border:0;border-radius:0;background:var(--panel-2);padding:16px 18px}
 .kpis.in-card .kpi+.kpi{border-left:1px solid var(--line)}
-.kpis.in-card .kpi .v{font-size:1.15rem}
+.kpis.in-card .kpi .v{font-size:21px}
 .kpis.c3{grid-template-columns:repeat(3,1fr)}
 @media(max-width:620px){.kpis.in-card{grid-template-columns:repeat(2,1fr)}.kpis.in-card.c3{grid-template-columns:repeat(3,1fr)}
-  .kpis.in-card:not(.c3) .kpi:nth-child(3){border-left:0}
-  .kpis.in-card:not(.c3) .kpi:nth-child(n+3){border-top:1px solid var(--line)}.kpis.in-card .kpi .v{font-size:1rem}
-  .kpis.in-card .kpi{padding:11px}}
+  .kpis.in-card:not(.c3) .kpi:nth-child(3){border-left:0}.kpis.in-card:not(.c3) .kpi:nth-child(n+3){border-top:1px solid var(--line)}.kpis.in-card .kpi .v{font-size:17px}}
+.facts4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0 0}
+.facts4 div{padding:18px;border-radius:14px;background:var(--panel-2);border:1px solid var(--line)}
+.facts4 dt{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.facts4 dd{margin:8px 0 0;font-size:15px;line-height:1.5;color:var(--ink-3)}
+@media(max-width:980px){.facts4{grid-template-columns:1fr 1fr}}@media(max-width:560px){.facts4{grid-template-columns:1fr}}
 
-/* insight callouts */
-.insight{position:relative;padding:22px 26px 22px 28px;font-size:.98rem;line-height:1.68;color:var(--ink-2);margin:0}
-.insight::before{content:"";position:absolute;left:0;top:20px;bottom:20px;width:2px;border-radius:2px;background:linear-gradient(var(--acc),transparent)}
-.insight strong{color:var(--ink);font-weight:600}
-.insight .tag{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
-.insight.warn::before{background:linear-gradient(var(--dn),transparent)}.insight.warn .tag{color:var(--dn)}
-@media(max-width:620px){.insight{padding:18px 18px 18px 22px}}
-.stack{display:flex;flex-direction:column;gap:16px}
-.grid2 .insight{font-size:.95rem}
-.note{font-size:.86rem;color:var(--ink-3);max-width:78ch;margin:20px 0 0}
+/* charts */
+.ax{font-size:12px;fill:var(--ink-4);font-family:var(--sans)}
+.gl{stroke:var(--line);stroke-width:1}.zl{stroke:var(--line-2);stroke-width:1.2}
+.val{font-size:12.5px;font-weight:600;fill:var(--ink);font-family:var(--sans)}
+.bandlbl{font-size:14px;fill:var(--ink-4);font-family:var(--sans);letter-spacing:.12em;font-weight:600}
+.endlbl{font-size:14px;fill:var(--c3);font-family:var(--sans);letter-spacing:.08em;font-weight:600}
+.endval{font-size:17px;fill:var(--ink);font-family:var(--display);font-weight:700}
+.yr{font-size:15px;fill:var(--ink-4);font-family:var(--sans);text-anchor:middle}
+.mrs-area{display:none}.mrs-line{stroke:var(--navy-3)}.mrs-lead{stroke:var(--c3);stroke-width:1.2;stroke-dasharray:3 3}.mrs-dot{fill:var(--c3);stroke:var(--bg);stroke-width:1.8}
+.cvx-area{fill:rgba(212,176,114,.12)}.cvx-line{stroke:var(--gold)}.cvx-dot{fill:var(--gold);stroke:var(--bg);stroke-width:1.5}
+.sp-base{stroke:var(--line-2);stroke-dasharray:2 3}.sp-band{fill:rgba(232,128,111,.12)}.sp-thr{stroke:rgba(232,128,111,.5);stroke-dasharray:2 3}
+.sp-line{stroke:var(--navy-3)}.sp-dot{fill:var(--c3)}.sp-fill{fill:rgba(212,176,114,.12)}.sp-dot2{fill:var(--gold)}
+.fan-90{fill:rgba(212,176,114,.10)}.fan-50{fill:rgba(212,176,114,.22)}.fan-p50{stroke:var(--gold);stroke-width:2.4}
+.fan-saa{stroke:var(--up);stroke-width:1.5;stroke-dasharray:5 4}.fan-6040{stroke:var(--ink-4);stroke-width:1.5;stroke-dasharray:2 4}
+.fan-lbl{font-size:12px;fill:var(--ink-4);font-family:var(--sans)}.fan-lbl.on{fill:var(--gold);font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:14px;font-size:14px;color:var(--ink-3)}
+.legend i{width:10px;height:10px;display:inline-block;margin-right:8px;vertical-align:-1px;border-radius:3px}
+.legend i.ln{height:2px;width:18px;border-radius:0;vertical-align:4px}
+.band{padding:0;overflow:hidden}
+.band .card-head{padding:28px 28px 20px;margin:0}
+.band .cap{padding:12px 28px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.band svg{display:block;width:100%;height:auto}
+.band .bfoot{padding:16px 28px;font-size:15px;border-top:1px solid var(--line)}
+@media(max-width:620px){.band .card-head{padding:20px}.band .cap,.band .bfoot{padding:12px 20px}}
 
-/* HTML bar charts */
+/* NAV chart + board */
+.navgrid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:stretch}
+@media(max-width:900px){.navgrid{grid-template-columns:1fr;gap:18px}}
+.navchart{position:relative;touch-action:pan-y}.navchart svg{display:block;width:100%;height:auto}
+.navchart [data-f]{transition:opacity .25s}.navchart.focus [data-f]:not(.on){opacity:.1}
+.navchart .xh{stroke:var(--ink-3);stroke-width:1;stroke-dasharray:2 3;opacity:0}.navchart.hov .xh{opacity:.7}
+.navchart .hd{opacity:0}.navchart.hov .hd{opacity:1}
+@media(max-width:620px){.navchart .ax{font-size:19px}}
+.board{border-radius:16px;background:var(--panel-2);border:1px solid var(--line);padding:6px 16px 14px;display:flex;flex-direction:column}
+.board-h{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0 10px;border-bottom:1px solid var(--line);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4)}
+.board-h b{color:var(--gold)}
+.brow{all:unset;box-sizing:border-box;display:grid;grid-template-columns:10px 1fr auto 68px;gap:10px;align-items:baseline;padding:11px 8px;margin:0 -8px;width:calc(100% + 16px);border-radius:10px;cursor:pointer;transition:background .2s}
+.brow+.brow{box-shadow:inset 0 1px 0 var(--line)}
+.brow i{width:9px;height:9px;border-radius:50%;background:var(--c);align-self:center}
+.brow .bn{font-weight:600;font-size:15px;color:var(--ink)}
+.brow .bn small{display:block;font-weight:400;font-size:12px;color:var(--ink-4);margin-top:1px;white-space:nowrap}
+.brow .brd{font-family:var(--display);font-size:17px;font-weight:600;color:var(--ink);text-align:right}
+.brow .bch{font-size:13px;font-weight:500;text-align:right}
+.brow:hover,.brow[aria-pressed="true"]{background:rgba(255,255,255,.05);box-shadow:none}
+.brow:hover+.brow,.brow[aria-pressed="true"]+.brow{box-shadow:none}
+.board-f{font-size:13px;color:var(--ink-4);margin:auto 0 0;padding-top:10px;line-height:1.5}
+
+/* bars */
 .hbars{margin:6px 0 0;padding:0;list-style:none}
 .hb,.hb-g,.hb-ax{display:grid;grid-template-columns:136px minmax(0,1fr);gap:14px;align-items:center}
-.hb{padding:6px 0}
-.hb-l{font-size:.84rem;color:var(--ink-2)}
-.hb-l b{color:var(--ink);font-weight:600}
-.hb-t{position:relative;display:flex;align-items:center;min-height:24px;
-  background:repeating-linear-gradient(90deg,transparent 0 calc(25% - 1px),var(--line) calc(25% - 1px) 25%)}
-.hb-b{height:20px;width:var(--w);background:var(--c,#7C879B);border-radius:0 4px 4px 0;transform-origin:left;transition:transform .9s cubic-bezier(.16,1,.3,1)}
-.hb-v{position:absolute;left:calc(var(--w) + 9px);font-family:var(--mono);font-size:.78rem;font-weight:600;color:var(--ink);white-space:nowrap}
-.hb-t.inv .hb-v{left:auto;right:calc(100% - var(--w) + 8px);color:#0A0F1A}
+.hb{padding:7px 0}.hb-l{font-size:14px;color:var(--ink-3)}.hb-l b{color:var(--ink)}
+.hb-t{position:relative;display:flex;align-items:center;min-height:24px;background:repeating-linear-gradient(90deg,transparent 0 calc(25% - 1px),var(--line) calc(25% - 1px) 25%)}
+.hb-b{height:20px;width:var(--w);background:var(--c,#6E6E73);border-radius:0 6px 6px 0;transform-origin:left;transition:transform 1.1s var(--ease)}
+.hb-v{position:absolute;left:calc(var(--w) + 10px);font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap}
+.hb-t.inv .hb-v{left:auto;right:calc(100% - var(--w) + 8px);color:#0A0B0E}
 .rv .hb-b{transform:scaleX(0)}.rv.in .hb-b{transform:none}
-.hb-g{padding:10px 0;border-top:1px solid var(--line)}
-.hb-g:first-child{border-top:0}
-.hb-st{display:flex;flex-direction:column;gap:5px}
-.hb-g .hb-t{min-height:17px}.hb-g .hb-b{height:15px}
-.hb-ax{font-family:var(--mono);font-size:.66rem;color:var(--ink-3);margin-top:8px}
-.hb-ax div{display:flex;justify-content:space-between}
-@media(max-width:520px){.hb,.hb-ax,.hb-g{grid-template-columns:96px minmax(0,1fr);gap:10px}.hb-l{font-size:.78rem}}
+.hb-g{padding:11px 0;border-top:1px solid var(--line)}.hb-g:first-child{border-top:0}
+.hb-st{display:flex;flex-direction:column;gap:5px}.hb-g .hb-t{min-height:17px}.hb-g .hb-b{height:15px}
+.hb-ax{font-size:12px;color:var(--ink-4);margin-top:8px}.hb-ax div{display:flex;justify-content:space-between}
+@media(max-width:520px){.hb,.hb-ax,.hb-g{grid-template-columns:96px minmax(0,1fr);gap:10px}.hb-l{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.rv .hb-b{transform:none}}
 
-/* MRS band */
-.band{padding:0;overflow:hidden}
-.band .card-head{padding:26px 26px 18px;margin:0}
-.band .cap{padding:11px 26px;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
-  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(7,11,20,.45)}
-.band svg{display:block;width:100%;height:auto}
-.band .bfoot{padding:13px 26px 15px;font-size:.88rem;color:var(--ink-2);border-top:1px solid var(--line);background:rgba(7,11,20,.45)}
-.band .bfoot strong{color:var(--ink);font-family:var(--mono);font-weight:600}
-@media(max-width:620px){.band .card-head{padding:18px}.band .cap,.band .bfoot{padding:11px 18px}}
+/* Lab: six stages as a numbered sequence */
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:980px){.flow{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){.flow{grid-template-columns:1fr}}
+.st{position:relative;padding:28px 26px 24px;border-radius:var(--r-sm);background:var(--panel);border:1px solid var(--line);transition:transform .45s var(--ease),border-color .45s}
+.st:hover{transform:translateY(-4px);border-color:rgba(212,176,114,.3)}
+.st-n{display:flex;align-items:baseline;gap:12px;font-size:13px;font-weight:600;color:var(--gold);margin-bottom:14px}
+.st-n b{font-family:var(--display);font-size:40px;font-weight:700;letter-spacing:-.05em;line-height:.8;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.st h4{font-family:var(--display);font-size:21px;font-weight:700;letter-spacing:-.025em;color:var(--ink);margin:0 0 10px;line-height:1.2}
+.st p{margin:0;font-size:15px;line-height:1.55;color:var(--ink-3)}
+.st-m,.tags{margin-top:16px;display:flex;flex-wrap:wrap;gap:6px}
+.st-m span,.tags span{font-size:12px;color:var(--ink-2);background:rgba(255,255,255,.05);padding:4px 10px;border-radius:999px}
 
-/* Convexity Lab process */
-.flow{list-style:none;margin:0 0 16px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-@media(max-width:980px){.flow{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:620px){.flow{grid-template-columns:1fr}}
-.st{padding:22px 22px 20px}
-.st-n{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:12px}
-.st-n b{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:7px;background:var(--acc-soft);border:1px solid rgba(201,164,92,.3);font-weight:600;letter-spacing:0;font-size:.72rem}
-.st h4{font-size:1.06rem;font-weight:700;letter-spacing:-.01em;margin:0 0 8px;line-height:1.3;color:var(--ink)}
-.st p{margin:0;font-size:.87rem;color:var(--ink-2);line-height:1.6}
-.st-m,.tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px}
-.st-m span,.tags span{font-size:.72rem;color:var(--ink-2);border:1px solid var(--line);background:rgba(255,255,255,.02);padding:3px 10px;border-radius:999px}
-.figcap{font-size:.8rem;color:var(--ink-3);margin:12px 0 0}
-.lab-intro{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
-.lab-intro h3{font-size:1.22rem;margin:0;font-weight:700;letter-spacing:-.012em}
-.lab-intro .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
-.lab-intro>div:first-child{flex:1 1 520px}
-
-/* foundation */
+/* research tiles */
 .tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
-.tile{grid-column:span 2;padding:22px;display:flex;flex-direction:column}
+.tile{grid-column:span 2;padding:28px 26px;border-radius:var(--r-sm);background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column}
 .tile.w3{grid-column:span 3}
-@media(max-width:980px){.tiles{grid-template-columns:1fr 1fr}.tile,.tile.w3{grid-column:span 1}}
-@media(max-width:620px){.tiles{grid-template-columns:1fr}}
-.tile-k{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin-bottom:10px}
-.tile h3{margin:0 0 8px;font-size:1.08rem;font-weight:700;letter-spacing:-.01em}
-.tile p{margin:0;font-size:.88rem;color:var(--ink-2);line-height:1.6;flex:1}
-.tile .lk{align-self:flex-start;margin-top:16px}
+@media(max-width:980px){.tiles{grid-template-columns:1fr 1fr}.tile,.tile.w3{grid-column:span 1}}@media(max-width:620px){.tiles{grid-template-columns:1fr}}
+.tile-k{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.tile h3{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.025em;color:var(--ink);margin:0 0 10px}
+.tile p{margin:0;font-size:15px;line-height:1.55;flex:1}
+.tile .lk{align-self:flex-start;margin-top:18px}
+.fails{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:9px;flex:1}
+.fails li{font-size:15px;color:var(--ink-2);padding-left:22px;position:relative;line-height:1.45}
+.fails li::before{content:"×";position:absolute;left:0;top:-1px;color:var(--dn);font-weight:700}
+.fails + p{margin-top:14px;font-size:14px;color:var(--ink-4)}
 
 /* experience */
-.sub-h{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px}
-.sub-h::after{content:"";flex:1;height:1px;background:var(--line)}
-.sub-h.next{margin-top:40px}
-.role{display:grid;grid-template-columns:180px minmax(0,1fr);gap:28px;position:relative}
-.role::before{content:"";position:absolute;left:0;top:22px;bottom:22px;width:2px;border-radius:2px;background:linear-gradient(var(--acc),transparent)}
-.role + .role{margin-top:16px}
+.exp{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,2fr);gap:48px;align-items:start}
+.exp-side{position:sticky;top:96px}
+.exp-side h2{font-family:var(--display);font-size:clamp(36px,4.4vw,56px);font-weight:700;letter-spacing:-.04em;line-height:1.02;color:var(--ink);margin:0}
+.exp-side p{margin:18px 0 0;font-size:18px;line-height:1.45}
+.exp-side .ctas{justify-content:flex-start;margin-top:26px}
+@media(max-width:980px){.exp{grid-template-columns:1fr;gap:28px}.exp-side{position:static}}
+.role{display:grid;grid-template-columns:150px minmax(0,1fr);gap:26px}
 @media(max-width:780px){.role{grid-template-columns:1fr;gap:12px}}
-.role-side{display:flex;flex-direction:column;gap:12px}
-.role-side img{width:64px;height:auto}
-.when{font-size:.8rem;color:var(--ink-3);line-height:1.6;font-variant-numeric:tabular-nums}
-.role h3{margin:0 0 4px;font-size:1.16rem;font-weight:700;letter-spacing:-.01em}
-.org{color:var(--acc);font-weight:600;font-size:.88rem}
-.role ul{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:7px;max-width:80ch}
-.role li{font-size:.92rem;color:var(--ink-2);padding-left:18px;position:relative}
-.role li::before{content:"▸";position:absolute;left:0;color:var(--acc);font-size:.72rem;top:3px}
-.awards{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
-.awards span{font-size:.74rem;color:var(--acc);border:1px solid rgba(201,164,92,.3);background:var(--acc-soft);padding:3px 10px;border-radius:999px}
-.edu{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
-@media(max-width:900px){.edu{grid-template-columns:1fr}}
-.edu .card{display:flex;flex-direction:column;padding:24px 26px}
-.edu .when{margin-bottom:16px}
-.edu .inst-id{min-height:62px}
-.edu .mark-gu{width:262px}
-.edu .mark-seal{width:60px;height:60px}
-.edu .inst-sub{margin:10px 0 20px}
-.edu .spec{margin-top:auto}
-@media(max-width:520px){.edu .mark-gu{width:212px}.edu .card{padding:20px 18px}}
-.cl{margin:0;padding:0;list-style:none}
-.cl li{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:.88rem;color:var(--ink);font-weight:500}
-.cl li:last-child{border-bottom:0}
-.cl li span{color:var(--ink-3);text-align:right;font-weight:400}
-.toolchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
-.toolchips span{font-size:.78rem;color:var(--ink-2);border:1px solid var(--line);background:rgba(255,255,255,.02);padding:4px 11px;border-radius:999px}
-.toolchips + .card-head{margin-top:18px}
-
-/* evidence labels: every figure says whether it is live, backtested or simulated */
-.ev{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:.58rem;font-weight:700;letter-spacing:.12em;
-  text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid;vertical-align:2px;margin-right:8px;white-space:nowrap}
-.ev::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
-.ev.live{color:var(--up);border-color:rgba(79,179,165,.4);background:rgba(79,179,165,.08)}
-.ev.bt{color:var(--acc);border-color:rgba(201,164,92,.4);background:var(--acc-soft)}
-.ev.sim{color:#93A9D6;border-color:rgba(147,169,214,.4);background:rgba(147,169,214,.08)}
-.ev.rs{color:var(--dn);border-color:rgba(217,112,107,.4);background:rgba(217,112,107,.08)}
-summary .ev{margin-left:10px;margin-right:auto}
-
-/* section brief: objective · method · evidence · status, read in five seconds */
-.brief{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0 0 16px;padding:0;background:var(--surface);border:1px solid var(--line);
-  border-radius:var(--r);overflow:hidden;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.brief div{padding:16px 18px;min-width:0}
-.brief div+div{border-left:1px solid var(--line)}
-.brief dt{font-size:.62rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--acc)}
-.brief dd{margin:7px 0 0;font-size:.86rem;line-height:1.55;color:var(--ink-2)}
-.brief dd b{color:var(--ink);font-weight:600}
-.brief dd .ev{margin:0 6px 4px 0}
-@media(max-width:980px){.brief{grid-template-columns:1fr 1fr}.brief div:nth-child(3){border-left:0}.brief div:nth-child(n+3){border-top:1px solid var(--line)}}
-@media(max-width:560px){.brief{grid-template-columns:1fr}.brief div+div{border-left:0;border-top:1px solid var(--line)}}
-
-/* hero: what sets the profile apart, in three reads */
-.edge{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:26px 0 0}
-.edge div{padding:14px 15px 13px;border:1px solid var(--line);border-radius:12px;background:var(--surface);min-width:0;
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.edge b{display:block;font-family:var(--mono);font-size:1.32rem;font-weight:600;color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
-.edge b small{font-size:.6em;color:var(--ink-3);font-weight:500;margin-left:3px}
-.edge>div>span{display:block;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-top:7px}
-.edge p{margin:5px 0 0;font-size:.8rem;line-height:1.45;color:var(--ink-3)}
-@media(max-width:620px){.edge{grid-template-columns:1fr}.edge div{display:grid;grid-template-columns:96px 1fr;column-gap:12px}
-  .edge b{grid-row:span 2;align-self:center}.edge>div>span{margin-top:0}}
-.seek{margin:18px 0 0;font-size:.86rem;color:var(--ink-3)}
-.seek b{color:var(--ink-2);font-weight:600}
-
-/* assumptions and limits */
-.facts4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px}
-.facts4 div{padding:14px 15px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
-.facts4 dt{font-size:.62rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
-.facts4 dd{margin:6px 0 0;font-size:.85rem;line-height:1.55;color:var(--ink-2)}
-@media(max-width:980px){.facts4{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.facts4{grid-template-columns:1fr}}
-
-/* bridge: bank risk to portfolio risk */
-.bridge-rows{margin-top:14px;display:grid;gap:8px}
-.bridge-row{display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(0,1.25fr);align-items:center;gap:10px;padding:12px 15px;
-  border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
-.bridge-row .from{font-size:.86rem;color:var(--ink-2)}
-.bridge-row .from small,.bridge-row .to small{display:block;font-size:.6rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
-.bridge-row .to small{color:var(--acc)}
-.bridge-row .arr{color:var(--acc);text-align:center;font-size:1rem}
-.bridge-row .to{font-size:.88rem;color:var(--ink)}
+.role-side{display:flex;flex-direction:column;gap:12px}.role-side img{width:70px;height:auto}
+.when{font-size:14px;color:var(--ink-4);line-height:1.5}
+.role h3{font-family:var(--display);font-size:24px;font-weight:700;letter-spacing:-.03em;color:var(--ink);margin:0 0 6px;line-height:1.15}
+.org{color:var(--gold);font-size:15px;font-weight:500}
+.role ul{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:9px}
+.role li{font-size:16px;line-height:1.5;color:var(--ink-2);padding-left:20px;position:relative}
+.role li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.awards{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.awards span{font-size:12px;font-weight:500;color:var(--gold);background:var(--gold-soft);padding:4px 11px;border-radius:999px}
+.bridge-rows{margin-top:16px;display:grid;gap:10px}
+.bridge-row{display:grid;grid-template-columns:minmax(0,1fr) 32px minmax(0,1.25fr);align-items:center;gap:10px;padding:16px 18px;border-radius:14px;background:var(--panel-2);border:1px solid var(--line)}
+.bridge-row small{display:block;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-4);margin-bottom:4px}
+.bridge-row .to small{color:var(--gold)}
+.bridge-row .from{font-size:15px;color:var(--ink-3)}.bridge-row .to{font-size:15px;color:var(--ink)}
+.bridge-row .arr{color:var(--gold);text-align:center;font-size:18px}
 @media(max-width:700px){.bridge-row{grid-template-columns:1fr}.bridge-row .arr{display:none}}
+.sub-h{font-family:var(--display);font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-.02em;margin:40px 0 14px;display:flex;align-items:center;gap:16px}
+.sub-h::after{content:"";flex:1;height:1px;background:var(--line)}
 
-/* failure record */
-.fails{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:7px;flex:1}
-.fails li{font-size:.86rem;color:var(--ink-2);padding-left:18px;position:relative;line-height:1.5}
-.fails li::before{content:"×";position:absolute;left:0;top:-1px;color:var(--dn);font-weight:700}
-.fails + p{margin-top:12px;font-size:.82rem;color:var(--ink-3)}
+/* education */
+.edu{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:900px){.edu{grid-template-columns:1fr}}
+.edu .card{display:flex;flex-direction:column;padding:34px;background:radial-gradient(120% 80% at 0% 0%,rgba(212,176,114,.07),transparent 60%),var(--panel)}
+.edu .when{margin-bottom:22px}
+.inst-id{display:flex;align-items:center;gap:16px;min-height:64px}
+.mark-gu{display:block;height:60px;width:auto;filter:brightness(0) invert(.94)}
+.mark-seal{display:block;width:60px;height:60px;flex:none;filter:brightness(0) invert(.94)}
+.inst-name{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:-.03em;line-height:1.05;color:var(--ink)}
+.inst-name small{display:block;font-family:var(--sans);font-size:14px;font-weight:400;letter-spacing:-.01em;color:var(--ink-3);margin-top:4px}
+.inst-sub{font-size:16px;color:var(--ink-2);margin:14px 0 26px}
+.spec{display:grid;grid-template-columns:1.35fr .8fr 1fr;margin:auto 0 0;border-radius:14px;overflow:hidden;background:var(--panel-2);border:1px solid var(--line)}
+.spec div{padding:14px 16px;min-width:0}.spec div+div{border-left:1px solid var(--line)}
+.spec dt{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-4)}
+.spec dd{margin:5px 0 0;font-size:16px;font-weight:600;color:var(--ink);line-height:1.3}
+.spec .hi{background:var(--gold-soft)}.spec .hi dt{color:var(--gold)}
+.gpa{font-family:var(--display);font-size:26px!important;font-weight:700!important;letter-spacing:-.03em;color:var(--gold)!important;line-height:1!important}
+.gpa small{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-3);letter-spacing:0;margin-left:4px}
+@media(max-width:520px){.edu .card{padding:24px}.mark-gu{height:48px}.spec{grid-template-columns:1fr 1fr!important}.spec div:first-child{grid-column:1/-1;border-bottom:1px solid var(--line)}.spec div:nth-child(2){border-left:0}}
+.cl{margin:0;padding:0;list-style:none}
+.cl li{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px;color:var(--ink);font-weight:500}
+.cl li:last-child{border-bottom:0}.cl li span{color:var(--ink-4);text-align:right;font-weight:400}
+.toolchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.toolchips span{font-size:13px;color:var(--ink-2);background:rgba(255,255,255,.05);padding:5px 12px;border-radius:999px}
+.toolchips + .card-head{margin-top:20px}
 
-/* consistent institution marks: same height, same baseline */
-.mark-gu{width:auto!important;height:48px!important}.mark-seal{width:48px!important;height:48px!important}
-.edu .mark-gu{height:56px!important}.edu .mark-seal{width:56px!important;height:56px!important}
-.inst-id,.edu .inst-id{min-height:56px}
-
-/* contact */
-.foot{padding:72px 0 30px;border-top:1px solid var(--line)}
-.ticket{display:grid;grid-template-columns:1.2fr 1fr;padding:0;overflow:hidden}
-.ticket-l{padding:32px;border-right:1px dashed var(--line)}
-.ticket-l h2{font-size:clamp(2rem,3.8vw,2.8rem);margin:10px 0 12px;line-height:1.08}
-.ticket-l p{color:var(--ink-2);margin:0;max-width:46ch}
-.ticket-r{padding:24px 28px;display:flex;flex-direction:column;gap:10px;justify-content:center;background:rgba(7,11,20,.4)}
-.tline{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);
-  border-radius:10px;font-family:var(--mono);font-size:.82rem;color:var(--ink);transition:.2s}
-.tline:hover{border-color:var(--line-hi);background:var(--acc-soft);text-decoration:none}
-.tline span{color:var(--ink-3);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase}
-@media(max-width:700px){.ticket{grid-template-columns:1fr}.ticket-l{border-right:0;border-bottom:1px dashed var(--line);padding:24px}.ticket-r{padding:20px}}
-.foot-note{padding-top:22px;margin-top:40px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.72rem;color:var(--ink-3);
-  display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+/* closing */
+.close{padding:170px 0 60px;text-align:center;position:relative;isolation:isolate;overflow-x:clip}
+.close::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(50% 60% at 50% 45%,rgba(212,176,114,.12),transparent 70%)}
+.close h2{font-family:var(--display);font-size:clamp(56px,9vw,128px);font-weight:700;letter-spacing:-.05em;line-height:.95;color:var(--ink);margin:0}
+.close h2 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.close p{max-width:44ch;margin:24px auto 0;font-size:clamp(18px,1.7vw,22px);line-height:1.42}
+.close .mail{display:inline-block;margin-top:30px;font-family:var(--display);font-size:clamp(20px,2.4vw,30px);font-weight:600;letter-spacing:-.025em;color:var(--ink)}
+.foot-note{max-width:var(--maxw);margin:110px auto 0;padding:22px var(--gut) 0;border-top:1px solid var(--line);font-size:12px;color:var(--ink-4);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
 </style>
 </head>
 <body>
-<div class="bg-glow"></div>
-<canvas id="market" aria-hidden="true"></canvas>
-<div class="bg-vignette"></div>
 
-<header class="mast">
-  <div class="mast-in">
-    <span class="mast-name"><i>AV</i>Ankit Verma</span>
-    <nav class="mast-nav" aria-label="Sections">
-      <a href="#experience">Experience</a><a href="#funds">Funds</a><a href="#lab">Convexity Lab</a><a href="#regime">MRS</a>
-      <a href="#dynamic">DAA</a><a href="#infra">Research</a><a href="#contact">Contact</a>
+<header class="gnav">
+  <div class="gnav-in">
+    <a class="brand" href="#top">Ankit Verma<i>.</i></a>
+    <nav class="gl-links" aria-label="Sections">
+      <a href="#experience">Experience</a><a href="#education">Education</a><a href="#funds">Funds</a><a href="#lab">Convexity Lab</a>
+      <a href="#regime">MRS</a><a href="#dynamic">DAA</a><a href="#infra">Research</a><a href="#contact">Contact</a>
     </nav>
-    <a class="mast-cta" href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener">Resume <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></a>
-    <details class="menu"><summary aria-label="Open section menu"><span></span><span></span><span></span></summary>
+    <a class="pill" href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener">Résumé <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></a>
+    <details class="menu"><summary aria-label="Open section menu"><span></span><span></span></summary>
       <nav class="menu-panel" aria-label="Sections menu">
-        <a href="#experience">Experience &amp; education</a><a href="#funds">Five Funds</a><a href="#lab">Convexity Lab</a>
+        <a href="#experience">Experience</a><a href="#education">Education</a><a href="#funds">Five Funds</a><a href="#lab">Convexity Lab</a>
         <a href="#regime">Macro Regime Score</a><a href="#dynamic">Dynamic Allocation</a><a href="#infra">Research &amp; discipline</a>
-        <a href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a><a href="#contact">Contact</a>
+        <a href="#contact">Contact</a><a href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
       </nav></details>
   </div>
   <div class="prog" id="prog"></div>
 </header>
 
-<div class="hero">
-  <div class="wrap">
-    <div class="hero-grid">
-      <div>
-        <span class="badge"><b>Live</b>Track record since 15 July 2026</span>
-        <h1>Ankit Verma<em>Portfolio judgment. Quant discipline.</em></h1>
-        <p class="sub">I build multi-asset portfolios with the discipline of <b>institutional credit-risk modelling</b> —
-          five funds live since July 2026, on a regime, allocation and risk stack I wrote myself.</p>
-        <div class="edge">
-          <div><b>5 <small>funds</small></b><span>Live since 15 Jul 2026</span><p>Priced daily against real index benchmarks · <span data-k="nav.ahead">4 of 5</span> ahead of reference so far</p></div>
-          <div><b>5+ <small>yrs</small></b><span>Institutional credit risk</span><p>PD and loss-forecasting models, CCAR · CECL · IFRS-9 validation at EXL</p></div>
-          <div><b><span data-k="mrs.months">279</span> <small>mo</small></b><span>Own macro regime model</span><p>Scored since 2003 · flagged the GFC nine months before the NBER</p></div>
-        </div>
-        <p class="seek"><b>Open to</b> buy-side roles in multi-asset allocation, portfolio strategy and quantitative research.</p>
-        <div class="cta">
-          <a class="btn btn-a" href="#funds">See the funds <span class="ar">→</span></a>
-          <a class="btn" href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener">Resume <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></a>
-          <a class="btn" href="mailto:ankitv0125@gmail.com">Email</a>
-          <a class="btn" href="https://linkedin.com/in/ankitv0125">LinkedIn</a>
-          <a class="btn" href="https://github.com/ankitv25">GitHub</a>
-        </div>
-      </div>
-      <aside class="cv" aria-label="Education and experience">
-        <div class="cv-top"><span><b>Education</b> &amp; experience</span><span>New York, NY</span></div>
-        <div class="inst">
-          <div class="inst-id"><img class="mark-gu" src="assets/logos/georgetown.svg" alt="Georgetown University" width="230" height="49"></div>
-          <div class="inst-sub">McDonough School of Business <span>· Washington, DC</span></div>
-          <dl class="spec">
-            <div><dt>Degree</dt><dd>MS in Finance</dd></div>
-            <div><dt>Class</dt><dd>2025–27</dd></div>
-            <div class="hi"><dt>GPA</dt><dd class="gpa">3.95<small>/ 4.00</small></dd></div>
-          </dl>
-        </div>
-        <div class="inst">
-          <div class="inst-id"><img class="mark-seal" src="assets/logos/iitk.svg" alt="" width="54" height="54">
-            <div class="inst-name">IIT Kanpur<small>Indian Institute of Technology · Kanpur, India</small></div></div>
-          <dl class="spec wide3">
-            <div><dt>Degree</dt><dd>B.Tech</dd></div>
-            <div><dt>Class</dt><dd>2016–20</dd></div>
-            <div><dt>Major</dt><dd>Materials Science &amp; Eng.</dd></div>
-          </dl>
-        </div>
-        <div class="cv-exp">
-          <img src="assets/logos/exl.svg" alt="EXL" width="52" height="19">
-          <div><b>Senior Consultant, Risk Strategy &amp; Modelling</b><span>Nov 2020 – present · Loss-forecasting, PD and stress-testing models for three of the largest US banks and card issuers</span></div>
-        </div>
-      </aside>
+<main id="top">
+
+<section class="hero" aria-label="Introduction">
+  <div class="hero-art" id="heroArt" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <p class="eyebrow rv">Georgetown MSF ’27 · 5+ years in institutional credit risk</p>
+    <h1 class="rv" data-d="1">Ankit Verma</h1>
+    <p class="claim rv" data-d="2">Portfolio judgment. Quant discipline.</p>
+    <p class="lede rv" data-d="3">I build multi-asset portfolios — <b>five funds, live since July 2026</b> — on a regime, allocation and risk stack I wrote myself.</p>
+    <div class="ctas rv" data-d="3">
+      <a class="btn btn-p" href="#platform">Explore the work</a>
+      <a class="btn btn-s" href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener">Download résumé <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></a>
     </div>
+    <ul class="trust rv" data-d="3" aria-label="Education and employer">
+      <li><img class="gu" src="assets/logos/georgetown.svg" alt="Georgetown University" width="171" height="36"><span><b>McDonough School of Business</b>MS in Finance · GPA 3.95 / 4.00</span></li>
+      <li><img class="ik" src="assets/logos/iitk.svg" alt="" width="40" height="40"><span><b>IIT Kanpur</b>B.Tech · Materials Science &amp; Eng.</span></li>
+      <li><img class="ex" src="assets/logos/exl.svg" alt="EXL" width="54" height="20"><span><b>Senior Consultant</b>Risk Strategy &amp; Modelling</span></li>
+    </ul>
   </div>
-  <div class="tape" role="region" aria-label="Fund NAVs at the latest close, and the latest Macro Regime Score reading">
-    <div class="tape-in">
-      <div class="tape-k"><b>NAV per unit</b><span data-k="nav.asof">16 Oct 2026</span></div>
+  <div class="ribbon" role="region" aria-label="Fund NAVs at the latest close, and the latest Macro Regime Score reading">
+    <div class="ribbon-in">
+      <div class="ribbon-k"><b>NAV per unit</b><span data-k="nav.asof">16 Oct 2026</span></div>
       <!--gen:tape-funds--><a class="q" href="#funds" style="--c:#e8a13a"><i></i><span class="qn">Alpha</span><span class="qp">101.14</span><span class="qc up">+1.14%</span></a>
 <a class="q" href="#funds" style="--c:#cf6bd6"><i></i><span class="qn">DAA</span><span class="qp">100.95</span><span class="qc up">+0.95%</span></a>
 <a class="q" href="#funds" style="--c:#a58bf8"><i></i><span class="qn">SAA</span><span class="qp">100.62</span><span class="qc up">+0.62%</span></a>
 <a class="q" href="#funds" style="--c:#3db5d1"><i></i><span class="qn">Certain</span><span class="qp">100.25</span><span class="qc up">+0.25%</span></a>
 <a class="q" href="#funds" style="--c:#b07d5b"><i></i><span class="qn">Endowment</span><span class="qp">99.79</span><span class="qc dn">−0.21%</span></a><!--/gen:tape-funds-->
-      <a class="q" href="#regime" style="--c:var(--acc)"><i></i><span class="qn">MRS · <span data-k="mrs.mon">Aug</span></span><span class="qp" data-k="mrs.z">+0.17z</span><span class="qc flat" data-k="mrs.regime">Neutral</span></a>
+      <a class="q" href="#regime" style="--c:var(--gold)"><i></i><span class="qn">MRS · <span data-k="mrs.mon">Aug</span></span><span class="qp" data-k="mrs.z">+0.17z</span><span class="qc flat" data-k="mrs.regime">Neutral</span></a>
     </div>
   </div>
-</div>
+</section>
 
-<div class="flags" id="work">
-  <div class="wrap flags-in">
-    <a class="fl rv" href="#funds" style="--fc:#d97706">
-      <div class="fl-k">Flagship · Asset allocation</div>
-      <h3>Five Funds</h3>
-      <p>Certain, Endowment, SAA, DAA and Alpha: five multi-asset funds, each built from its own sleeve set, live and priced daily since 15 July 2026.</p>
-      <div class="fl-c"><div class="fl-cl">NAV since launch · base 100</div><!--gen:spark-nav--><svg viewBox="0 0 320 96" role="img" aria-label="Daily NAV of the five funds since launch, base 100."><line x1="4" y1="50.1" x2="316" y2="50.1" class="sp-base"></line><polyline fill="none" stroke="#3db5d1" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,55.6 13.5,54.2 18.2,55.8 22.9,52.6 27.6,52.1 32.4,56.8 37.1,55.9 41.8,56.4 46.5,57.0 51.3,57.6 56.0,52.7 60.7,54.6 65.5,52.9 70.2,48.5 74.9,44.3 79.6,44.9 84.4,40.0 89.1,38.9 93.8,39.2 98.5,37.1 103.3,36.7 108.0,36.8 112.7,36.6 117.5,39.2 122.2,32.0 126.9,33.3 131.6,31.4 136.4,30.7 141.1,28.0 145.8,30.9 150.5,29.5 155.3,35.8 160.0,36.1 164.7,40.3 169.5,37.8 174.2,33.2 178.9,35.0 183.6,37.2 188.4,38.1 193.1,43.0 197.8,43.2 202.5,45.9 207.3,45.8 212.0,49.1 216.7,43.4 221.5,45.3 226.2,42.1 230.9,41.7 235.6,49.3 240.4,51.8 245.1,49.5 249.8,57.5 254.5,57.7 259.3,58.7 264.0,55.5 268.7,56.1 273.5,56.1 278.2,53.0 282.9,55.4 287.6,53.3 292.4,50.8 297.1,50.7 301.8,50.1 306.5,52.8 311.3,47.0 316.0,46.7"></polyline><polyline fill="none" stroke="#b07d5b" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,56.3 13.5,57.8 18.2,60.7 22.9,54.0 27.6,52.6 32.4,60.9 37.1,59.1 41.8,59.6 46.5,60.4 51.3,68.0 56.0,58.6 60.7,59.7 65.5,54.9 70.2,45.6 74.9,41.8 79.6,43.3 84.4,36.6 89.1,36.7 93.8,37.9 98.5,34.3 103.3,32.2 108.0,33.5 112.7,35.3 117.5,40.1 122.2,29.5 126.9,33.1 131.6,30.2 136.4,29.5 141.1,24.3 145.8,26.6 150.5,25.1 155.3,32.4 160.0,34.3 164.7,40.3 169.5,36.9 174.2,29.3 178.9,31.2 183.6,34.5 188.4,38.0 193.1,47.1 197.8,43.9 202.5,49.4 207.3,51.3 212.0,55.0 216.7,44.3 221.5,47.2 226.2,38.5 230.9,38.3 235.6,51.1 240.4,55.4 245.1,52.5 249.8,63.7 254.5,65.7 259.3,68.8 264.0,66.6 268.7,64.5 273.5,62.3 278.2,56.4 282.9,62.6 287.6,60.9 292.4,54.6 297.1,53.3 301.8,51.9 306.5,58.3 311.3,50.6 316.0,53.0"></polyline><polyline fill="none" stroke="#a58bf8" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,58.9 13.5,63.5 18.2,66.0 22.9,56.0 27.6,55.5 32.4,65.8 37.1,65.4 41.8,63.5 46.5,64.9 51.3,76.6 56.0,64.3 60.7,63.4 65.5,56.4 70.2,42.6 74.9,38.3 79.6,39.3 84.4,31.3 89.1,30.1 93.8,31.7 98.5,27.8 103.3,25.3 108.0,27.6 112.7,28.9 117.5,36.8 122.2,27.6 126.9,32.2 131.6,26.6 136.4,27.2 141.1,22.1 145.8,24.2 150.5,19.9 155.3,25.4 160.0,28.5 164.7,34.5 169.5,30.3 174.2,22.1 178.9,23.6 183.6,30.0 188.4,33.4 193.1,41.0 197.8,35.0 202.5,40.5 207.3,42.5 212.0,45.7 216.7,33.7 221.5,34.5 226.2,23.3 230.9,23.4 235.6,34.0 240.4,37.0 245.1,34.4 249.8,45.4 254.5,47.7 259.3,50.7 264.0,47.8 268.7,44.0 273.5,39.4 278.2,35.2 282.9,40.7 287.6,41.8 292.4,34.3 297.1,33.9 301.8,33.1 306.5,41.1 311.3,34.8 316.0,41.7"></polyline><polyline fill="none" stroke="#cf6bd6" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,59.7 13.5,64.6 18.2,66.8 22.9,55.5 27.6,54.5 32.4,65.1 37.1,64.9 41.8,63.4 46.5,65.7 51.3,76.8 56.0,63.5 60.7,62.4 65.5,55.5 70.2,41.7 74.9,37.0 79.6,37.4 84.4,29.0 89.1,26.7 93.8,28.6 98.5,24.3 103.3,22.4 108.0,24.4 112.7,25.0 117.5,33.7 122.2,24.5 126.9,28.6 131.6,22.2 136.4,23.4 141.1,18.6 145.8,20.8 150.5,16.1 155.3,21.8 160.0,24.7 164.7,30.6 169.5,26.2 174.2,17.6 178.9,19.1 183.6,25.7 188.4,28.9 193.1,36.3 197.8,29.9 202.5,36.0 207.3,37.7 212.0,41.2 216.7,29.2 221.5,29.6 226.2,18.3 230.9,18.3 235.6,28.7 240.4,31.1 245.1,28.5 249.8,39.9 254.5,42.2 259.3,45.1 264.0,42.3 268.7,38.1 273.5,33.0 278.2,28.7 282.9,34.7 287.6,36.3 292.4,28.2 297.1,27.9 301.8,27.2 306.5,36.0 311.3,30.1 316.0,37.3"></polyline><polyline fill="none" stroke="#e8a13a" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,61.0 13.5,71.5 18.2,72.9 22.9,58.7 27.6,58.2 32.4,73.2 37.1,73.2 41.8,71.5 46.5,73.5 51.3,88.0 56.0,67.6 60.7,62.1 65.5,49.2 70.2,29.4 74.9,26.8 79.6,27.5 84.4,16.8 89.1,14.7 93.8,18.2 98.5,13.1 103.3,9.4 108.0,11.1 112.7,12.8 117.5,24.6 122.2,17.3 126.9,24.0 131.6,15.7 136.4,19.4 141.1,14.6 145.8,16.4 150.5,8.8 155.3,15.3 160.0,18.9 164.7,27.1 169.5,21.1 174.2,8.3 178.9,11.3 183.6,19.3 188.4,24.1 193.1,33.3 197.8,23.7 202.5,31.9 207.3,36.1 212.0,41.2 216.7,26.6 221.5,25.4 226.2,8.5 230.9,8.0 235.6,19.7 240.4,20.8 245.1,15.3 249.8,28.4 254.5,29.9 259.3,33.3 264.0,31.3 268.7,23.2 273.5,14.0 278.2,8.1 282.9,15.8 287.6,21.2 292.4,11.2 297.1,11.9 301.8,12.2 306.5,27.1 311.3,22.5 316.0,34.8"></polyline></svg><!--/gen:spark-nav--></div>
-      <div class="fs"><div><span class="fs-v">5</span><span class="fs-k">Funds, priced daily</span></div><div><span class="fs-v">11</span><span class="fs-k">Dashboard pages</span></div><div><span class="fs-v">1997</span><span class="fs-k">Backtest from</span></div></div>
-      <div class="fl-go">The live record <span class="ar">→</span></div>
-    </a>
-    <a class="fl rv" data-d="1" href="#lab" style="--fc:#3b5f8a">
-      <div class="fl-k">Flagship · Fixed income &amp; derivatives</div>
-      <h3>Convexity Lab</h3>
-      <p>A research and portfolio-decision workstation: from market evidence and security analysis to portfolio risk, option strategies and hedged, stress-tested decisions.</p>
-      <div class="fl-c"><div class="fl-cl">10Y bond · convexity gain vs rate shock</div><!--gen:spark-cvx--><svg viewBox="0 0 320 96" role="img" aria-label="Convexity gain of a 10-year bond under rate shocks: positive whichever way rates move."><line x1="4" y1="88" x2="316" y2="88" class="sp-base"></line><polygon class="sp-fill" points="4,88 4.0,20.0 11.8,26.7 19.6,33.1 27.4,39.2 35.2,44.9 43.0,50.2 50.8,55.2 58.6,59.8 66.4,64.0 74.2,67.9 82.0,71.5 89.8,74.7 97.6,77.5 105.4,80.0 113.2,82.2 121.0,84.0 128.8,85.5 136.6,86.6 144.4,87.4 152.2,87.9 160.0,88.0 167.8,87.8 175.6,87.3 183.4,86.4 191.2,85.2 199.0,83.7 206.8,81.9 214.6,79.7 222.4,77.3 230.2,74.5 238.0,71.4 245.8,67.9 253.6,64.2 261.4,60.2 269.2,55.8 277.0,51.1 284.8,46.2 292.6,40.9 300.4,35.3 308.2,29.4 316.0,23.2 316,88"></polygon><polyline fill="none" class="sp-line" stroke-width="1.8" points="4.0,20.0 11.8,26.7 19.6,33.1 27.4,39.2 35.2,44.9 43.0,50.2 50.8,55.2 58.6,59.8 66.4,64.0 74.2,67.9 82.0,71.5 89.8,74.7 97.6,77.5 105.4,80.0 113.2,82.2 121.0,84.0 128.8,85.5 136.6,86.6 144.4,87.4 152.2,87.9 160.0,88.0 167.8,87.8 175.6,87.3 183.4,86.4 191.2,85.2 199.0,83.7 206.8,81.9 214.6,79.7 222.4,77.3 230.2,74.5 238.0,71.4 245.8,67.9 253.6,64.2 261.4,60.2 269.2,55.8 277.0,51.1 284.8,46.2 292.6,40.9 300.4,35.3 308.2,29.4 316.0,23.2"></polyline><circle cx="4.0" cy="20.0" r="2.6" class="sp-dot2"></circle><circle cx="82.0" cy="71.5" r="2.6" class="sp-dot2"></circle><circle cx="160.0" cy="88.0" r="2.6" class="sp-dot2"></circle><circle cx="238.0" cy="71.4" r="2.6" class="sp-dot2"></circle><circle cx="316.0" cy="23.2" r="2.6" class="sp-dot2"></circle></svg><!--/gen:spark-cvx--></div>
-      <div class="fs"><div><span class="fs-v">15</span><span class="fs-k">Research routes</span></div><div><span class="fs-v">25</span><span class="fs-k">Quant modules</span></div><div><span class="fs-v">10</span><span class="fs-k">Option structures</span></div></div>
-      <div class="fl-go">From research to decision <span class="ar">→</span></div>
-    </a>
-    <a class="fl rv" data-d="2" href="#regime" style="--fc:#5a84ad">
-      <div class="fl-k">Flagship · Macro framework</div>
-      <h3>Macro Regime Score</h3>
-      <p>Thirteen indicators across five pillars, scored monthly since 2003. It flagged the GFC nine months before the NBER dated it, and it is the input the dynamic layer reads.</p>
-      <div class="fl-c"><div class="fl-cl">Composite z-score · contraction band shaded</div><!--gen:spark-mrs--><svg viewBox="0 0 320 96" role="img" aria-label="Macro Regime Score composite since 2003; the Contraction band is shaded."><rect x="4" y="59.1" width="312" height="30.9" class="sp-band"></rect><line x1="4" y1="59.1" x2="316" y2="59.1" class="sp-thr"></line><polyline fill="none" class="sp-line" stroke-width="1.5" stroke-linejoin="round" points="4.0,25.6 5.1,18.1 6.2,21.7 7.4,21.0 8.5,17.8 9.6,19.9 10.7,19.0 11.9,17.6 13.0,18.0 14.1,19.8 15.2,15.0 16.3,17.1 17.5,19.5 18.6,17.2 19.7,21.5 20.8,19.0 22.0,15.6 23.1,17.5 24.2,16.0 25.3,17.2 26.4,16.8 27.6,18.3 28.7,18.0 29.8,23.8 30.9,21.5 32.1,20.0 33.2,22.8 34.3,27.3 35.4,29.5 36.5,28.7 37.7,29.8 38.8,23.0 39.9,23.7 41.0,21.9 42.2,24.4 43.3,30.3 44.4,37.0 45.5,35.7 46.6,37.7 47.8,35.0 48.9,30.0 50.0,27.2 51.1,26.6 52.3,26.3 53.4,28.9 54.5,30.2 55.6,26.6 56.7,28.0 57.9,27.2 59.0,28.8 60.1,40.7 61.2,43.9 62.4,40.0 63.5,50.9 64.6,56.1 65.7,55.2 66.8,56.5 68.0,62.2 69.1,58.0 70.2,50.6 71.3,53.0 72.5,58.5 73.6,61.1 74.7,65.4 75.8,79.2 76.9,82.3 78.1,84.5 79.2,83.4 80.3,81.4 81.4,80.5 82.6,73.3 83.7,61.6 84.8,54.9 85.9,51.1 87.1,46.5 88.2,44.6 89.3,40.7 90.4,41.3 91.5,40.0 92.7,36.8 93.8,39.6 94.9,35.2 96.0,29.4 97.2,32.4 98.3,35.7 99.4,33.0 100.5,36.5 101.6,35.6 102.8,34.5 103.9,34.0 105.0,30.1 106.1,30.3 107.3,30.8 108.4,31.7 109.5,29.0 110.6,30.2 111.7,32.7 112.9,33.9 114.0,42.1 115.1,45.0 116.2,39.3 117.4,39.0 118.5,38.1 119.6,33.5 120.7,31.2 121.8,29.6 123.0,30.3 124.1,35.7 125.2,35.8 126.3,34.1 127.5,34.2 128.6,32.8 129.7,31.1 130.8,31.3 131.9,31.0 133.1,28.5 134.2,30.4 135.3,30.2 136.4,30.4 137.6,31.6 138.7,33.1 139.8,30.8 140.9,30.0 142.0,30.0 143.2,28.4 144.3,28.8 145.4,27.3 146.5,29.0 147.7,31.4 148.8,30.0 149.9,26.3 151.0,24.9 152.1,24.7 153.3,22.9 154.4,26.6 155.5,27.0 156.6,27.5 157.8,29.5 158.9,31.5 160.0,31.1 161.1,30.5 162.2,31.7 163.4,29.3 164.5,32.0 165.6,32.9 166.7,33.4 167.9,38.6 169.0,41.3 170.1,39.5 171.2,39.8 172.3,40.5 173.5,41.9 174.6,42.7 175.7,38.2 176.8,35.2 178.0,36.8 179.1,37.4 180.2,32.6 181.3,31.9 182.4,32.7 183.6,32.5 184.7,32.3 185.8,30.2 186.9,28.3 188.1,29.8 189.2,28.8 190.3,28.7 191.4,29.6 192.5,29.5 193.7,27.0 194.8,29.7 195.9,30.7 197.0,26.6 198.2,28.5 199.3,27.8 200.4,26.4 201.5,30.9 202.6,31.9 203.8,29.8 204.9,31.2 206.0,31.1 207.1,29.6 208.3,30.2 209.4,29.2 210.5,31.5 211.6,34.8 212.7,40.0 213.9,36.5 215.0,35.3 216.1,34.8 217.2,32.6 218.4,34.4 219.5,34.2 220.6,30.9 221.7,34.7 222.8,33.8 224.0,33.0 225.1,33.4 226.2,31.2 227.3,32.7 228.5,37.2 229.6,70.4 230.7,73.4 231.8,67.5 232.9,62.3 234.1,44.4 235.2,34.6 236.3,34.8 237.4,37.0 238.6,39.9 239.7,39.7 240.8,36.8 241.9,37.3 243.1,25.5 244.2,23.3 245.3,27.5 246.4,29.9 247.5,30.3 248.7,33.6 249.8,35.0 250.9,32.0 252.0,33.2 253.2,35.3 254.3,38.6 255.4,43.0 256.5,48.1 257.6,44.3 258.8,46.5 259.9,48.9 261.0,46.3 262.1,44.9 263.3,47.7 264.4,50.6 265.5,47.7 266.6,44.6 267.7,41.2 268.9,40.6 270.0,43.6 271.1,40.7 272.2,43.7 273.4,40.0 274.5,36.3 275.6,36.2 276.7,33.6 277.8,33.9 279.0,32.1 280.1,29.8 281.2,30.6 282.3,32.8 283.5,31.0 284.6,31.9 285.7,29.4 286.8,31.8 287.9,31.4 289.1,35.1 290.2,32.6 291.3,32.9 292.4,34.4 293.6,32.9 294.7,31.8 295.8,32.9 296.9,34.8 298.0,38.7 299.2,36.1 300.3,34.2 301.4,31.5 302.5,32.6 303.7,31.8 304.8,30.4 305.9,32.3 307.0,32.4 308.1,30.9 309.3,33.0 310.4,37.9 311.5,34.5 312.6,33.6 313.8,32.6 314.9,32.3 316.0,33.2"></polyline><circle cx="316" cy="33.2" r="3" class="sp-dot"></circle></svg><!--/gen:spark-mrs--></div>
-      <div class="fs"><div><span class="fs-v" data-k="mrs.months">279</span><span class="fs-k">Months scored</span></div><div><span class="fs-v">13</span><span class="fs-k">Indicators</span></div><div><span class="fs-v" data-k="mrs.z">+0.17z</span><span class="fs-k"><span data-k="mrs.month_short">Aug 2026</span> · <span data-k="mrs.regime">Neutral</span></span></div></div>
-      <div class="fl-go">The regime record <span class="ar">→</span></div>
-    </a>
-  </div>
-</div>
-
-<main>
-
-<section id="experience" class="sec tint">
+<section class="stats" aria-label="At a glance">
   <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <div class="sec-k"><span class="n">01</span>Background</div>
-        <h2>Experience &amp; education</h2>
-      </div>
-      <p class="lede">Five-plus years building and validating credit-risk models for three of the largest US banks and card
-         issuers set the standard the investment work is held to: every assumption traced to a source, every model
-         validated out of sample, and portfolios sized around the bad state rather than the base case.</p>
+    <h2 class="rv">Five live funds. <span>Real benchmarks, real costs, and a regime record that goes back to 2003.</span></h2>
+    <div class="stat-grid">
+      <div class="stat rv"><span class="n" data-count>5</span><p>Multi-asset funds, <b>live since 15 Jul 2026</b></p></div>
+      <div class="stat rv" data-d="1"><span class="n" data-k="nav.ahead">4 of 5</span><p>Funds <b>ahead of their reference</b> since launch</p></div>
+      <div class="stat rv" data-d="2"><span class="n" data-count data-k="mrs.months">279</span><p>Months of <b>macro regimes</b> scored, since 2003</p></div>
+      <div class="stat rv" data-d="3"><span class="n">5<small>+ yrs</small></span><p><b>Institutional credit risk</b> at EXL</p></div>
+      <div class="stat rv" data-d="3"><span class="n" data-count>3.95</span><p>GPA, <b>Georgetown</b> MS in Finance</p></div>
     </div>
+  </div>
+</section>
 
-    <div class="sub-h rv">Professional</div>
-    <article class="card role rv">
+<section class="row-sec" id="platform" aria-label="The platform">
+  <div class="wrap">
+    <div class="row-head rv"><div><h2>The platform</h2><p>Every project, one row. Each opens its chapter below.</p></div>
+      <div class="row-nav" aria-hidden="true"><button type="button" data-dir="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button type="button" data-dir="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button></div></div>
+    <div class="rail" id="rail">
+      <a class="poster rv" href="#funds" style="--glow:rgba(212,176,114,.20)"><div class="art"><!--gen:spark-nav--><svg viewBox="0 0 320 96" role="img" aria-label="Daily NAV of the five funds since launch, base 100."><line x1="4" y1="50.1" x2="316" y2="50.1" class="sp-base"></line><polyline fill="none" stroke="#3db5d1" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,55.6 13.5,54.2 18.2,55.8 22.9,52.6 27.6,52.1 32.4,56.8 37.1,55.9 41.8,56.4 46.5,57.0 51.3,57.6 56.0,52.7 60.7,54.6 65.5,52.9 70.2,48.5 74.9,44.3 79.6,44.9 84.4,40.0 89.1,38.9 93.8,39.2 98.5,37.1 103.3,36.7 108.0,36.8 112.7,36.6 117.5,39.2 122.2,32.0 126.9,33.3 131.6,31.4 136.4,30.7 141.1,28.0 145.8,30.9 150.5,29.5 155.3,35.8 160.0,36.1 164.7,40.3 169.5,37.8 174.2,33.2 178.9,35.0 183.6,37.2 188.4,38.1 193.1,43.0 197.8,43.2 202.5,45.9 207.3,45.8 212.0,49.1 216.7,43.4 221.5,45.3 226.2,42.1 230.9,41.7 235.6,49.3 240.4,51.8 245.1,49.5 249.8,57.5 254.5,57.7 259.3,58.7 264.0,55.5 268.7,56.1 273.5,56.1 278.2,53.0 282.9,55.4 287.6,53.3 292.4,50.8 297.1,50.7 301.8,50.1 306.5,52.8 311.3,47.0 316.0,46.7"></polyline><polyline fill="none" stroke="#b07d5b" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,56.3 13.5,57.8 18.2,60.7 22.9,54.0 27.6,52.6 32.4,60.9 37.1,59.1 41.8,59.6 46.5,60.4 51.3,68.0 56.0,58.6 60.7,59.7 65.5,54.9 70.2,45.6 74.9,41.8 79.6,43.3 84.4,36.6 89.1,36.7 93.8,37.9 98.5,34.3 103.3,32.2 108.0,33.5 112.7,35.3 117.5,40.1 122.2,29.5 126.9,33.1 131.6,30.2 136.4,29.5 141.1,24.3 145.8,26.6 150.5,25.1 155.3,32.4 160.0,34.3 164.7,40.3 169.5,36.9 174.2,29.3 178.9,31.2 183.6,34.5 188.4,38.0 193.1,47.1 197.8,43.9 202.5,49.4 207.3,51.3 212.0,55.0 216.7,44.3 221.5,47.2 226.2,38.5 230.9,38.3 235.6,51.1 240.4,55.4 245.1,52.5 249.8,63.7 254.5,65.7 259.3,68.8 264.0,66.6 268.7,64.5 273.5,62.3 278.2,56.4 282.9,62.6 287.6,60.9 292.4,54.6 297.1,53.3 301.8,51.9 306.5,58.3 311.3,50.6 316.0,53.0"></polyline><polyline fill="none" stroke="#a58bf8" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,58.9 13.5,63.5 18.2,66.0 22.9,56.0 27.6,55.5 32.4,65.8 37.1,65.4 41.8,63.5 46.5,64.9 51.3,76.6 56.0,64.3 60.7,63.4 65.5,56.4 70.2,42.6 74.9,38.3 79.6,39.3 84.4,31.3 89.1,30.1 93.8,31.7 98.5,27.8 103.3,25.3 108.0,27.6 112.7,28.9 117.5,36.8 122.2,27.6 126.9,32.2 131.6,26.6 136.4,27.2 141.1,22.1 145.8,24.2 150.5,19.9 155.3,25.4 160.0,28.5 164.7,34.5 169.5,30.3 174.2,22.1 178.9,23.6 183.6,30.0 188.4,33.4 193.1,41.0 197.8,35.0 202.5,40.5 207.3,42.5 212.0,45.7 216.7,33.7 221.5,34.5 226.2,23.3 230.9,23.4 235.6,34.0 240.4,37.0 245.1,34.4 249.8,45.4 254.5,47.7 259.3,50.7 264.0,47.8 268.7,44.0 273.5,39.4 278.2,35.2 282.9,40.7 287.6,41.8 292.4,34.3 297.1,33.9 301.8,33.1 306.5,41.1 311.3,34.8 316.0,41.7"></polyline><polyline fill="none" stroke="#cf6bd6" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,59.7 13.5,64.6 18.2,66.8 22.9,55.5 27.6,54.5 32.4,65.1 37.1,64.9 41.8,63.4 46.5,65.7 51.3,76.8 56.0,63.5 60.7,62.4 65.5,55.5 70.2,41.7 74.9,37.0 79.6,37.4 84.4,29.0 89.1,26.7 93.8,28.6 98.5,24.3 103.3,22.4 108.0,24.4 112.7,25.0 117.5,33.7 122.2,24.5 126.9,28.6 131.6,22.2 136.4,23.4 141.1,18.6 145.8,20.8 150.5,16.1 155.3,21.8 160.0,24.7 164.7,30.6 169.5,26.2 174.2,17.6 178.9,19.1 183.6,25.7 188.4,28.9 193.1,36.3 197.8,29.9 202.5,36.0 207.3,37.7 212.0,41.2 216.7,29.2 221.5,29.6 226.2,18.3 230.9,18.3 235.6,28.7 240.4,31.1 245.1,28.5 249.8,39.9 254.5,42.2 259.3,45.1 264.0,42.3 268.7,38.1 273.5,33.0 278.2,28.7 282.9,34.7 287.6,36.3 292.4,28.2 297.1,27.9 301.8,27.2 306.5,36.0 311.3,30.1 316.0,37.3"></polyline><polyline fill="none" stroke="#e8a13a" stroke-width="1.6" stroke-linejoin="round" points="4.0,51.5 8.7,61.0 13.5,71.5 18.2,72.9 22.9,58.7 27.6,58.2 32.4,73.2 37.1,73.2 41.8,71.5 46.5,73.5 51.3,88.0 56.0,67.6 60.7,62.1 65.5,49.2 70.2,29.4 74.9,26.8 79.6,27.5 84.4,16.8 89.1,14.7 93.8,18.2 98.5,13.1 103.3,9.4 108.0,11.1 112.7,12.8 117.5,24.6 122.2,17.3 126.9,24.0 131.6,15.7 136.4,19.4 141.1,14.6 145.8,16.4 150.5,8.8 155.3,15.3 160.0,18.9 164.7,27.1 169.5,21.1 174.2,8.3 178.9,11.3 183.6,19.3 188.4,24.1 193.1,33.3 197.8,23.7 202.5,31.9 207.3,36.1 212.0,41.2 216.7,26.6 221.5,25.4 226.2,8.5 230.9,8.0 235.6,19.7 240.4,20.8 245.1,15.3 249.8,28.4 254.5,29.9 259.3,33.3 264.0,31.3 268.7,23.2 273.5,14.0 278.2,8.1 282.9,15.8 287.6,21.2 292.4,11.2 297.1,11.9 301.8,12.2 306.5,27.1 311.3,22.5 316.0,34.8"></polyline></svg><!--/gen:spark-nav--></div><div class="body"><span class="ev live">Live</span><h3>Five Funds</h3><p>Five mandates — capital preservation to equity-level risk — each against a real index benchmark.</p><span class="go">The live record</span></div></a>
+      <a class="poster rv" href="#lab" style="--glow:rgba(120,150,210,.22)"><div class="art"><!--gen:spark-cvx--><svg viewBox="0 0 320 96" role="img" aria-label="Convexity gain of a 10-year bond under rate shocks: positive whichever way rates move."><line x1="4" y1="88" x2="316" y2="88" class="sp-base"></line><polygon class="sp-fill" points="4,88 4.0,20.0 11.8,26.7 19.6,33.1 27.4,39.2 35.2,44.9 43.0,50.2 50.8,55.2 58.6,59.8 66.4,64.0 74.2,67.9 82.0,71.5 89.8,74.7 97.6,77.5 105.4,80.0 113.2,82.2 121.0,84.0 128.8,85.5 136.6,86.6 144.4,87.4 152.2,87.9 160.0,88.0 167.8,87.8 175.6,87.3 183.4,86.4 191.2,85.2 199.0,83.7 206.8,81.9 214.6,79.7 222.4,77.3 230.2,74.5 238.0,71.4 245.8,67.9 253.6,64.2 261.4,60.2 269.2,55.8 277.0,51.1 284.8,46.2 292.6,40.9 300.4,35.3 308.2,29.4 316.0,23.2 316,88"></polygon><polyline fill="none" class="sp-line" stroke-width="1.8" points="4.0,20.0 11.8,26.7 19.6,33.1 27.4,39.2 35.2,44.9 43.0,50.2 50.8,55.2 58.6,59.8 66.4,64.0 74.2,67.9 82.0,71.5 89.8,74.7 97.6,77.5 105.4,80.0 113.2,82.2 121.0,84.0 128.8,85.5 136.6,86.6 144.4,87.4 152.2,87.9 160.0,88.0 167.8,87.8 175.6,87.3 183.4,86.4 191.2,85.2 199.0,83.7 206.8,81.9 214.6,79.7 222.4,77.3 230.2,74.5 238.0,71.4 245.8,67.9 253.6,64.2 261.4,60.2 269.2,55.8 277.0,51.1 284.8,46.2 292.6,40.9 300.4,35.3 308.2,29.4 316.0,23.2"></polyline><circle cx="4.0" cy="20.0" r="2.6" class="sp-dot2"></circle><circle cx="82.0" cy="71.5" r="2.6" class="sp-dot2"></circle><circle cx="160.0" cy="88.0" r="2.6" class="sp-dot2"></circle><circle cx="238.0" cy="71.4" r="2.6" class="sp-dot2"></circle><circle cx="316.0" cy="23.2" r="2.6" class="sp-dot2"></circle></svg><!--/gen:spark-cvx--></div><div class="body"><span class="ev live">Preview</span><h3>Convexity Lab</h3><p>Fixed income, derivatives and portfolio risk — from market evidence to a hedged, stress-tested decision.</p><span class="go">From research to decision</span></div></a>
+      <a class="poster rv" href="#regime" style="--glow:rgba(91,194,179,.18)"><div class="art"><!--gen:spark-mrs--><svg viewBox="0 0 320 96" role="img" aria-label="Macro Regime Score composite since 2003; the Contraction band is shaded."><rect x="4" y="59.1" width="312" height="30.9" class="sp-band"></rect><line x1="4" y1="59.1" x2="316" y2="59.1" class="sp-thr"></line><polyline fill="none" class="sp-line" stroke-width="1.5" stroke-linejoin="round" points="4.0,25.6 5.1,18.1 6.2,21.7 7.4,21.0 8.5,17.8 9.6,19.9 10.7,19.0 11.9,17.6 13.0,18.0 14.1,19.8 15.2,15.0 16.3,17.1 17.5,19.5 18.6,17.2 19.7,21.5 20.8,19.0 22.0,15.6 23.1,17.5 24.2,16.0 25.3,17.2 26.4,16.8 27.6,18.3 28.7,18.0 29.8,23.8 30.9,21.5 32.1,20.0 33.2,22.8 34.3,27.3 35.4,29.5 36.5,28.7 37.7,29.8 38.8,23.0 39.9,23.7 41.0,21.9 42.2,24.4 43.3,30.3 44.4,37.0 45.5,35.7 46.6,37.7 47.8,35.0 48.9,30.0 50.0,27.2 51.1,26.6 52.3,26.3 53.4,28.9 54.5,30.2 55.6,26.6 56.7,28.0 57.9,27.2 59.0,28.8 60.1,40.7 61.2,43.9 62.4,40.0 63.5,50.9 64.6,56.1 65.7,55.2 66.8,56.5 68.0,62.2 69.1,58.0 70.2,50.6 71.3,53.0 72.5,58.5 73.6,61.1 74.7,65.4 75.8,79.2 76.9,82.3 78.1,84.5 79.2,83.4 80.3,81.4 81.4,80.5 82.6,73.3 83.7,61.6 84.8,54.9 85.9,51.1 87.1,46.5 88.2,44.6 89.3,40.7 90.4,41.3 91.5,40.0 92.7,36.8 93.8,39.6 94.9,35.2 96.0,29.4 97.2,32.4 98.3,35.7 99.4,33.0 100.5,36.5 101.6,35.6 102.8,34.5 103.9,34.0 105.0,30.1 106.1,30.3 107.3,30.8 108.4,31.7 109.5,29.0 110.6,30.2 111.7,32.7 112.9,33.9 114.0,42.1 115.1,45.0 116.2,39.3 117.4,39.0 118.5,38.1 119.6,33.5 120.7,31.2 121.8,29.6 123.0,30.3 124.1,35.7 125.2,35.8 126.3,34.1 127.5,34.2 128.6,32.8 129.7,31.1 130.8,31.3 131.9,31.0 133.1,28.5 134.2,30.4 135.3,30.2 136.4,30.4 137.6,31.6 138.7,33.1 139.8,30.8 140.9,30.0 142.0,30.0 143.2,28.4 144.3,28.8 145.4,27.3 146.5,29.0 147.7,31.4 148.8,30.0 149.9,26.3 151.0,24.9 152.1,24.7 153.3,22.9 154.4,26.6 155.5,27.0 156.6,27.5 157.8,29.5 158.9,31.5 160.0,31.1 161.1,30.5 162.2,31.7 163.4,29.3 164.5,32.0 165.6,32.9 166.7,33.4 167.9,38.6 169.0,41.3 170.1,39.5 171.2,39.8 172.3,40.5 173.5,41.9 174.6,42.7 175.7,38.2 176.8,35.2 178.0,36.8 179.1,37.4 180.2,32.6 181.3,31.9 182.4,32.7 183.6,32.5 184.7,32.3 185.8,30.2 186.9,28.3 188.1,29.8 189.2,28.8 190.3,28.7 191.4,29.6 192.5,29.5 193.7,27.0 194.8,29.7 195.9,30.7 197.0,26.6 198.2,28.5 199.3,27.8 200.4,26.4 201.5,30.9 202.6,31.9 203.8,29.8 204.9,31.2 206.0,31.1 207.1,29.6 208.3,30.2 209.4,29.2 210.5,31.5 211.6,34.8 212.7,40.0 213.9,36.5 215.0,35.3 216.1,34.8 217.2,32.6 218.4,34.4 219.5,34.2 220.6,30.9 221.7,34.7 222.8,33.8 224.0,33.0 225.1,33.4 226.2,31.2 227.3,32.7 228.5,37.2 229.6,70.4 230.7,73.4 231.8,67.5 232.9,62.3 234.1,44.4 235.2,34.6 236.3,34.8 237.4,37.0 238.6,39.9 239.7,39.7 240.8,36.8 241.9,37.3 243.1,25.5 244.2,23.3 245.3,27.5 246.4,29.9 247.5,30.3 248.7,33.6 249.8,35.0 250.9,32.0 252.0,33.2 253.2,35.3 254.3,38.6 255.4,43.0 256.5,48.1 257.6,44.3 258.8,46.5 259.9,48.9 261.0,46.3 262.1,44.9 263.3,47.7 264.4,50.6 265.5,47.7 266.6,44.6 267.7,41.2 268.9,40.6 270.0,43.6 271.1,40.7 272.2,43.7 273.4,40.0 274.5,36.3 275.6,36.2 276.7,33.6 277.8,33.9 279.0,32.1 280.1,29.8 281.2,30.6 282.3,32.8 283.5,31.0 284.6,31.9 285.7,29.4 286.8,31.8 287.9,31.4 289.1,35.1 290.2,32.6 291.3,32.9 292.4,34.4 293.6,32.9 294.7,31.8 295.8,32.9 296.9,34.8 298.0,38.7 299.2,36.1 300.3,34.2 301.4,31.5 302.5,32.6 303.7,31.8 304.8,30.4 305.9,32.3 307.0,32.4 308.1,30.9 309.3,33.0 310.4,37.9 311.5,34.5 312.6,33.6 313.8,32.6 314.9,32.3 316.0,33.2"></polyline><circle cx="316" cy="33.2" r="3" class="sp-dot"></circle></svg><!--/gen:spark-mrs--></div><div class="body"><span class="ev live">Live</span><h3>Macro Regime Score</h3><p>Thirteen indicators, five pillars, scored monthly since 2003. Flagged the GFC nine months before the NBER.</p><span class="go">The regime record</span></div></a>
+      <a class="poster rv" href="#dynamic" style="--glow:rgba(212,176,114,.16)"><div class="art"><div class="big">0.65 → 0.72<small>Sharpe, SAA → DAA · 1997–2026</small></div></div><div class="body"><span class="ev bt">Backtest</span><h3>Dynamic Allocation</h3><p>Five engines inside a tilt corridor turn the macro call into bounded exposure changes.</p><span class="go">How it is bounded</span></div></a>
+      <a class="poster rv" href="#dynamic" style="--glow:rgba(157,179,224,.18)"><div class="art"><div class="big"><span data-k="mc.paths">4,000</span><small>block-bootstrap paths · ten years</small></div></div><div class="body"><span class="ev sim">Simulation</span><h3>Ten years forward</h3><p>DAA against SAA and 60/40 across a decade of resampled history.</p><span class="go">The forward view</span></div></a>
+      <a class="poster rv" href="#infra" style="--glow:rgba(232,128,111,.16)"><div class="art"><div class="big">×5<small>failures kept on the record</small></div></div><div class="body"><h3>Research &amp; discipline</h3><p>Universe, governance and equity research — and every result that did not work, published.</p><span class="go">What failed, and why</span></div></a>
+      <a class="poster rv" href="#experience" style="--glow:rgba(212,176,114,.16)"><div class="art"><div class="big">5+ yrs<small>institutional credit risk</small></div></div><div class="body"><h3>Bank risk → portfolio risk</h3><p>PD, loss forecasting, stress testing and CCAR · CECL · IFRS-9 validation for three of the largest US banks and card issuers.</p><span class="go">The background</span></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="experience" style="--spot:rgba(212,176,114,.07)">
+  <div class="wrap exp">
+    <div class="exp-side rv">
+      <p class="eyebrow">Background</p>
+      <h2>Five-plus years inside bank risk.</h2>
+      <p>Building and validating credit-risk models for three of the largest US banks and card issuers set the standard the
+         investment work is held to: every assumption traced to a source, every model validated out of sample, and
+         portfolios sized around the bad state rather than the base case.</p>
+      <div class="ctas"><a class="btn btn-s" href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener">Résumé <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></a></div>
+    </div>
+    <div>
+      <article class="card role rv">
       <div class="role-side"><img src="assets/logos/exl.svg" alt="EXL" width="64" height="24"><div class="when">Nov 2020 — Present<br>New York, NY</div></div>
       <div><h3>Senior Consultant, Risk Strategy &amp; Modelling</h3>
         <div class="org">EXL · risk strategy and modelling for three of the largest US banks and card issuers</div>
@@ -670,7 +537,7 @@ summary .ev{margin-left:10px;margin-right:auto}
         </div>
         <div class="awards"><span>Ace Award · H1 2021</span><span>Stellar Performance · Q1 2023</span><span>The Pioneer Award · H2 2023</span><span>Ace Award · H1 2024</span></div></div>
     </article>
-    <article class="card mt rv">
+      <article class="card mt rv">
       <div class="card-head"><div><div class="k">Why the background carries over</div><h3>From bank risk to portfolio risk</h3></div></div>
       <div class="bridge-rows">
         <div class="bridge-row"><div class="from"><small>At EXL</small>Macroeconomic drivers inside time-series PD models</div><div class="arr" aria-hidden="true">→</div>
@@ -683,7 +550,7 @@ summary .ev{margin-left:10px;margin-right:auto}
           <div class="to"><small>In the platform</small>A daily NAV pipeline that refuses a stale or broken feed rather than publish it</div></div>
       </div>
     </article>
-    <article class="card role mt rv">
+      <article class="card role mt rv">
       <div class="role-side"><div class="when">Jan — Feb 2026<br>Knoxville, TN</div></div>
       <div><h3>Student Consultant — Equity Portfolio Review</h3>
         <div class="org">Wealth-management RIA · Georgetown MSF Winter Clinic</div>
@@ -696,8 +563,13 @@ summary .ev{margin-left:10px;margin-right:auto}
           <div class="kpi"><div class="v">1.07<span class="ar">→</span>0.84</div><div class="k">Beta</div></div>
         </div></div>
     </article>
+    </div>
+  </div>
+</section>
 
-    <div class="sub-h next rv">Education</div>
+<section class="chapter alt" id="education" style="--spot:rgba(212,176,114,.06)">
+  <div class="wrap">
+    <div class="ch-head rv"><h2>Education. <em>Engineering, then finance.</em></h2><p class="sub">An IIT Kanpur engineering degree, then Georgetown McDonough’s MS in Finance — completed alongside full-time work.</p></div>
     <div class="edu">
       <article class="card rv">
         <div class="when">Aug 2025 — 2027 · Washington, DC</div>
@@ -720,7 +592,6 @@ summary .ev{margin-left:10px;margin-right:auto}
         </dl>
       </article>
     </div>
-
     <div class="grid2" style="margin-top:18px">
       <article class="card rv"><div class="card-head"><div><div class="k">Certifications</div></div></div>
         <ul class="cl">
@@ -740,28 +611,12 @@ summary .ev{margin-left:10px;margin-right:auto}
   </div>
 </section>
 
-<section id="funds" class="sec">
+<section class="chapter" id="funds">
   <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <div class="sec-k"><span class="n">02</span>Asset allocation</div>
-        <h2>Five funds, live since 15 July 2026</h2>
-      </div>
-      <p class="lede">Certain · Endowment · SAA · DAA · Alpha. Each fund declares its own sleeve set, its own construction
-         constraints and a real index benchmark. All five launched at NAV 100.00 and are priced daily from
-         dividend-adjusted closes, net of a 15bp annual fee and 10bp per side.</p>
-    </div>
-
-    <dl class="brief rv">
-      <div><dt>Objective</dt><dd>Five distinct mandates — capital preservation to equity-level risk — each held to a <b>real index benchmark</b>.</dd></div>
-      <div><dt>Method</dt><dd>Own sleeve set and constraints per fund; Black-Litterman views on a benchmark prior; DAA and Alpha tilted by a five-engine rule set.</dd></div>
-      <div><dt>Evidence</dt><dd><span class="ev live">Live</span>Daily NAV since 15 Jul 2026, shown first. <span class="ev bt">Backtest</span>1997–2026 of today's weights, kept separate and labelled.</dd></div>
-      <div><dt>Status</dt><dd><b>Live</b> · <span data-k="nav.days">67</span> trading days · <span data-k="nav.ahead">4 of 5</span> funds ahead of their reference since launch</dd></div>
-    </dl>
-
-    <article class="card rv">
+    <div class="ch-head rv"><span class="ev live">Live</span><h2>Five funds. <em>One discipline.</em></h2><p class="sub">Certain, Endowment, SAA, DAA and Alpha — each with its own sleeve set, constraints and a real index benchmark, priced daily since 15 July 2026, net of fees and costs.</p></div>
+    <div class="stage rv">
       <div class="card-head">
-        <div><div class="k"><span class="ev live">Live</span>The live record · NAV per unit</div><h3>Five mandates, not one dial</h3></div>
+        <div><div class="k">The live record · NAV per unit</div><h3>Five mandates, not one dial</h3></div>
         <div class="links">
           <a class="lk lk-live" href="https://ankitv25.github.io/Asset-Allocation/">Live dashboard</a>
           <a class="lk" href="https://ankitv25.github.io/Asset-Allocation/live.html">Live NAV</a>
@@ -772,12 +627,9 @@ summary .ev{margin-left:10px;margin-right:auto}
          T-bills, TIPS and Swiss francs; Endowment is built around real assets; SAA is the lean policy
          portfolio; DAA runs that policy actively; Alpha takes equity-level risk on its own ~14% volatility budget.
          Eleven dashboard pages render any of the five, from construction to stress and Monte Carlo.</p>
-
+      <p class="figs" style="margin:18px 0 12px">Daily, <span data-k="nav.from">15 Jul</span> – <span data-k="nav.asof">16 Oct 2026</span>. <span data-k="nav.days">67</span> trading days is a short sample — read it as a record, not a verdict on skill.</p>
       <div class="navgrid">
-        <div>
-          <p class="figs" style="margin-bottom:10px">Daily, <span data-k="nav.from">15 Jul</span> – <span data-k="nav.asof">16 Oct 2026</span>. <span data-k="nav.days">67</span> trading days is a short
-             sample — read it as a record, not a verdict on skill.</p>
-          <div class="navchart" id="navChart"><!--gen:navchart--><svg viewBox="0 0 680 280" role="img" aria-label="Daily NAV of the five funds from launch at 100 on 15 Jul 2026 to 16 Oct 2026. Alpha +1.14 percent, DAA +0.95 percent, SAA +0.62 percent, Certain +0.25 percent, Endowment −0.21 percent since launch.">
+        <div><div class="navchart" id="navChart"><!--gen:navchart--><svg viewBox="0 0 680 280" role="img" aria-label="Daily NAV of the five funds from launch at 100 on 15 Jul 2026 to 16 Oct 2026. Alpha +1.14 percent, DAA +0.95 percent, SAA +0.62 percent, Certain +0.25 percent, Endowment −0.21 percent since launch.">
 <line class="gl" x1="48" y1="238.0" x2="660" y2="238.0"></line><text class="ax" x="40" y="242.0" text-anchor="end">96</text>
 <line class="gl" x1="48" y1="182.5" x2="660" y2="182.5"></line><text class="ax" x="40" y="186.5" text-anchor="end">98</text>
 <line class="zl" x1="48" y1="127.0" x2="660" y2="127.0"></line><text class="ax" x="40" y="131.0" text-anchor="end">100</text>
@@ -798,8 +650,7 @@ summary .ev{margin-left:10px;margin-right:auto}
 <circle data-f="SAA" cx="660" cy="109.7" r="3.6" fill="#a58bf8"></circle>
 <circle data-f="DAA" cx="660" cy="100.6" r="3.6" fill="#cf6bd6"></circle>
 <circle data-f="Alpha" cx="660" cy="95.4" r="3.6" fill="#e8a13a"></circle>
-<line class="xh" id="navXh" x1="0" y1="16" x2="0" y2="238"></line><g class="hd" id="navDots"></g></svg><!--/gen:navchart--></div>
-        </div>
+<line class="xh" id="navXh" x1="0" y1="16" x2="0" y2="238"></line><g class="hd" id="navDots"></g></svg><!--/gen:navchart--></div></div>
         <div class="board" id="navBoard" aria-live="polite">
           <div class="board-h"><span>NAV per unit</span><b id="navDate" data-k="nav.asof">16 Oct 2026</b></div>
           <!--gen:navboard--><button class="brow" type="button" data-f="Alpha" style="--c:#e8a13a"><i></i><span class="bn">Alpha<small>vs S&amp;P 500</small></span><span class="brd">101.14</span><span class="bch up">+1.14%</span></button>
@@ -810,19 +661,20 @@ summary .ev{margin-left:10px;margin-right:auto}
           <p class="board-f">Change since launch at 100.00. Hover or tap the chart to read any day; select a fund to isolate it.</p>
         </div>
       </div>
-    </article>
-
-    <article class="card mt rv">
-      <div class="card-head"><div><div class="k"><span class="ev live">Live</span>Since launch · against each fund's own reference</div><h3>Returns and mandates</h3></div></div>
-      <div class="tbl-wrap"><table><thead><tr><th>Fund</th><th class="tl">Horizon</th><th class="tl">Role</th><th class="tl">Reference</th><th>Fund</th><th>Reference</th><th>Active</th></tr></thead><tbody>
+    </div>
+    <div class="specs rv"><div class="kpi"><div class="v">5</div><div class="k">Funds, priced daily</div></div><div class="kpi"><div class="v"><span data-k="nav.days">67</span></div><div class="k">Trading days of live NAV</div></div><div class="kpi"><div class="v"><span data-k="nav.ahead">4 of 5</span></div><div class="k">Ahead of their reference</div></div><div class="kpi"><div class="v">15<small>bp</small></div><div class="k">Annual fee, plus 10bp per side</div></div></div>
+    <div class="deep">
+      <p class="deep-h rv">Explore the record</p>
+      <article class="card rv">
+        <div class="card-head"><div><div class="k"><span class="ev live">Live</span>Since launch · against each fund's own reference</div><h3>Returns and mandates</h3></div></div>
+        <div class="tbl-wrap"><table><thead><tr><th>Fund</th><th class="tl">Horizon</th><th class="tl">Role</th><th class="tl">Reference</th><th>Fund</th><th>Reference</th><th>Active</th></tr></thead><tbody>
 <!--gen:fundtable--><tr><td><span class="chip" style="--c:#3db5d1"></span>Certain</td><td class="tl">3+ yrs</td><td class="tl">Capital preservation tier — purchasing power first</td><td class="tl">ACWI 40 / Agg 60</td><td class="num">+0.25%</td><td class="num">−0.99%</td><td class="num up">+1.24 pp</td></tr>
 <tr><td><span class="chip" style="--c:#b07d5b"></span>Endowment</td><td class="tl">10+ yrs</td><td class="tl">Long-horizon real-asset tier</td><td class="tl">ACWI 60 / Agg 40</td><td class="num">−0.21%</td><td class="num">−0.60%</td><td class="num up">+0.39 pp</td></tr>
 <tr><td><span class="chip" style="--c:#a58bf8"></span>SAA</td><td class="tl">20+ yrs</td><td class="tl">House policy portfolio — the strategic anchor</td><td class="tl">ACWI 80 / Agg 20</td><td class="num">+0.62%</td><td class="num">−0.23%</td><td class="num up">+0.85 pp</td></tr>
 <tr><td><span class="chip" style="--c:#cf6bd6"></span>DAA</td><td class="tl">20+ yrs</td><td class="tl">The policy portfolio run actively</td><td class="tl">ACWI 80 / Agg 20</td><td class="num">+0.95%</td><td class="num">−0.23%</td><td class="num up">+1.18 pp</td></tr>
 <tr><td><span class="chip" style="--c:#e8a13a"></span>Alpha</td><td class="tl">10+ yrs</td><td class="tl">Equity-level risk, run actively</td><td class="tl">S&amp;P 500</td><td class="num">+1.14%</td><td class="num">+1.37%</td><td class="num dn">−0.23 pp</td></tr><!--/gen:fundtable-->
-      </tbody></table></div>
-
-      <details class="more"><summary>Backtest of today's weights, 1997 – 2026 <span class="ev bt">Backtest</span></summary>
+        </tbody></table></div>
+        <details class="more"><summary>Backtest of today's weights, 1997 – 2026 <span class="ev bt">Backtest</span></summary>
         <div class="tbl-wrap"><table><thead><tr><th>Fund</th><th>CAGR</th><th>Vol</th><th>Sharpe</th><th>Worst loss</th></tr></thead><tbody>
           <tr><td>Certain</td><td class="num">4.94%</td><td class="num">4.1%</td><td class="num">0.67</td><td class="num">−10.0%</td></tr>
           <tr><td>Endowment</td><td class="num">7.28%</td><td class="num">8.1%</td><td class="num">0.64</td><td class="num">−24.3%</td></tr>
@@ -836,8 +688,7 @@ summary .ev{margin-left:10px;margin-right:auto}
         </tbody></table></div>
         <p class="s">Today's weights carried back over history, net of dealing costs and the 15bp fee — not the live
            track record. Benchmarks are real indices, never home-made paper blends.</p></details>
-
-      <details class="more"><summary>Holdings by fund</summary>
+        <details class="more"><summary>Holdings by fund</summary>
         <div class="tbl-wrap"><table><thead><tr><th>Holding</th><th>Certain</th><th>Endowment</th><th>SAA</th><th>DAA</th><th>Alpha</th></tr></thead><tbody>
 <!--gen:holdings--><tr><td>US equity</td><td class="num">9.0%</td><td class="num">23.5%</td><td class="num">35.0%</td><td class="num">35.7%</td><td class="num">64.5%</td></tr>
 <tr><td>Developed ex-US equity</td><td class="num">5.0%</td><td class="num">4.5%</td><td class="num">7.0%</td><td class="num">8.3%</td><td class="num">7.0%</td></tr>
@@ -856,53 +707,26 @@ summary .ev{margin-left:10px;margin-right:auto}
         </tbody></table></div>
         <p class="s">Each fund's book as the dashboard publishes it on <span data-k="nav.asof">16 Oct 2026</span>. The static funds hold their
            policy weights; DAA and Alpha move with their engines at each month end.</p></details>
-    </article>
-
-    <article class="card mt rv">
-      <div class="card-head"><div><div class="k">How to read these numbers</div><h3>Assumptions and limits</h3></div></div>
-      <dl class="facts4">
+      </article>
+      <article class="card rv">
+        <div class="card-head"><div><div class="k">How to read these numbers</div><h3>Assumptions and limits</h3></div></div>
+        <dl class="facts4">
         <div><dt>Costs</dt><dd>Net of a 15bp annual fee and 10bp per side on every trade, live and in the backtest.</dd></div>
         <div><dt>Prices</dt><dd>Daily dividend-adjusted closes. All five funds launched at NAV 100.00 on 15 July 2026.</dd></div>
         <div><dt>Benchmarks</dt><dd>Each fund against its own real index reference — never a home-made paper blend.</dd></div>
         <div><dt>Sample</dt><dd><span data-k="nav.days">67</span> live trading days is a record, not a verdict on skill. 1997–2026 is today's weights carried back, not a track record.</dd></div>
       </dl>
-    </article>
-
-    <p class="insight mt rv"><span class="tag">Design note</span>Excluding the trend sleeve costs <strong>Certain 0.04 of Sharpe and Endowment nothing</strong>
+      </article>
+      <p class="insight mt rv"><span class="tag">Design note</span>Excluding the trend sleeve costs <strong>Certain 0.04 of Sharpe and Endowment nothing</strong>
       — so neither carries one. The price is 2022: every asset except cash and commodities fell, and
       Certain's −10% worst loss is entirely that year.</p>
+    </div>
   </div>
 </section>
 
-<section id="lab" class="sec alt">
+<section class="chapter alt" id="lab" style="--spot:rgba(120,150,210,.10)">
   <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <div class="sec-k"><span class="n">03</span>Fixed income · derivatives · portfolio risk</div>
-        <h2>Convexity Lab</h2>
-      </div>
-      <p class="lede">A research and portfolio-decision workstation. It takes a market view, or a real portfolio, from
-         evidence through security analysis, risk decomposition and strategy design to a hedged,
-         stress-tested decision, and keeps the thesis, assumptions and outcome on record.</p>
-    </div>
-
-    <dl class="brief rv">
-      <div><dt>Objective</dt><dd>Take a market view or a real portfolio from evidence to a <b>hedged, stress-tested decision</b> on record.</dd></div>
-      <div><dt>Method</dt><dd>Bootstrapped Treasury curve and BDT lattice; Fama–French five-factor plus momentum; Euler risk, VaR and CVaR; historical and forward stress; ten option structures.</dd></div>
-      <div><dt>Evidence</dt><dd>Public preview on a dated Treasury curve; the convexity chart in this section is re-derived from it weekly.</dd></div>
-      <div><dt>Status</dt><dd><span class="ev live">Preview</span>Rates, fund evidence, CMAs and regime public; the full workstation runs privately while it moves hosting.</dd></div>
-    </dl>
-
-    <div class="lab-intro rv">
-      <div><div class="k">Six stages</div><h3>One environment, from research to decision</h3>
-        <p class="dek">Fifteen research routes built on twenty-five quantitative modules. Each stage answers a question an
-         investment committee would ask, and each one hands its output to the next. Every figure carries
-         its source and observation date.</p></div>
-      <div class="links">
-        <a class="lk lk-live" href="https://ankitv25.github.io/Convexity-Lab-RM/">Public preview</a>
-        <a class="lk" href="https://ankitv25.github.io/Convexity-Lab-RM/rates/">Rates &amp; bonds</a></div>
-    </div>
-
+    <div class="ch-head rv"><span class="ev live">Preview</span><h2>Convexity Lab. <em>Research to decision.</em></h2><p class="sub">A research and portfolio-decision workstation for fixed income, derivatives and portfolio risk — six stages, each answering the question an investment committee would ask, and each handing its output to the next.</p></div>
     <ol class="flow">
       <li class="st rv">
         <div class="st-n"><b>01</b>Research</div>
@@ -957,9 +781,13 @@ summary .ev{margin-left:10px;margin-right:auto}
         <div class="st-m"><span>Protection analysis</span><span>Research log</span><span>Strategy incubator</span></div>
       </li>
     </ol>
-
-    <div class="grid2">
-      <article class="card rv">
+    <div class="specs rv"><div class="kpi"><div class="v">15</div><div class="k">Research routes</div></div><div class="kpi"><div class="v">25</div><div class="k">Quantitative modules</div></div><div class="kpi"><div class="v">10</div><div class="k">Option structures</div></div><div class="kpi"><div class="v">6</div><div class="k">Stages, evidence to decision</div></div></div>
+    <div class="ctas rv" style="margin-top:40px"><a class="btn btn-p" href="https://ankitv25.github.io/Convexity-Lab-RM/">Open the public preview</a>
+      <a class="btn btn-s" href="https://ankitv25.github.io/Convexity-Lab-RM/rates/">Rates &amp; bonds</a></div>
+    <div class="deep">
+      <p class="deep-h rv">Explore the methodology</p>
+      <div class="grid2">
+        <article class="card rv">
         <div class="card-head"><div><div class="k">Stage 06 · alternatives</div><h3>Protecting a portfolio</h3></div></div>
         <p class="dek">Once a portfolio's risk is decomposed, the Lab compares ways to reshape it side by side. It
            doesn't stop at one hedge verdict: each alternative is shown with its cost, the loss it removes in
@@ -974,8 +802,7 @@ summary .ev{margin-left:10px;margin-right:auto}
           <tr><td>Liquidity &amp; Treasury buffer</td><td class="tl">Builds dry powder and reduces forced-selling risk before any derivative complexity is added</td></tr>
         </tbody></table></div>
       </article>
-
-      <article class="card rv" data-d="1">
+        <article class="card rv" data-d="1">
         <div class="card-head"><div><div class="k">Stage 02 · Treasury curve, <span data-k="cvx.asof">2 Oct 2026</span></div><h3>Rates, priced exactly</h3></div></div>
         <p class="dek">The public preview publishes the rates engine on a dated Treasury par curve. This chart shows
            the 10-year bond's convexity gain: exact repricing after each par-yield shock, minus what duration
@@ -1005,35 +832,20 @@ summary .ev{margin-left:10px;margin-right:auto}
 </svg><!--/gen:cvxchart--></div>
         <p class="figcap">10-year 4% synthetic bond, curve observed <span data-k="cvx.asof">2 Oct 2026</span>. Price units per 100 face.</p>
       </article>
-    </div>
-
-    <p class="insight mt rv"><span class="tag">Built to state its limits</span>Black–Scholes is labelled a European benchmark, and scenario weights
+      </div>
+      <p class="insight mt rv"><span class="tag">Built to state its limits</span>Black–Scholes is labelled a European benchmark, and scenario weights
       are labelled as assumptions. Nothing is sent to a broker. <strong>Every thesis is saved with its legs, inputs
       and invalidation level</strong>, so a decision can be reopened and audited later, not just remembered.</p>
-    <p class="note rv">The full workstation runs privately behind owner sign-in while it moves to new hosting.
+      <p class="note rv">The full workstation runs privately behind owner sign-in while it moves to new hosting.
       The public preview — rates and bonds, five-fund evidence, capital-market assumptions and the macro
       regime — is live now.</p>
+    </div>
   </div>
 </section>
 
-<section id="regime" class="sec">
+<section class="chapter" id="regime" style="--spot:rgba(91,194,179,.08)">
   <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <div class="sec-k"><span class="n">04</span>Macro framework</div>
-        <h2>MRS &amp; regime analysis</h2>
-      </div>
-      <p class="lede">The funds need to know what environment they are operating in. The Macro Regime Score
-         is the framework that answers it — and the input the dynamic layer argues from.</p>
-    </div>
-
-    <dl class="brief rv">
-      <div><dt>Objective</dt><dd>Classify the <b>US macro-financial regime</b> each month so allocation can respond to it.</dd></div>
-      <div><dt>Method</dt><dd>Thirteen indicators in five weighted pillars; expanding-window z-scores, so no look-ahead; calibrated thresholds; two-month persistence.</dd></div>
-      <div><dt>Evidence</dt><dd><span data-k="mrs.months">279</span> months since 2003 · GFC flagged nine months before the NBER · equal-weight robustness 0.989.</dd></div>
-      <div><dt>Status</dt><dd><span class="ev live">Live</span>Rebuilt daily on GitHub Actions; latest month <span data-k="mrs.month_short">Aug 2026</span> reads <b><span data-k="mrs.regime">Neutral</span></b>.</dd></div>
-    </dl>
-
+    <div class="ch-head rv"><span class="ev live">Live</span><h2>Macro Regime Score. <em>The environment, measured.</em></h2><p class="sub">Thirteen indicators across five pillars, scored monthly since 2003 — the framework that tells the funds what environment they are operating in, and the input the dynamic layer argues from.</p></div>
     <article class="card band rv">
       <div class="card-head">
         <div><div class="k"><span class="ev live">Live</span>Rebuilt daily on GitHub Actions</div><h3>A monthly composite of the US macro-financial environment</h3>
@@ -1073,10 +885,10 @@ summary .ev{margin-left:10px;margin-right:auto}
 </svg><!--/gen:mrsband-->
       <div class="bfoot"><!--gen:mrsfoot-->Two contractions in 23 years — the GFC at <strong>−2.15</strong> and COVID at <strong>−1.65</strong>. Nothing else crosses the line.<!--/gen:mrsfoot--></div>
     </article>
-
-    <div class="kpis mt rv"><!--gen:mrskpis--><div class="kpi"><div class="v">−2.15</div><div class="k">GFC trough, Dec 2008</div></div><div class="kpi"><div class="v">9 months</div><div class="k">Raw signal before NBER</div></div><div class="kpi"><div class="v">20</div><div class="k">Transitions in 23 years</div></div><div class="kpi"><div class="v">0.989</div><div class="k">Equal-weight robustness corr.</div></div><!--/gen:mrskpis--></div>
-
-    <div class="grid2 wide mt">
+    <div class="specs rv"><!--gen:mrskpis--><div class="kpi"><div class="v">−2.15</div><div class="k">GFC trough, Dec 2008</div></div><div class="kpi"><div class="v">9 months</div><div class="k">Raw signal before NBER</div></div><div class="kpi"><div class="v">20</div><div class="k">Transitions in 23 years</div></div><div class="kpi"><div class="v">0.989</div><div class="k">Equal-weight robustness corr.</div></div><!--/gen:mrskpis--></div>
+    <div class="deep">
+      <p class="deep-h rv">Explore the methodology</p>
+      <div class="grid2 wide mt">
       <article class="card rv">
         <p class="figt">Regime frequency, 2003–2026</p>
         <p class="figs">How the <span data-k="mrs.conf_n">278</span> confirmed months, <span data-k="mrs.conf_range">Jul 2003 – Aug 2026</span>, distribute across the calibrated bands.</p>
@@ -1094,38 +906,21 @@ summary .ev{margin-left:10px;margin-right:auto}
         composite toward its centre. That mechanism was published as an appendix rather than patched away;
         the redesign to expanding z-scores followed from it.</p>
     </div>
-
-    <article class="card mt rv" style="padding-top:6px;padding-bottom:6px">
-      <details class="more" style="border:0;margin:0"><summary>Pillar structure and weights</summary>
+      <article class="card rv" style="padding-top:6px;padding-bottom:6px"><details class="more" style="border:0;margin:0"><summary>Pillar structure and weights</summary>
         <div class="tbl-wrap"><table><thead><tr><th>Pillar</th><th>Weight</th><th>Indicators</th><th class="tl">Role</th></tr></thead><tbody>
           <tr><td>Growth</td><td class="num">30%</td><td class="num">4</td><td class="tl">NFP, IP, GDP, services PCE — sized for upside participation, not only crisis detection</td></tr>
           <tr><td>Credit</td><td class="num">20%</td><td class="num">2</td><td class="tl">IG spread level and momentum — the best crisis-type discriminator</td></tr>
           <tr><td>Market Stress</td><td class="num">20%</td><td class="num">3</td><td class="tl">VIX, bond stress, SPY drawdown — the fastest signal</td></tr>
           <tr><td>Inflation</td><td class="num">15%</td><td class="num">2</td><td class="tl">PCE deviation and momentum — decisive in the 2021–22 tightening regime</td></tr>
           <tr><td>Liquidity / Rates</td><td class="num">15%</td><td class="num">2</td><td class="tl">NFCI and 10Y–2Y curve — the principal leading indicator</td></tr>
-        </tbody></table></div></details>
-    </article>
+        </tbody></table></div></details></article>
+    </div>
   </div>
 </section>
 
-<section id="dynamic" class="sec tint">
+<section class="chapter alt" id="dynamic" style="--spot:rgba(212,176,114,.08)">
   <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <div class="sec-k"><span class="n">05</span>Allocation implications</div>
-        <h2>From regime to allocation</h2>
-      </div>
-      <p class="lede">The dynamic layer. A regime model that never changes a position is a research curiosity — this is
-         where the macro call becomes an exposure change, bounded by rule rather than by judgment.</p>
-    </div>
-
-    <dl class="brief rv">
-      <div><dt>Objective</dt><dd>Turn the macro call into exposure changes <b>bounded by rule</b>, not judgment.</dd></div>
-      <div><dt>Method</dt><dd>Five engines — valuation, trend, relative strength, regime, diversifier sizing — read each month end inside a tilt corridor around the SAA.</dd></div>
-      <div><dt>Evidence</dt><dd><span class="ev bt">Backtest</span>1997–2026 with leave-one-out per engine. <span class="ev sim">Simulation</span>4,000-path, ten-year forward view.</dd></div>
-      <div><dt>Status</dt><dd><b>Runs live</b> as the DAA fund. Mechanical regime rotation failed its walk-forward gate and stays research-only.</dd></div>
-    </dl>
-
+    <div class="ch-head rv"><span class="ev bt">Backtest</span><span class="ev sim">Simulation</span><h2>Dynamic allocation. <em>Bounded by rule.</em></h2><p class="sub">A regime model that never changes a position is a research curiosity. Here the macro call becomes an exposure change — inside a tilt corridor, never by judgment.</p></div>
     <article class="card rv">
       <div class="card-head"><div><div class="k"><span class="ev bt">Backtest</span>Five engines · one tilt corridor · 1997–2026</div><h3>DAA — the policy portfolio, run actively</h3></div>
         <div class="links"><a class="lk lk-live" href="https://ankitv25.github.io/Asset-Allocation/index.html?p=daa">DAA on the dashboard</a></div></div>
@@ -1152,7 +947,6 @@ summary .ev{margin-left:10px;margin-right:auto}
         <p class="s">Leave-one-out on the DAA, 1997–2026: the full engine set against the same book with that one
            engine removed. Diversifier sizing adds little return but does the most for the worst loss.</p></details>
     </article>
-
     <article class="card mt rv">
       <div class="card-head"><div><div class="k"><span class="ev sim">Simulation</span>Forward view · <span data-k="mc.paths">4,000</span> block-bootstrap paths · <span data-k="mc.years">10</span> years</div>
         <h3>Ten years forward: DAA against 60/40</h3></div>
@@ -1169,8 +963,9 @@ summary .ev{margin-left:10px;margin-right:auto}
         <div class="kpis in-card"><!--gen:mckpis--><div class="kpi"><div class="v">8.3%<span class="ar">vs</span>7.2%</div><div class="k">Median CAGR · DAA vs 60/40</div></div><div class="kpi"><div class="v">1.42×<span class="ar">vs</span>1.12×</div><div class="k">Bad-case (p5) growth of $1</div></div><div class="kpi"><div class="v">−13.1%<span class="ar">vs</span>−17.0%</div><div class="k">Median worst drawdown</div></div><div class="kpi"><div class="v">0.1%<span class="ar">vs</span>2.8%</div><div class="k">Paths that lose money</div></div><!--/gen:mckpis--></div>
       </div>
     </article>
-
-    <div class="grid2 wide mt">
+    <div class="deep">
+      <p class="deep-h rv">Where it came from</p>
+      <div class="grid2 wide mt">
       <article class="card rv">
         <p class="figt"><span class="ev bt">Backtest</span>Lineage: the MRS overlay on the prior book</p>
         <p class="figs">Where the dynamic layer came from. Maximum drawdown before and after; each pair is a distinct mechanism
@@ -1198,19 +993,13 @@ summary .ev{margin-left:10px;margin-right:auto}
           finished claim.</p>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
-<section id="infra" class="sec">
+<section class="chapter" id="infra" style="--spot:rgba(232,128,111,.06)">
   <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <div class="sec-k"><span class="n">06</span>Research &amp; discipline</div>
-        <h2>Supporting research &amp; infrastructure</h2>
-      </div>
-      <p class="lede">The universe, estimation and governance the funds are built from — and, kept separate, the two
-         research programmes that run alongside them and deliberately do not feed them — plus the record of what failed.</p>
-    </div>
+    <div class="ch-head rv"><h2>Research &amp; discipline. <em>Including what failed.</em></h2><p class="sub">The universe, estimation and governance the funds are built from, the research programmes that run alongside them — and the record of what did not work.</p></div>
     <div class="tiles">
       <div class="tile rv"><div class="tile-k">Universe</div><h3>Asset Universe</h3>
         <p>The instrument registry, sleeve hierarchy and event-tagged sub-period analytics every fund is
@@ -1242,53 +1031,64 @@ summary .ev{margin-left:10px;margin-right:auto}
   </div>
 </section>
 
-</main>
-
-<footer class="foot" id="contact">
+<section class="close" id="contact">
   <div class="wrap">
-    <div class="card ticket rv">
-      <div class="ticket-l"><div class="sec-k">Get in touch</div>
-        <h2>Let's talk portfolios, allocation or research.</h2>
-        <p>I'm looking for a buy-side seat in multi-asset allocation, portfolio management or investment research.
-           Happy to walk through any layer of the funds, the regime model or Convexity Lab — including the parts that failed.</p></div>
-      <div class="ticket-r">
-        <a class="tline" href="mailto:ankitv0125@gmail.com"><span>Email</span>ankitv0125@gmail.com ↗</a>
-        <a class="tline" href="https://linkedin.com/in/ankitv0125"><span>LinkedIn</span>/in/ankitv0125 ↗</a>
-        <a class="tline" href="https://github.com/ankitv25"><span>GitHub</span>@ankitv25 ↗</a>
-        <a class="tline" href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener"><span>Resume</span>Download PDF ↓</a>
-      </div>
+    <h2 class="rv">Let’s <em>talk.</em></h2>
+    <p class="rv" data-d="1">I’m looking for a buy-side seat in multi-asset allocation, portfolio strategy or quantitative research. Happy to walk
+       through any layer of the work — including the parts that failed.</p>
+    <div class="ctas rv" data-d="2">
+      <a class="btn btn-p" href="mailto:ankitv0125@gmail.com">Email me</a>
+      <a class="btn btn-s" href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener">Résumé <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></a>
+      <a class="btn btn-s" href="https://linkedin.com/in/ankitv0125">LinkedIn</a>
+      <a class="btn btn-s" href="https://github.com/ankitv25">GitHub</a>
     </div>
-    <div class="foot-note">
-      <span>© 2026 Ankit Verma · New York, NY</span>
-      <span>Figures refreshed weekly from the live dashboards · latest <span data-k="site.asof">16 Oct 2026</span> · Independent research, not investment advice.</span>
-    </div>
+    <a class="mail rv" data-d="3" href="mailto:ankitv0125@gmail.com">ankitv0125@gmail.com</a>
   </div>
-</footer>
+  <div class="foot-note">
+    <span>© 2026 Ankit Verma · New York, NY</span>
+    <span>Figures refreshed weekly from the live dashboards · latest <span data-k="site.asof">16 Oct 2026</span> · Independent research, not investment advice.</span>
+  </div>
+</section>
+
+</main>
 
 <!--gen:navdata--><script type="application/json" id="navData">{"d":["2026-07-15","2026-07-16","2026-07-17","2026-07-20","2026-07-21","2026-07-22","2026-07-23","2026-07-24","2026-07-27","2026-07-28","2026-07-29","2026-07-30","2026-07-31","2026-08-03","2026-08-04","2026-08-05","2026-08-06","2026-08-07","2026-08-10","2026-08-11","2026-08-12","2026-08-13","2026-08-14","2026-08-17","2026-08-18","2026-08-19","2026-08-20","2026-08-21","2026-08-24","2026-08-25","2026-08-26","2026-08-27","2026-08-28","2026-08-31","2026-09-01","2026-09-02","2026-09-03","2026-09-04","2026-09-08","2026-09-09","2026-09-10","2026-09-11","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-21","2026-09-22","2026-09-23","2026-09-24","2026-09-25","2026-09-28","2026-09-29","2026-09-30","2026-10-01","2026-10-02","2026-10-05","2026-10-06","2026-10-07","2026-10-08","2026-10-09","2026-10-12","2026-10-13","2026-10-14","2026-10-15","2026-10-16"],"g":{"x0":48,"dx":9.272727,"a":96,"sy":27.75,"y1":238},"s":{"Certain":[99.9,99.59,99.7,99.58,99.81,99.86,99.5,99.57,99.53,99.49,99.44,99.81,99.67,99.8,100.12,100.44,100.39,100.75,100.83,100.81,100.97,101.0,100.99,101.0,100.81,101.35,101.25,101.4,101.45,101.64,101.43,101.53,101.06,101.04,100.73,100.92,101.26,101.13,100.96,100.9,100.53,100.51,100.31,100.32,100.08,100.5,100.36,100.59,100.63,100.06,99.88,100.04,99.45,99.44,99.36,99.6,99.55,99.55,99.78,99.6,99.77,99.95,99.96,100.0,99.8,100.23,100.25],"Endowment":[99.9,99.54,99.43,99.21,99.71,99.81,99.2,99.33,99.3,99.24,98.67,99.37,99.29,99.64,100.33,100.62,100.5,101.01,101.0,100.91,101.18,101.34,101.24,101.1,100.74,101.54,101.27,101.49,101.53,101.92,101.75,101.86,101.32,101.18,100.73,100.99,101.55,101.41,101.16,100.9,100.22,100.46,100.05,99.91,99.63,100.43,100.22,100.86,100.88,99.92,99.61,99.82,98.99,98.84,98.61,98.77,98.93,99.09,99.53,99.07,99.2,99.67,99.76,99.86,99.39,99.96,99.79],"SAA":[99.9,99.35,99.0,98.82,99.56,99.6,98.83,98.86,99.01,98.9,98.03,98.95,99.01,99.53,100.56,100.88,100.81,101.4,101.49,101.37,101.66,101.84,101.67,101.58,100.99,101.68,101.34,101.75,101.71,102.09,101.93,102.25,101.84,101.61,101.16,101.48,102.09,101.97,101.5,101.25,100.68,101.13,100.71,100.57,100.33,101.22,101.16,101.99,101.99,101.2,100.97,101.17,100.35,100.18,99.96,100.17,100.45,100.8,101.11,100.7,100.62,101.18,101.2,101.26,100.67,101.14,100.62],"DAA":[99.9,99.29,98.92,98.76,99.6,99.67,98.88,98.9,99.01,98.84,98.01,99.0,99.08,99.6,100.63,100.98,100.95,101.57,101.74,101.6,101.92,102.06,101.92,101.87,101.22,101.91,101.6,102.08,101.99,102.35,102.18,102.54,102.11,101.89,101.45,101.78,102.42,102.31,101.81,101.58,101.03,101.5,101.05,100.92,100.66,101.56,101.52,102.37,102.37,101.6,101.42,101.61,100.76,100.59,100.38,100.59,100.89,101.27,101.59,101.15,101.03,101.63,101.66,101.71,101.05,101.49,100.95],"Alpha":[99.9,99.19,98.41,98.3,99.36,99.4,98.28,98.28,98.4,98.26,97.18,98.7,99.11,100.07,101.55,101.73,101.68,102.48,102.64,102.37,102.76,103.03,102.91,102.78,101.9,102.44,101.95,102.56,102.29,102.64,102.51,103.08,102.59,102.33,101.71,102.16,103.11,102.89,102.29,101.94,101.25,101.97,101.35,101.04,100.67,101.75,101.84,103.1,103.14,102.27,102.18,102.59,101.62,101.51,101.25,101.4,102.0,102.69,103.13,102.55,102.15,102.9,102.84,102.83,101.71,102.06,101.14]}}</script><!--/gen:navdata-->
 <script>
 (function(){
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   var io=new IntersectionObserver(function(es){
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-  },{threshold:.08,rootMargin:'0px 0px -6% 0px'});
+  },{threshold:.12,rootMargin:'0px 0px -6% 0px'});
   document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
   var p=document.getElementById('prog');
-  addEventListener('scroll',function(){
-    var h=document.documentElement,m=h.scrollHeight-h.clientHeight;
-    p.style.width=(m>0?(h.scrollTop/m*100):0)+'%';
-  },{passive:true});
-  var links=[].slice.call(document.querySelectorAll('.mast-nav a'));
+  addEventListener('scroll',function(){var h=document.documentElement,m=h.scrollHeight-h.clientHeight;p.style.width=(m>0?(h.scrollTop/m*100):0)+'%';},{passive:true});
+  var links=[].slice.call(document.querySelectorAll('.gl-links a'));
   var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
-  var spy=new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      var i=secs.indexOf(e.target); if(i<0)return;
-      if(e.isIntersecting){links.forEach(function(l){l.removeAttribute('aria-current')});links[i].setAttribute('aria-current','true');}
-    });
-  },{rootMargin:'-30% 0px -60% 0px'});
+  var spy=new IntersectionObserver(function(es){es.forEach(function(e){var i=secs.indexOf(e.target);if(i<0)return;
+    if(e.isIntersecting){links.forEach(function(l){l.removeAttribute('aria-current')});links[i].setAttribute('aria-current','true');}})},{rootMargin:'-35% 0px -60% 0px'});
   secs.forEach(function(s){if(s)spy.observe(s)});
-  document.querySelectorAll('.menu-panel a').forEach(function(a){
-    a.addEventListener('click',function(){document.querySelector('.menu').removeAttribute('open')});
-  });
+  document.querySelectorAll('.menu-panel a').forEach(function(a){a.addEventListener('click',function(){document.querySelector('.menu').removeAttribute('open')})});
+
+  /* browse row arrows */
+  var rail=document.getElementById('rail');
+  document.querySelectorAll('.row-nav button').forEach(function(b){b.addEventListener('click',function(){
+    rail.scrollBy({left:+b.getAttribute('data-dir')*rail.clientWidth*.8,behavior:reduce?'auto':'smooth'})})});
+
+  /* big numbers count up once */
+  var cio=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;cio.unobserve(e.target);
+    var el=e.target,txt=el.textContent.trim(),to=parseFloat(txt.replace(/[^0-9.]/g,'')),dp=(txt.split('.')[1]||'').length;
+    if(reduce||!isFinite(to))return;var t0=performance.now(),D=1400;
+    (function step(now){var k=Math.max(0,Math.min(1,(now-t0)/D)),v=to*(1-Math.pow(1-k,3));el.textContent=v.toFixed(dp);if(k<1)requestAnimationFrame(step);else el.textContent=txt})(t0);
+  })},{threshold:.6});
+  document.querySelectorAll('.n[data-count]').forEach(function(el){cio.observe(el)});
+
+  /* chart lines draw in when their chart first comes into view */
+  if(!reduce){var lio=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;lio.unobserve(e.target);
+    e.target.querySelectorAll('polyline:not([class*="area"]),.fan-p50,.fan-saa,.fan-6040').forEach(function(l){if(!l.getTotalLength)return;var L=l.getTotalLength();
+      var dash=l.getAttribute('stroke-dasharray')||getComputedStyle(l).strokeDasharray;if(dash&&dash!=='none')return;
+      l.style.strokeDasharray=L;l.style.strokeDashoffset=L;l.getBoundingClientRect();l.style.transition='stroke-dashoffset 1.8s cubic-bezier(.3,.8,.3,1)';l.style.strokeDashoffset=0;
+      setTimeout(function(){l.style.strokeDasharray='';l.style.strokeDashoffset='';l.style.transition=''},1900)})})},{threshold:.25});
+    document.querySelectorAll('.navchart svg,.band svg,.cvx-wrap svg,[class*="fan"] svg, .card svg').forEach(function(s){lio.observe(s)});}
 
   /* NAV chart: the board doubles as the readout. Data and geometry come from scripts/refresh_data.py. */
   var nd=document.getElementById('navData'),nc=document.getElementById('navChart'),bd=document.getElementById('navBoard');
@@ -1307,7 +1107,7 @@ summary .ev{margin-left:10px;margin-right:auto}
         var f=r.getAttribute('data-f'),v=NAV.s[f][i],c=v-100,cls=c>0.004?'up':(c<-0.004?'dn':'flat');
         r.querySelector('.brd').textContent=v.toFixed(2);
         var ch=r.querySelector('.bch');ch.textContent=(Math.abs(c)<0.005?'':(c>0?'+':'−'))+Math.abs(c).toFixed(2)+'%';ch.className='bch '+cls;
-        h+='<circle cx="'+x.toFixed(1)+'" cy="'+yOf(v).toFixed(1)+'" r="3.8" fill="'+col[f]+'" stroke="#070B14" stroke-width="1.5"></circle>';
+        h+='<circle cx="'+x.toFixed(1)+'" cy="'+yOf(v).toFixed(1)+'" r="3.8" fill="'+col[f]+'" stroke="#050608" stroke-width="1.5"></circle>';
       });
       dots.innerHTML=h;
     }
@@ -1330,105 +1130,21 @@ summary .ev{margin-left:10px;margin-right:auto}
     focusF(null);
   }
 
-  var ln=document.getElementById('heroLine');
-  if(ln&&ln.getTotalLength&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
-    var L=ln.getTotalLength();
-    ln.style.strokeDasharray=L; ln.style.strokeDashoffset=L;
-    var lo=new IntersectionObserver(function(es){
-      if(!es[0].isIntersecting)return; lo.disconnect();
-      ln.style.transition='stroke-dashoffset 2.6s cubic-bezier(.3,.8,.4,1)';
-      ln.style.strokeDashoffset=0;
-    },{threshold:.3});
-    lo.observe(ln);
-  }
-})();
-</script>
-<script>
-/* Background: a faint field of market motifs, one per asset theme — a Treasury curve, an efficient frontier,
-   an allocation ring, a volatility surface, a correlation grid and a return distribution with its VaR tail.
-   Low opacity, slow motion, gentle parallax on scroll. Decorative only (aria-hidden); static if reduced motion. */
-(function(){
-  var cv=document.getElementById('market');if(!cv||!cv.getContext)return;var ctx=cv.getContext('2d');
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,W,H,sy=scrollY,t0=performance.now();
-  var GOLD='201,164,92',TEAL='79,179,165',SLATE='148,163,184',BLUE='120,150,210',RED='217,112,107';
-  function col(c,a){return 'rgba('+c+','+Math.min(1,a*1.3).toFixed(3)+')'}
-  function line(pts,c,a,w,dash){ctx.beginPath();pts.forEach(function(p,i){i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])});
-    ctx.strokeStyle=col(c,a);ctx.lineWidth=w||1;ctx.setLineDash(dash||[]);ctx.stroke();ctx.setLineDash([])}
-  function dot(x,y,r,c,a){ctx.beginPath();ctx.arc(x,y,r,0,6.2832);ctx.fillStyle=col(c,a);ctx.fill()}
-  function label(s,x,y,c,a,al){ctx.font='500 10px "IBM Plex Mono",ui-monospace,monospace';ctx.fillStyle=col(c,a);ctx.textAlign=al||'left';ctx.fillText(s,x,y)}
 
-  /* Treasury par curve, Nelson-Siegel shape whose slope and hump breathe slowly */
-  function curve(cx,cy,s,t){
-    var ten=[.25,1,2,3,5,7,10,20,30],lab={2:'2Y',5:'5Y',10:'10Y',30:'30Y'},l=1.8;
-    var b1=-.9+.45*Math.sin(t*.11),b2=.9*Math.sin(t*.07+1);
-    function y(T){var u=T/l,f=(1-Math.exp(-u))/u;return 4.2+b1*f+b2*(f-Math.exp(-u))}
-    var x0=cx-s/2,y0=cy+s*.22,X=function(T){return x0+s*Math.sqrt(T/30)},Y=function(v){return y0-(v-2.6)*s*.16};
-    line([[x0,y0],[x0+s,y0]],SLATE,.10);
-    var pts=ten.map(function(T){return [X(T),Y(y(T))]});
-    line(ten.map(function(T){return [X(T),Y(y(T)-.35)]}),SLATE,.08,1,[3,4]);
-    line(pts,GOLD,.16,1.4);
-    pts.forEach(function(p,i){dot(p[0],p[1],2,GOLD,.22);if(lab[ten[i]])label(lab[ten[i]],p[0],y0+14,SLATE,.16,'center')});
+  /* hero: the five live NAV series, drawn large behind the name */
+  var nd=document.getElementById('navData'),art=document.getElementById('heroArt');
+  if(nd&&art){var D=JSON.parse(nd.textContent),names=Object.keys(D.s),all=[];names.forEach(function(f){all=all.concat(D.s[f])});
+    var lo=Math.min.apply(null,all),hi=Math.max.apply(null,all),n=D.d.length,W=1600,H=800;
+    var cols={};[].forEach.call(document.querySelectorAll('#navBoard .brow'),function(r){cols[r.getAttribute('data-f')]=r.style.getPropertyValue('--c')});
+    var hs='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><defs><filter id="hg" x="-5%" y="-20%" width="110%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>'+
+      '<clipPath id="hc"><rect id="hcr" x="0" y="0" width="'+(reduce?W:0)+'" height="'+H+'"/></clipPath></defs><g clip-path="url(#hc)">';
+    names.forEach(function(f){var d=D.s[f].map(function(v,i){return (i?'L':'M')+(i/(n-1)*W).toFixed(1)+','+(600-(v-lo)/(hi-lo)*380).toFixed(1)}).join('');
+      var c=cols[f]||'#D4B072';
+      hs+='<path d="'+d+'" fill="none" stroke="'+c+'" stroke-width="6" opacity=".28" filter="url(#hg)" vector-effect="non-scaling-stroke"/>'+
+           '<path d="'+d+'" fill="none" stroke="'+c+'" stroke-width="1.7" opacity=".7" vector-effect="non-scaling-stroke"/>'});
+    art.innerHTML=hs+'</g></svg>';
+    if(!reduce){var r=document.getElementById('hcr'),t0=performance.now();(function grow(now){var k=Math.max(0,Math.min(1,(now-t0)/2600));r.setAttribute('width',(W*(1-Math.pow(1-k,3))).toFixed(0));if(k<1)requestAnimationFrame(grow)})(t0);}
   }
-  /* efficient frontier: a cloud of portfolios under the hull, the tangency point and the capital market line */
-  function frontier(cx,cy,s,t){
-    var x0=cx-s/2,y0=cy+s*.3,F=function(v){return Math.sqrt(Math.max(0,v-.08))};
-    line([[x0,y0-s*.62],[x0,y0],[x0+s,y0]],SLATE,.10);
-    var hull=[];for(var i=0;i<=40;i++){var v=.08+i/40*.92;hull.push([x0+v*s,y0-F(v)*s*.58])}
-    line(hull,TEAL,.16,1.4);
-    for(var k=0;k<34;k++){var v2=.18+((k*37)%100)/100*.8,dep=.08+((k*53)%100)/100*.32,
-      jx=Math.sin(t*.3+k)*2,jy=Math.cos(t*.27+k*1.7)*2;
-      dot(x0+v2*s+jx,y0-(F(v2)-dep)*s*.58+jy,1.5,SLATE,.18)}
-    var tv=.32,tx=x0+tv*s,ty=y0-F(tv)*s*.58,rf=y0-s*.12;
-    line([[x0,rf],[tx+(tx-x0)*1.3,ty+(ty-rf)*1.3]],GOLD,.12,1,[4,4]);
-    dot(tx,ty,3.2,GOLD,.30);label('max Sharpe',tx+8,ty-6,GOLD,.18);label('σ',x0+s,y0+14,SLATE,.16,'right');label('μ',x0-6,y0-s*.62,SLATE,.16,'right');
-  }
-  /* strategic allocation ring, turning slowly */
-  function ring(cx,cy,r,t){
-    var w=[.35,.22,.18,.13,.12],c=[GOLD,TEAL,BLUE,SLATE,RED],a=t*.03;
-    w.forEach(function(f,i){ctx.beginPath();ctx.arc(cx,cy,r,a+.04,a+f*6.2832-.04);ctx.strokeStyle=col(c[i],.16);ctx.lineWidth=r*.16;ctx.stroke();a+=f*6.2832});
-    ctx.beginPath();ctx.arc(cx,cy,r*.62,0,6.2832);ctx.strokeStyle=col(SLATE,.08);ctx.lineWidth=1;ctx.stroke();
-    label('SAA',cx,cy+4,GOLD,.18,'center');
-  }
-  /* implied-volatility surface: a smile across strikes that flattens with maturity, undulating */
-  function surface(cx,cy,s,t){
-    var nI=12,nJ=8,P=function(i,j){var k=i/(nI-1)-.5,m=j/(nJ-1),z=.22+.9*k*k*(1-.6*m)+.04*Math.sin(t*.35+j*.6+i*.3);
-      return [cx-s/2+i*s/(nI-1)*.82+m*s*.18,cy+s*.2-m*s*.32-z*s*.42]};
-    for(var j=0;j<nJ;j++){var r=[];for(var i=0;i<nI;i++)r.push(P(i,j));line(r,BLUE,.10+.05*(1-j/nJ),1)}
-    for(var i2=0;i2<nI;i2+=2){var c2=[];for(var j2=0;j2<nJ;j2++)c2.push(P(i2,j2));line(c2,SLATE,.07,1)}
-    label('implied vol',cx+s/2,cy+s*.26,SLATE,.14,'right');
-  }
-  /* correlation grid across six sleeves, values drifting */
-  function heat(cx,cy,s,t){
-    var n=6,c=s/n,x0=cx-s/2,y0=cy-s/2;
-    for(var i=0;i<n;i++)for(var j=0;j<n;j++){var v=i===j?1:Math.cos((i+1)*(j+1)*.9+t*.05*(i-j));
-      ctx.fillStyle=i===j?col(GOLD,.14):(v>0?col(TEAL,.03+.10*v):col(RED,.03-.09*v));ctx.fillRect(x0+i*c+1.5,y0+j*c+1.5,c-3,c-3)}
-    label('ρ',x0-8,y0+10,SLATE,.18,'right');
-  }
-  /* return distribution with the 5% tail shaded and the VaR line */
-  function bell(cx,cy,s,t){
-    var x0=cx-s/2,y0=cy+s*.18,sk=.12*Math.sin(t*.1),pts=[],tail=[[x0,y0]],q=-1.645;
-    for(var i=0;i<=60;i++){var z=-3.5+i/60*7,p=Math.exp(-z*z/2)*(1+sk*z),x=x0+(z+3.5)/7*s,y=y0-p*s*.34;pts.push([x,y]);if(z<=q)tail.push([x,y])}
-    var xq=x0+(q+3.5)/7*s;tail.push([xq,y0]);
-    ctx.beginPath();tail.forEach(function(p,i){i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])});ctx.closePath();ctx.fillStyle=col(RED,.10);ctx.fill();
-    line([[x0,y0],[x0+s,y0]],SLATE,.10);line(pts,TEAL,.16,1.4);
-    line([[xq,y0],[xq,y0-s*.22]],RED,.20,1,[3,3]);label('VaR 95%',xq-6,y0-s*.24,RED,.20,'right');
-  }
-  var DRAW={curve:curve,frontier:frontier,ring:ring,surface:surface,heat:heat,bell:bell};
-  /* positions over a loop two screens tall: x as a share of width, y as a share of height */
-  var M=[{k:'curve',x:.84,y:.20,s:300},{k:'frontier',x:.13,y:.58,s:250},{k:'ring',x:.90,y:.86,s:58},
-         {k:'surface',x:.16,y:1.16,s:300},{k:'heat',x:.87,y:1.36,s:140},{k:'bell',x:.15,y:1.70,s:280}];
-  function size(){var d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0)}
-  function draw(now){
-    var t=reduce?0:(now-t0)/1000,sc=W<700?.62:(W<1100?.82:1),L=2*H;
-    ctx.clearRect(0,0,W,H);
-    ctx.strokeStyle='rgba(148,163,184,.028)';ctx.lineWidth=1;ctx.beginPath();
-    for(var x=0;x<W;x+=48){ctx.moveTo(x,0);ctx.lineTo(x,H)}for(var y=(-(sy*.15)%48);y<H;y+=48){ctx.moveTo(0,y);ctx.lineTo(W,y)}ctx.stroke();
-    M.forEach(function(m){var yy=((m.y*H-sy*.22+H*.25)%L+L)%L-H*.25;if(yy<-H*.4||yy>H*1.4)return;DRAW[m.k](m.x*W,yy,m.s*sc,t+m.x*9)});
-  }
-  function loop(now){draw(now);requestAnimationFrame(loop)}
-  addEventListener('resize',function(){size();draw(performance.now())});
-  addEventListener('scroll',function(){sy=scrollY;if(reduce)draw(0)},{passive:true});
-  size();draw(performance.now());if(!reduce)requestAnimationFrame(loop);
 })();
 </script>
 </body>
