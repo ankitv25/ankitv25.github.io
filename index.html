@@ -11,11 +11,11 @@
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
 /* ------------------------------------------------------------------ tokens
-   Dark research-portal system (from reference.html): deep navy ground, translucent panels,
-   off-white text (never #fff), gold as the one accent, teal for gains, numbers in mono. */
+   Institutional dark: the asset-manager voice (serif display, quiet spaced-cap labels, fact-sheet
+   language) over a markets core (live figures in mono, teal/red for moves). Navy ground, gold accent. */
 :root{
   --bg:#070B14; --surface:rgba(16,24,40,.62); --surface-2:rgba(7,11,20,.55); --surface-3:rgba(148,163,184,.08);
   --solid:#0F1729; --panel-hi:rgba(22,33,56,.78);
@@ -27,6 +27,7 @@
   --display:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
   --r:14px;
   --shadow:0 1px 0 rgba(255,255,255,.03) inset,0 20px 40px -24px rgba(0,0,0,.6);
   --shadow-lg:0 1px 0 rgba(255,255,255,.04) inset,0 30px 60px -30px rgba(0,0,0,.75);
@@ -61,6 +62,12 @@ section{scroll-margin-top:72px}
 .rv[data-d="1"]{transition-delay:.06s}.rv[data-d="2"]{transition-delay:.12s}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
 
+/* labels: one quiet caption style everywhere */
+.badge,.cv-top,.tape-k,.fl-k,.fl-cl,.sec-k,.card-head .k,.board-h,th,.band .cap,.insight .tag,.st-n,.lab-intro .k,.tile-k,.sub-h,.spec dt,.tline span{
+  font-family:var(--sans)!important;font-weight:600;letter-spacing:.13em}
+.when,.fl-go,.tline,.roles span,.awards span,.st-m span,.tags span,.toolchips span{font-family:var(--sans)!important}
+.serif,.hero h1,.sec-head h2,.ticket-l h2,.fl h3{font-family:var(--serif);font-weight:400!important;letter-spacing:-.005em!important}
+
 /* panels: one surface for every card-like element */
 .cv,.tape-in,.fl,.card,.kpi,.st,.tile,.insight{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:var(--shadow)}
@@ -71,9 +78,9 @@ section{scroll-margin-top:72px}
 .mast{position:sticky;top:0;z-index:80;background:rgba(7,11,20,.72);border-bottom:1px solid var(--line);
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
 .mast-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);height:60px;display:flex;align-items:center;gap:20px}
-.mast-name{font-size:1rem;font-weight:700;letter-spacing:.01em;color:var(--ink);margin-right:auto;display:flex;align-items:center;gap:11px}
-.mast-name i{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;font-style:normal;font-family:var(--mono);
-  font-size:12.5px;font-weight:600;color:var(--bg);background:linear-gradient(135deg,var(--acc),#E6C887)}
+.mast-name{font-family:var(--serif);font-size:1.32rem;font-weight:400;letter-spacing:0;color:var(--ink);margin-right:auto;display:flex;align-items:center;gap:11px}
+.mast-name i{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;font-style:normal;font-family:var(--serif);
+  font-size:15px;color:var(--acc);border:1px solid var(--line-hi);background:var(--acc-soft)}
 .mast-nav{display:flex;gap:2px}
 .mast-nav a{color:var(--ink-2);font-size:.84rem;font-weight:500;padding:7px 11px;border-radius:8px;transition:.2s}
 .mast-nav a:hover{color:var(--ink);background:rgba(255,255,255,.04);text-decoration:none}
@@ -101,21 +108,19 @@ section{scroll-margin-top:72px}
 .hero{padding:64px 0 0}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:48px;align-items:center;padding-bottom:40px}
 @media(max-width:1024px){.hero-grid{grid-template-columns:1fr;gap:32px}}
-.badge{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.74rem;color:var(--ink-2);
+.badge{display:inline-flex;align-items:center;gap:10px;font-size:.66rem;text-transform:uppercase;color:var(--ink-2);
   padding:5px 13px 5px 6px;border:1px solid var(--line);border-radius:999px;background:rgba(79,179,165,.06)}
 .badge b{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--up);background:var(--surface-3);
   padding:2px 9px;border-radius:999px;letter-spacing:.06em;text-transform:uppercase;font-size:.66rem}
-.badge b::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--up);animation:pulse 2s infinite}
+.badge b::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--up)}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(79,179,165,.6)}70%{box-shadow:0 0 0 8px rgba(79,179,165,0)}100%{box-shadow:0 0 0 0 rgba(79,179,165,0)}}
 @media (prefers-reduced-motion:reduce){.badge b::before{animation:none}}
-.hero h1{font-size:clamp(2.6rem,6vw,4.25rem);line-height:1.02;margin:22px 0 14px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
-.hero h1 em{display:block;font-style:normal;font-size:.58em;font-weight:700;letter-spacing:-.025em;margin-top:10px;
-  background:linear-gradient(90deg,var(--acc),#E9D29E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1{font-size:clamp(3.2rem,7.4vw,5.6rem);line-height:.98;margin:22px 0 16px;color:var(--ink)}
+.hero h1 em{display:block;font-style:italic;font-size:.56em;line-height:1.1;margin-top:12px;color:#D9BD82}
 .hero .sub{font-size:clamp(1.02rem,1.5vw,1.14rem);line-height:1.6;color:var(--ink-2);margin:0;max-width:60ch}
 .hero .sub b{color:var(--ink);font-weight:600}
 .roles{display:flex;flex-wrap:wrap;gap:6px;margin:20px 0 0}
-.roles span{font-family:var(--mono);font-size:.7rem;color:var(--acc);border:1px solid rgba(201,164,92,.3);background:var(--acc-soft);
-  padding:3px 9px;border-radius:6px}
+.roles span{font-size:.78rem;font-weight:500;color:var(--ink-2);border:1px solid var(--line-2);padding:4px 11px;border-radius:999px}
 .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 17px;font-size:.88rem;font-weight:600;border-radius:9px;
   border:1px solid var(--line-2);color:var(--ink);background:transparent;transition:.2s;white-space:nowrap}
@@ -185,7 +190,7 @@ a.q:hover{background:rgba(255,255,255,.03);text-decoration:none}
 .fl::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:linear-gradient(90deg,var(--fc),transparent 70%);opacity:.6}
 .fl:hover{text-decoration:none}
 .fl-k{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
-.fl h3{font-size:1.32rem;font-weight:700;letter-spacing:-.015em;margin:8px 0 8px;line-height:1.2}
+.fl h3{font-size:1.75rem;margin:6px 0 8px;line-height:1.1}
 .fl p{margin:0;color:var(--ink-2);font-size:.9rem;line-height:1.6;flex:1}
 .fl-c{margin:16px 0 0;padding:12px 12px 8px;background:var(--surface-2);border:1px solid var(--line);border-radius:9px}
 .fl-cl{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
@@ -195,7 +200,7 @@ a.q:hover{background:rgba(255,255,255,.03);text-decoration:none}
 .fs div+div{padding-left:12px;border-left:1px solid var(--line)}
 .fs-v{display:block;font-family:var(--mono);font-size:1.2rem;font-weight:600;line-height:1.1;color:var(--ink)}
 .fs-k{display:block;font-size:.72rem;color:var(--ink-3);margin-top:5px;line-height:1.35}
-.fl-go{margin-top:16px;font-family:var(--mono);font-size:.78rem;font-weight:500;color:var(--acc);display:flex;align-items:center;gap:6px}
+.fl-go{margin-top:16px;font-size:.84rem;font-weight:600;color:var(--acc);display:flex;align-items:center;gap:6px}
 .fl-go .ar{transition:transform .16s}.fl:hover .fl-go .ar{transform:translateX(3px)}
 .sp-base{stroke:var(--line-2);stroke-dasharray:2 3}.sp-band{fill:rgba(217,112,107,.10)}.sp-thr{stroke:rgba(217,112,107,.45);stroke-dasharray:2 3}
 .sp-line{stroke:var(--navy-3)}.sp-dot{fill:var(--c3)}.sp-fill{fill:rgba(201,164,92,.10)}.sp-dot2{fill:var(--acc)}
@@ -207,7 +212,7 @@ a.q:hover{background:rgba(255,255,255,.03);text-decoration:none}
 .sec-k{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-bottom:10px}
 .sec-k::before{content:"";width:18px;height:1px;background:var(--acc)}
 .sec-k .n{color:var(--ink-3)}
-.sec-head h2{font-size:clamp(1.7rem,3.2vw,2.3rem);margin:0;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.sec-head h2{font-size:clamp(2.1rem,4.2vw,3.1rem);margin:0;line-height:1.05}
 .sec-head .lede{color:var(--ink-3);margin:0;font-size:.98rem;line-height:1.65}
 
 .card{padding:26px}
@@ -382,7 +387,7 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
 .st h4{font-size:1.06rem;font-weight:700;letter-spacing:-.01em;margin:0 0 8px;line-height:1.3;color:var(--ink)}
 .st p{margin:0;font-size:.87rem;color:var(--ink-2);line-height:1.6}
 .st-m,.tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px}
-.st-m span,.tags span{font-family:var(--mono);font-size:.68rem;color:var(--ink-2);border:1px solid var(--line);background:rgba(255,255,255,.02);padding:3px 8px;border-radius:6px}
+.st-m span,.tags span{font-size:.72rem;color:var(--ink-2);border:1px solid var(--line);background:rgba(255,255,255,.02);padding:3px 10px;border-radius:999px}
 .figcap{font-size:.8rem;color:var(--ink-3);margin:12px 0 0}
 .lab-intro{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
 .lab-intro h3{font-size:1.22rem;margin:0;font-weight:700;letter-spacing:-.012em}
@@ -410,14 +415,14 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
 @media(max-width:780px){.role{grid-template-columns:1fr;gap:12px}}
 .role-side{display:flex;flex-direction:column;gap:12px}
 .role-side img{width:64px;height:auto}
-.when{font-family:var(--mono);font-size:.74rem;color:var(--ink-3);line-height:1.6}
+.when{font-size:.8rem;color:var(--ink-3);line-height:1.6;font-variant-numeric:tabular-nums}
 .role h3{margin:0 0 4px;font-size:1.16rem;font-weight:700;letter-spacing:-.01em}
 .org{color:var(--acc);font-weight:600;font-size:.88rem}
 .role ul{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:7px;max-width:80ch}
 .role li{font-size:.92rem;color:var(--ink-2);padding-left:18px;position:relative}
 .role li::before{content:"▸";position:absolute;left:0;color:var(--acc);font-size:.72rem;top:3px}
 .awards{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
-.awards span{font-family:var(--mono);font-size:.68rem;color:var(--acc);border:1px solid rgba(201,164,92,.3);background:var(--acc-soft);padding:3px 8px;border-radius:6px}
+.awards span{font-size:.74rem;color:var(--acc);border:1px solid rgba(201,164,92,.3);background:var(--acc-soft);padding:3px 10px;border-radius:999px}
 .edu{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
 @media(max-width:900px){.edu{grid-template-columns:1fr}}
 .edu .card{display:flex;flex-direction:column;padding:24px 26px}
@@ -433,14 +438,79 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
 .cl li:last-child{border-bottom:0}
 .cl li span{color:var(--ink-3);text-align:right;font-weight:400}
 .toolchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
-.toolchips span{font-family:var(--mono);font-size:.72rem;color:var(--ink-2);border:1px solid var(--line);background:rgba(255,255,255,.02);padding:4px 9px;border-radius:6px}
+.toolchips span{font-size:.78rem;color:var(--ink-2);border:1px solid var(--line);background:rgba(255,255,255,.02);padding:4px 11px;border-radius:999px}
 .toolchips + .card-head{margin-top:18px}
+
+/* evidence labels: every figure says whether it is live, backtested or simulated */
+.ev{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:.58rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid;vertical-align:2px;margin-right:8px;white-space:nowrap}
+.ev::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+.ev.live{color:var(--up);border-color:rgba(79,179,165,.4);background:rgba(79,179,165,.08)}
+.ev.bt{color:var(--acc);border-color:rgba(201,164,92,.4);background:var(--acc-soft)}
+.ev.sim{color:#93A9D6;border-color:rgba(147,169,214,.4);background:rgba(147,169,214,.08)}
+.ev.rs{color:var(--dn);border-color:rgba(217,112,107,.4);background:rgba(217,112,107,.08)}
+summary .ev{margin-left:10px;margin-right:auto}
+
+/* section brief: objective · method · evidence · status, read in five seconds */
+.brief{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0 0 16px;padding:0;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.brief div{padding:16px 18px;min-width:0}
+.brief div+div{border-left:1px solid var(--line)}
+.brief dt{font-size:.62rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--acc)}
+.brief dd{margin:7px 0 0;font-size:.86rem;line-height:1.55;color:var(--ink-2)}
+.brief dd b{color:var(--ink);font-weight:600}
+.brief dd .ev{margin:0 6px 4px 0}
+@media(max-width:980px){.brief{grid-template-columns:1fr 1fr}.brief div:nth-child(3){border-left:0}.brief div:nth-child(n+3){border-top:1px solid var(--line)}}
+@media(max-width:560px){.brief{grid-template-columns:1fr}.brief div+div{border-left:0;border-top:1px solid var(--line)}}
+
+/* hero: what sets the profile apart, in three reads */
+.edge{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:26px 0 0}
+.edge div{padding:14px 15px 13px;border:1px solid var(--line);border-radius:12px;background:var(--surface);min-width:0;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.edge b{display:block;font-family:var(--mono);font-size:1.32rem;font-weight:600;color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums}
+.edge b small{font-size:.6em;color:var(--ink-3);font-weight:500;margin-left:3px}
+.edge>div>span{display:block;font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-top:7px}
+.edge p{margin:5px 0 0;font-size:.8rem;line-height:1.45;color:var(--ink-3)}
+@media(max-width:620px){.edge{grid-template-columns:1fr}.edge div{display:grid;grid-template-columns:96px 1fr;column-gap:12px}
+  .edge b{grid-row:span 2;align-self:center}.edge>div>span{margin-top:0}}
+.seek{margin:18px 0 0;font-size:.86rem;color:var(--ink-3)}
+.seek b{color:var(--ink-2);font-weight:600}
+
+/* assumptions and limits */
+.facts4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px}
+.facts4 div{padding:14px 15px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
+.facts4 dt{font-size:.62rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.facts4 dd{margin:6px 0 0;font-size:.85rem;line-height:1.55;color:var(--ink-2)}
+@media(max-width:980px){.facts4{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.facts4{grid-template-columns:1fr}}
+
+/* bridge: bank risk to portfolio risk */
+.bridge-rows{margin-top:14px;display:grid;gap:8px}
+.bridge-row{display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(0,1.25fr);align-items:center;gap:10px;padding:12px 15px;
+  border:1px solid var(--line);border-radius:10px;background:var(--surface-2)}
+.bridge-row .from{font-size:.86rem;color:var(--ink-2)}
+.bridge-row .from small,.bridge-row .to small{display:block;font-size:.6rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+.bridge-row .to small{color:var(--acc)}
+.bridge-row .arr{color:var(--acc);text-align:center;font-size:1rem}
+.bridge-row .to{font-size:.88rem;color:var(--ink)}
+@media(max-width:700px){.bridge-row{grid-template-columns:1fr}.bridge-row .arr{display:none}}
+
+/* failure record */
+.fails{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:7px;flex:1}
+.fails li{font-size:.86rem;color:var(--ink-2);padding-left:18px;position:relative;line-height:1.5}
+.fails li::before{content:"×";position:absolute;left:0;top:-1px;color:var(--dn);font-weight:700}
+.fails + p{margin-top:12px;font-size:.82rem;color:var(--ink-3)}
+
+/* consistent institution marks: same height, same baseline */
+.mark-gu{width:auto!important;height:48px!important}.mark-seal{width:48px!important;height:48px!important}
+.edu .mark-gu{height:56px!important}.edu .mark-seal{width:56px!important;height:56px!important}
+.inst-id,.edu .inst-id{min-height:56px}
 
 /* contact */
 .foot{padding:72px 0 30px;border-top:1px solid var(--line)}
 .ticket{display:grid;grid-template-columns:1.2fr 1fr;padding:0;overflow:hidden}
 .ticket-l{padding:32px;border-right:1px dashed var(--line)}
-.ticket-l h2{font-size:clamp(1.7rem,3.2vw,2.3rem);margin:10px 0 12px;letter-spacing:-.02em;font-weight:700;line-height:1.15}
+.ticket-l h2{font-size:clamp(2rem,3.8vw,2.8rem);margin:10px 0 12px;line-height:1.08}
 .ticket-l p{color:var(--ink-2);margin:0;max-width:46ch}
 .ticket-r{padding:24px 28px;display:flex;flex-direction:column;gap:10px;justify-content:center;background:rgba(7,11,20,.4)}
 .tline{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);
@@ -461,15 +531,15 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
   <div class="mast-in">
     <span class="mast-name"><i>AV</i>Ankit Verma</span>
     <nav class="mast-nav" aria-label="Sections">
-      <a href="#funds">Funds</a><a href="#lab">Convexity Lab</a><a href="#regime">MRS</a><a href="#dynamic">DAA</a>
-      <a href="#infra">Infrastructure</a><a href="#experience">Experience</a><a href="#contact">Contact</a>
+      <a href="#experience">Experience</a><a href="#funds">Funds</a><a href="#lab">Convexity Lab</a><a href="#regime">MRS</a>
+      <a href="#dynamic">DAA</a><a href="#infra">Research</a><a href="#contact">Contact</a>
     </nav>
     <a class="mast-cta" href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener">Resume <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></a>
     <details class="menu"><summary aria-label="Open section menu"><span></span><span></span><span></span></summary>
       <nav class="menu-panel" aria-label="Sections menu">
-        <a href="#funds">Five Funds</a><a href="#lab">Convexity Lab</a><a href="#regime">Macro Regime Score</a>
-        <a href="#dynamic">Dynamic Allocation</a><a href="#infra">Infrastructure</a>
-        <a href="#experience">Experience</a><a href="#contact">Contact</a>
+        <a href="#experience">Experience &amp; education</a><a href="#funds">Five Funds</a><a href="#lab">Convexity Lab</a>
+        <a href="#regime">Macro Regime Score</a><a href="#dynamic">Dynamic Allocation</a><a href="#infra">Research &amp; discipline</a>
+        <a href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a><a href="#contact">Contact</a>
       </nav></details>
   </div>
   <div class="prog" id="prog"></div>
@@ -479,24 +549,26 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <span class="badge"><b>Live</b>Five funds priced daily since 15 July 2026</span>
-        <h1>Ankit Verma<em>Multi-asset portfolio construction.</em></h1>
-        <p class="sub">I build portfolios end to end: <b>five multi-asset funds, live and priced daily since
-          15 July 2026</b>, each with its own mandate, constraints and real index benchmark. Strategic and dynamic
-          allocation run off my own macro regime model, with Black-Litterman optimisation and Monte Carlo and
-          stress testing on every book. Before Georgetown, 5+ years of institutional risk modelling at EXL for three
-          of the largest US banks and card issuers.</p>
-        <div class="roles"><span>Asset allocation</span><span>Portfolio construction</span><span>Macro regimes</span><span>Fixed income &amp; derivatives</span><span>Equity research</span></div>
+        <span class="badge"><b>Live</b>Track record since 15 July 2026</span>
+        <h1>Ankit Verma<em>Portfolio judgment. Quant discipline.</em></h1>
+        <p class="sub">I build multi-asset portfolios with the discipline of <b>institutional credit-risk modelling</b> —
+          five funds live since July 2026, on a regime, allocation and risk stack I wrote myself.</p>
+        <div class="edge">
+          <div><b>5 <small>funds</small></b><span>Live since 15 Jul 2026</span><p>Priced daily against real index benchmarks · <span data-k="nav.ahead">4 of 5</span> ahead of reference so far</p></div>
+          <div><b>5+ <small>yrs</small></b><span>Institutional credit risk</span><p>PD and loss-forecasting models, CCAR · CECL · IFRS-9 validation at EXL</p></div>
+          <div><b><span data-k="mrs.months">279</span> <small>mo</small></b><span>Own macro regime model</span><p>Scored since 2003 · flagged the GFC nine months before the NBER</p></div>
+        </div>
+        <p class="seek"><b>Open to</b> buy-side roles in multi-asset allocation, portfolio strategy and quantitative research.</p>
         <div class="cta">
           <a class="btn btn-a" href="#funds">See the funds <span class="ar">→</span></a>
           <a class="btn" href="Verma_Ankit_Resume.pdf" target="_blank" rel="noopener">Resume <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg></a>
+          <a class="btn" href="mailto:ankitv0125@gmail.com">Email</a>
           <a class="btn" href="https://linkedin.com/in/ankitv0125">LinkedIn</a>
           <a class="btn" href="https://github.com/ankitv25">GitHub</a>
-          <a class="btn" href="mailto:ankitv0125@gmail.com">Email</a>
         </div>
       </div>
       <aside class="cv" aria-label="Education and experience">
-        <div class="cv-top"><span><b>AV</b> · Credentials</span><span>New York, NY</span></div>
+        <div class="cv-top"><span><b>Education</b> &amp; experience</span><span>New York, NY</span></div>
         <div class="inst">
           <div class="inst-id"><img class="mark-gu" src="assets/logos/georgetown.svg" alt="Georgetown University" width="230" height="49"></div>
           <div class="inst-sub">McDonough School of Business <span>· Washington, DC</span></div>
@@ -524,7 +596,7 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
   </div>
   <div class="tape" role="region" aria-label="Fund NAVs at the latest close, and the latest Macro Regime Score reading">
     <div class="tape-in">
-      <div class="tape-k"><b>Close</b><span data-k="nav.asof">16 Oct 2026</span></div>
+      <div class="tape-k"><b>NAV per unit</b><span data-k="nav.asof">16 Oct 2026</span></div>
       <!--gen:tape-funds--><a class="q" href="#funds" style="--c:#e8a13a"><i></i><span class="qn">Alpha</span><span class="qp">101.14</span><span class="qc up">+1.14%</span></a>
 <a class="q" href="#funds" style="--c:#cf6bd6"><i></i><span class="qn">DAA</span><span class="qp">100.95</span><span class="qc up">+0.95%</span></a>
 <a class="q" href="#funds" style="--c:#a58bf8"><i></i><span class="qn">SAA</span><span class="qp">100.62</span><span class="qc up">+0.62%</span></a>
@@ -566,11 +638,113 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
 
 <main>
 
+<section id="experience" class="sec tint">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-k"><span class="n">01</span>Background</div>
+        <h2>Experience &amp; education</h2>
+      </div>
+      <p class="lede">Five-plus years building and validating credit-risk models for three of the largest US banks and card
+         issuers set the standard the investment work is held to: every assumption traced to a source, every model
+         validated out of sample, and portfolios sized around the bad state rather than the base case.</p>
+    </div>
+
+    <div class="sub-h rv">Professional</div>
+    <article class="card role rv">
+      <div class="role-side"><img src="assets/logos/exl.svg" alt="EXL" width="64" height="24"><div class="when">Nov 2020 — Present<br>New York, NY</div></div>
+      <div><h3>Senior Consultant, Risk Strategy &amp; Modelling</h3>
+        <div class="org">EXL · risk strategy and modelling for three of the largest US banks and card issuers</div>
+        <ul>
+          <li>Led and managed the validation of loss-forecasting models for CCAR, CECL and IFRS-9 regulatory submissions</li>
+          <li>Led time-series PD model development using hazard-function, behavioral and macroeconomic variables</li>
+          <li>Stress-tested portfolios to simulate segment-level loss spikes under adverse macroeconomic scenarios</li>
+          <li>Built a Strategy Monitoring Framework integrating real-time data into loss, revenue and ROE projection</li>
+          <li>Data reconciliation, trend analysis, backtesting and sensitivity analysis to strengthen risk assessments</li>
+        </ul>
+        <div class="kpis in-card">
+          <div class="kpi"><div class="v">−25%</div><div class="k">Portfolio risk exposure, via model re-calibration</div></div>
+          <div class="kpi"><div class="v">−10%</div><div class="k">Loss, from earlier risk identification</div></div>
+          <div class="kpi"><div class="v">−50%</div><div class="k">Model run-time</div></div>
+          <div class="kpi"><div class="v">4</div><div class="k">Performance awards</div></div>
+        </div>
+        <div class="awards"><span>Ace Award · H1 2021</span><span>Stellar Performance · Q1 2023</span><span>The Pioneer Award · H2 2023</span><span>Ace Award · H1 2024</span></div></div>
+    </article>
+    <article class="card mt rv">
+      <div class="card-head"><div><div class="k">Why the background carries over</div><h3>From bank risk to portfolio risk</h3></div></div>
+      <div class="bridge-rows">
+        <div class="bridge-row"><div class="from"><small>At EXL</small>Macroeconomic drivers inside time-series PD models</div><div class="arr" aria-hidden="true">→</div>
+          <div class="to"><small>In the platform</small>Thirteen macro-financial indicators in the Macro Regime Score, which sets every fund's stance</div></div>
+        <div class="bridge-row"><div class="from"><small>At EXL</small>Stress testing segment-level loss under adverse macro scenarios</div><div class="arr" aria-hidden="true">→</div>
+          <div class="to"><small>In the platform</small>Holdings replayed through Q4 2018, COVID, the 2022 rates shock, March 2023 and the 2024 carry unwind</div></div>
+        <div class="bridge-row"><div class="from"><small>At EXL</small>Validation of loss-forecasting models for CCAR, CECL and IFRS-9</div><div class="arr" aria-hidden="true">→</div>
+          <div class="to"><small>In the platform</small>Walk-forward gates, leave-one-out engine tests, lag and noise robustness — and the failures published</div></div>
+        <div class="bridge-row"><div class="from"><small>At EXL</small>A Strategy Monitoring Framework on real-time data</div><div class="arr" aria-hidden="true">→</div>
+          <div class="to"><small>In the platform</small>A daily NAV pipeline that refuses a stale or broken feed rather than publish it</div></div>
+      </div>
+    </article>
+    <article class="card role mt rv">
+      <div class="role-side"><div class="when">Jan — Feb 2026<br>Knoxville, TN</div></div>
+      <div><h3>Student Consultant — Equity Portfolio Review</h3>
+        <div class="org">Wealth-management RIA · Georgetown MSF Winter Clinic</div>
+        <ul><li>Six-week engagement reviewing a $150M AUM equity portfolio, closing with an executive presentation to the sponsor team</li>
+          <li>Raised expected return and cut volatility and beta, strengthening downside protection and overall risk efficiency</li></ul>
+        <div class="kpis in-card">
+          <div class="kpi"><div class="v">+286<small>bps</small></div><div class="k">Return</div></div>
+          <div class="kpi"><div class="v">−241<small>bps</small></div><div class="k">Volatility</div></div>
+          <div class="kpi"><div class="v">0.51<span class="ar">→</span>0.81</div><div class="k">Sharpe</div></div>
+          <div class="kpi"><div class="v">1.07<span class="ar">→</span>0.84</div><div class="k">Beta</div></div>
+        </div></div>
+    </article>
+
+    <div class="sub-h next rv">Education</div>
+    <div class="edu">
+      <article class="card rv">
+        <div class="when">Aug 2025 — 2027 · Washington, DC</div>
+        <div class="inst-id"><img class="mark-gu" src="assets/logos/georgetown.svg" alt="Georgetown University" width="276" height="58"></div>
+        <div class="inst-sub">McDonough School of Business</div>
+        <dl class="spec">
+          <div><dt>Degree</dt><dd>Master of Science in Finance</dd></div>
+          <div><dt>Class</dt><dd>2027</dd></div>
+          <div class="hi"><dt>GPA</dt><dd class="gpa">3.95<small>/ 4.00</small></dd></div>
+        </dl>
+      </article>
+      <article class="card rv" data-d="1">
+        <div class="when">Aug 2016 — Jul 2020 · Kanpur, India</div>
+        <div class="inst-id"><img class="mark-seal" src="assets/logos/iitk.svg" alt="" width="62" height="62">
+          <div class="inst-name">IIT Kanpur<small>Indian Institute of Technology</small></div></div>
+        <div class="inst-sub">Materials Science &amp; Engineering</div>
+        <dl class="spec" style="grid-template-columns:1.3fr .7fr">
+          <div><dt>Degree</dt><dd>Bachelor of Technology</dd></div>
+          <div><dt>Class</dt><dd>2020</dd></div>
+        </dl>
+      </article>
+    </div>
+
+    <div class="grid2" style="margin-top:18px">
+      <article class="card rv"><div class="card-head"><div><div class="k">Certifications</div></div></div>
+        <ul class="cl">
+          <li>Bloomberg Market Concepts<span>Bloomberg</span></li>
+          <li>Financial Engineering Specialization<span>Columbia University</span></li>
+          <li>Machine Learning Specialization<span>Stanford University</span></li>
+          <li>Building RAG Agents with LLMs<span>NVIDIA</span></li>
+          <li>Investment simulations · Fidelity (IM), JPMorgan (M&amp;A), Citi (MQA)<span>Forage</span></li>
+        </ul></article>
+      <article class="card rv" data-d="1"><div class="card-head"><div><div class="k">Finance &amp; strategy</div></div></div>
+        <div class="toolchips"><span>Portfolio construction</span><span>Asset allocation</span><span>DCF valuation</span><span>Financial modelling</span><span>Risk analysis</span></div>
+        <div class="card-head"><div><div class="k">Tools</div></div></div>
+        <div class="toolchips"><span>Bloomberg Terminal</span><span>Morningstar</span><span>Compustat</span><span>FRED</span><span>Advanced Excel</span><span>Tableau</span><span>Matlab</span><span>JMP Pro</span></div>
+        <div class="card-head"><div><div class="k">Languages</div></div></div>
+        <div class="toolchips"><span>Python</span><span>R</span><span>SQL</span><span>C/C++</span><span>SAS</span><span>VBA</span></div></article>
+    </div>
+  </div>
+</section>
+
 <section id="funds" class="sec">
   <div class="wrap">
     <div class="sec-head rv">
       <div>
-        <div class="sec-k"><span class="n">01</span>Asset allocation</div>
+        <div class="sec-k"><span class="n">02</span>Asset allocation</div>
         <h2>Five funds, live since 15 July 2026</h2>
       </div>
       <p class="lede">Certain · Endowment · SAA · DAA · Alpha. Each fund declares its own sleeve set, its own construction
@@ -578,9 +752,16 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
          dividend-adjusted closes, net of a 15bp annual fee and 10bp per side.</p>
     </div>
 
+    <dl class="brief rv">
+      <div><dt>Objective</dt><dd>Five distinct mandates — capital preservation to equity-level risk — each held to a <b>real index benchmark</b>.</dd></div>
+      <div><dt>Method</dt><dd>Own sleeve set and constraints per fund; Black-Litterman views on a benchmark prior; DAA and Alpha tilted by a five-engine rule set.</dd></div>
+      <div><dt>Evidence</dt><dd><span class="ev live">Live</span>Daily NAV since 15 Jul 2026, shown first. <span class="ev bt">Backtest</span>1997–2026 of today's weights, kept separate and labelled.</dd></div>
+      <div><dt>Status</dt><dd><b>Live</b> · <span data-k="nav.days">67</span> trading days · <span data-k="nav.ahead">4 of 5</span> funds ahead of their reference since launch</dd></div>
+    </dl>
+
     <article class="card rv">
       <div class="card-head">
-        <div><div class="k">The live record · NAV per unit</div><h3>Five mandates, not one dial</h3></div>
+        <div><div class="k"><span class="ev live">Live</span>The live record · NAV per unit</div><h3>Five mandates, not one dial</h3></div>
         <div class="links">
           <a class="lk lk-live" href="https://ankitv25.github.io/Asset-Allocation/">Live dashboard</a>
           <a class="lk" href="https://ankitv25.github.io/Asset-Allocation/live.html">Live NAV</a>
@@ -632,7 +813,7 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
     </article>
 
     <article class="card mt rv">
-      <div class="card-head"><div><div class="k">Since launch · against each fund's own reference</div><h3>Returns and mandates</h3></div></div>
+      <div class="card-head"><div><div class="k"><span class="ev live">Live</span>Since launch · against each fund's own reference</div><h3>Returns and mandates</h3></div></div>
       <div class="tbl-wrap"><table><thead><tr><th>Fund</th><th class="tl">Horizon</th><th class="tl">Role</th><th class="tl">Reference</th><th>Fund</th><th>Reference</th><th>Active</th></tr></thead><tbody>
 <!--gen:fundtable--><tr><td><span class="chip" style="--c:#3db5d1"></span>Certain</td><td class="tl">3+ yrs</td><td class="tl">Capital preservation tier — purchasing power first</td><td class="tl">ACWI 40 / Agg 60</td><td class="num">+0.25%</td><td class="num">−0.99%</td><td class="num up">+1.24 pp</td></tr>
 <tr><td><span class="chip" style="--c:#b07d5b"></span>Endowment</td><td class="tl">10+ yrs</td><td class="tl">Long-horizon real-asset tier</td><td class="tl">ACWI 60 / Agg 40</td><td class="num">−0.21%</td><td class="num">−0.60%</td><td class="num up">+0.39 pp</td></tr>
@@ -641,7 +822,7 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
 <tr><td><span class="chip" style="--c:#e8a13a"></span>Alpha</td><td class="tl">10+ yrs</td><td class="tl">Equity-level risk, run actively</td><td class="tl">S&amp;P 500</td><td class="num">+1.14%</td><td class="num">+1.37%</td><td class="num dn">−0.23 pp</td></tr><!--/gen:fundtable-->
       </tbody></table></div>
 
-      <details class="more"><summary>Backtest of today's weights, 1997 – 2026</summary>
+      <details class="more"><summary>Backtest of today's weights, 1997 – 2026 <span class="ev bt">Backtest</span></summary>
         <div class="tbl-wrap"><table><thead><tr><th>Fund</th><th>CAGR</th><th>Vol</th><th>Sharpe</th><th>Worst loss</th></tr></thead><tbody>
           <tr><td>Certain</td><td class="num">4.94%</td><td class="num">4.1%</td><td class="num">0.67</td><td class="num">−10.0%</td></tr>
           <tr><td>Endowment</td><td class="num">7.28%</td><td class="num">8.1%</td><td class="num">0.64</td><td class="num">−24.3%</td></tr>
@@ -677,6 +858,16 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
            policy weights; DAA and Alpha move with their engines at each month end.</p></details>
     </article>
 
+    <article class="card mt rv">
+      <div class="card-head"><div><div class="k">How to read these numbers</div><h3>Assumptions and limits</h3></div></div>
+      <dl class="facts4">
+        <div><dt>Costs</dt><dd>Net of a 15bp annual fee and 10bp per side on every trade, live and in the backtest.</dd></div>
+        <div><dt>Prices</dt><dd>Daily dividend-adjusted closes. All five funds launched at NAV 100.00 on 15 July 2026.</dd></div>
+        <div><dt>Benchmarks</dt><dd>Each fund against its own real index reference — never a home-made paper blend.</dd></div>
+        <div><dt>Sample</dt><dd><span data-k="nav.days">67</span> live trading days is a record, not a verdict on skill. 1997–2026 is today's weights carried back, not a track record.</dd></div>
+      </dl>
+    </article>
+
     <p class="insight mt rv"><span class="tag">Design note</span>Excluding the trend sleeve costs <strong>Certain 0.04 of Sharpe and Endowment nothing</strong>
       — so neither carries one. The price is 2022: every asset except cash and commodities fell, and
       Certain's −10% worst loss is entirely that year.</p>
@@ -687,13 +878,20 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
   <div class="wrap">
     <div class="sec-head rv">
       <div>
-        <div class="sec-k"><span class="n">02</span>Fixed income · derivatives · portfolio risk</div>
+        <div class="sec-k"><span class="n">03</span>Fixed income · derivatives · portfolio risk</div>
         <h2>Convexity Lab</h2>
       </div>
       <p class="lede">A research and portfolio-decision workstation. It takes a market view, or a real portfolio, from
          evidence through security analysis, risk decomposition and strategy design to a hedged,
          stress-tested decision, and keeps the thesis, assumptions and outcome on record.</p>
     </div>
+
+    <dl class="brief rv">
+      <div><dt>Objective</dt><dd>Take a market view or a real portfolio from evidence to a <b>hedged, stress-tested decision</b> on record.</dd></div>
+      <div><dt>Method</dt><dd>Bootstrapped Treasury curve and BDT lattice; Fama–French five-factor plus momentum; Euler risk, VaR and CVaR; historical and forward stress; ten option structures.</dd></div>
+      <div><dt>Evidence</dt><dd>Public preview on a dated Treasury curve; the convexity chart in this section is re-derived from it weekly.</dd></div>
+      <div><dt>Status</dt><dd><span class="ev live">Preview</span>Rates, fund evidence, CMAs and regime public; the full workstation runs privately while it moves hosting.</dd></div>
+    </dl>
 
     <div class="lab-intro rv">
       <div><div class="k">Six stages</div><h3>One environment, from research to decision</h3>
@@ -822,16 +1020,23 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
   <div class="wrap">
     <div class="sec-head rv">
       <div>
-        <div class="sec-k"><span class="n">03</span>Macro framework</div>
+        <div class="sec-k"><span class="n">04</span>Macro framework</div>
         <h2>MRS &amp; regime analysis</h2>
       </div>
       <p class="lede">The funds need to know what environment they are operating in. The Macro Regime Score
          is the framework that answers it — and the input the dynamic layer argues from.</p>
     </div>
 
+    <dl class="brief rv">
+      <div><dt>Objective</dt><dd>Classify the <b>US macro-financial regime</b> each month so allocation can respond to it.</dd></div>
+      <div><dt>Method</dt><dd>Thirteen indicators in five weighted pillars; expanding-window z-scores, so no look-ahead; calibrated thresholds; two-month persistence.</dd></div>
+      <div><dt>Evidence</dt><dd><span data-k="mrs.months">279</span> months since 2003 · GFC flagged nine months before the NBER · equal-weight robustness 0.989.</dd></div>
+      <div><dt>Status</dt><dd><span class="ev live">Live</span>Rebuilt daily on GitHub Actions; latest month <span data-k="mrs.month_short">Aug 2026</span> reads <b><span data-k="mrs.regime">Neutral</span></b>.</dd></div>
+    </dl>
+
     <article class="card band rv">
       <div class="card-head">
-        <div><div class="k">Rebuilt daily on GitHub Actions</div><h3>A monthly composite of the US macro-financial environment</h3>
+        <div><div class="k"><span class="ev live">Live</span>Rebuilt daily on GitHub Actions</div><h3>A monthly composite of the US macro-financial environment</h3>
           <p class="dek">Thirteen indicators across five economically-motivated pillars, each normalized to an
            expanding-window z-score, aggregated with fixed weights and classified against calibrated thresholds
            with a two-month persistence rule. The latest scored month, <span data-k="mrs.month">August 2026</span>, reads
@@ -907,15 +1112,22 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
   <div class="wrap">
     <div class="sec-head rv">
       <div>
-        <div class="sec-k"><span class="n">04</span>Allocation implications</div>
+        <div class="sec-k"><span class="n">05</span>Allocation implications</div>
         <h2>From regime to allocation</h2>
       </div>
       <p class="lede">The dynamic layer. A regime model that never changes a position is a research curiosity — this is
          where the macro call becomes an exposure change, bounded by rule rather than by judgment.</p>
     </div>
 
+    <dl class="brief rv">
+      <div><dt>Objective</dt><dd>Turn the macro call into exposure changes <b>bounded by rule</b>, not judgment.</dd></div>
+      <div><dt>Method</dt><dd>Five engines — valuation, trend, relative strength, regime, diversifier sizing — read each month end inside a tilt corridor around the SAA.</dd></div>
+      <div><dt>Evidence</dt><dd><span class="ev bt">Backtest</span>1997–2026 with leave-one-out per engine. <span class="ev sim">Simulation</span>4,000-path, ten-year forward view.</dd></div>
+      <div><dt>Status</dt><dd><b>Runs live</b> as the DAA fund. Mechanical regime rotation failed its walk-forward gate and stays research-only.</dd></div>
+    </dl>
+
     <article class="card rv">
-      <div class="card-head"><div><div class="k">Five engines · one tilt corridor</div><h3>DAA — the policy portfolio, run actively</h3></div>
+      <div class="card-head"><div><div class="k"><span class="ev bt">Backtest</span>Five engines · one tilt corridor · 1997–2026</div><h3>DAA — the policy portfolio, run actively</h3></div>
         <div class="links"><a class="lk lk-live" href="https://ankitv25.github.io/Asset-Allocation/index.html?p=daa">DAA on the dashboard</a></div></div>
       <p class="dek">Five engines re-read at each month end — valuation from a live capital-market assumption,
          trend, relative strength, the MRS regime, and the size of the diversifier sleeve — held inside a
@@ -942,7 +1154,7 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
     </article>
 
     <article class="card mt rv">
-      <div class="card-head"><div><div class="k">Forward view · <span data-k="mc.paths">4,000</span> block-bootstrap paths · <span data-k="mc.years">10</span> years</div>
+      <div class="card-head"><div><div class="k"><span class="ev sim">Simulation</span>Forward view · <span data-k="mc.paths">4,000</span> block-bootstrap paths · <span data-k="mc.years">10</span> years</div>
         <h3>Ten years forward: DAA against 60/40</h3></div>
         <div class="links"><a class="lk" href="https://ankitv25.github.io/Asset-Allocation/montecarlo.html?p=daa">Monte Carlo on the dashboard</a></div></div>
       <p class="dek">Each path resamples <span data-k="mc.block">12</span>-month blocks of DAA's own monthly history
@@ -960,7 +1172,7 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
 
     <div class="grid2 wide mt">
       <article class="card rv">
-        <p class="figt">Lineage: the MRS overlay on the prior book</p>
+        <p class="figt"><span class="ev bt">Backtest</span>Lineage: the MRS overlay on the prior book</p>
         <p class="figs">Where the dynamic layer came from. Maximum drawdown before and after; each pair is a distinct mechanism
            tested separately — the walk-forward gate on the whole overlay, dynamic duration on two crisis types, and the
            v3.7 damping fix for whipsaw.</p>
@@ -993,11 +1205,11 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
   <div class="wrap">
     <div class="sec-head rv">
       <div>
-        <div class="sec-k"><span class="n">05</span>Foundation</div>
+        <div class="sec-k"><span class="n">06</span>Research &amp; discipline</div>
         <h2>Supporting research &amp; infrastructure</h2>
       </div>
       <p class="lede">The universe, estimation and governance the funds are built from — and, kept separate, the two
-         research programmes that run alongside them and deliberately do not feed them.</p>
+         research programmes that run alongside them and deliberately do not feed them — plus the record of what failed.</p>
     </div>
     <div class="tiles">
       <div class="tile rv"><div class="tile-k">Universe</div><h3>Asset Universe</h3>
@@ -1017,100 +1229,15 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
            scored sector drivers to a 10-year unlevered DCF, three valuation lanes. A peer workstream, not a
            layer beneath the funds.</p>
         <a class="lk" href="https://github.com/ankitv25/Equity-valuation-workflow">Methodology →</a></div>
-      <div class="tile w3 rv" data-d="1"><div class="tile-k">Discipline</div><h3>The failure record</h3>
-        <p>v3.5 non-convergence · the 39%-gold greedy trap · the hindsight-machine proof · a Contraction
-           regime that was mathematically unreachable · a missing price history that left Alpha 17% in cash
-           until the NAV pipeline learned to refuse a gap. Nothing was deleted — the negative results are the
-           reason to trust the positive ones.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="experience" class="sec tint">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <div class="sec-k"><span class="n">06</span>Background</div>
-        <h2>Experience &amp; education</h2>
-      </div>
-      <p class="lede">Five-plus years at EXL building models for three of the largest US banks and card issuers set the standard the
-         platform is built to: every assumption traced to a source, and portfolios sized around what
-         happens in the bad state rather than the base case.</p>
-    </div>
-
-    <div class="sub-h rv">Professional</div>
-    <article class="card role rv">
-      <div class="role-side"><img src="assets/logos/exl.svg" alt="EXL" width="64" height="24"><div class="when">Nov 2020 — Present<br>New York, NY</div></div>
-      <div><h3>Senior Consultant, Risk Strategy &amp; Modelling</h3>
-        <div class="org">EXL · risk strategy and modelling for three of the largest US banks and card issuers</div>
-        <ul>
-          <li>Led and managed the validation of loss-forecasting models for CCAR, CECL and IFRS-9 regulatory submissions</li>
-          <li>Led time-series PD model development using hazard-function, behavioral and macroeconomic variables</li>
-          <li>Stress-tested portfolios to simulate segment-level loss spikes under adverse macroeconomic scenarios</li>
-          <li>Built a Strategy Monitoring Framework integrating real-time data into loss, revenue and ROE projection</li>
-          <li>Data reconciliation, trend analysis, backtesting and sensitivity analysis to strengthen risk assessments</li>
+      <div class="tile w3 rv" data-d="1"><div class="tile-k">Discipline · revisions kept on record</div><h3>The failure record</h3>
+        <ul class="fails">
+          <li>v3.5 non-convergence</li>
+          <li>The 39%-gold greedy trap</li>
+          <li>The hindsight-machine proof</li>
+          <li>A Contraction regime that was mathematically unreachable — rebuilt on expanding z-scores</li>
+          <li>A missing price history that left Alpha 17% in cash, until the NAV pipeline learned to refuse a gap</li>
         </ul>
-        <div class="kpis in-card">
-          <div class="kpi"><div class="v">−25%</div><div class="k">Portfolio risk exposure, via model re-calibration</div></div>
-          <div class="kpi"><div class="v">−10%</div><div class="k">Loss, from earlier risk identification</div></div>
-          <div class="kpi"><div class="v">−50%</div><div class="k">Model run-time</div></div>
-          <div class="kpi"><div class="v">4</div><div class="k">Performance awards</div></div>
-        </div>
-        <div class="awards"><span>Ace Award · H1 2021</span><span>Stellar Performance · Q1 2023</span><span>The Pioneer Award · H2 2023</span><span>Ace Award · H1 2024</span></div></div>
-    </article>
-    <article class="card role rv">
-      <div class="role-side"><div class="when">Jan — Feb 2026<br>Knoxville, TN</div></div>
-      <div><h3>Student Consultant — Equity Portfolio Review</h3>
-        <div class="org">Wealth-management RIA · Georgetown MSF Winter Clinic</div>
-        <ul><li>Six-week engagement reviewing a $150M AUM equity portfolio, closing with an executive presentation to the sponsor team</li>
-          <li>Raised expected return and cut volatility and beta, strengthening downside protection and overall risk efficiency</li></ul>
-        <div class="kpis in-card">
-          <div class="kpi"><div class="v">+286<small>bps</small></div><div class="k">Return</div></div>
-          <div class="kpi"><div class="v">−241<small>bps</small></div><div class="k">Volatility</div></div>
-          <div class="kpi"><div class="v">0.51<span class="ar">→</span>0.81</div><div class="k">Sharpe</div></div>
-          <div class="kpi"><div class="v">1.07<span class="ar">→</span>0.84</div><div class="k">Beta</div></div>
-        </div></div>
-    </article>
-
-    <div class="sub-h next rv">Education</div>
-    <div class="edu">
-      <article class="card rv">
-        <div class="when">Aug 2025 — 2027 · Washington, DC</div>
-        <div class="inst-id"><img class="mark-gu" src="assets/logos/georgetown.svg" alt="Georgetown University" width="276" height="58"></div>
-        <div class="inst-sub">McDonough School of Business</div>
-        <dl class="spec">
-          <div><dt>Degree</dt><dd>Master of Science in Finance</dd></div>
-          <div><dt>Class</dt><dd>2027</dd></div>
-          <div class="hi"><dt>GPA</dt><dd class="gpa">3.95<small>/ 4.00</small></dd></div>
-        </dl>
-      </article>
-      <article class="card rv" data-d="1">
-        <div class="when">Aug 2016 — Jul 2020 · Kanpur, India</div>
-        <div class="inst-id"><img class="mark-seal" src="assets/logos/iitk.svg" alt="" width="62" height="62">
-          <div class="inst-name">IIT Kanpur<small>Indian Institute of Technology</small></div></div>
-        <div class="inst-sub">Materials Science &amp; Engineering</div>
-        <dl class="spec" style="grid-template-columns:1.3fr .7fr">
-          <div><dt>Degree</dt><dd>Bachelor of Technology</dd></div>
-          <div><dt>Class</dt><dd>2020</dd></div>
-        </dl>
-      </article>
-    </div>
-
-    <div class="grid2" style="margin-top:18px">
-      <article class="card rv"><div class="card-head"><div><div class="k">Certifications</div></div></div>
-        <ul class="cl">
-          <li>Bloomberg Market Concepts<span>Bloomberg</span></li>
-          <li>Financial Engineering Specialization<span>Columbia University</span></li>
-          <li>Machine Learning Specialization<span>Stanford University</span></li>
-          <li>Building RAG Agents with LLMs<span>NVIDIA</span></li>
-          <li>Investment simulations · Fidelity (IM), JPMorgan (M&amp;A), Citi (MQA)<span>Forage</span></li>
-        </ul></article>
-      <article class="card rv" data-d="1"><div class="card-head"><div><div class="k">Finance &amp; strategy</div></div></div>
-        <div class="toolchips"><span>Portfolio construction</span><span>Asset allocation</span><span>DCF valuation</span><span>Financial modelling</span><span>Risk analysis</span></div>
-        <div class="card-head"><div><div class="k">Tools</div></div></div>
-        <div class="toolchips"><span>Bloomberg Terminal</span><span>Morningstar</span><span>Compustat</span><span>FRED</span><span>Advanced Excel</span><span>Tableau</span><span>Matlab</span><span>JMP Pro</span></div>
-        <div class="card-head"><div><div class="k">Languages</div></div></div>
-        <div class="toolchips"><span>Python</span><span>R</span><span>SQL</span><span>C/C++</span><span>SAS</span><span>VBA</span></div></article>
+        <p>Nothing was deleted — the negative results are the reason to trust the positive ones.</p></div>
     </div>
   </div>
 </section>
@@ -1217,22 +1344,22 @@ details.more .s{font-size:.82rem;color:var(--ink-3);margin:10px 0 16px}
 })();
 </script>
 <script>
-/* Background: faint chart-paper grid and three slow-drifting price lines. Decorative, aria-hidden. */
+/* Background: faint chart-paper grid and three slow, smooth curves drifting across it. Decorative, aria-hidden. */
 (function(){
   var cv=document.getElementById('market');if(!cv||!cv.getContext)return;var ctx=cv.getContext('2d');
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,W,H,series,off=0,STEP=6;
   function rng(seed){return function(){seed=(seed*16807)%2147483647;return(seed-1)/2147483646}}
-  function walk(n,seed,vol){var r=rng(seed),v=0,a=[];for(var i=0;i<n;i++){v+=(r()-.5)*2*vol;a.push(v)}return a}
+  function walk(n,seed,vol){var r=rng(seed),p=[r()*6,r()*6,r()*6],a=[];for(var i=0;i<n;i++){a.push(vol*(2.2*Math.sin(i/41+p[0])+1.3*Math.sin(i/17+p[1])+.6*Math.sin(i/9+p[2])))}return a}
   function gen(){var n=Math.ceil(W/STEP)+60;series=[
-    {c:'rgba(201,164,92,.10)',w:1.4,y:H*.32,a:walk(n,3,2.2)},
+    {c:'rgba(201,164,92,.09)',w:1.3,y:H*.32,a:walk(n,3,2.2)},
     {c:'rgba(79,179,165,.08)',w:1.2,y:H*.55,a:walk(n,11,1.8)},
     {c:'rgba(108,142,201,.07)',w:1.0,y:H*.75,a:walk(n,29,1.5)}]}
   function size(){var d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);gen()}
-  function draw(){ctx.clearRect(0,0,W,H);ctx.strokeStyle='rgba(148,163,184,.035)';ctx.lineWidth=1;ctx.beginPath();
+  function draw(){ctx.clearRect(0,0,W,H);ctx.strokeStyle='rgba(148,163,184,.03)';ctx.lineWidth=1;ctx.beginPath();
     for(var x=(-off*.3)%48;x<W;x+=48){ctx.moveTo(x,0);ctx.lineTo(x,H)}for(var y=0;y<H;y+=48){ctx.moveTo(0,y);ctx.lineTo(W,y)}ctx.stroke();
     series.forEach(function(s){ctx.strokeStyle=s.c;ctx.lineWidth=s.w;ctx.beginPath();var sh=(off/STEP)|0,fr=off%STEP;
       for(var i=0;i<Math.ceil(W/STEP)+2;i++){var v=s.a[(i+sh)%s.a.length],px=i*STEP-fr,py=s.y-v*6;i?ctx.lineTo(px,py):ctx.moveTo(px,py)}ctx.stroke()})}
-  function loop(){off+=.25;draw();requestAnimationFrame(loop)}
+  function loop(){off+=.12;draw();requestAnimationFrame(loop)}
   addEventListener('resize',function(){size();draw()});size();draw();if(!reduce)requestAnimationFrame(loop);
 })();
 </script>

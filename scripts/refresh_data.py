@@ -224,13 +224,14 @@ def fund_block(nav):
         tape.append(f'<a class="q" href="#funds" style="--c:{facts[f]["color"]}"><i></i><span class="qn">{f}</span>'
                     f'<span class="qp">{last[f]:.2f}</span><span class="qc {cls(c)}">{sgn(c)}%</span></a>')
 
-    rows = []
+    rows, ahead = [], 0
     for f in FUNDS:
         fx = facts[f]
         ref = fx['reference']
         r = nav['periods'][f]['SI'] * 100
         rr = nav['periods'][ref]['SI'] * 100
         act = r - rr
+        ahead += act > 0.005
         rows.append(f'<tr><td><span class="chip" style="--c:{fx["color"]}"></span>{f}</td>'
                     f'<td class="tl">{esc(fx["horizon"]).replace(" years", " yrs")}</td><td class="tl">{esc(fx["role"])}</td>'
                     f'<td class="tl">{esc(ref)}</td><td class="num">{sgn(r)}%</td><td class="num">{sgn(rr)}%</td>'
@@ -263,6 +264,7 @@ def fund_block(nav):
         'nav.days': str(n),
         'nav.best': f'{sgn(last[best] - 100)}%',
         'nav.best_name': best,
+        'nav.ahead': f'{ahead} of {len(FUNDS)}',
     }
     snap = {'asof': dates[-1], 'days': n, 'nav': {f: round(last[f], 4) for f in FUNDS},
             'since_launch_pct': {f: round(last[f] - 100, 4) for f in FUNDS}}
