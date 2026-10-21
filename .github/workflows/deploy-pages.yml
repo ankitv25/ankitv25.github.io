@@ -6,7 +6,7 @@ on:
   # Refresh commits use GITHUB_TOKEN, which deliberately raises no `push` event; deploy when the
   # refresh workflow completes instead. Deploying is idempotent, so this runs every time.
   workflow_run:
-    workflows: ["Weekly data refresh"]
+    workflows: ["Sync live figures"]
     types: [completed]
     branches: [main]
   workflow_dispatch:

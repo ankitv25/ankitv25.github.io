@@ -1,5 +1,5 @@
 {
- "built": "2026-10-19",
+ "built": "2026-10-20",
  "sources": {
   "live_nav.js": "https://ankitv25.github.io/Asset-Allocation/data/live_nav.js",
   "composite_history.json": "https://ankitv25.github.io/Macro-Regime-Score/data/composite_history.json",
@@ -10,6 +10,7 @@
  "nav": {
   "asof": "2026-10-19",
   "days": 68,
+  "ahead": 4,
   "nav": {
    "Certain": 100.0877,
    "Endowment": 99.5603,
@@ -67,6 +68,65 @@
    "terminal_p5": 1.119,
    "maxdd_median": -16.98,
    "prob_loss": 2.8
+  }
+ },
+ "backtest": {
+  "window": "1997-06 \u2014 2026-08",
+  "rows": {
+   "Certain": {
+    "cagr": 4.94,
+    "vol": 4.1,
+    "sharpe": 0.67,
+    "maxdd": -10.0
+   },
+   "Endowment": {
+    "cagr": 7.28,
+    "vol": 8.1,
+    "sharpe": 0.64,
+    "maxdd": -24.3
+   },
+   "SAA": {
+    "cagr": 7.81,
+    "vol": 8.8,
+    "sharpe": 0.65,
+    "maxdd": -25.5
+   },
+   "DAA": {
+    "cagr": 8.09,
+    "vol": 8.3,
+    "sharpe": 0.72,
+    "maxdd": -20.8
+   },
+   "Alpha": {
+    "cagr": 9.34,
+    "vol": 13.5,
+    "sharpe": 0.57,
+    "maxdd": -44.0
+   },
+   "ACWI 40 / Agg 60": {
+    "cagr": 6.04,
+    "vol": 7.3,
+    "sharpe": 0.54,
+    "maxdd": -23.6
+   },
+   "ACWI 60 / Agg 40": {
+    "cagr": 6.94,
+    "vol": 10.0,
+    "sharpe": 0.5,
+    "maxdd": -35.6
+   },
+   "ACWI 80 / Agg 20": {
+    "cagr": 7.73,
+    "vol": 13.0,
+    "sharpe": 0.47,
+    "maxdd": -46.1
+   },
+   "S&P 500": {
+    "cagr": 9.69,
+    "vol": 15.4,
+    "sharpe": 0.54,
+    "maxdd": -50.8
+   }
   }
  }
 }

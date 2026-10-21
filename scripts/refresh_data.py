@@ -5,6 +5,9 @@
     python3 scripts/refresh_data.py --check         # fetch and validate only; write nothing
     python3 scripts/refresh_data.py --src DIR       # read the feeds from DIR (live_nav.js, composite_history.json,
                                                     #   metadata.json, rates.json) instead of the network
+    python3 scripts/refresh_data.py --expect nav=2026-10-20 --wait 900
+                                                    # a dashboard has just published this date: poll its live feed
+                                                    #   (GitHub Pages lags the push) until it shows it, then refresh
 
 Sources (all public, nothing is typed by hand):
   Asset-Allocation   data/live_nav.js             five-fund NAV, references, policy books
@@ -16,10 +19,11 @@ index.html stays the file you edit. The script only replaces what sits between
 <!--gen:NAME--> and <!--/gen:NAME--> markers, and the text of elements carrying data-k="KEY".
 Everything else is left byte-for-byte as it was. Stdlib only, so the workflow needs no installs.
 
-It refuses to write (exit 1) if a feed is malformed or goes backwards in time, so a broken
-upstream run can never blank the page.
+It refuses to write (exit 1) if a feed is malformed, goes backwards in time, is missing a fund, carries
+a non-numeric NAV or one that moved more than 5% in a day, so a broken upstream run can never blank
+the page: the current page stays live and the workflow fails.
 """
-import argparse, json, math, os, re, sys, urllib.request
+import argparse, json, math, os, re, sys, time, urllib.request
 from datetime import date
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -42,6 +46,9 @@ MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August
 BANDS = [('Expansion', 0.35, None), ('Neutral', -0.30, 0.35), ('Slowdown', -1.00, -0.30), ('Contraction', None, -1.00)]
 REG_COL = {'Expansion': 'var(--c1)', 'Neutral': 'var(--cn)', 'Slowdown': 'var(--c2)', 'Contraction': 'var(--c3)'}
 MINUS = '−'
+MAX_DAY_MOVE = 0.05        # a fund NAV moving more than this in one day is treated as a bad feed, not news
+# The 1997–2026 backtest table: the five funds, then the real index references the page compares them with.
+BT_ROWS = FUNDS + ['ACWI 40 / Agg 60', 'ACWI 60 / Agg 40', 'ACWI 80 / Agg 20', 'S&P 500']
 
 
 class FeedError(Exception):
@@ -127,10 +134,20 @@ def validate(nav, mrs, meta, rates, books, prev):
         raise FeedError('live NAV has fewer than two dates')
     for f in FUNDS:
         s = nav['series'].get(f)
-        if not s or len(s) != len(dates):
+        if not s:
+            raise FeedError(f'live NAV is missing {f} — all five funds must be present')
+        if len(s) != len(dates):
             raise FeedError(f'live NAV series for {f} does not match its dates')
+        if any(not isinstance(v, (int, float)) or isinstance(v, bool) or not math.isfinite(v) for v in s):
+            raise FeedError(f'live NAV for {f} has a non-numeric value')
         if any(not (50 < v < 200) for v in s):
             raise FeedError(f'live NAV for {f} has an implausible value')
+        for i in range(1, len(s)):
+            if abs(s[i] / s[i - 1] - 1) > MAX_DAY_MOVE:
+                raise FeedError(f'live NAV for {f} moved {(s[i] / s[i - 1] - 1) * 100:+.1f}% on {dates[i]} '
+                                f'(limit ±{MAX_DAY_MOVE * 100:.0f}% a day)')
+        if f not in nav.get('periods', {}) or nav['facts'][f]['reference'] not in nav['periods']:
+            raise FeedError(f'since-launch return for {f} or its reference is missing')
         if f not in nav['books'] or abs(sum(nav['books'][f].values()) - 1) > 0.005:
             raise FeedError(f'policy book for {f} does not sum to 100%')
     if len(mrs) < 100 or any('composite' not in r or 'date' not in r for r in mrs):
@@ -150,6 +167,15 @@ def validate(nav, mrs, meta, rates, books, prev):
             raise FeedError('Monte Carlo has too few paths')
     except (KeyError, TypeError) as e:
         raise FeedError(f'portfolio_books.json is missing Monte Carlo data: {e}')
+    try:
+        sc = {r['name']: r for r in books['books']['daa']['matrix']['scatter']}
+        for k in BT_ROWS:
+            if any(not isinstance(sc[k][m], (int, float)) for m in ('cagr', 'vol', 'sharpe', 'maxdd')):
+                raise FeedError(f'backtest row {k} is not numeric')
+        if not re.match(r'^\d{4}-\d{2} — \d{4}-\d{2}$', books['books']['daa']['matrix']['window']):
+            raise FeedError('backtest window is malformed')
+    except (KeyError, TypeError) as e:
+        raise FeedError(f'portfolio_books.json is missing the backtest table: {e}')
     if prev:
         if dates[-1] < prev['nav']['asof']:
             raise FeedError(f"live NAV went backwards: {dates[-1]} < {prev['nav']['asof']}")
@@ -166,6 +192,11 @@ def nice_range(lo, hi, n=4):
     a = math.floor(lo / step) * step
     b = math.ceil(hi / step) * step
     return a, b, step
+
+
+def ahead_words(n, of):
+    """'4 of 5', but 'All 5' and 'None' at the ends, so the stat never reads '5 of 5' or '0 of 5'."""
+    return f'All {of}' if n == of else ('None' if n == 0 else f'{n} of {of}')
 
 
 def fund_block(nav):
@@ -264,9 +295,9 @@ def fund_block(nav):
         'nav.days': str(n),
         'nav.best': f'{sgn(last[best] - 100)}%',
         'nav.best_name': best,
-        'nav.ahead': f'{ahead} of {len(FUNDS)}',
+        'nav.ahead': ahead_words(ahead, len(FUNDS)),
     }
-    snap = {'asof': dates[-1], 'days': n, 'nav': {f: round(last[f], 4) for f in FUNDS},
+    snap = {'asof': dates[-1], 'days': n, 'ahead': int(ahead), 'nav': {f: round(last[f], 4) for f in FUNDS},
             'since_launch_pct': {f: round(last[f] - 100, 4) for f in FUNDS}}
     return {'navchart': chart, 'navboard': '\n'.join(board), 'tape-funds': '\n'.join(tape),
             'fundtable': '\n'.join(rows), 'holdings': '\n'.join(hold), 'spark-nav': ''.join(sp),
@@ -291,6 +322,12 @@ def mrs_block(rows, meta):
     trans = sum(1 for a, b in zip(conf, conf[1:]) if a != b)
     years = int(rows[-1]['date'][:4]) - int(rows[0]['date'][:4])
     first_conf = next(r['date'] for r in rows if r.get('regime_confirmed'))
+    # months in the current regime: the length of the run of identical confirmed regimes ending at the latest month
+    in_reg = 0
+    for r in reversed(rows):
+        if (r.get('regime_confirmed') or r.get('regime_raw')) != reg:
+            break
+        in_reg += 1
 
     # contraction episodes = dips of the composite below the Contraction threshold; dips less than
     # twelve months apart are one episode (the GFC crosses, recovers briefly, and crosses again)
@@ -382,15 +419,16 @@ def mrs_block(rows, meta):
         'mrs.mon': MO[int(last['date'][5:7]) - 1],
         'mrs.z': f'{sgn(z[-1])}z',
         'mrs.regime': reg,
-        'mrs.in_regime': ordinal(int(last.get('months_in_regime') or 1)),
+        'mrs.in_regime': ordinal(in_reg),
         'mrs.months': str(n),
         'mrs.range': f'{m_short(rows[0]["date"])} — {m_short(last["date"])}',
         'mrs.conf_n': str(tot),
         'mrs.conf_range': f'{m_short(first_conf)} – {m_short(last["date"])}',
         'mrs.years': str(years),
+        'mrs.span': f'{rows[0]["date"][:4]}–{last["date"][:4]}',
     }
     snap = {'through': last['date'], 'months': n, 'composite': z[-1], 'regime': reg,
-            'months_in_regime': last.get('months_in_regime'), 'transitions': trans,
+            'months_in_regime': in_reg, 'transitions': trans,
             'freq_pct': {k: round(v / tot * 100, 1) for k, v in counts.items()},
             'generated_at': meta.get('generated_at')}
     return {'mrsband': '\n'.join(o), 'mrsfoot': foot, 'mrsfreq': '\n'.join(bars), 'spark-mrs': ''.join(sp),
@@ -529,6 +567,27 @@ def mc_block(books):
     return {'mcfan': ''.join(o), 'mckpis': kp}, keys, snap
 
 
+def bt_block(books):
+    """The 1997–2026 backtest of today's weights and the SAA → DAA headline, as the dashboard's matrix publishes them."""
+    mx = books['books']['daa']['matrix']
+    sc = {r['name']: r for r in mx['scatter']}
+    rows = []
+    for k in BT_ROWS:
+        r = sc[k]
+        rows.append(f'<tr><td>{esc(k)}</td><td class="num">{r["cagr"]:.2f}%</td><td class="num">{r["vol"]:.1f}%</td>'
+                    f'<td class="num">{r["sharpe"]:.2f}</td><td class="num">{neg(r["maxdd"], 1, "%")}</td></tr>')
+    y0, y1 = mx['window'][:4], mx['window'][-7:-3]
+    s, d = sc['SAA'], sc['DAA']
+    arrow = lambda a, b: f'{a}<span class="ar">→</span>{b}'
+    keys = {'bt.span': f'{y0}–{y1}',
+            'daa.sharpe': f'{s["sharpe"]:.2f} → {d["sharpe"]:.2f}',
+            'daa.sharpe_kpi': arrow(f'{s["sharpe"]:.2f}', f'{d["sharpe"]:.2f}'),
+            'daa.maxdd_kpi': arrow(neg(s['maxdd'], 1, '%'), neg(d['maxdd'], 1, '%')),
+            'daa.cagr_kpi': arrow(f'{s["cagr"]:.2f}%', f'{d["cagr"]:.2f}%')}
+    snap = {'window': mx['window'], 'rows': {k: {m: sc[k][m] for m in ('cagr', 'vol', 'sharpe', 'maxdd')} for k in BT_ROWS}}
+    return {'backtest': '\n'.join(rows)}, keys, snap
+
+
 def apply(html, blocks, keys):
     """Rewrite every generated block the page carries; blocks the page does not use are skipped."""
     used = 0
@@ -552,33 +611,65 @@ def apply(html, blocks, keys):
     return html
 
 
+def load_expected(src, expect, wait):
+    """Load the feeds; when a dashboard says it just published a date, poll until its live feed shows it.
+
+    The dashboards dispatch this sync right after they push, but GitHub Pages takes a minute or two to serve
+    the new files. Without waiting, the sync would read the old feed and find nothing to do. If the date never
+    shows up, carry on with what is live (the weekday schedule catches up) and say so."""
+    want = {}
+    for e in expect:
+        k, _, v = e.partition('=')
+        if k not in ('nav', 'mrs') or not re.match(r'^\d{4}-\d{2}(-\d{2})?$', v):
+            raise FeedError(f'--expect takes nav=YYYY-MM-DD or mrs=YYYY-MM[-DD], not {e!r}')
+        want[k] = v
+    deadline = time.time() + wait
+    while True:
+        feeds = load(src)
+        have = {'nav': feeds[0]['dates'][-1], 'mrs': feeds[1][-1]['date']}
+        late = {k: v for k, v in want.items() if have[k][:len(v)] < v}
+        if not late:
+            return feeds
+        if time.time() >= deadline:
+            for k, v in late.items():
+                print(f'::warning::{k} feed still shows {have[k]}, expected {v} — refreshing from what is live', file=sys.stderr)
+            return feeds
+        print(f'waiting for the live feeds to show {late} (now {have}) …', flush=True)
+        time.sleep(30)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--src')
     ap.add_argument('--check', action='store_true')
+    ap.add_argument('--expect', action='append', default=[], metavar='FEED=DATE',
+                    help='nav=YYYY-MM-DD or mrs=YYYY-MM-DD: the date a dashboard has just published')
+    ap.add_argument('--wait', type=int, default=0, help='seconds to poll for --expect before giving up')
     a = ap.parse_args()
     prev = None
     if os.path.exists(SNAP):
         with open(SNAP, encoding='utf-8') as f:
             prev = json.load(f)
     try:
-        nav, mrs, meta, rates, books = load(a.src)
+        nav, mrs, meta, rates, books = load_expected(a.src, a.expect, a.wait)
         validate(nav, mrs, meta, rates, books, prev)
         b1, k1, s1 = fund_block(nav)
         b2, k2, s2 = mrs_block(mrs, meta)
         b3, k3, s3 = cvx_block(rates)
         b4, k4, s4 = mc_block(books)
-        blocks = {**b1, **b2, **b3, **b4}
-        keys = {**k1, **k2, **k3, **k4}
+        b5, k5, s5 = bt_block(books)
+        blocks = {**b1, **b2, **b3, **b4, **b5}
+        keys = {**k1, **k2, **k3, **k4, **k5}
         latest = max(s1['asof'], s2['through'], s3['curve_asof'])
         keys['site.asof'] = d_long(latest)
         with open(PAGE, encoding='utf-8') as f:
             html = f.read()
         new = apply(html, blocks, keys)
-    except (FeedError, KeyError, ValueError, OSError) as e:
-        print(f'refresh refused: {e}', file=sys.stderr)
+    except (FeedError, KeyError, ValueError, TypeError, ZeroDivisionError, OSError) as e:
+        # ::error:: surfaces the reason on the Actions run page; nothing has been written, so the live page stays.
+        print(f'::error::refresh refused — the current page stays live: {e}', file=sys.stderr)
         sys.exit(1)
-    snap = {'built': date.today().isoformat(), 'sources': URLS, 'nav': s1, 'mrs': s2, 'convexity': s3, 'monte_carlo': s4}
+    snap = {'built': date.today().isoformat(), 'sources': URLS, 'nav': s1, 'mrs': s2, 'convexity': s3, 'monte_carlo': s4, 'backtest': s5}
     print(f"funds  through {s1['asof']}  ({s1['days']} trading days)  " +
           '  '.join(f"{f} {v:.2f}" for f, v in s1['nav'].items()))
     print(f"MRS    through {s2['through']}  {s2['regime']} {s2['composite']:+.4f}z  "
@@ -588,13 +679,19 @@ def main():
         print('check only — nothing written')
         return
     changed = new != html
+    # The snapshot's build date alone is not a change: write nothing unless a figure moved, so a daily
+    # sync with no new data leaves the repo untouched and commits nothing.
+    strip = lambda d: {k: v for k, v in (d or {}).items() if k != 'built'}
+    if not changed and strip(snap) == strip(prev):
+        print('index.html already current — nothing written')
+        return
     with open(PAGE, 'w', encoding='utf-8') as f:
         f.write(new)
     os.makedirs(os.path.dirname(SNAP), exist_ok=True)
     with open(SNAP, 'w', encoding='utf-8') as f:
         json.dump(snap, f, indent=1)
         f.write('\n')
-    print('index.html updated' if changed else 'index.html already current')
+    print('index.html updated' if changed else 'index.html already current (snapshot updated)')
 
 
 if __name__ == '__main__':

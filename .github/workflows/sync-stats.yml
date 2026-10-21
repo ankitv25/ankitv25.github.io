@@ -1,0 +1,69 @@
+name: Sync live figures
+
+# Pulls the latest figures from the public dashboards and regenerates every data-driven part of
+# index.html (scripts/refresh_data.py — stdlib only, nothing to install):
+#   Asset-Allocation   data/live_nav.js, portfolio_books.json   five-fund NAV, references, books, backtest, Monte Carlo
+#   Macro-Regime-Score data/composite_history.json              monthly composite and regime
+#   Convexity-Lab-RM   data/lab/rates.json                      dated Treasury curve
+#
+# Triggers:
+#   - repository_dispatch `stats-updated`: sent by the Asset-Allocation refresh (Summer_Investment_Platform
+#     scheduled-refresh.yml) and the MRS refresh (Macro-Regime-Score mrs-full-refresh.yml) when they finish.
+#     client_payload {"source": "nav"|"mrs", "asof": "<date>"} tells the script which date to wait for, since
+#     GitHub Pages serves a push a minute or two after it lands.
+#   - weekdays 22:30 UTC, after the US close, as a backup in case a dispatch is lost.
+#   - workflow_dispatch, by hand.
+#
+# The script refuses to write if a feed is malformed, missing a fund, non-numeric, moves more than 5% in a
+# day, or goes backwards — the current page stays live and this job fails with the reason annotated.
+# Commits made with GITHUB_TOKEN do not fire `push` events, so deploy-pages.yml listens for this workflow's
+# completion instead.
+
+on:
+  repository_dispatch:
+    types: [stats-updated]
+  schedule:
+    - cron: '30 22 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Sync figures from the dashboards
+        env:
+          SOURCE: ${{ github.event.client_payload.source }}
+          ASOF: ${{ github.event.client_payload.asof }}
+        run: |
+          echo "trigger: ${{ github.event_name }}${SOURCE:+ from $SOURCE}${ASOF:+ (published $ASOF)}"
+          if [ -n "$SOURCE" ] && [ -n "$ASOF" ]; then
+            python scripts/refresh_data.py --expect "$SOURCE=$ASOF" --wait 900
+          else
+            python scripts/refresh_data.py
+          fi
+      - name: Commit if anything changed
+        run: |
+          if git diff --quiet -- index.html data/site-data.json; then
+            echo "Figures already current — nothing to commit."
+            exit 0
+          fi
+          git config user.name "site-refresh[bot]"
+          git config user.email "site-refresh@users.noreply.github.com"
+          git add index.html data/site-data.json
+          git commit -m "Sync live figures $(python -c "import json;print(json.load(open('data/site-data.json'))['nav']['asof'])")"
+          git pull --rebase origin main
+          git push origin HEAD:main
