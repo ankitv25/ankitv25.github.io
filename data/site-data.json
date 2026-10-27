@@ -1,5 +1,5 @@
 {
- "built": "2026-10-24",
+ "built": "2026-10-27",
  "sources": {
   "live_nav.js": "https://ankitv25.github.io/Asset-Allocation/data/live_nav.js",
   "composite_history.json": "https://ankitv25.github.io/Macro-Regime-Score/data/composite_history.json",
@@ -8,22 +8,22 @@
   "portfolio_books.json": "https://ankitv25.github.io/Asset-Allocation/data/portfolio_books.json"
  },
  "nav": {
-  "asof": "2026-10-23",
-  "days": 72,
+  "asof": "2026-10-26",
+  "days": 73,
   "ahead": 4,
   "nav": {
-   "Certain": 100.1825,
-   "Endowment": 99.8398,
-   "SAA": 100.4366,
-   "DAA": 100.6267,
-   "Alpha": 100.5099
+   "Certain": 100.291,
+   "Endowment": 100.0492,
+   "SAA": 100.6608,
+   "DAA": 100.8531,
+   "Alpha": 100.7729
   },
   "since_launch_pct": {
-   "Certain": 0.1825,
-   "Endowment": -0.1602,
-   "SAA": 0.4366,
-   "DAA": 0.6267,
-   "Alpha": 0.5099
+   "Certain": 0.291,
+   "Endowment": 0.0492,
+   "SAA": 0.6608,
+   "DAA": 0.8531,
+   "Alpha": 0.7729
   }
  },
  "mrs": {
