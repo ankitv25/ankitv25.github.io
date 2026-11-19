@@ -11,7 +11,8 @@ name: Sync live figures
 #     scheduled-refresh.yml) and the MRS refresh (Macro-Regime-Score mrs-full-refresh.yml) when they finish.
 #     client_payload {"source": "nav"|"mrs", "asof": "<date>"} tells the script which date to wait for, since
 #     GitHub Pages serves a push a minute or two after it lands.
-#   - weekdays 22:30 UTC, after the US close, as a backup in case a dispatch is lost.
+#   - every 3 hours (:17, off the hour, which GitHub delays less), as a backup in case a dispatch is lost
+#     or SITE_DISPATCH_TOKEN is missing. Writes nothing unless a figure changed.
 #   - workflow_dispatch, by hand.
 #
 # The script refuses to write if a feed is malformed, missing a fund, non-numeric, moves more than 5% in a
@@ -23,7 +24,7 @@ on:
   repository_dispatch:
     types: [stats-updated]
   schedule:
-    - cron: '30 22 * * 1-5'
+    - cron: '17 */3 * * *'
   workflow_dispatch:
 
 permissions:
