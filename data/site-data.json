@@ -29,7 +29,7 @@
  "mrs": {
   "through": "2026-09-30",
   "months": 280,
-  "composite": 0.2537,
+  "composite": 0.2463,
   "regime": "Neutral",
   "months_in_regime": 44,
   "transitions": 20,
@@ -39,7 +39,7 @@
    "Slowdown": 8.2,
    "Contraction": 5.4
   },
-  "generated_at": "2026-11-18 22:12"
+  "generated_at": "2026-11-24 23:34"
  },
  "convexity": {
   "curve_asof": "2026-10-02",
